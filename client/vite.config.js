@@ -1,3 +1,4 @@
+// https://v2.vitejs.dev/config/#resolve-mainfields
 // import { fileURLToPath, URL } from 'node:url'
 
 // import { defineConfig } from 'vite'
@@ -18,29 +19,25 @@ import { defineConfig } from "vite";
 import { createVuePlugin } from "vite-plugin-vue2";
 import ViteComponents from "vite-plugin-components";
 import { resolve } from "path";
+import vue from '@vitejs/plugin-vue'
 
 const config = defineConfig({
   resolve: {
-    // extensions: ['.js', '.vue'], 
+    extensions: ['*','.js', '.vue'], 
     alias: {
-      // 'vue$': 'vue/dist/vue.esm.js',
+      'vue$': 'vue/dist/vue.esm.js',
       "@": `${resolve(__dirname, "src")}`,
     },
   },
 
   base: "/vue-template/",
-
   build: {
     minify: true,
     commonjsOptions: {
-      include: [/linked-dep/, /node_modules/],
+      include: [/node_modules/],
     }
   },
-  optimizeDeps: {
-    include: ['linked-dep'],
-  },
-  plugins: [createVuePlugin({}), ViteComponents({ transformer: "vue2" })],
-
+  plugins: [ vue(), createVuePlugin({}), ViteComponents({ transformer: "vue2" })],
   server: {
     port: 8080,
   },
