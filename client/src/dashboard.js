@@ -79,7 +79,7 @@ Vue.prototype.$currentUser = AuthorizationService.current_user;
 Vue.prototype.$topNavigationPermissions = AuthorizationService.topNavigationPermissions();
 Vue.prototype.$preferences = AuthorizationService.preferences;
 
-// eslint-disable-next-line no-unused-vars
+// // eslint-disable-next-line no-unused-vars
 const dashboardApp = new Vue({
   router,
   store,

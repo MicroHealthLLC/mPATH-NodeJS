@@ -4,7 +4,7 @@ import ProgramView from "./../components/views/program/ProgramView.vue";
 
 import SettingsView from "./../components/views/settings/SettingsView.vue";
 import SettingsProjects from "./../components/views/settings/SettingsProjects.vue";
-import TestCloudData from "./../components/views/settings/TestCloudData.vue";
+// import TestCloudData from "./../components/views/settings/TestCloudData.vue";
 import SettingsContracts from "./../components/views/settings/SettingsContracts.vue";
 import SettingsGroups from "./../components/views/settings/SettingsGroups.vue";
 import SettingsUsers from "./../components/views/settings/SettingsUsers.vue";
@@ -193,11 +193,11 @@ export default new VueRouter({
         },
       ],
     },
-    {
-      name: "GanttChartView",
-      path: "/programs/:programId/gantt_chart",
-      component: GanttChartView,
-    },
+    // {
+    //   name: "GanttChartView",
+    //   path: "/programs/:programId/gantt_chart",
+    //   component: GanttChartView,
+    // },
     {
       name: "TeamMembersView",
       path: "/programs/:programId/members",
@@ -248,11 +248,11 @@ export default new VueRouter({
       path: "/programs/:programId/settings",
       component: SettingsView,
      },   
-     {
-      name: "TestCloudData",
-      path: "/programs/:programId/settings/test_cloud_data",
-      component: TestCloudData,
-     },   
+    //  {
+    //   name: "TestCloudData",
+    //   path: "/programs/:programId/settings/test_cloud_data",
+    //   component: TestCloudData,
+    //  },   
     {
       name: "ProgramView",
       path: "/programs/:programId/dataviewer",
