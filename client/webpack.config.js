@@ -2,24 +2,44 @@
 
 const { VueLoaderPlugin } = require('vue-loader')
 const webpack = require('webpack')
-const dotenv = require('dotenv')
-var path = require('path');
-
-dotenv.config();
+const path = require('path');
 
 module.exports = {
-  context: __dirname,
   mode: 'development',
-  entry: './src/dashboard.js',
+  entry: {
+    index: './src/dashboard.js'
+  },
   module: {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader'
+        loader: 'vue-loader',
+        options: {
+          loaders: {
+            // ...existing loaders...
+            // Add an additional loader to handle the result of these loaders
+            scss: ["vue-style-loader", "css-loader", "sass-loader"]
+          }
+        }
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'sass-loader'
+        ],
       },
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]?[hash]'
+        }
       }
     ]
   },
@@ -30,9 +50,11 @@ module.exports = {
    })
   ],
   resolve: {
+    modules: ['node_modules'],
     extensions: ['.js','.ts', '.tsx', '.vue', '.css'],
     alias: {
-      'vue$': 'vue/dist/vue.esm.js'
+      'vue$': 'vue/dist/vue.esm.js',
+      "@": `${path.resolve(__dirname, "src")}`,
     }
   }
 }

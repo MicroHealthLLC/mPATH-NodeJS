@@ -18,7 +18,7 @@
               <img
                 class="mb-0"
                 style="width: 125px"
-                :src="require('../../../../assets/images/mpath.png')"
+                :src="require('../../../assets/images/mpath.png')"
               />
           </div>
           <div class="col-5 text-center px-3 py-2">                 
@@ -47,7 +47,7 @@
                     <div class="col-3 mt-3">
                     <img
                         style="width: 145px"
-                      :src="require('../../../../assets/images/microhealthllc.png')"
+                      :src="require('../../../assets/images/mpath.png')"
                     />
                 </div>
             </div>
