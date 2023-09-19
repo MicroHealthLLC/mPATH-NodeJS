@@ -111,11 +111,18 @@ import CalendarIssues from "./../components/views/calendar/CalendarIssues.vue";
 import CalendarIssueForm from "./../components/views/calendar/CalendarIssueForm.vue";
 import CalendarRisks from "./../components/views/calendar/CalendarRisks.vue";
 import CalendarRiskForm from "./../components/views/calendar/CalendarRiskForm.vue";
+import LoginView from "./../components/views/LoginView.vue";
+
 
 import PageNotFound from "./../components/views/PageNotFound.vue";
 
 export default new VueRouter({
   routes: [
+    {
+      name: "LoginView",
+      path: "/",
+      component: LoginView,
+    },
     {
       name: "MapView",
       path: "/programs/:programId/",

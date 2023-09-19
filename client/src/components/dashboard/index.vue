@@ -38,12 +38,14 @@ export default {
   computed: {
     ...mapGetters(["contentLoaded", "facilities", "getUnfilteredFacilities"]),
       isProgramView() {
-      return this.$route.name.includes("ProgramView") ||
+        console.log("index.vue", this.$route)
+      return this.$route.name && (
+             this.$route.name.includes("ProgramView") ||
              this.$route.name.includes("ProgramTaskForm") ||
              this.$route.name.includes("ProgramRiskForm") ||
              this.$route.name.includes("ProgramIssueForm") ||
              this.$route.name.includes("ProgramContractLessonForm") ||  
-             this.$route.name.includes("ProgramLessonForm") ;;  
+             this.$route.name.includes("ProgramLessonForm") ); 
       },
   },
 
