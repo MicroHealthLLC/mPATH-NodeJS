@@ -178,9 +178,9 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from "vuex";
-import MoveProjectContextMenu from "./MoveProjectContextMenu";
-import MoveGroupContextMenu from "./MoveGroupContextMenu";
-import Loader from "./loader";
+import MoveProjectContextMenu from "./MoveProjectContextMenu.vue";
+import MoveGroupContextMenu from "./MoveGroupContextMenu.vue";
+import Loader from "./loader.vue";
 
 export default {
   name: "ProjectSidebar",

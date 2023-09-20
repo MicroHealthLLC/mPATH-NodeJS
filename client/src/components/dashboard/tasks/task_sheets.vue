@@ -92,8 +92,8 @@
 <script>
 
 import { mapGetters, mapMutations, mapActions } from "vuex";
-import TaskForm from "./task_form";
-import ContextMenu from "../../shared/ContextMenu";
+import TaskForm from "./task_form.vue";
+import ContextMenu from "../../shared/ContextMenu.vue";
 import moment from "moment";
 Vue.prototype.moment = moment;
 

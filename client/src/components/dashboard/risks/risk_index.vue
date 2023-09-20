@@ -278,8 +278,8 @@
   import {jsPDF} from "jspdf"
   import 'jspdf-autotable'
   import {mapGetters, mapMutations} from 'vuex'
-  import RiskForm from './risk_form'
-  import RiskShow from './risk_show'
+  import RiskForm from './risk_form.vue'
+  import RiskShow from './risk_show.vue'
   import {library} from '@fortawesome/fontawesome-svg-core'
   import {faFilePdf} from '@fortawesome/free-solid-svg-icons'
   import * as Moment from 'moment'

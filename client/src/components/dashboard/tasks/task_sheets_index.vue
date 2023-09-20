@@ -500,7 +500,7 @@
   import {mapGetters, mapMutations} from "vuex"
   import {jsPDF} from "jspdf"
   import 'jspdf-autotable'
-  import TaskSheets from "./task_sheets"
+  import TaskSheets from "./task_sheets.vue"
   import { library } from '@fortawesome/fontawesome-svg-core'
   import { faFilePdf } from '@fortawesome/free-solid-svg-icons'
   library.add(faFilePdf)

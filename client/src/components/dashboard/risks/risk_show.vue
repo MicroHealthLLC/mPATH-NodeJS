@@ -118,7 +118,7 @@
 
 <script>
   import {mapGetters, mapMutations, mapActions} from "vuex"
-  import RiskContextMenu from "../../shared/RiskContextMenu"
+  import RiskContextMenu from "../../shared/RiskContextMenu.vue"
 
 
   import MessageDialogService from "../../../services/message_dialog_service.js";

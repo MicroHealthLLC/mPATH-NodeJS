@@ -80,9 +80,9 @@
 <script>
   import http from './../../../common/http'
   import {mapActions, mapGetters, mapMutations} from 'vuex'
-  import NotesForm from './notes_form'
-  import ContractNotesForm from './contract_notes_form'
-  import VehicleNotesForm from './vehicle_notes_form'
+  import NotesForm from './notes_form.vue'
+  import ContractNotesForm from './contract_notes_form.vue'
+  import VehicleNotesForm from './vehicle_notes_form.vue'
   import {SweetModal} from 'sweet-modal-vue'
   import {API_BASE_PATH} from './../../../mixins/utils'
 

@@ -215,7 +215,7 @@
 import { mapGetters, mapMutations } from "vuex"
 import { jsPDF } from "jspdf"
 import 'jspdf-autotable'
-import TaskShow from "./task_show"
+import TaskShow from "./task_show.vue"
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faFilePdf, faFileExcel, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 library.add(faFilePdf, faFileExcel, faPlusCircle)

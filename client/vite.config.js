@@ -19,7 +19,6 @@ import { defineConfig } from "vite";
 import { createVuePlugin } from "vite-plugin-vue2";
 import ViteComponents from "vite-plugin-components";
 import { resolve } from "path";
-import vue from '@vitejs/plugin-vue'
 
 const config = defineConfig({
   resolve: {
@@ -29,7 +28,6 @@ const config = defineConfig({
       "@": `${resolve(__dirname, "src")}`,
     },
   },
-
   base: "/vue-template/",
   build: {
     minify: true,
@@ -37,7 +35,7 @@ const config = defineConfig({
       include: [/node_modules/],
     }
   },
-  plugins: [ vue(), createVuePlugin({}), ViteComponents({ transformer: "vue2" })],
+  plugins: [ createVuePlugin({}), ViteComponents({ transformer: "vue2" })],
   server: {
     port: 8080,
   },

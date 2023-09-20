@@ -2061,8 +2061,8 @@ import Draggable from "vuedraggable";
 import FormTabs from "./../../shared/FormTabs.vue";
 import * as Moment from "moment";
 import { mapGetters, mapMutations, mapActions } from "vuex";
-import AttachmentInput from "./../../shared/attachment_input";
-import RelatedRiskMenu from "./../../shared/RelatedRiskMenu";
+import AttachmentInput from "./../../shared/attachment_input.vue";
+import RelatedRiskMenu from "./../../shared/RelatedRiskMenu.vue";
 import { API_BASE_PATH } from '../../../mixins/utils';
 
 import MessageDialogService from "../../../services/message_dialog_service.js";

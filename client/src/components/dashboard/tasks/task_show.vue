@@ -110,7 +110,7 @@
 
 <script>
   import {mapGetters, mapMutations, mapActions} from "vuex"
-  import ContextMenu from "../../shared/ContextMenu"
+  import ContextMenu from "../../shared/ContextMenu.vue"
 
   import MessageDialogService from "../../../services/message_dialog_service.js";
 

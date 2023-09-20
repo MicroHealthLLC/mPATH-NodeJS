@@ -84,7 +84,7 @@
 <script>
   import {mapGetters, mapMutations, mapActions} from "vuex"
   // import IssueForm from "./../issues/issue_form"
-  import RiskContextMenu from "../../../shared/RiskContextMenu"
+  import RiskContextMenu from "../../../shared/RiskContextMenu.vue"
   import moment from 'moment'
   Vue.prototype.moment = moment
 
