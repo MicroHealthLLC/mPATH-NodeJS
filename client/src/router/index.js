@@ -4,6 +4,7 @@ import { useAuthStore, useAlertStore } from '@/stores';
 import { Home } from '@/views';
 import accountRoutes from './account.routes';
 import usersRoutes from './users.routes';
+import adminPanelRoutes from './adminPanel.routes';
 
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,6 +13,7 @@ export const router = createRouter({
         { path: '/', component: Home },
         { ...accountRoutes },
         { ...usersRoutes },
+        { ...adminPanelRoutes },
         // catch all redirect to home page
         { path: '/:pathMatch(.*)*', redirect: '/' }
     ]

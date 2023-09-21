@@ -1,16 +1,17 @@
-<script setup>
-import { storeToRefs } from 'pinia';
-
-import { useAuthStore } from '@/stores';
-
-const authStore = useAuthStore();
-const { user } = storeToRefs(authStore);
-</script>
-
 <template>
-    <div v-if="user">
-        <h1>Hi {{user.firstName}}!</h1>
-        <p>You're logged in with Vue 3 + Pinia & JWT!!</p>
-        <p><router-link to="/users">Manage Users</router-link></p>
+    <div class="text-center mt-5">
+        <h4 >Welcome to</h4>
+        <img alt="Microhealth logo" class="logo mx-auto" src="@/assets/images/mpath.svg" width="200"/>  
+      
     </div>
 </template>
+
+<style>
+h4 {
+  color: #DD9036;
+  font-style: italic;
+  font-weight: 400;
+  margin-right: 5%;
+  margin-bottom: -1%;
+}
+</style>
