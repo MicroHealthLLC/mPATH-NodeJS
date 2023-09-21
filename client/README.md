@@ -1,3 +1,3 @@
-# mpath-nodeJS frontend
+# mpath
 
 VueJS frontend
