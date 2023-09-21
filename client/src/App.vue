@@ -1,27 +1,21 @@
-<template>
-  <v-app>
-    <NavBar/>
-  </v-app>
-</template>
+<script setup>
+//@setup
+import { Nav, Alert } from '@/components';
+import { useAuthStore } from '@/stores';
 
-<script>
-import NavBar from './components/NavBar.vue' // Import the NavBar component
-export default {
-  components: {
-    NavBar, // Register the NavBar component
-  
-  },
-  data: () => ({
-    drawer: false,
-    group: null,
-  }),
-  watch: {
-    group() {
-      this.drawer = false
-    },
-  },
-}
+const authStore = useAuthStore();
 </script>
 
-<style scoped>
+<template>
+    <div class="app-container" :class="authStore.user && 'bg-light'">
+        <Nav />
+        <Alert />
+        <div class="container pt-4 pb-4">
+            <router-view />
+        </div>
+    </div>
+</template>
+
+<style>
+@import '@/assets/base.css';
 </style>
