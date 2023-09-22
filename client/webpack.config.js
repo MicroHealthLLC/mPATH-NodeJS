@@ -69,8 +69,8 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
-      filename: "[name].[contenthash:8].css",
-      chunkFilename: "[name].[contenthash:8].css",
+      filename: "[name].css",
+      chunkFilename: "[name].css",
     }),
    new htmlWebpackPlugin({
     template: path.resolve(__dirname, "public", "index.html"),
