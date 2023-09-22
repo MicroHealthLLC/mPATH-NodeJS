@@ -39,21 +39,26 @@ module.exports = {
       },
       {
         test: /\.scss$/i,
+        sideEffects: true,
         use: [
-          // MiniCssExtractPlugin.loader,
+          MiniCssExtractPlugin.loader,
           'style-loader',
           'css-loader',
-          'sass-loader',
+          {
+            loader: 'sass-loader',
+            options: { implementation: require('node-sass')}
+          }         
         ],
       },
       {
         test: /\.css$/i,
+        sideEffects: true,
         use: [
-          // MiniCssExtractPlugin.loader,
+          MiniCssExtractPlugin.loader,
           'style-loader', 'css-loader', 'sass-loader'],
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpg|gif|svg|woff|woff2|eot|ttf|otf)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]?[hash]'
@@ -74,7 +79,7 @@ module.exports = {
   ],
   resolve: {
     modules: ['node_modules'],
-    extensions: ['.js','.ts', '.tsx', '.vue', '.css'],
+    extensions: ['.js','.ts', '.tsx', '.vue', '.css', '.scss'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       "@": `${path.resolve(__dirname, "src")}`,

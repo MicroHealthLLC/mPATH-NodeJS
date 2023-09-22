@@ -1,4 +1,5 @@
 // import                           'element-ui/lib/theme-chalk/index.css';   
+import                           './common'
 import                           'core-js/stable'
 import                           'regenerator-runtime/runtime'
 import                           'vue-multiselect/dist/vue-multiselect.min.css'
