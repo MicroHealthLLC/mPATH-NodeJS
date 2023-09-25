@@ -1,14 +1,17 @@
 <script setup>
-import { useAuthStore } from '@/stores';
-
-const authStore = useAuthStore();
+    import { storeToRefs } from 'pinia';
+    import { useAuthStore } from '@/stores';
+    const authStore = useAuthStore();
+    const { user } = storeToRefs(authStore);
 </script>
+
 
 <template>
     <v-card>
-    <v-layout>
+    <v-layout >
       <v-app-bar      
         prominent
+        v-if="user"
       >
       <router-link to="/" class="no-underline text-dark">
         <img alt="Microhealth logo" class="logo ml-3" src="@/assets/images/mh_logo.png" width="165"/>  
