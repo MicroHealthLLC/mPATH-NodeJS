@@ -12,8 +12,8 @@ import App from './App.vue';
 import { router } from './router';
 
 // setup fake backend
-// import { fakeBackend } from './helpers';
-import { fakeBackend } from './helpers/fakeBackend';
+import { fakeBackend } from './helpers';
+// import { fakeBackend } from './helpers/fakeBackend';
 fakeBackend();
 console.log(localStorage);
 // const app = createApp(App);
