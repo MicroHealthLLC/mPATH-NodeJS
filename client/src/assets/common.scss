@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'FuturaPTBook';
-  src: font-url('FuturaPTBook.otf');
+  src: font-url('fonts/FuturaPTBook.otf');
 }
 
 body {
@@ -2270,7 +2270,7 @@ td.col-issue_type, td.col-issue_severity {
   border-bottom: 1px solid #EBEEF5;
 }
 .brand-sidebar {
-  background-image: url('map-image.png');
+  background-image: url('images/map-image.png');
   background-size: auto;
   background-repeat: no-repeat;
   background-position: center;
