@@ -39,10 +39,9 @@ module.exports = {
       },
       {
         test: /\.scss$/i,
-        sideEffects: true,
         use: [
           MiniCssExtractPlugin.loader,
-          'style-loader',
+          
           'css-loader',
           {
             loader: 'sass-loader',
@@ -52,10 +51,9 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        sideEffects: true,
         use: [
           MiniCssExtractPlugin.loader,
-          'style-loader', 'css-loader', 'sass-loader'],
+          'css-loader', 'sass-loader'],
       },
       {
         test: /\.(png|jpg|gif|svg|woff|woff2|eot|ttf|otf)$/,
@@ -68,14 +66,14 @@ module.exports = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    new htmlWebpackPlugin({
+      template: path.resolve(__dirname, "public", "index.html"),
+      favicon: "./public/favicon.ico",
+    }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[name].css",
     }),
-   new htmlWebpackPlugin({
-    template: path.resolve(__dirname, "public", "index.html"),
-    favicon: "./public/favicon.ico",
-  }),
   ],
   resolve: {
     modules: ['node_modules'],
