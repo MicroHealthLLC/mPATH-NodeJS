@@ -112,26 +112,54 @@ import CalendarIssueForm from "./../components/views/calendar/CalendarIssueForm.
 import CalendarRisks from "./../components/views/calendar/CalendarRisks.vue";
 import CalendarRiskForm from "./../components/views/calendar/CalendarRiskForm.vue";
 import LoginView from "./../components/views/LoginView.vue";
+import ProgramListView from "./../components/views/ProgramListView.vue";
 
+import store from "./../store/index.js"
 
 import PageNotFound from "./../components/views/PageNotFound.vue";
 
-export default new VueRouter({
+const router = new VueRouter({
   routes: [
+    // {
+    //   name: "HomeView",
+    //   path: "/",
+    //   meta: { requiresAuth: true }
+    //   beforeEnter: (to, from, next) => {
+    //     if (false) {
+    //       next({
+    //         name: "ProgramListView",
+    //         params: {  },
+    //       });
+    //     } else {
+    //       next({
+    //         name: "LoginView",
+    //         params: {  },
+    //       });
+    //     }
+    //   }
+    // },
+    {
+      name: "ProgramListView",
+      path: "/",
+      component: ProgramListView,
+      meta: { requiresAuth: true }
+    },
     {
       name: "LoginView",
-      path: "/",
+      path: "/login",
       component: LoginView,
     },
     {
       name: "MapView",
       path: "/programs/:programId/",
       component: MapView,
+      meta: { requiresAuth: true }
     },
     {
       name: "MapView",
       path: "/programs/:programId/map",
       component: MapView,
+      meta: { requiresAuth: true },
       children: [
         {
           name: "MapRollup",
@@ -209,31 +237,37 @@ export default new VueRouter({
       name: "TeamMembersView",
       path: "/programs/:programId/members",
       component: MembersView,
+      meta: { requiresAuth: true }
     },
     {
       name: "SettingsProjects",
       path: "/programs/:programId/settings/projects",
       component: SettingsProjects,
+      meta: { requiresAuth: true }
     },
     {
       name: "SettingsContracts",
       path: "/programs/:programId/settings/contracts",
       component: SettingsContracts,
+      meta: { requiresAuth: true }
     },
     {
       name: "SettingsGroups",
       path: "/programs/:programId/settings/groups",
       component: SettingsGroups,
+      meta: { requiresAuth: true }
     },
     {
       name: "SettingsUsers",
       path: "/programs/:programId/settings/users",
       component: SettingsUsers,
+      meta: { requiresAuth: true }
     },
     {
       name: "SettingsVehicles",
       path: "/programs/:programId/settings/vehicles",
       component: SettingsVehicles,
+      meta: { requiresAuth: true }
     },
     // {
     //   name: "SettingsRolesContracts",
@@ -249,11 +283,13 @@ export default new VueRouter({
       name: "SettingsRolesIndex",
       path: "/programs/:programId/settings/roles",
       component: SettingsRolesIndex,
+      meta: { requiresAuth: true }
     },
     {
       name: "SettingsView",
       path: "/programs/:programId/settings",
       component: SettingsView,
+      meta: { requiresAuth: true }
      },   
     //  {
     //   name: "TestCloudData",
@@ -264,11 +300,13 @@ export default new VueRouter({
       name: "ProgramView",
       path: "/programs/:programId/dataviewer",
       component: ProgramView,
+      meta: { requiresAuth: true }
     },
     {
       name: "ProgramTaskForm",
       path: "/programs/:programId/dataviewer/project/:projectId/task/:taskId",
-      component: ProgramTaskForm,   
+      component: ProgramTaskForm,
+      meta: { requiresAuth: true },   
       beforeEnter: (to, from, next) => {
         var programId = to.params.programId;
         var projectId = to.params.projectId;
@@ -286,6 +324,7 @@ export default new VueRouter({
       name: "ProgramContractTaskForm",
       path: "/programs/:programId/dataviewer/contract/:contractId/task/:taskId",
       component: ProgramContractTaskForm,   
+      meta: { requiresAuth: true },
       beforeEnter: (to, from, next) => {
         var programId = to.params.programId;
         var contractId = to.params.contractId;
@@ -302,7 +341,8 @@ export default new VueRouter({
      {
       name: "ProgramVehicleTaskForm",
       path: "/programs/:programId/dataviewer/vehicle/:vehicleId/task/:taskId",
-      component: ProgramVehicleTaskForm,   
+      component: ProgramVehicleTaskForm,  
+      meta: { requiresAuth: true }, 
       beforeEnter: (to, from, next) => {
         var programId = to.params.programId;
         var vehicleId = to.params.vehicleId;
@@ -320,6 +360,7 @@ export default new VueRouter({
       name: "ProgramRiskForm",
       path: "/programs/:programId/dataviewer/project/:projectId/risk/:riskId",
       component: ProgramRiskForm,   
+      meta: { requiresAuth: true },
       beforeEnter: (to, from, next) => {
         var programId = to.params.programId;
         var projectId = to.params.projectId;
@@ -336,7 +377,8 @@ export default new VueRouter({
      {
       name: "ProgramContractRiskForm",
       path: "/programs/:programId/dataviewer/contract/:contractId/risk/:riskId",
-      component: ProgramContractRiskForm,   
+      component: ProgramContractRiskForm,
+      meta: { requiresAuth: true },   
       beforeEnter: (to, from, next) => {
         var programId = to.params.programId;
         var contractId = to.params.contractId;
@@ -353,7 +395,8 @@ export default new VueRouter({
      {
       name: "ProgramVehicleRiskForm",
       path: "/programs/:programId/dataviewer/vehicle/:vehicleId/risk/:riskId",
-      component: ProgramVehicleRiskForm,   
+      component: ProgramVehicleRiskForm,
+      meta: { requiresAuth: true },   
       beforeEnter: (to, from, next) => {
         var programId = to.params.programId;
         var vehicleId = to.params.vehicleId;
@@ -370,7 +413,8 @@ export default new VueRouter({
      {
       name: "ProgramIssueForm",
       path: "/programs/:programId/dataviewer/project/:projectId/issue/:issueId",
-      component: ProgramIssueForm,   
+      component: ProgramIssueForm,
+      meta: { requiresAuth: true },   
       beforeEnter: (to, from, next) => {
         var programId = to.params.programId;
         var projectId = to.params.projectId;
@@ -387,7 +431,8 @@ export default new VueRouter({
      {
       name: "ProgramContractIssueForm",
       path: "/programs/:programId/dataviewer/contract/:contractId/issue/:issueId",
-      component: ProgramContractIssueForm,   
+      component: ProgramContractIssueForm,
+      meta: { requiresAuth: true },   
       beforeEnter: (to, from, next) => {
         var programId = to.params.programId;
         var contractId = to.params.contractId;
@@ -404,7 +449,8 @@ export default new VueRouter({
      {
       name: "ProgramVehicleIssueForm",
       path: "/programs/:programId/dataviewer/vehicle/:vehicleId/issue/:issueId",
-      component: ProgramVehicleIssueForm,   
+      component: ProgramVehicleIssueForm,
+      meta: { requiresAuth: true },   
       beforeEnter: (to, from, next) => {
         var programId = to.params.programId;
         var vehicleId = to.params.vehicleId;
@@ -421,7 +467,8 @@ export default new VueRouter({
      {
       name: "ProgramLessonForm",
       path: "/programs/:programId/dataviewer/project/:projectId/lesson/:lessonId",
-      component: ProgramLessonForm,   
+      component: ProgramLessonForm,
+      meta: { requiresAuth: true },   
       beforeEnter: (to, from, next) => {
         var programId = to.params.programId;
         var projectId = to.params.projectId;
@@ -438,7 +485,8 @@ export default new VueRouter({
      {
       name: "ProgramContractLessonForm",
       path: "/programs/:programId/dataviewer/contract/:contractId/lesson/:lessonId",
-      component: ProgramContractLessonForm,   
+      component: ProgramContractLessonForm,
+      meta: { requiresAuth: true },  
       beforeEnter: (to, from, next) => {
         var programId = to.params.programId;
         var contractId = to.params.contractId;
@@ -455,7 +503,8 @@ export default new VueRouter({
      {
       name: "ProgramVehicleLessonForm",
       path: "/programs/:programId/dataviewer/vehicle/:vehicleId/lesson/:lessonId",
-      component: ProgramVehicleLessonForm,   
+      component: ProgramVehicleLessonForm,
+      meta: { requiresAuth: true },     
       beforeEnter: (to, from, next) => {
         var programId = to.params.programId;
         var vehicleId = to.params.vehicleId;
@@ -473,6 +522,7 @@ export default new VueRouter({
       name: "SheetView",
       path: "/programs/:programId/sheet",
       component: SheetView,
+      meta: { requiresAuth: true },  
       children: [
         {
           name: "SheetRollup",
@@ -2265,6 +2315,7 @@ export default new VueRouter({
       name: "CalendarView",
       path: "/programs/:programId/calendar",
       component: CalendarView,
+      meta: { requiresAuth: true },  
       children: [
         {
           name: "CalendarLanding",
@@ -2312,6 +2363,7 @@ export default new VueRouter({
       name: "KanbanView",
       path: "/programs/:programId/kanban",
       component: KanbanView,
+      meta: { requiresAuth: true },  
       children: [
         {
           name: "KanbanDefault",
@@ -2583,3 +2635,16 @@ export default new VueRouter({
     return { x: 0, y: 0 };
   },
 });
+
+router.beforeEach((to, from, next) => {
+  console.log("router.beforeEach", store.getters.isLoggedIn)
+  if (to.meta.requiresAuth && !store.getters.isLoggedIn) {
+    // If the user is not logged in, redirect them to the login page
+    next({ name: 'LoginView' });
+  } else {
+    // If the user is logged in, allow them to proceed to their destination
+    next();
+  }
+});
+
+export default router;

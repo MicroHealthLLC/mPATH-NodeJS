@@ -173,9 +173,27 @@ export default new Vuex.Store({
     previousRoute: "",
 
     newSession: true,
+
+    mpathInstance: "",
+    currentUser: null,
+    topNavigationPermissions: null,
+    preferences: null,
+    token: null
   },
 
   mutations: {
+    setCurrentUser(state, user) {
+      state.currentUser = user;
+    },
+    setTopNavigationPermissions(state, permission) {
+      state.topNavigationPermissions = permission;
+    },
+    setPreferences(state, preferences) {
+      state.preferences = preferences;
+    },
+    setToken(state, token) {
+      state.token = token;
+    },
     setTaskIssueUserFilter: (state, filter) =>
       (state.taskIssueUserFilter = filter),
     setProjectGroupFilter: (state, filter) =>
@@ -588,6 +606,10 @@ export default new Vuex.Store({
   },
 
   getters: {
+    isLoggedIn(state) {
+      console.log("isLoggedIn",state.token);
+      return !!state.token;
+    },
     getExpandedGroup: (state) => state.expandedGroup,
     getFacilityProjectOptions: (state, getters) => {
       var options = [];

@@ -30,6 +30,8 @@ import VuePaginate          from 'vue-paginate'
 import vco                  from "v-click-outside"
 import { FontAwesomeIcon }  from '@fortawesome/vue-fontawesome'
 import VueDataTables        from 'vue-data-tables'
+import VueCookies        from 'vue-cookies'
+
 // import ElementUI            from 'element-ui';
 // import locale               from 'element-ui/lib/locale/lang/en'
 
@@ -55,6 +57,7 @@ Vue.component('v2-date-picker', V2DatePicker)
 Vue.component('GmapCluster', GmapCluster)
 Vue.component('GmapCustomMarker', GmapCustomMarker)
 Vue.component('multiselect', Multiselect)
+Vue.use(VueCookies)
 Vue.config.productionTip = false
 ELEMENT.locale(ELEMENT.lang.en)
 Vue.use(VeeValidate,  { fieldsBagName: 'veeFields' })

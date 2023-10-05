@@ -1,13 +1,8 @@
 <template>
   <div>
-    <div  v-if='!isLoggedIn()'>
-      <login-view></login-view>
-    </div>
-    <div  v-else>
       <tabsbar :class="{'d-none': isProgramView }"></tabsbar>
       <filter-sidebar v-if="contentLoaded" :class="{'d-none': isProgramView }"></filter-sidebar>
       <router-view></router-view>
-    </div>
   </div>
 </template>
 
@@ -23,35 +18,28 @@ import MessageDialogService from "../../services/message_dialog_service.js";
 export default {
   name: "Dashboard",
   components: {
-    LoginView,
     Tabsbar,
     FilterSidebar,
     SettingsSidebar
   },
   mounted() {
-    if(this.isLoggedIn()){
-
-      let id = this.$route.params.programId;
-      this.fetchDashboardData({ id });
-      // Prevent right-click context-menu from appearing accross whole app
-      window.oncontextmenu = (e) => {
-        if (e.target.nodeName !== "INPUT" && e.target.nodeName !== "TEXTAREA") {
-          e.preventDefault();
-        }
-      };
-    }
+    let id = this.$route.params.programId;
+    this.fetchDashboardData({ id });
+    // Prevent right-click context-menu from appearing accross whole app
+    window.oncontextmenu = (e) => {
+      if (e.target.nodeName !== "INPUT" && e.target.nodeName !== "TEXTAREA") {
+        e.preventDefault();
+      }
+    };
   },
   methods: {
     ...mapActions(["fetchDashboardData"]),
-    ...mapMutations(["setUnfilteredFacilities"]),
-    isLoggedIn: () => {
-      return false
-    }
+    ...mapMutations(["setUnfilteredFacilities"])
   },
   computed: {
     ...mapGetters(["contentLoaded", "facilities", "getUnfilteredFacilities"]),
       isProgramView() {
-        console.log("index.vue", this.$route)
+      console.log("index.vue", this.$route)
       return this.$route.name && (
              this.$route.name.includes("ProgramView") ||
              this.$route.name.includes("ProgramTaskForm") ||
