@@ -178,7 +178,7 @@ export default new Vuex.Store({
     currentUser: null,
     topNavigationPermissions: null,
     preferences: null,
-    token: null
+    token: ""
   },
 
   mutations: {
@@ -607,8 +607,8 @@ export default new Vuex.Store({
 
   getters: {
     isLoggedIn(state) {
-      console.log("isLoggedIn",state.token);
-      return !!state.token;
+      console.log("isLoggedIn", (state.token != "") );
+      return state.token != "";
     },
     getExpandedGroup: (state) => state.expandedGroup,
     getFacilityProjectOptions: (state, getters) => {

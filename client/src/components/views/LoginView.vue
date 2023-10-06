@@ -125,6 +125,7 @@
       </div>
     </div>
   </div>
+  
 </template>
 
 <script>
@@ -140,6 +141,16 @@ export default {
       username: "",
       password: "",
     };
+  },
+  mounted() {
+    console.log("LoginView Mounted", this.isLoggedIn)
+    if(this.isLoggedIn){
+      // console.log("LoginView Mounted", this.isLoggedIn)
+      this.$router.push({ name: 'ProgramListView' })
+    }    
+  },
+  computed: {
+    ...mapGetters(["isLoggedIn"]),
   },
   methods: {
     ...mapMutations(["setUser", "setToken"]),
@@ -161,7 +172,7 @@ export default {
       const token = "tokentoken";
       this.setUser(user);
       this.setToken(token);
-      this.$router.push("/");
+      this.$router.push({ name: 'ProgramListView' })
     }
   }
 }

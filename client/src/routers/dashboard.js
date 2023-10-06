@@ -1,6 +1,7 @@
 import GanttChartView from "./../components/dashboard/gantt_view.vue";
 import MembersView from "./../components/dashboard/members_view.vue";
 import ProgramView from "./../components/views/program/ProgramView.vue";
+import HomeView from "./../components/views/HomeView.vue";
 
 import SettingsView from "./../components/views/settings/SettingsView.vue";
 import SettingsProjects from "./../components/views/settings/SettingsProjects.vue";
@@ -139,8 +140,14 @@ const router = new VueRouter({
     //   }
     // },
     {
-      name: "ProgramListView",
+      name: "HomeView",
       path: "/",
+      component: HomeView,
+      meta: { requiresAuth: false }
+    },
+    {
+      name: "ProgramListView",
+      path: "/programs",
       component: ProgramListView,
       meta: { requiresAuth: true }
     },
@@ -148,6 +155,7 @@ const router = new VueRouter({
       name: "LoginView",
       path: "/login",
       component: LoginView,
+      meta: { requiresAuth: false }
     },
     {
       name: "MapView",
@@ -2637,11 +2645,14 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log("router.beforeEach", store.getters.isLoggedIn)
+  console.log("router.beforeEach", to.meta.requiresAuth,store.getters.isLoggedIn, to, from)
   if (to.meta.requiresAuth && !store.getters.isLoggedIn) {
+    console.log("router.beforeEach if", to.meta.requiresAuth,store.getters.isLoggedIn, to, from)
     // If the user is not logged in, redirect them to the login page
     next({ name: 'LoginView' });
-  } else {
+  } 
+  else {
+    console.log("router.beforeEach Else",to.meta.requiresAuth,store.getters.isLoggedIn, to, from)
     // If the user is logged in, allow them to proceed to their destination
     next();
   }

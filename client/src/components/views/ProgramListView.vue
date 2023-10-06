@@ -13,7 +13,13 @@
   export default {
     name: "ProgramListView",
     props: ["facility"],
-    components: {  }
+    components: {  },
+    beforeCreate(){
+      console.log("ProgramListView beforeCreate")
+    },
+    mounted(){
+      console.log("ProgramListView mounted")
+    }
   };
   </script>
   

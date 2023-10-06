@@ -11,6 +11,8 @@ import VModal               from 'vue-js-modal'
 import * as VueGoogleMaps   from 'vue2-google-maps'
 import GmapCustomMarker     from 'vue2-gmap-custom-marker'
 import Dashboard            from './components/dashboard/index.vue'
+import LoginView            from './components/views/LoginView.vue'
+import HomeView            from './components/views/HomeView.vue'
 import router               from './routers/dashboard'
 import store                from './store'
 import utils                from './mixins/utils'
@@ -89,8 +91,8 @@ const dashboardApp = new Vue({
   store,
   el: '#dashboard',
   vuetify: new Vuetify(),
-  template: '<Dashboard />',
-  components: { Dashboard }
+  template: '<HomeView />',
+  components: { HomeView }
 })
 
 // Adding global logger so that we can debug data in template 
