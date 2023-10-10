@@ -140,7 +140,7 @@ const portfolioModule = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/api/v1/portfolio/tab_counts`,
+        url: `${API_BASE_PATH}/portfolio/tab_counts`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -163,7 +163,7 @@ const portfolioModule = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/api/v1/filter_data/programs`,
+        url: `${API_BASE_PATH}/filter_data/programs`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -186,7 +186,7 @@ const portfolioModule = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/api/v1/filter_data/program_admin_programs`,
+        url: `${API_BASE_PATH}/filter_data/program_admin_programs`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -207,7 +207,7 @@ const portfolioModule = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/api/v1/filter_data/categories`,
+        url: `${API_BASE_PATH}/filter_data/categories`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -230,7 +230,7 @@ const portfolioModule = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/api/v1/filter_data/users`,
+        url: `${API_BASE_PATH}/filter_data/users`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -252,7 +252,7 @@ const portfolioModule = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/api/v1/filter_data/statuses`,
+        url: `${API_BASE_PATH}/filter_data/statuses`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -275,7 +275,7 @@ const portfolioModule = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/api/v1/filter_data/stages.json?resource=task`,
+        url: `${API_BASE_PATH}/filter_data/stages.json?resource=task`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -298,7 +298,7 @@ const portfolioModule = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/api/v1/filter_data/stages.json?resource=issue`,
+        url: `${API_BASE_PATH}/filter_data/stages.json?resource=issue`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -320,7 +320,7 @@ const portfolioModule = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/api/v1/filter_data/issue_severities.json`,
+        url: `${API_BASE_PATH}/filter_data/issue_severities.json`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -342,7 +342,7 @@ const portfolioModule = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/api/v1/filter_data/issue_types.json`,
+        url: `${API_BASE_PATH}/filter_data/issue_types.json`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -364,7 +364,7 @@ const portfolioModule = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/api/v1/filter_data/stages.json?resource=risk`,
+        url: `${API_BASE_PATH}/filter_data/stages.json?resource=risk`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -386,7 +386,7 @@ const portfolioModule = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/api/v1/filter_data/risk_approaches.json`,
+        url: `${API_BASE_PATH}/filter_data/risk_approaches.json`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -408,7 +408,7 @@ const portfolioModule = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/api/v1/filter_data/risk_priority_level.json`,
+        url: `${API_BASE_PATH}/filter_data/risk_priority_level.json`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -431,7 +431,7 @@ const portfolioModule = {
         // Send GET request for all lessons contained within a project
         axios({
           method: "GET",
-          url: `${API_BASE_PATH}/api/v1/portfolio/tasks?pagination=true&page=${page}&per_page=3000`,
+          url: `${API_BASE_PATH}/portfolio/tasks?pagination=true&page=${page}&per_page=3000`,
           headers: {
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
               .attributes["content"].value,
@@ -453,7 +453,7 @@ const portfolioModule = {
         // Send GET request for all lessons contained within a project
         axios({
           method: "GET",
-          url: `${API_BASE_PATH}/api/v1/programs/${programId}/projects/${projectId}/tasks/${id}.json`,
+          url: `${API_BASE_PATH}/programs/${programId}/projects/${projectId}/tasks/${id}.json`,
           headers: {
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
               .attributes["content"].value,
@@ -476,7 +476,7 @@ const portfolioModule = {
         // Send GET request for all lessons contained within a project
         axios({
           method: "GET",
-          url: `${API_BASE_PATH}/api/v1/portfolio/issues?pagination=true&page=${page}&per_page=3000`,
+          url: `${API_BASE_PATH}/portfolio/issues?pagination=true&page=${page}&per_page=3000`,
           headers: {
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
               .attributes["content"].value,
@@ -498,7 +498,7 @@ const portfolioModule = {
         // Send GET request for all issues contained within a project
         axios({
           method: "GET",
-          url: `${API_BASE_PATH}/api/v1/programs/${programId}/projects/${projectId}/issues/${id}.json`,
+          url: `${API_BASE_PATH}/programs/${programId}/projects/${projectId}/issues/${id}.json`,
           headers: {
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
               .attributes["content"].value,
@@ -521,7 +521,7 @@ const portfolioModule = {
         // Send GET request for all lessons contained within a project
         axios({
           method: "GET",
-          url: `${API_BASE_PATH}/api/v1/portfolio/risks?pagination=true&page=${page}&per_page=3000`,
+          url: `${API_BASE_PATH}/portfolio/risks?pagination=true&page=${page}&per_page=3000`,
           headers: {
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
               .attributes["content"].value,
@@ -543,7 +543,7 @@ const portfolioModule = {
         // Send GET request for all risks contained within a project
         axios({
           method: "GET",
-          url: `${API_BASE_PATH}/api/v1/programs/${programId}/projects/${projectId}/risks/${id}.json`,
+          url: `${API_BASE_PATH}/programs/${programId}/projects/${projectId}/risks/${id}.json`,
           headers: {
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
               .attributes["content"].value,
@@ -566,7 +566,7 @@ const portfolioModule = {
         // Send GET request for all lessons contained within a project
         axios({
           method: "GET",
-          url: `${API_BASE_PATH}/api/v1/portfolio/lessons?pagination=true&page=${page}&per_page=2000`,
+          url: `${API_BASE_PATH}/portfolio/lessons?pagination=true&page=${page}&per_page=2000`,
           headers: {
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
               .attributes["content"].value,
@@ -588,7 +588,7 @@ const portfolioModule = {
         // Send GET request for all risks contained within a project
         axios({
           method: "GET",
-          url: `${API_BASE_PATH}/api/v1/programs/${programId}/projects/${projectId}/lessons/${id}.json`,
+          url: `${API_BASE_PATH}/programs/${programId}/projects/${projectId}/lessons/${id}.json`,
           headers: {
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
               .attributes["content"].value,
@@ -611,7 +611,7 @@ const portfolioModule = {
         // Send GET request for all lessons contained within a project
         axios({
           method: "GET",
-          url: `${API_BASE_PATH}/api/v1/filter_data/stages.json?resource=lesson`,
+          url: `${API_BASE_PATH}/filter_data/stages.json?resource=lesson`,
           headers: {
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
               .attributes["content"].value,

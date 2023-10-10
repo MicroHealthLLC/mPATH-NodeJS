@@ -273,7 +273,7 @@
     },
     mounted() {
       this.fetchAuthorizedPortfolioPrograms()
-      this.fetchCurrentProject(this.$route.params.programId); 
+      // this.fetchCurrentProject(this.$route.params.programId); 
   },
     watch: {
       filterTree(value) {

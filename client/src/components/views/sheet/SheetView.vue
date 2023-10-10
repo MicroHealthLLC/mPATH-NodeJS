@@ -131,7 +131,7 @@ export default {
   },
   methods: {
     ...mapActions(['fetchCurrentProject']),
-    ...mapMutations(["SET_EXPANDED_GROUP"]),
+    ...mapMutations(["SET_EXPANDED_GROUP",'setContentLoaded']),
     expandFacilityGroup(group) {
       if (group && this.getExpandedGroup !== group.id) {
         this.SET_EXPANDED_GROUP(group.id);
@@ -211,7 +211,7 @@ export default {
   },
   mounted() {
     console.log("SheetView",this.$route.params)
-    this.fetchCurrentProject(this.$route.params.programId)
+
     if (
       this.getPreviousRoute.includes("Map") &&
       this.facilities.length !== this.getUnfilteredFacilities.length
@@ -227,7 +227,9 @@ export default {
   },
 
   beforeMount() {
-    console.log(this.$route.params)
+    console.log("SheetView beforeMount")
+    this.fetchCurrentProject(this.$route.params.programId)
+    this.setContentLoaded(true);
     // this.fetchContracts()
     if (this.contentLoaded && this.$route.params.projectId) {
       this.currentFacility = this.facilities.find(
