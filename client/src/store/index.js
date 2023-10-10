@@ -177,8 +177,10 @@ export default new Vuex.Store({
     mpathInstance: "",
     currentUser: null,
     topNavigationPermissions: null,
-    preferences: null,
-    token: ""
+    preferences: {},
+    token: "",
+    programAdminRole: {},
+    projectFacilityHash: {}
   },
 
   mutations: {
@@ -193,6 +195,12 @@ export default new Vuex.Store({
     },
     setToken(state, token) {
       state.token = token;
+    },
+    setProgramAdminRole(state, programAdminRole) {
+      state.programAdminRole = programAdminRole;
+    },
+    setProjectFacilityHash(state, projectFacilityHash) {
+      state.projectFacilityHash = projectFacilityHash;
     },
     setTaskIssueUserFilter: (state, filter) =>
       (state.taskIssueUserFilter = filter),

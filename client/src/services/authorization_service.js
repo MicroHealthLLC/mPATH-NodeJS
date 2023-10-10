@@ -1,6 +1,7 @@
 
 import axios from "axios";
 import { API_BASE_PATH } from "../mixins/utils";
+
 var id = window.current_program_id;
 
 const AuthorizationService = {
@@ -9,15 +10,21 @@ const AuthorizationService = {
   contractPrivilegesRoles: {},
   contractVehiclePrivilegesRoles: {},
   programSettingPrivilegesRoles: {},
-  projectFacilityHash: JSON.parse(
-    window.project_facility_hash.replace(/&quot;/g, '"')
-  ),
-  program_admin_role: JSON.parse(
-    window.program_admin_role.replace(/&quot;/g, '"')
-  ),
-  privilege: JSON.parse(window.privilege.replace(/&quot;/g, '"')),
-  current_user: JSON.parse(window.current_user.replace(/&quot;/g, '"')),
-  preferences: JSON.parse(window.preferences.replace(/&quot;/g, '"')),
+  token: null,
+  // projectFacilityHash: JSON.parse(
+  //   window.project_facility_hash.replace(/&quot;/g, '"')
+  // ),
+  // program_admin_role: JSON.parse(
+  //   window.program_admin_role.replace(/&quot;/g, '"')
+  // ),
+  // privilege: JSON.parse(window.privilege.replace(/&quot;/g, '"')),
+  // current_user: JSON.parse(window.current_user.replace(/&quot;/g, '"')),
+  // preferences: JSON.parse(window.preferences.replace(/&quot;/g, '"')),
+  projectFacilityHash: {},
+  program_admin_role: {},
+  privilege: {},
+  current_user: {},
+  preferences: {},
   topNavigationPermissions: () => {
     var permissionHash = {};
     for (var key in AuthorizationService.privilege) {
