@@ -130,7 +130,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions([]),
+    ...mapActions(['fetchCurrentProject']),
     ...mapMutations(["SET_EXPANDED_GROUP"]),
     expandFacilityGroup(group) {
       if (group && this.getExpandedGroup !== group.id) {
@@ -210,7 +210,8 @@ export default {
     },
   },
   mounted() {
-    console.log(this.$route.params)
+    console.log("SheetView",this.$route.params)
+    this.fetchCurrentProject(this.$route.params.programId)
     if (
       this.getPreviousRoute.includes("Map") &&
       this.facilities.length !== this.getUnfilteredFacilities.length

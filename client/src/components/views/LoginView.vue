@@ -154,7 +154,7 @@ export default {
     ...mapGetters(["isLoggedIn"]),
   },
   methods: {
-    ...mapMutations(["setUser", "setToken", "setPreferences", "setProgramAdminRole", "setProjectFacilityHash"]),
+    ...mapMutations(["setContentLoaded","setUser", "setToken", "setPreferences", "setProgramAdminRole", "setProjectFacilityHash"]),
     async login(e) {
       e.preventDefault();
       // const response = await fetch("http://localhost:3000/users/sign_in", {
@@ -193,11 +193,24 @@ export default {
       AuthorizationService.preferences = JSON.parse(preferences.replace(/&quot;/g, '"'))
       AuthorizationService.token = token
 
+      Vue.prototype.$mpath_instance = window.mpath_instance
+
+      // AuthorizationService.getRolePrivileges();
+      Vue.prototype.checkPrivileges = (page, salut, route, extraData) => {
+        return AuthorizationService.checkPrivileges(page, salut, route, extraData);
+      };
+
+      Vue.prototype.$currentUser = AuthorizationService.current_user;
+      Vue.prototype.$topNavigationPermissions = AuthorizationService.topNavigationPermissions();
+      Vue.prototype.$preferences = AuthorizationService.preferences;
+
+
       this.setUser( AuthorizationService.current_user);
       this.setToken(token);
       this.setPreferences(AuthorizationService.preferences)
       this.setProgramAdminRole(AuthorizationService.program_admin_role)
       this.setProjectFacilityHash(AuthorizationService.projectFacilityHash)
+      // this.setContentLoaded(true)
       this.$router.push({ name: 'ProgramListView' })
     }
   }

@@ -3729,6 +3729,7 @@ export default new Vuex.Store({
       });
     },
     fetchCurrentProject({ commit, dispatch }, id) {
+      console.log("fetchCurrentProject called", id)
       let spaths = window.location.pathname.split("/")
       let url = `${API_BASE_PATH}/programs/${id}.json`
       if(spaths.length > 0){
