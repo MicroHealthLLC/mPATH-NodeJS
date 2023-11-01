@@ -4,7 +4,7 @@ const {models} = require("../database");
 const index = async (req, res) => {
   try {
     // Fetch user profile using req.userId
-    const user_db = await models.user.findByPk(req.userId);
+    const user_db = await db.user.findByPk(req.userId);
     if (!user_db) {
       return res.status(404).json({ error: "User not found" });
     } else {

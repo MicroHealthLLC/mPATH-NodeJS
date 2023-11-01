@@ -1,6 +1,7 @@
 let repl = require('repl');
 let models = require('./src/database/models');
 
+console.log("models", models)
 Object.keys(models).forEach(modelName => {
   global[modelName] = models[modelName];
 });

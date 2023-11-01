@@ -1,4 +1,4 @@
-const { models } = require("../database/");
+const { db } = require("../database/models");
 const jwt = require("jsonwebtoken");
 const { hash_password, compare_password } = require("../utils/helpers");
 
@@ -31,14 +31,14 @@ const register = async (req, res) => {
     } else if (!password) {
       return res.status(400).json({ error: "Password field is required" });
     } else {
-      const user_db = await models.user.findOne({ where: { email } });
+      const user_db = await db.user.findOne({ where: { email } });
       if (user_db) {
         return res.status(400).json({ error: "Email already exists" });
       } else {
         // Hash the password
         const hashedPassword = hash_password(password);
         // Create a user record in the database
-        const new_user = await models.user.create({
+        const new_user = await db.user.create({
           username,
           email,
           password: hashedPassword,
@@ -67,7 +67,7 @@ const login = async (req, res) => {
       res.status(400).json({ error: "Password field is required" });
     } else {
       // Find the user by email
-      const user_db = await models.user.findOne({ where: { email } });
+      const user_db = await db.user.findOne({ where: { email } });
 
       if (!user_db) {
         return res.status(404).json({ error: "User not found" });
