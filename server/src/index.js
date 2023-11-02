@@ -1,6 +1,6 @@
 require('dotenv').config();
 const PORT = 3000;
-const {sequelize, User, Project} = require('./database/models'); // import models
+const {db, User, Project} = require('./database/models'); // import models
 
 const express = require('express');
 const authRoute = require('./routes/authRoutes');
@@ -57,7 +57,7 @@ app.use
 async function assertDatabaseConnectionOk() {
 	console.log(`Checking database connection...`);
 	try {
-		await sequelize.authenticate();
+		await db.sequelize.authenticate();
 		console.log('Database connection OK!');
 	} catch (error) {
 		console.log('Unable to connect to the database:');

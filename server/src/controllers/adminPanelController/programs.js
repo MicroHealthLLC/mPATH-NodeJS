@@ -4,7 +4,7 @@ const { db } = require("../../database/models");
 const programs = async (req, res) => {
   try {
     // Fetch all users from the database
-    const allPrograms = await db.program.findAll();
+    const allPrograms = await db.Project.findAll();
     res.json(allPrograms);
     console.log("All (Backend) Programs: ", allPrograms);
   } catch (error) {
@@ -19,7 +19,7 @@ const findProgram = async (req, res) => {
     console.log(req.params)
     console.log(db)
     // Fetch all users from the database
-    const program = await db.program.findOne({ where: { id: programId } });
+    const program = await db.Project.findOne({ where: { id: programId } });
     res.json(program);
     console.log("Program: ", program);
   } catch (error) {
@@ -30,7 +30,7 @@ const findProgram = async (req, res) => {
 const createProgram = async (req, res) => {
   try {
     const { name, description } = req.body.program;
-    const newProgram = await db.program.create({ name, description });
+    const newProgram = await db.Project.create({ name, description });
     res.json({ program: newProgram });
     console.log("Newly created program: ", newProgram);
   } catch (error) {
@@ -43,7 +43,7 @@ const createProgram = async (req, res) => {
 const deleteProgram = async (req, res) => {
   try {
     const programId = req.params.id;
-    const deletedProgram = await db.program.destroy({ where: { id: programId } });
+    const deletedProgram = await db.Project.destroy({ where: { id: programId } });
     if (deletedProgram === 0) {
       return res.status(404).json({ error: "Program not found" });
     }
@@ -56,7 +56,7 @@ const deleteProgram = async (req, res) => {
 
 const deleteAllPrograms = async (req, res) => {
   try {
-    const deletedPrograms = await  db.program.destroy({ where: {} });
+    const deletedPrograms = await  db.Project.destroy({ where: {} });
     res.json({ message: "All programs deleted successfully" });
     console.log("Deleted programs count: ", deletedPrograms);
   } catch (error) {
