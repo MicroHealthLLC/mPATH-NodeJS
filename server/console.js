@@ -1,12 +1,12 @@
 let repl = require('repl');
-let models = require('./src/database/models');
+let db = require('./src/database/models');
 
-console.log("models", models)
+// console.log("db ->", db)
+models = db["db"]
 Object.keys(models).forEach(modelName => {
+  // console.log("modelName", modelName)
   global[modelName] = models[modelName];
 });
-
-// global['DateTime'] = require('./lib/DateTime').default;
 
 let replServer = repl.start({
   prompt: 'app > '
