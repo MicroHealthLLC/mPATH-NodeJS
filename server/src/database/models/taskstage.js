@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     percentage: DataTypes.INTEGER
   }, {
     sequelize,
+    tableName: 'task_stages',
     modelName: 'TaskStage',
   });
   return TaskStage;

@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     risk_id: DataTypes.INTEGER
   }, {
     sequelize,
+    tableName: 'related_risks',
     modelName: 'RelatedRisk',
   });
   return RelatedRisk;

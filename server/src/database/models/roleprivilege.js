@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     role_type: DataTypes.STRING
   }, {
     sequelize,
+    tableName: 'role_privileges',
     modelName: 'RolePrivilege',
   });
   return RolePrivilege;

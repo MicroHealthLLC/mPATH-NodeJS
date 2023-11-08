@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('ContractVehicles', {
+    await queryInterface.createTable('contract_vehicles', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -60,17 +60,17 @@ module.exports = {
       is_subprime: {
         type: Sequelize.BOOLEAN
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('ContractVehicles');
+    await queryInterface.dropTable('contract_vehicles');
   }
 };

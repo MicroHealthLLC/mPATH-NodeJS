@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     color: DataTypes.STRING
   }, {
     sequelize,
+    tableName: 'statuses',
     modelName: 'Status',
   });
   return Status;

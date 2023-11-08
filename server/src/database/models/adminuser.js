@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     last_sign_in_ip: DataTypes.STRING
   }, {
     sequelize,
+    tableName: 'admin_users',
     modelName: 'AdminUser',
   });
   return AdminUser;

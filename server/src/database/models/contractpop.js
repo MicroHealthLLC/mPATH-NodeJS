@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     user_id: DataTypes.INTEGER
   }, {
     sequelize,
+    tableName: 'contract_pops',
     modelName: 'ContractPop',
   });
   return ContractPop;

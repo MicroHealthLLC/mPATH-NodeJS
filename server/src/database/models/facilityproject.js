@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     project_facility_group_id: DataTypes.INTEGER
   }, {
     sequelize,
+    tableName: 'facility_projects',
     modelName: 'FacilityProject',
   });
   return FacilityProject;

@@ -32,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     owner_type: DataTypes.STRING
   }, {
     sequelize,
+    tableName: 'lessons',
     modelName: 'Lesson',
   });
   return Lesson;

@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     planned_effort: DataTypes.DECIMAL
   }, {
     sequelize,
+    tableName: 'checklists',
     modelName: 'Checklist',
   });
   return Checklist;

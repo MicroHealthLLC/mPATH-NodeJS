@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     state_id: DataTypes.INTEGER
   }, {
     sequelize,
+    tableName: 'region_stages',
     modelName: 'RegionState',
   });
   return RegionState;

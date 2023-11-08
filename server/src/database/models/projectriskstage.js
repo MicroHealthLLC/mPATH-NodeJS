@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     risk_stage_id: DataTypes.INTEGER
   }, {
     sequelize,
+    tableName: 'project_risk_stages',
     modelName: 'ProjectRiskStage',
   });
   return ProjectRiskStage;

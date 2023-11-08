@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     progress: DataTypes.INTEGER
   }, {
     sequelize,
+    tableName: 'task_types',
     modelName: 'TaskType',
   });
   return TaskType;

@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     favorite_filter_id: DataTypes.INTEGER
   }, {
     sequelize,
+    tableName: 'query_filters',
     modelName: 'QueryFilter',
   });
   return QueryFilter;

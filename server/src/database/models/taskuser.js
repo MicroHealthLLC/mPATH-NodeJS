@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     user_type: DataTypes.STRING
   }, {
     sequelize,
+    tableName: 'task_users',
     modelName: 'TaskUser',
   });
   return TaskUser;

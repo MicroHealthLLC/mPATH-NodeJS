@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     is_default: DataTypes.BOOLEAN
   }, {
     sequelize,
+    tableName: 'project_facility_groups',
     modelName: 'ProjectFacilityGroup',
   });
   return ProjectFacilityGroup;

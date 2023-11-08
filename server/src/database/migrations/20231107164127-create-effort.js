@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Efforts', {
+    await queryInterface.createTable('efforts', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -30,17 +30,17 @@ module.exports = {
       projected: {
         type: Sequelize.BOOLEAN
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Efforts');
+    await queryInterface.dropTable('efforts');
   }
 };

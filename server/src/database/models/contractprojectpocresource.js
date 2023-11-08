@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     poc_type: DataTypes.STRING
   }, {
     sequelize,
+    tableName: 'contract_project_poc_resources',
     modelName: 'ContractProjectPocResource',
   });
   return ContractProjectPocResource;

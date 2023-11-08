@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     is_subprime: DataTypes.BOOLEAN
   }, {
     sequelize,
+    tableName: 'contract_vehicles',
     modelName: 'ContractVehicle',
   });
   return ContractVehicle;

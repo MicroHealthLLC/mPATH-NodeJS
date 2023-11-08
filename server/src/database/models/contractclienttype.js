@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING
   }, {
     sequelize,
+    tableName: 'contract_client_types',
     modelName: 'ContractClientType',
   });
   return ContractClientType;

@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     center: DataTypes.STRING
   }, {
     sequelize,
+    tableName: 'states',
     modelName: 'State',
   });
   return State;

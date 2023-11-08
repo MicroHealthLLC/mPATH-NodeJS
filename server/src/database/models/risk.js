@@ -56,6 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     owner_type: DataTypes.STRING
   }, {
     sequelize,
+    tableName: 'risks',
     modelName: 'Risk',
   });
   return Risk;

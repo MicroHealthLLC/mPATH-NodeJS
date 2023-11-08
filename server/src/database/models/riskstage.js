@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     percentage: DataTypes.INTEGER
   }, {
     sequelize,
+    tableName: 'risk_stages',
     modelName: 'RiskStage',
   });
   return RiskStage;

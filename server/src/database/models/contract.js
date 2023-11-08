@@ -45,6 +45,7 @@ module.exports = (sequelize, DataTypes) => {
     remarks: DataTypes.TEXT
   }, {
     sequelize,
+    tableName: 'contracts',
     modelName: 'Contract',
   });
   return Contract;

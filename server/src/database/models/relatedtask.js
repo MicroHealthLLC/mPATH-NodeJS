@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     task_id: DataTypes.INTEGER
   }, {
     sequelize,
+    tableName: 'related_tasks',
     modelName: 'RelatedTask',
   });
   return RelatedTask;

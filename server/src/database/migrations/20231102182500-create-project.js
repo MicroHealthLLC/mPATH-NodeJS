@@ -15,11 +15,23 @@ module.exports = {
       description: {
         type: Sequelize.TEXT
       },
-      createdAt: {
+      uuid: {
+        type: Sequelize.STRING
+      },
+      project_type_id: {
+        type: Sequelize.INTEGER
+      },
+      status: {
+        type: Sequelize.STRING
+      },
+      progress: {
+        type: Sequelize.STRING
+      },
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }

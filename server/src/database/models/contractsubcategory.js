@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     user_id: DataTypes.INTEGER
   }, {
     sequelize,
+    tableName: 'contract_sub_categories',
     modelName: 'ContractSubCategory',
   });
   return ContractSubCategory;

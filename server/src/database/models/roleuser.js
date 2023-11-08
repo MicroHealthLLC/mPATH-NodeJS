@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     resource_id: DataTypes.INTEGER
   }, {
     sequelize,
+    tableName: 'role_users',
     modelName: 'RoleUser',
   });
   return RoleUser;

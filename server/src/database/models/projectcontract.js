@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     progress: DataTypes.INTEGER
   }, {
     sequelize,
+    tableName: 'project_contracts',
     modelName: 'ProjectContract',
   });
   return ProjectContract;

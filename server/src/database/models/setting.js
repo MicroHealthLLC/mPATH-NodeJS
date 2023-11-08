@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     passwords_key: DataTypes.TEXT
   }, {
     sequelize,
+    tableName: 'settings',
     modelName: 'Setting',
   });
   return Setting;
