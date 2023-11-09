@@ -18,6 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     percentage: DataTypes.INTEGER
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'risk_stages',
     modelName: 'RiskStage',
   });

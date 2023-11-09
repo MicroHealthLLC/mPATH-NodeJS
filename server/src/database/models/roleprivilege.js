@@ -20,6 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     role_type: DataTypes.STRING
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'role_privileges',
     modelName: 'RolePrivilege',
   });

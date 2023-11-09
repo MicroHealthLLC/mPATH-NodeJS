@@ -32,6 +32,8 @@ module.exports = (sequelize, DataTypes) => {
     owner_type: DataTypes.STRING
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'lessons',
     modelName: 'Lesson',
   });

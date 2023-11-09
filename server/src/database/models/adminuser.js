@@ -26,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     last_sign_in_ip: DataTypes.STRING
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'admin_users',
     modelName: 'AdminUser',
   });

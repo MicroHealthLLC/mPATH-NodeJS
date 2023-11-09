@@ -18,6 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     task_stage_id: DataTypes.INTEGER
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'project_task_stages',
     modelName: 'ProjectTaskStage',
   });

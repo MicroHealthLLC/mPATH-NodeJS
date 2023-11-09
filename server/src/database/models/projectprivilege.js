@@ -36,6 +36,8 @@ module.exports = (sequelize, DataTypes) => {
     admin_facilities: DataTypes.STRING
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'project_privileges',
     modelName: 'ProjectPrivilege',
   });

@@ -45,6 +45,8 @@ module.exports = (sequelize, DataTypes) => {
     remarks: DataTypes.TEXT
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'contracts',
     modelName: 'Contract',
   });

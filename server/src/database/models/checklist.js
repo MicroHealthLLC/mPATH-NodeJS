@@ -24,6 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     planned_effort: DataTypes.DECIMAL
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'checklists',
     modelName: 'Checklist',
   });

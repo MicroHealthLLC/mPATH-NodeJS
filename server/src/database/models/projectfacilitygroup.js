@@ -19,6 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     is_default: DataTypes.BOOLEAN
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'project_facility_groups',
     modelName: 'ProjectFacilityGroup',
   });

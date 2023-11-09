@@ -29,6 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     facility_project_ids: DataTypes.STRING
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'facility_privileges',
     modelName: 'FacilityPrivilege',
   });

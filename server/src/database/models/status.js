@@ -18,6 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     color: DataTypes.STRING
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'statuses',
     modelName: 'Status',
   });

@@ -22,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     private: DataTypes.BOOLEAN
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'favorite_filters',
     modelName: 'FavoriteFilter',
   });

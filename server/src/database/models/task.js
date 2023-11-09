@@ -42,6 +42,8 @@ module.exports = (sequelize, DataTypes) => {
     auto_calculate_planned_effort: DataTypes.BOOLEAN
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'tasks',
     modelName: 'Task',
   });

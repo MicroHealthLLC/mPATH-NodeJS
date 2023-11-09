@@ -19,6 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     checklist_id: DataTypes.INTEGER
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'progress_lists',
     modelName: 'ProgressList',
   });

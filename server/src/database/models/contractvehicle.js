@@ -33,6 +33,8 @@ module.exports = (sequelize, DataTypes) => {
     is_subprime: DataTypes.BOOLEAN
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'contract_vehicles',
     modelName: 'ContractVehicle',
   });

@@ -22,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     passwords_key: DataTypes.TEXT
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'settings',
     modelName: 'Setting',
   });

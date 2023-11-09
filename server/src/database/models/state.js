@@ -19,6 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     center: DataTypes.STRING
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'states',
     modelName: 'State',
   });

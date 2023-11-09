@@ -23,6 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     projected: DataTypes.BOOLEAN
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'efforts',
     modelName: 'Effort',
   });

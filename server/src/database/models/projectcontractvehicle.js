@@ -21,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     progeress: DataTypes.INTEGER
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'project_contract_vehicles',
     modelName: 'ProjectContractVehicle',
   });

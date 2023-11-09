@@ -20,6 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     poc_type: DataTypes.STRING
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'contract_project_poc_resources',
     modelName: 'ContractProjectPocResource',
   });

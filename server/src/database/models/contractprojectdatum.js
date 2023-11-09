@@ -43,6 +43,8 @@ module.exports = (sequelize, DataTypes) => {
     ignore_expired: DataTypes.BOOLEAN
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'contract_project_data',
     modelName: 'ContractProjectDatum',
   });

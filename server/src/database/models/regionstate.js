@@ -18,6 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     state_id: DataTypes.INTEGER
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'region_stages',
     modelName: 'RegionState',
   });

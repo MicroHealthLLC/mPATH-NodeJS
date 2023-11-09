@@ -24,6 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     project_facility_group_id: DataTypes.INTEGER
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'facility_projects',
     modelName: 'FacilityProject',
   });

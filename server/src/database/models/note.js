@@ -20,6 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     body: DataTypes.TEXT
   }, {
     sequelize,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'notes',
     modelName: 'Note',
   });
