@@ -5,25 +5,7 @@
 const {db} = require("../models")
 var bcrypt = require('bcrypt');
 require('dotenv').config()
-
-function cryptPassword (password, callback) {
-  bcrypt.genSalt(10, function(err, salt) {
-   if (err) 
-     return callback(err);
-
-   bcrypt.hash(password, salt, function(err, hash) {
-     return callback(err, hash);
-   });
- });
-};
-
-function comparePassword(plainPass, hashword, callback) {
-  bcrypt.compare(plainPass, hashword, function(err, isPasswordMatch) {
-      return err == null ?
-          callback(null, isPasswordMatch) :
-          callback(err);
-  });
-};
+const { cryptPassword } = require("../../utils/helpers");
 
 module.exports = {
   async up (queryInterface, Sequelize) {

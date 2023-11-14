@@ -1,6 +1,6 @@
 const { db } = require("../database/models");
 const jwt = require("jsonwebtoken");
-const { hash_password, compare_password } = require("../utils/helpers");
+const { cryptPassword, comparePassword } = require("../utils/helpers");
 
 // Function for verifying JWT token
 const verifyToken = (req, res, next) => {

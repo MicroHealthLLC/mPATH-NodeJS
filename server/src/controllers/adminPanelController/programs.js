@@ -17,7 +17,7 @@ const findProgram = async (req, res) => {
   try {
     programId = req.params.id;
     console.log(req.params)
-    console.log(db)
+    // console.log(db)
     // Fetch all users from the database
     const program = await db.Project.findOne({ where: { id: programId } });
     res.json(program);
