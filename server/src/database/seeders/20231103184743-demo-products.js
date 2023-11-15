@@ -22,7 +22,7 @@ module.exports = {
     const [user, ucreated] = await db.User.findOrCreate({
       where: { email: 'admin@example.com' },
       defaults: {
-        encrypted_password: cryptPassword('adminPa$$w0rd'),
+        encrypted_password: await  cryptPassword('adminPa$$w0rd'),
         title: 'Mr.',
         first_name: 'Super',
         role:  1,

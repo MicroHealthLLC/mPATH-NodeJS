@@ -36,7 +36,7 @@ const register = async (req, res) => {
         return res.status(400).json({ error: "Email already exists" });
       } else {
         // Hash the password
-        const hashedPassword = hash_password(password);
+        const hashedPassword = await cryptPassword(password);
         // Create a user record in the database
         const new_user = await db.user.create({
           username,
@@ -61,19 +61,24 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("login", req.body)
+
     if (!email) {
       res.status(400).json({ error: "Email field is required" });
     } else if (!password) {
       res.status(400).json({ error: "Password field is required" });
     } else {
+      
       // Find the user by email
-      const user_db = await db.user.findOne({ where: { email } });
+      const user_db = await db.User.findOne({ where: { email } });
+      
+      console.log("user", user_db)
 
       if (!user_db) {
         return res.status(404).json({ error: "User not found" });
       } else {
         // Compare the provided password with the hashed password
-        const passwordMatch = compare_password(password, user_db.password);
+        const passwordMatch = await comparePassword(password, user_db.password);
         if (!passwordMatch) {
           return res.status(401).json({ error: "Invalid password" });
         } else {
@@ -88,7 +93,7 @@ const login = async (req, res) => {
       }
     }
   } catch (error) {
-    res.status(500).json({ error: "Login failed" });
+    res.status(500).json({ error: "Login failed", message: error });
   }
 };
 

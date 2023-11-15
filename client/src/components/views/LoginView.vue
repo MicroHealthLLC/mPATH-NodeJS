@@ -129,7 +129,7 @@
 </template>
 
 <script>
-
+import axios from "axios";
 import { mapGetters, mapActions, mapMutations } from "vuex";
 import AuthorizationService from '../../services/authorization_service.js'
 
@@ -166,52 +166,78 @@ export default {
       //     username: this.username,
       //     password: this.password,
       //   }),
-      // });
-      
-      // const { user, token } = await response.json();
-      var current_user = "{&quot;id&quot;:11,&quot;email&quot;:&quot;admin@example.com&quot;,&quot;created_at&quot;:&quot;2020-10-28T08:36:45.000-04:00&quot;,&quot;updated_at&quot;:&quot;2023-09-12T09:11:41.000-04:00&quot;,&quot;first_name&quot;:&quot;admin@example.com&quot;,&quot;last_name&quot;:&quot;admin@example.com&quot;,&quot;title&quot;:&quot;Mr.&quot;,&quot;phone_number&quot;:&quot;&quot;,&quot;address&quot;:&quot;&quot;,&quot;role&quot;:&quot;superadmin&quot;,&quot;provider&quot;:null,&quot;uid&quot;:null,&quot;login&quot;:null,&quot;status&quot;:&quot;active&quot;,&quot;lat&quot;:&quot;&quot;,&quot;lng&quot;:&quot;&quot;,&quot;country_code&quot;:&quot;&quot;,&quot;color&quot;:null,&quot;organization_id&quot;:4,&quot;full_name&quot;:&quot;admin@example.com admin@example.com&quot;,&quot;organization&quot;:&quot;Test Org&quot;}";
+      // });      
 
-      const token = "tokentoken";
+        axios({
+          method: "POST",
+          url:  "http://localhost:3000/api/v1/auth/users/sign_in",
+          data: {
+            email: this.username,
+            password: this.password,
+          },
+          headers: {
+            "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+              .attributes["content"].value,
+          },
+        })
+          .then((response) => {
+            console.log("AuthResponse", response)
 
-      const preferences =  "{&quot;navigation_menu&quot;:&quot;map&quot;,&quot;sub_navigation_menu&quot;:null,&quot;program_id&quot;:null,&quot;project_id&quot;:null,&quot;project_group_id&quot;:null}";
-      
-      var project_facility_hash = "{&quot;3&quot;:[{&quot;facility_id&quot;:4,&quot;facility_project_id&quot;:1},{&quot;facility_id&quot;:328,&quot;facility_project_id&quot;:2}]}";
+              // const { user, token } = await response.json();
+              var current_user = "{&quot;id&quot;:11,&quot;email&quot;:&quot;admin@example.com&quot;,&quot;created_at&quot;:&quot;2020-10-28T08:36:45.000-04:00&quot;,&quot;updated_at&quot;:&quot;2023-09-12T09:11:41.000-04:00&quot;,&quot;first_name&quot;:&quot;admin@example.com&quot;,&quot;last_name&quot;:&quot;admin@example.com&quot;,&quot;title&quot;:&quot;Mr.&quot;,&quot;phone_number&quot;:&quot;&quot;,&quot;address&quot;:&quot;&quot;,&quot;role&quot;:&quot;superadmin&quot;,&quot;provider&quot;:null,&quot;uid&quot;:null,&quot;login&quot;:null,&quot;status&quot;:&quot;active&quot;,&quot;lat&quot;:&quot;&quot;,&quot;lng&quot;:&quot;&quot;,&quot;country_code&quot;:&quot;&quot;,&quot;color&quot;:null,&quot;organization_id&quot;:4,&quot;full_name&quot;:&quot;admin@example.com admin@example.com&quot;,&quot;organization&quot;:&quot;Test Org&quot;}";
 
-      var privilege = "{&quot;map_view&quot;:&quot;R&quot;,&quot;gantt_view&quot;:&quot;R&quot;,&quot;members&quot;:&quot;R&quot;,&quot;settings_view&quot;:&quot;R&quot;,&quot;sheets_view&quot;:&quot;R&quot;,&quot;kanban_view&quot;:&quot;R&quot;,&quot;calendar_view&quot;:&quot;R&quot;,&quot;contract_data&quot;:&quot;RW&quot;}";
+              const token = "tokentoken";
 
-      var program_admin_role = "{&quot;id&quot;:7,&quot;name&quot;:&quot;program-admin&quot;,&quot;project_id&quot;:null,&quot;user_id&quot;:null,&quot;is_portfolio&quot;:true,&quot;is_default&quot;:true,&quot;type_of&quot;:&quot;admin&quot;,&quot;created_at&quot;:&quot;2022-06-11 10:36:55 -0400&quot;,&quot;updated_at&quot;:&quot;2022-06-11 10:36:55 -0400&quot;,&quot;role_privileges&quot;:[],&quot;role_users&quot;:[]}";
+              const preferences =  "{&quot;navigation_menu&quot;:&quot;map&quot;,&quot;sub_navigation_menu&quot;:null,&quot;program_id&quot;:null,&quot;project_id&quot;:null,&quot;project_group_id&quot;:null}";
+              
+              var project_facility_hash = "{&quot;3&quot;:[{&quot;facility_id&quot;:4,&quot;facility_project_id&quot;:1},{&quot;facility_id&quot;:328,&quot;facility_project_id&quot;:2}]}";
 
-      var current_program_id = "15";
-      var mpath_instance = "";
+              var privilege = "{&quot;map_view&quot;:&quot;R&quot;,&quot;gantt_view&quot;:&quot;R&quot;,&quot;members&quot;:&quot;R&quot;,&quot;settings_view&quot;:&quot;R&quot;,&quot;sheets_view&quot;:&quot;R&quot;,&quot;kanban_view&quot;:&quot;R&quot;,&quot;calendar_view&quot;:&quot;R&quot;,&quot;contract_data&quot;:&quot;RW&quot;}";
 
-      var google_api_key = "APIKEY";
-      
-      AuthorizationService.projectFacilityHash = JSON.parse(project_facility_hash.replace(/&quot;/g, '"'))
-      AuthorizationService.program_admin_role = JSON.parse(program_admin_role.replace(/&quot;/g, '"'))
-      AuthorizationService.privilege = JSON.parse(privilege.replace(/&quot;/g, '"'))
-      AuthorizationService.current_user = JSON.parse(current_user.replace(/&quot;/g, '"'))
-      AuthorizationService.preferences = JSON.parse(preferences.replace(/&quot;/g, '"'))
-      AuthorizationService.token = token
+              var program_admin_role = "{&quot;id&quot;:7,&quot;name&quot;:&quot;program-admin&quot;,&quot;project_id&quot;:null,&quot;user_id&quot;:null,&quot;is_portfolio&quot;:true,&quot;is_default&quot;:true,&quot;type_of&quot;:&quot;admin&quot;,&quot;created_at&quot;:&quot;2022-06-11 10:36:55 -0400&quot;,&quot;updated_at&quot;:&quot;2022-06-11 10:36:55 -0400&quot;,&quot;role_privileges&quot;:[],&quot;role_users&quot;:[]}";
 
-      Vue.prototype.$mpath_instance = window.mpath_instance
+              var current_program_id = "15";
+              var mpath_instance = "";
 
-      // AuthorizationService.getRolePrivileges();
-      Vue.prototype.checkPrivileges = (page, salut, route, extraData) => {
-        return AuthorizationService.checkPrivileges(page, salut, route, extraData);
-      };
+              var google_api_key = "APIKEY";
+              
+              AuthorizationService.projectFacilityHash = JSON.parse(project_facility_hash.replace(/&quot;/g, '"'))
+              AuthorizationService.program_admin_role = JSON.parse(program_admin_role.replace(/&quot;/g, '"'))
+              AuthorizationService.privilege = JSON.parse(privilege.replace(/&quot;/g, '"'))
+              AuthorizationService.current_user = JSON.parse(current_user.replace(/&quot;/g, '"'))
+              AuthorizationService.preferences = JSON.parse(preferences.replace(/&quot;/g, '"'))
+              AuthorizationService.token = token
 
-      Vue.prototype.$currentUser = AuthorizationService.current_user;
-      Vue.prototype.$topNavigationPermissions = AuthorizationService.topNavigationPermissions();
-      Vue.prototype.$preferences = AuthorizationService.preferences;
+              Vue.prototype.$mpath_instance = window.mpath_instance
+
+              // AuthorizationService.getRolePrivileges();
+              Vue.prototype.checkPrivileges = (page, salut, route, extraData) => {
+                return AuthorizationService.checkPrivileges(page, salut, route, extraData);
+              };
+
+              Vue.prototype.$currentUser = AuthorizationService.current_user;
+              Vue.prototype.$topNavigationPermissions = AuthorizationService.topNavigationPermissions();
+              Vue.prototype.$preferences = AuthorizationService.preferences;
 
 
-      this.setUser( AuthorizationService.current_user);
-      this.setToken(token);
-      this.setPreferences(AuthorizationService.preferences)
-      this.setProgramAdminRole(AuthorizationService.program_admin_role)
-      this.setProjectFacilityHash(AuthorizationService.projectFacilityHash)
-      // this.setContentLoaded(true)
-      this.$router.push({ name: 'ProgramListView' })
+              this.setUser( AuthorizationService.current_user);
+              this.setToken(token);
+              this.setPreferences(AuthorizationService.preferences)
+              this.setProgramAdminRole(AuthorizationService.program_admin_role)
+              this.setProjectFacilityHash(AuthorizationService.projectFacilityHash)
+              // this.setContentLoaded(true)
+              this.$router.push({ name: 'ProgramListView' })
+
+          })
+          .catch((err) => {
+            console.log("Error", err);
+            this.errorTrue = true
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+
+
     }
   }
 }
