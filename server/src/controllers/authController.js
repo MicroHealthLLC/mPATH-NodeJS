@@ -78,7 +78,7 @@ const login = async (req, res) => {
         return res.status(404).json({ error: "User not found" });
       } else {
         // Compare the provided password with the hashed password
-        const passwordMatch = await comparePassword(password, user_db.password);
+        const passwordMatch = await comparePassword(password, user_db.encrypted_password);
         if (!passwordMatch) {
           return res.status(401).json({ error: "Invalid password" });
         } else {
