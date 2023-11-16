@@ -83,12 +83,29 @@ const login = async (req, res) => {
           return res.status(401).json({ error: "Invalid password" });
         } else {
           // Generate JWT token
-          const token = jwt.sign(
-            { userId: user_db.id },
-            process.env.JWT_SECRET_KEY,
-            { expiresIn: "1h" }
-          );
-          res.json({ message: "Login successful", token });
+          const token = jwt.sign({ userId: user_db.id }, process.env.JWT_SECRET_KEY,{ expiresIn: "1h" });
+          user_hash = {
+            id: user_db.id,
+            email: user_db.email,
+            first_name: user_db.first_name,
+            last_name: user_db.last_name,
+            title: user_db.title ,
+            phone_number: user_db.phone_number,
+            address: user_db.address,
+            role: user_db.role,
+            provider: user_db.provider,
+            uid:null,
+            login:null,
+            status:"active",
+            lat:"",
+            lng:"",
+            country_code:"",
+            color:null,
+            organization_id:4,
+            full_name:"admin@example.com admin@example.com",
+            organization:"Test Org"
+          }
+          res.json({ message: "Login successful", token: token, current_user: user_hash });
         }
       }
     }
