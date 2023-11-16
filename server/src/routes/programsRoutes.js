@@ -5,7 +5,7 @@ const {
         createProgram, 
         deleteAllPrograms, 
         deleteProgram 
-      } = require("../controllers/adminPanelController/programs");
+      } = require("../controllers/admin/ProgramsController");
 
 const router = Router();
 //Fetch all programs

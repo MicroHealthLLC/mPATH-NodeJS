@@ -1,6 +1,6 @@
-const { verifyToken } = require("../controllers/authController");
+const { verifyToken } = require("../controllers/AuthController");
 const { Router } = require("express");
-const { index } = require("../controllers/profileController");
+const { index } = require("../controllers/ProfilesController");
 
 const router = Router();
 

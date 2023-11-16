@@ -7,6 +7,7 @@ const authRoute = require('./routes/authRoutes');
 const profileRoute = require('./routes/profileRoute');
 const usersRoute = require('./routes/usersRoutes');
 const programsRoute = require('./routes/programsRoutes');
+const lessonsRoutes = require('./routes/lessonsRoutes');
 const cors = require('cors');
 
 const app = express();
@@ -20,6 +21,7 @@ app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/profile', profileRoute);
 app.use('/api/v1/users', usersRoute);
 app.use('/api/v1/programs', programsRoute);
+app.use('/api/v1/lessons',lessonsRoutes);
 app.use
 
 //Longwinded way to check if the routes exist.  Delete when done.
