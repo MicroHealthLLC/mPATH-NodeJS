@@ -7,7 +7,6 @@ const users = async (req, res) => {
     const users = await db.user.findAll();
 
     res.json(users);
-    console.log(users + "HI");
   } catch (error) {
     res.status(500).json({ error: "Error fetching users" });
   }

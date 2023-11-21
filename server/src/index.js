@@ -1,13 +1,8 @@
 require('dotenv').config();
-const PORT = 3000;
-const {db, User, Project} = require('./database/models'); // import models
+var expressWinston = require('express-winston');
+var winston = require('winston'); // for transports.Console https://github.com/winstonjs/winston
 
 const express = require('express');
-const authRoute = require('./routes/authRoutes');
-const profileRoute = require('./routes/profileRoute');
-const usersRoute = require('./routes/usersRoutes');
-const programsRoute = require('./routes/programsRoutes');
-const lessonsRoutes = require('./routes/lessonsRoutes');
 const cors = require('cors');
 
 const app = express();
@@ -16,13 +11,51 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+const authRoute = require('./routes/authRoutes');
+const profileRoute = require('./routes/profileRoute');
+const usersRoute = require('./routes/usersRoutes');
+const programsRoute = require('./routes/programsRoutes');
+const lessonsRoutes = require('./routes/lessonsRoutes');
+const {db} = require('./database/models'); // import models
+const PORT = 3000;
+
+	// express-winston logger makes sense BEFORE the router
+app.use(expressWinston.logger({
+	transports: [
+		new winston.transports.Console(),
+		new winston.transports.File({ filename: 'log/error.log', level: 'error' }),
+		new winston.transports.File({ filename: 'log/combined.log', maxsize: 100000000, zippedArchive: true, maxFiles: 5}),
+	],
+	format: winston.format.combine(
+		winston.format.colorize(),
+		winston.format.align(),
+		winston.format.json()
+	)
+}));
 
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/profile', profileRoute);
 app.use('/api/v1/users', usersRoute);
 app.use('/api/v1/programs', programsRoute);
-app.use('/api/v1/lessons',lessonsRoutes);
-app.use
+app.use('/api/v1/programs/:id/lessons',lessonsRoutes);
+
+// express-winston errorLogger makes sense AFTER the router.
+app.use(expressWinston.errorLogger({
+	transports: [
+		new winston.transports.Console()
+	],
+	format: winston.format.combine(
+		winston.format.colorize(),
+		winston.format.align(),
+		winston.format.json()
+	)
+}));
+// Optionally you can include your custom error handler after the logging.
+// app.use(express.errorLogger({
+// 	dumpExceptions: true,
+// 	showStack: true
+// }));
+
 
 //Longwinded way to check if the routes exist.  Delete when done.
 

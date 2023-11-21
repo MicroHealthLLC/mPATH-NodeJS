@@ -8,7 +8,7 @@ const index = async (req, res) => {
     res.json({ allLessons: allLessons });
 
   } catch (error) {
-    res.status(500).json({ error: "Error fetching lessions" });
+    res.status(500).json({ error: "Error fetching lessons" });
   }
 };
 
@@ -19,7 +19,7 @@ const show = async (req, res) => {
     res.json({ allLessons: allLessons });
 
   } catch (error) {
-    res.status(500).json({ error: "Error fetching lessions" });
+    res.status(500).json({ error: "Error fetching lessons" });
   }
 };
 

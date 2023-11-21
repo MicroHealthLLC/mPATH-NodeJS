@@ -1,23 +1,15 @@
 const bcrypt = require("bcrypt");
 
 const cryptPassword = (password, callback) => {
-  // bcrypt.genSalt(10, function(err, salt) {
-  //   if (err) 
-  //     return callback(err);
- 
-  //   bcrypt.hash(password, salt, function(err, hash) {
-  //     return callback(err, hash);
-  //   });
-  // });
   var saltRounds = 10
   return bcrypt
   .genSalt(saltRounds)
   .then(salt => {
-    console.log('Salt: ', salt)
+    // console.log('Salt: ', salt)
     return bcrypt.hash(password, salt)
   })
   .then(hash => {
-    console.log('Hash: ', hash)
+    // console.log('Hash: ', hash)
     return hash
   })
   .catch(err => console.error(err.message))
@@ -37,8 +29,7 @@ const comparePassword = async(plainPass, hashword, callback) => {
   return bcrypt
       .compare(plainPass, hashword)
       .then(res => {
-        console.log(res) // return true
-        return res
+        return res // return true
       })
       .catch(err => console.error(err.message))
 }

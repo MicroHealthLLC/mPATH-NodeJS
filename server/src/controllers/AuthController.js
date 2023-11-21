@@ -61,7 +61,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log("login", req.body)
+    // console.log("login", req.body)
 
     if (!email) {
       res.status(400).json({ error: "Email field is required" });
@@ -72,7 +72,7 @@ const login = async (req, res) => {
       // Find the user by email
       const user_db = await db.User.findOne({ where: { email } });
       
-      console.log("user", user_db)
+      // console.log("user", user_db)
 
       if (!user_db) {
         return res.status(404).json({ error: "User not found" });

@@ -1,0 +1,5370 @@
+{
+  "id": 12,
+  "name": "Program #1",
+  "description": "",
+  "created_at": "2021-06-09T00:10:23.000-04:00",
+  "updated_at": "2021-08-23T10:08:09.000-04:00",
+  "uuid": "70d0c9af-9a68-4c21-a984-96dc4d37ecd3",
+  "project_type_id": 1,
+  "status": "active",
+  "progress": 27,
+  "project_type": "Network Upgrade",
+  "users": [
+    {
+      "id": 12,
+      "email": "user1@example.com",
+      "first_name": "user1@example.com",
+      "last_name": "user1@example.com",
+      "title": "",
+      "phone_number": "",
+      "status": "active",
+      "full_name": "user1@example.com user1@example.com",
+      "organization": "Test Org"
+    },
+    {
+      "id": 13,
+      "email": "user2@example.com",
+      "first_name": "user2@example.com",
+      "last_name": "user2@example.com",
+      "title": "",
+      "phone_number": "+123456789",
+      "status": "active",
+      "full_name": "user2@example.com user2@example.com",
+      "organization": ""
+    },
+    {
+      "id": 22,
+      "email": "user3@example.com",
+      "first_name": "user3@example.com",
+      "last_name": "user3@example.com",
+      "title": "Tester",
+      "phone_number": "",
+      "status": "active",
+      "full_name": "user3@example.com user3@example.com",
+      "organization": ""
+    },
+    {
+      "id": 1,
+      "email": "user4@example.com",
+      "first_name": "user4@example.com",
+      "last_name": "user4@example.com",
+      "title": "CEO",
+      "phone_number": "+15713271211",
+      "status": "active",
+      "full_name": "user4@example.com user4@example.com",
+      "organization": "Test Org"
+    },
+    {
+      "id": 2,
+      "email": "user5@example.com",
+      "first_name": "user5@example.com",
+      "last_name": "user5@example.com",
+      "title": "Tester",
+      "phone_number": "+12487961824",
+      "status": "active",
+      "full_name": "user5@example.com user5@example.com",
+      "organization": "Org 1 Tests"
+    },
+    {
+      "id": 11,
+      "email": "admin@example.com",
+      "first_name": "admin@example.com",
+      "last_name": "admin@example.com",
+      "title": "Mr.",
+      "phone_number": "",
+      "status": "active",
+      "full_name": "admin@example.com admin@example.com",
+      "organization": "Test Org"
+    }
+  ],
+  "facilities": [
+    {
+      "id": 1424,
+      "facility_id": 1426,
+      "project_id": 12,
+      "created_at": "2021-06-09T00:10:23.000-04:00",
+      "updated_at": "2022-07-07T18:16:07.000-04:00",
+      "due_date": null,
+      "status_id": 2,
+      "progress": 37,
+      "color": "#ff0000",
+      "facility_group_id": 81,
+      "project_facility_group_id": null,
+      "class": "FacilityProject",
+      "project_status": "On Schedule",
+      "facility_project_id": 1424,
+      "facility_name": "Project Alpha",
+      "facility": {
+        "id": 1426,
+        "facility_name": "Project Alpha",
+        "region_name": 0,
+        "address":  "fake address",
+        "point_of_contact": "user1 ",
+        "phone_number": "+17034315628",
+        "email": "user1@example.com",
+        "created_at": "2021-06-08T23:42:05.000-04:00",
+        "updated_at": "2021-06-09T00:14:35.000-04:00",
+        "facility_group_id": 81,
+        "creator_id": 12,
+        "lat": "38.91545430000001",
+        "lng": "-77.2310674",
+        "status": "active",
+        "country_code": "US",
+        "project_facility_group_id": null,
+        "is_portfolio": true,
+        "project_id": 12,
+        "facility_group_name": "Unassigned",
+        "facility_group_status": "active"
+      },
+      "tasks": [
+        {
+          "id": 327,
+          "text": "Task #2",
+          "description": "This is task #2",
+          "due_date": "2021-06-16",
+          "created_at": "2021-06-14T14:18:50.000-04:00",
+          "updated_at": "2021-08-23T08:40:26.000-04:00",
+          "progress": 0,
+          "task_type_id": 3,
+          "start_date": "2021-06-01",
+          "facility_project_id": 1424,
+          "auto_calculate": true,
+          "watched": false,
+          "watched_at": null,
+          "task_stage_id": null,
+          "kanban_order": 0,
+          "important": false,
+          "ongoing": false,
+          "draft": false,
+          "on_hold": true,
+          "reportable": false,
+          "closed_date": null,
+          "contract_id": null,
+          "project_contract_id": null,
+          "project_contract_vehicle_id": null,
+          "owner_id": null,
+          "owner_type": null,
+          "planned_effort": "0",
+          "actual_effort": "0",
+          "auto_calculate_planned_effort": true,
+          "class_name": "Task",
+          "attach_files": [],
+          "progress_status": "active",
+          "task_type": "Site Assessment",
+          "task_stage": null,
+          "user_ids": [2, 22],
+          "due_date_duplicate": "2021-06-16",
+          "user_names": "user5@example.com user5@example.com, user3@example.com user3@example.com",
+          "users": [
+            {
+              "id": 2,
+              "email": "user5@example.com",
+              "first_name": "user5@example.com",
+              "last_name": "user5@example.com",
+              "title": "Tester",
+              "phone_number": "+12487961824",
+              "full_name": "user5@example.com user5@example.com",
+              "organization": "Org 1 Tests"
+            },
+            {
+              "id": 22,
+              "email": "user3@example.com",
+              "first_name": "user3@example.com",
+              "last_name": "user3@example.com",
+              "title": "Tester",
+              "phone_number": "",
+              "full_name": "user3@example.com user3@example.com",
+              "organization": ""
+            }
+          ],
+          "checklists": [
+            {
+              "id": 290,
+              "listable_type": "Task",
+              "listable_id": 327,
+              "checked": false,
+              "text": "dfdfd",
+              "created_at": "2021-06-14T14:18:50.000-04:00",
+              "updated_at": "2021-06-14T14:18:50.000-04:00",
+              "user_id": null,
+              "position": 0,
+              "due_date": "2021-06-10",
+              "planned_effort": "0.0",
+              "user": null,
+              "progress_lists": []
+            }
+          ],
+          "notes": [
+            {
+              "id": 280,
+              "noteable_type": "Task",
+              "noteable_id": 327,
+              "user_id": 12,
+              "body": "Additional research needed before work can continue.",
+              "created_at": "2021-08-23T08:52:53.000-04:00",
+              "updated_at": "2021-08-23T08:52:53.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            }
+          ],
+          "completed": false,
+          "program_name": "Program #1",
+          "project_group": "Unassigned",
+          "notes_updated_at": ["2021-08-23T08:52:53.000-04:00"],
+          "last_update": {
+            "id": 280,
+            "noteable_type": "Task",
+            "noteable_id": 327,
+            "user_id": 12,
+            "body": "Additional research needed before work can continue.",
+            "created_at": "2021-08-23T08:52:53.000-04:00",
+            "updated_at": "2021-08-23T08:52:53.000-04:00",
+            "user": {
+              "id": 12,
+              "full_name": "user1@example.com user1@example.com"
+            }
+          },
+          "is_overdue": false,
+          "planned": false,
+          "closed": false,
+          "in_progress": false,
+          "responsible_users": [
+            {
+              "id": 2,
+              "name": "user5@example.com user5@example.com"
+            }
+          ],
+          "responsible_users_last_name": ["user5@example.com"],
+          "responsible_users_first_name": ["user5@example.com"],
+          "accountable_users": [
+            {
+              "id": 22,
+              "name": "user3@example.com user3@example.com"
+            }
+          ],
+          "accountable_users_last_name": ["user3@example.com"],
+          "accountable_users_first_name": ["user3@example.com"],
+          "consulted_users": [],
+          "informed_users": [],
+          "responsible_user_ids": [2],
+          "accountable_user_ids": [22],
+          "consulted_user_ids": [],
+          "informed_user_ids": [],
+          "facility_id": 1426,
+          "facility_name": "Project Alpha",
+          "contract_nickname": null,
+          "vehicle_nickname": null,
+          "project_id": 12,
+          "sub_tasks": [],
+          "sub_issues": [],
+          "sub_task_ids": [],
+          "sub_issue_ids": [],
+          "sub_risk_ids": []
+        },
+        {
+          "id": 328,
+          "text": "Task #1",
+          "description": "",
+          "due_date": "2021-10-01",
+          "created_at": "2021-06-24T22:44:40.000-04:00",
+          "updated_at": "2021-08-23T08:48:54.000-04:00",
+          "progress": 75,
+          "task_type_id": 4,
+          "start_date": "2021-06-17",
+          "facility_project_id": 1424,
+          "auto_calculate": false,
+          "watched": true,
+          "watched_at": "2021-08-23T08:48:46.000-04:00",
+          "task_stage_id": 3,
+          "kanban_order": 0,
+          "important": false,
+          "ongoing": false,
+          "draft": false,
+          "on_hold": false,
+          "reportable": true,
+          "closed_date": null,
+          "contract_id": null,
+          "project_contract_id": null,
+          "project_contract_vehicle_id": null,
+          "owner_id": null,
+          "owner_type": null,
+          "planned_effort": "0",
+          "actual_effort": "0",
+          "auto_calculate_planned_effort": true,
+          "class_name": "Task",
+          "attach_files": [],
+          "progress_status": "active",
+          "task_type": "Training",
+          "task_stage": "Progressing",
+          "user_ids": [13, 22],
+          "due_date_duplicate": "2021-10-01",
+          "user_names": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+          "users": [
+            {
+              "id": 13,
+              "email": "user2@example.com",
+              "first_name": "user2@example.com",
+              "last_name": "user2@example.com",
+              "title": "",
+              "phone_number": "+123456789",
+              "full_name": "user2@example.com user2@example.com",
+              "organization": ""
+            },
+            {
+              "id": 22,
+              "email": "user3@example.com",
+              "first_name": "user3@example.com",
+              "last_name": "user3@example.com",
+              "title": "Tester",
+              "phone_number": "",
+              "full_name": "user3@example.com user3@example.com",
+              "organization": ""
+            }
+          ],
+          "checklists": [
+            {
+              "id": 291,
+              "listable_type": "Task",
+              "listable_id": 328,
+              "checked": false,
+              "text": "Checklist Item #1",
+              "created_at": "2021-06-24T22:47:27.000-04:00",
+              "updated_at": "2021-06-24T22:47:27.000-04:00",
+              "user_id": null,
+              "position": 0,
+              "due_date": null,
+              "planned_effort": "0.0",
+              "user": null,
+              "progress_lists": []
+            }
+          ],
+          "notes": [
+            {
+              "id": 260,
+              "noteable_type": "Task",
+              "noteable_id": 328,
+              "user_id": 12,
+              "body": "Another task update",
+              "created_at": "2021-07-15T18:49:18.000-04:00",
+              "updated_at": "2021-07-15T18:49:18.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            },
+            {
+              "id": 254,
+              "noteable_type": "Task",
+              "noteable_id": 328,
+              "user_id": 12,
+              "body": "This is an update at 6:38 PM on 7/15 by user1.  Performed an update on the update.",
+              "created_at": "2021-07-15T18:39:07.000-04:00",
+              "updated_at": "2021-07-15T18:49:47.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            },
+            {
+              "id": 226,
+              "noteable_type": "Task",
+              "noteable_id": 328,
+              "user_id": 12,
+              "body": "This an update at 10:49 pm on 6/24 by user1",
+              "created_at": "2021-06-24T22:49:35.000-04:00",
+              "updated_at": "2021-06-24T22:49:35.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            },
+            {
+              "id": 225,
+              "noteable_type": "Task",
+              "noteable_id": 328,
+              "user_id": 12,
+              "body": "This an update at 10:45 pm on 6/24 by user1.  Just wanted to add an update this one.",
+              "created_at": "2021-06-24T22:45:46.000-04:00",
+              "updated_at": "2021-07-15T18:48:46.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            },
+            {
+              "id": 224,
+              "noteable_type": "Task",
+              "noteable_id": 328,
+              "user_id": 12,
+              "body": "This an update at 10:44 pm on 6/24 by user1",
+              "created_at": "2021-06-24T22:45:04.000-04:00",
+              "updated_at": "2021-06-24T22:45:04.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            }
+          ],
+          "completed": false,
+          "program_name": "Program #1",
+          "project_group": "Unassigned",
+          "notes_updated_at": [
+            "2021-07-15T18:49:18.000-04:00",
+            "2021-07-15T18:39:07.000-04:00",
+            "2021-06-24T22:49:35.000-04:00",
+            "2021-06-24T22:45:46.000-04:00",
+            "2021-06-24T22:45:04.000-04:00"
+          ],
+          "last_update": {
+            "id": 260,
+            "noteable_type": "Task",
+            "noteable_id": 328,
+            "user_id": 12,
+            "body": "Another task update",
+            "created_at": "2021-07-15T18:49:18.000-04:00",
+            "updated_at": "2021-07-15T18:49:18.000-04:00",
+            "user": {
+              "id": 12,
+              "full_name": "user1@example.com user1@example.com"
+            }
+          },
+          "is_overdue": true,
+          "planned": false,
+          "closed": false,
+          "in_progress": false,
+          "responsible_users": [
+            {
+              "id": 13,
+              "name": "user2@example.com user2@example.com"
+            }
+          ],
+          "responsible_users_last_name": ["user2@example.com"],
+          "responsible_users_first_name": ["user2@example.com"],
+          "accountable_users": [
+            {
+              "id": 22,
+              "name": "user3@example.com user3@example.com"
+            }
+          ],
+          "accountable_users_last_name": ["user3@example.com"],
+          "accountable_users_first_name": ["user3@example.com"],
+          "consulted_users": [],
+          "informed_users": [],
+          "responsible_user_ids": [13],
+          "accountable_user_ids": [22],
+          "consulted_user_ids": [],
+          "informed_user_ids": [],
+          "facility_id": 1426,
+          "facility_name": "Project Alpha",
+          "contract_nickname": null,
+          "vehicle_nickname": null,
+          "project_id": 12,
+          "sub_tasks": [],
+          "sub_issues": [],
+          "sub_task_ids": [],
+          "sub_issue_ids": [],
+          "sub_risk_ids": []
+        },
+        {
+          "id": 333,
+          "text": "Task #3",
+          "description": "This is task #3",
+          "due_date": "2021-10-01",
+          "created_at": "2021-08-23T08:45:55.000-04:00",
+          "updated_at": "2021-08-23T08:49:22.000-04:00",
+          "progress": 0,
+          "task_type_id": 3,
+          "start_date": "2021-09-01",
+          "facility_project_id": 1424,
+          "auto_calculate": true,
+          "watched": false,
+          "watched_at": null,
+          "task_stage_id": null,
+          "kanban_order": 0,
+          "important": true,
+          "ongoing": false,
+          "draft": false,
+          "on_hold": false,
+          "reportable": false,
+          "closed_date": null,
+          "contract_id": null,
+          "project_contract_id": null,
+          "project_contract_vehicle_id": null,
+          "owner_id": null,
+          "owner_type": null,
+          "planned_effort": "0",
+          "actual_effort": "0",
+          "auto_calculate_planned_effort": true,
+          "class_name": "Task",
+          "attach_files": [],
+          "progress_status": "active",
+          "task_type": "Site Assessment",
+          "task_stage": null,
+          "user_ids": [13, 22],
+          "due_date_duplicate": "2021-10-01",
+          "user_names": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+          "users": [
+            {
+              "id": 13,
+              "email": "user2@example.com",
+              "first_name": "user2@example.com",
+              "last_name": "user2@example.com",
+              "title": "",
+              "phone_number": "+123456789",
+              "full_name": "user2@example.com user2@example.com",
+              "organization": ""
+            },
+            {
+              "id": 22,
+              "email": "user3@example.com",
+              "first_name": "user3@example.com",
+              "last_name": "user3@example.com",
+              "title": "Tester",
+              "phone_number": "",
+              "full_name": "user3@example.com user3@example.com",
+              "organization": ""
+            }
+          ],
+          "checklists": [],
+          "notes": [],
+          "completed": false,
+          "program_name": "Program #1",
+          "project_group": "Unassigned",
+          "notes_updated_at": [],
+          "last_update": null,
+          "is_overdue": true,
+          "planned": false,
+          "closed": false,
+          "in_progress": false,
+          "responsible_users": [
+            {
+              "id": 22,
+              "name": "user3@example.com user3@example.com"
+            }
+          ],
+          "responsible_users_last_name": ["user3@example.com"],
+          "responsible_users_first_name": ["user3@example.com"],
+          "accountable_users": [
+            {
+              "id": 13,
+              "name": "user2@example.com user2@example.com"
+            }
+          ],
+          "accountable_users_last_name": ["user2@example.com"],
+          "accountable_users_first_name": ["user2@example.com"],
+          "consulted_users": [],
+          "informed_users": [],
+          "responsible_user_ids": [22],
+          "accountable_user_ids": [13],
+          "consulted_user_ids": [],
+          "informed_user_ids": [],
+          "facility_id": 1426,
+          "facility_name": "Project Alpha",
+          "contract_nickname": null,
+          "vehicle_nickname": null,
+          "project_id": 12,
+          "sub_tasks": [],
+          "sub_issues": [],
+          "sub_task_ids": [],
+          "sub_issue_ids": [],
+          "sub_risk_ids": []
+        },
+        {
+          "id": 334,
+          "text": "Task #4",
+          "description": "This is task #4",
+          "due_date": "2021-11-01",
+          "created_at": "2021-08-23T08:47:13.000-04:00",
+          "updated_at": "2021-08-23T08:47:13.000-04:00",
+          "progress": 0,
+          "task_type_id": 4,
+          "start_date": "2021-10-01",
+          "facility_project_id": 1424,
+          "auto_calculate": true,
+          "watched": false,
+          "watched_at": null,
+          "task_stage_id": null,
+          "kanban_order": 0,
+          "important": false,
+          "ongoing": false,
+          "draft": true,
+          "on_hold": false,
+          "reportable": false,
+          "closed_date": null,
+          "contract_id": null,
+          "project_contract_id": null,
+          "project_contract_vehicle_id": null,
+          "owner_id": null,
+          "owner_type": null,
+          "planned_effort": "0",
+          "actual_effort": "0",
+          "auto_calculate_planned_effort": true,
+          "class_name": "Task",
+          "attach_files": [],
+          "progress_status": "active",
+          "task_type": "Training",
+          "task_stage": null,
+          "user_ids": [2, 13],
+          "due_date_duplicate": "2021-11-01",
+          "user_names": "user5@example.com user5@example.com, user2@example.com user2@example.com",
+          "users": [
+            {
+              "id": 2,
+              "email": "user5@example.com",
+              "first_name": "user5@example.com",
+              "last_name": "user5@example.com",
+              "title": "Tester",
+              "phone_number": "+12487961824",
+              "full_name": "user5@example.com user5@example.com",
+              "organization": "Org 1 Tests"
+            },
+            {
+              "id": 13,
+              "email": "user2@example.com",
+              "first_name": "user2@example.com",
+              "last_name": "user2@example.com",
+              "title": "",
+              "phone_number": "+123456789",
+              "full_name": "user2@example.com user2@example.com",
+              "organization": ""
+            }
+          ],
+          "checklists": [],
+          "notes": [],
+          "completed": false,
+          "program_name": "Program #1",
+          "project_group": "Unassigned",
+          "notes_updated_at": [],
+          "last_update": null,
+          "is_overdue": false,
+          "planned": false,
+          "closed": false,
+          "in_progress": false,
+          "responsible_users": [
+            {
+              "id": 2,
+              "name": "user5@example.com user5@example.com"
+            }
+          ],
+          "responsible_users_last_name": ["user5@example.com"],
+          "responsible_users_first_name": ["user5@example.com"],
+          "accountable_users": [
+            {
+              "id": 13,
+              "name": "user2@example.com user2@example.com"
+            }
+          ],
+          "accountable_users_last_name": ["user2@example.com"],
+          "accountable_users_first_name": ["user2@example.com"],
+          "consulted_users": [],
+          "informed_users": [],
+          "responsible_user_ids": [2],
+          "accountable_user_ids": [13],
+          "consulted_user_ids": [],
+          "informed_user_ids": [],
+          "facility_id": 1426,
+          "facility_name": "Project Alpha",
+          "contract_nickname": null,
+          "vehicle_nickname": null,
+          "project_id": 12,
+          "sub_tasks": [],
+          "sub_issues": [],
+          "sub_task_ids": [],
+          "sub_issue_ids": [],
+          "sub_risk_ids": []
+        }
+      ],
+      "issues": [
+        {
+          "id": 92,
+          "title": "Issue #1",
+          "description": "This is issue #1",
+          "issue_type_id": 2,
+          "issue_severity_id": 2,
+          "facility_project_id": 1424,
+          "start_date": "2021-08-01",
+          "due_date": "2021-09-01",
+          "created_at": "2021-08-23T09:05:07.000-04:00",
+          "updated_at": "2021-08-23T13:02:29.000-04:00",
+          "progress": 75,
+          "auto_calculate": false,
+          "watched": true,
+          "watched_at": "2021-08-23T09:05:20.000-04:00",
+          "issue_stage_id": 3,
+          "kanban_order": 0,
+          "task_type_id": 4,
+          "important": false,
+          "draft": false,
+          "on_hold": false,
+          "reportable": true,
+          "contract_id": null,
+          "project_contract_id": null,
+          "project_contract_vehicle_id": null,
+          "owner_id": null,
+          "owner_type": null,
+          "class_name": "Issue",
+          "progress_status": "active",
+          "attach_files": [],
+          "completed": false,
+          "planned": false,
+          "program_name": "Program #1",
+          "in_progress": false,
+          "issue_type": "Issue type 1",
+          "project_group": "Unassigned",
+          "issue_stage": "In Progress",
+          "issue_severity": "low severity",
+          "task_type_name": "Training",
+          "due_date_duplicate": "2021-09-01",
+          "responsible_user_names": "user5@example.com user5@example.com, user2@example.com user2@example.com",
+          "user_names": "user5@example.com user5@example.com, user2@example.com user2@example.com",
+          "user_ids": [2, 13],
+          "users": [
+            {
+              "id": 2,
+              "email": "user5@example.com",
+              "first_name": "user5@example.com",
+              "last_name": "user5@example.com",
+              "title": "Tester",
+              "phone_number": "+12487961824",
+              "full_name": "user5@example.com user5@example.com",
+              "organization": "Org 1 Tests"
+            },
+            {
+              "id": 13,
+              "email": "user2@example.com",
+              "first_name": "user2@example.com",
+              "last_name": "user2@example.com",
+              "title": "",
+              "phone_number": "+123456789",
+              "full_name": "user2@example.com user2@example.com",
+              "organization": ""
+            }
+          ],
+          "is_overdue": true,
+          "responsible_users": [
+            {
+              "id": 13,
+              "name": "user2@example.com user2@example.com"
+            }
+          ],
+          "responsible_users_last_name": ["user2@example.com"],
+          "responsible_users_first_name": ["user2@example.com"],
+          "accountable_users": [
+            {
+              "id": 2,
+              "name": "user5@example.com user5@example.com"
+            }
+          ],
+          "accountable_users_last_name": ["user5@example.com"],
+          "accountable_users_first_name": ["user5@example.com"],
+          "consulted_users": [],
+          "informed_users": [],
+          "responsible_user_ids": [13],
+          "accountable_user_ids": [2],
+          "consulted_user_ids": [],
+          "informed_user_ids": [],
+          "checklists": [],
+          "notes": [
+            {
+              "id": 284,
+              "noteable_type": "Issue",
+              "noteable_id": 92,
+              "user_id": 12,
+              "body": "This issue does not appear to represent any risk.",
+              "created_at": "2021-08-23T09:05:07.000-04:00",
+              "updated_at": "2021-08-23T09:05:07.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            }
+          ],
+          "notes_updated_at": ["2021-08-23T09:05:07.000-04:00"],
+          "last_update": {
+            "id": 284,
+            "noteable_type": "Issue",
+            "noteable_id": 92,
+            "user_id": 12,
+            "body": "This issue does not appear to represent any risk.",
+            "created_at": "2021-08-23T09:05:07.000-04:00",
+            "updated_at": "2021-08-23T09:05:07.000-04:00",
+            "user": {
+              "id": 12,
+              "full_name": "user1@example.com user1@example.com"
+            }
+          },
+          "facility_id": 1426,
+          "facility_name": "Project Alpha",
+          "contract_nickname": null,
+          "vehicle_nickname": null,
+          "project_id": 12,
+          "sub_tasks": [],
+          "sub_issues": [],
+          "sub_task_ids": [],
+          "sub_issue_ids": [],
+          "sub_risk_ids": []
+        }
+      ],
+      "risks": [
+        {
+          "id": 64,
+          "risk_description": "This is risk #1",
+          "impact_description": "There is no impact because the functionality is no longer applicable.",
+          "start_date": "2021-08-02",
+          "due_date": "2021-08-23",
+          "auto_calculate": true,
+          "progress": 0,
+          "probability": 2,
+          "impact_level": 1,
+          "priority_level": 2,
+          "risk_approach": "mitigate",
+          "risk_approach_description": "The functionality causing the risk is being removed.",
+          "watched": false,
+          "watched_at": null,
+          "user_id": 12,
+          "facility_project_id": 1424,
+          "created_at": "2021-08-23T09:12:12.000-04:00",
+          "updated_at": "2022-08-08T09:43:44.000-04:00",
+          "task_type_id": 3,
+          "text": "Risk #1",
+          "kanban_order": 0,
+          "risk_stage_id": 2,
+          "probability_name": "2 - Unlikely",
+          "impact_level_name": "1 - Negligible",
+          "probability_description": "It does not appear that this is a problem",
+          "approval_time": "user1  on 8/23/2021, 9:12:23 AM",
+          "approved": true,
+          "important": false,
+          "ongoing": true,
+          "draft": false,
+          "on_hold": false,
+          "explanation": "Functionality causing the risk has been removed so the risk is able to be closed.",
+          "duration": 1,
+          "status": null,
+          "duration_name": "Temporary",
+          "status_name": "Monitoring",
+          "reportable": false,
+          "closed_date": null,
+          "contract_id": null,
+          "project_contract_id": null,
+          "project_contract_vehicle_id": null,
+          "owner_id": 1424,
+          "owner_type": "FacilityProject",
+          "priority_level_name": "Low",
+          "task_type": {
+            "id": 3,
+            "name": "Site Assessment",
+            "created_at": "2020-02-27T14:44:48.000-05:00",
+            "updated_at": "2021-03-18T15:06:04.000-04:00",
+            "progress": 20
+          },
+          "category": "Site Assessment",
+          "risk_stage": "In Progress",
+          "class_name": "Risk",
+          "completed": false,
+          "planned": false,
+          "project_group": "Unassigned",
+          "program_name": "Program #1",
+          "closed": false,
+          "in_progress": false,
+          "attach_files": [],
+          "progress_status": "active",
+          "checklists": [],
+          "due_date_duplicate": "2021-08-23",
+          "facility_id": 1426,
+          "facility_name": "Project Alpha",
+          "user_ids": [13, 22],
+          "risk_owners": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+          "users": [
+            {
+              "id": 13,
+              "email": "user2@example.com",
+              "first_name": "user2@example.com",
+              "last_name": "user2@example.com",
+              "title": "",
+              "phone_number": "+123456789",
+              "full_name": "user2@example.com user2@example.com",
+              "organization": ""
+            },
+            {
+              "id": 22,
+              "email": "user3@example.com",
+              "first_name": "user3@example.com",
+              "last_name": "user3@example.com",
+              "title": "Tester",
+              "phone_number": "",
+              "full_name": "user3@example.com user3@example.com",
+              "organization": ""
+            }
+          ],
+          "user_names": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+          "is_overdue": false,
+          "responsible_users": [
+            {
+              "id": 22,
+              "name": "user3@example.com user3@example.com"
+            }
+          ],
+          "responsible_users_last_name": ["user3@example.com"],
+          "responsible_users_first_name": ["user3@example.com"],
+          "accountable_users": [
+            {
+              "id": 13,
+              "name": "user2@example.com user2@example.com"
+            }
+          ],
+          "accountable_users_last_name": ["user2@example.com"],
+          "accountable_users_first_name": ["user2@example.com"],
+          "consulted_users": [],
+          "informed_users": [],
+          "responsible_user_ids": [22],
+          "accountable_user_ids": [13],
+          "consulted_user_ids": [],
+          "informed_user_ids": [],
+          "risk_approver": [],
+          "risk_approver_user_ids": [],
+          "notes": [
+            {
+              "id": 288,
+              "noteable_type": "Risk",
+              "noteable_id": 64,
+              "user_id": 12,
+              "body": "The functionality in question has been removed.",
+              "created_at": "2021-08-23T10:30:43.000-04:00",
+              "updated_at": "2021-08-23T10:30:43.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            }
+          ],
+          "contract_nickname": null,
+          "vehicle_nickname": null,
+          "notes_updated_at": ["2021-08-23T10:30:43.000-04:00"],
+          "last_update": {
+            "id": 288,
+            "noteable_type": "Risk",
+            "noteable_id": 64,
+            "user_id": 12,
+            "body": "The functionality in question has been removed.",
+            "created_at": "2021-08-23T10:30:43.000-04:00",
+            "updated_at": "2021-08-23T10:30:43.000-04:00",
+            "user": {
+              "id": 12,
+              "full_name": "user1@example.com user1@example.com"
+            }
+          },
+          "project_id": 12,
+          "sub_tasks": [],
+          "sub_issues": [],
+          "sub_risks": [],
+          "sub_task_ids": [],
+          "sub_issue_ids": [],
+          "sub_risk_ids": []
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": 1425,
+      "facility_id": 1427,
+      "project_id": 12,
+      "created_at": "2021-06-09T00:13:47.000-04:00",
+      "updated_at": "2022-07-07T18:16:07.000-04:00",
+      "due_date": null,
+      "status_id": 4,
+      "progress": 25,
+      "color": "#ff0000",
+      "facility_group_id": 81,
+      "project_facility_group_id": null,
+      "class": "FacilityProject",
+      "project_status": "Not Started",
+      "facility_project_id": 1425,
+      "facility_name": "Project Beta",
+      "facility": {
+        "id": 1427,
+        "facility_name": "Project Beta",
+        "region_name": 0,
+        "address": "fake address",
+        "point_of_contact": "user1 ",
+        "phone_number": "+17034315628",
+        "email": "user1@example.com",
+        "created_at": "2021-06-09T00:13:47.000-04:00",
+        "updated_at": "2021-06-09T00:14:47.000-04:00",
+        "facility_group_id": 81,
+        "creator_id": 12,
+        "lat": "38.91545430000001",
+        "lng": "-77.2310674",
+        "status": "active",
+        "country_code": "US",
+        "project_facility_group_id": null,
+        "is_portfolio": true,
+        "project_id": 12,
+        "facility_group_name": "Unassigned",
+        "facility_group_status": "active"
+      },
+      "tasks": [
+        {
+          "id": 335,
+          "text": "Task #5",
+          "description": "This is task #5",
+          "due_date": "2021-08-20",
+          "created_at": "2021-08-23T08:51:26.000-04:00",
+          "updated_at": "2021-08-23T12:23:01.000-04:00",
+          "progress": 50,
+          "task_type_id": 3,
+          "start_date": "2021-08-01",
+          "facility_project_id": 1425,
+          "auto_calculate": false,
+          "watched": false,
+          "watched_at": null,
+          "task_stage_id": 3,
+          "kanban_order": 1,
+          "important": false,
+          "ongoing": false,
+          "draft": false,
+          "on_hold": false,
+          "reportable": true,
+          "closed_date": null,
+          "contract_id": null,
+          "project_contract_id": null,
+          "project_contract_vehicle_id": null,
+          "owner_id": null,
+          "owner_type": null,
+          "planned_effort": "0",
+          "actual_effort": "0",
+          "auto_calculate_planned_effort": true,
+          "class_name": "Task",
+          "attach_files": [],
+          "progress_status": "active",
+          "task_type": "Site Assessment",
+          "task_stage": "Progressing",
+          "user_ids": [13, 22],
+          "due_date_duplicate": "2021-08-20",
+          "user_names": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+          "users": [
+            {
+              "id": 13,
+              "email": "user2@example.com",
+              "first_name": "user2@example.com",
+              "last_name": "user2@example.com",
+              "title": "",
+              "phone_number": "+123456789",
+              "full_name": "user2@example.com user2@example.com",
+              "organization": ""
+            },
+            {
+              "id": 22,
+              "email": "user3@example.com",
+              "first_name": "user3@example.com",
+              "last_name": "user3@example.com",
+              "title": "Tester",
+              "phone_number": "",
+              "full_name": "user3@example.com user3@example.com",
+              "organization": ""
+            }
+          ],
+          "checklists": [],
+          "notes": [
+            {
+              "id": 279,
+              "noteable_type": "Task",
+              "noteable_id": 335,
+              "user_id": 12,
+              "body": "Delays caused by changes to the environment.",
+              "created_at": "2021-08-23T08:52:10.000-04:00",
+              "updated_at": "2021-08-23T08:52:10.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            }
+          ],
+          "completed": false,
+          "program_name": "Program #1",
+          "project_group": "Unassigned",
+          "notes_updated_at": ["2021-08-23T08:52:10.000-04:00"],
+          "last_update": {
+            "id": 279,
+            "noteable_type": "Task",
+            "noteable_id": 335,
+            "user_id": 12,
+            "body": "Delays caused by changes to the environment.",
+            "created_at": "2021-08-23T08:52:10.000-04:00",
+            "updated_at": "2021-08-23T08:52:10.000-04:00",
+            "user": {
+              "id": 12,
+              "full_name": "user1@example.com user1@example.com"
+            }
+          },
+          "is_overdue": true,
+          "planned": false,
+          "closed": false,
+          "in_progress": false,
+          "responsible_users": [
+            {
+              "id": 13,
+              "name": "user2@example.com user2@example.com"
+            }
+          ],
+          "responsible_users_last_name": ["user2@example.com"],
+          "responsible_users_first_name": ["user2@example.com"],
+          "accountable_users": [
+            {
+              "id": 22,
+              "name": "user3@example.com user3@example.com"
+            }
+          ],
+          "accountable_users_last_name": ["user3@example.com"],
+          "accountable_users_first_name": ["user3@example.com"],
+          "consulted_users": [],
+          "informed_users": [],
+          "responsible_user_ids": [13],
+          "accountable_user_ids": [22],
+          "consulted_user_ids": [],
+          "informed_user_ids": [],
+          "facility_id": 1427,
+          "facility_name": "Project Beta",
+          "contract_nickname": null,
+          "vehicle_nickname": null,
+          "project_id": 12,
+          "sub_tasks": [],
+          "sub_issues": [],
+          "sub_task_ids": [],
+          "sub_issue_ids": [],
+          "sub_risk_ids": []
+        },
+        {
+          "id": 336,
+          "text": "Task #6",
+          "description": "This is task #6",
+          "due_date": "2021-08-20",
+          "created_at": "2021-08-23T08:54:45.000-04:00",
+          "updated_at": "2021-08-23T12:23:09.000-04:00",
+          "progress": 100,
+          "task_type_id": 4,
+          "start_date": "2021-08-01",
+          "facility_project_id": 1425,
+          "auto_calculate": false,
+          "watched": false,
+          "watched_at": null,
+          "task_stage_id": 3,
+          "kanban_order": 2,
+          "important": true,
+          "ongoing": false,
+          "draft": false,
+          "on_hold": false,
+          "reportable": true,
+          "closed_date": null,
+          "contract_id": null,
+          "project_contract_id": null,
+          "project_contract_vehicle_id": null,
+          "owner_id": null,
+          "owner_type": null,
+          "planned_effort": "0",
+          "actual_effort": "0",
+          "auto_calculate_planned_effort": true,
+          "class_name": "Task",
+          "attach_files": [],
+          "progress_status": "completed",
+          "task_type": "Training",
+          "task_stage": "Progressing",
+          "user_ids": [2, 13],
+          "due_date_duplicate": "2021-08-20",
+          "user_names": "user5@example.com user5@example.com, user2@example.com user2@example.com",
+          "users": [
+            {
+              "id": 2,
+              "email": "user5@example.com",
+              "first_name": "user5@example.com",
+              "last_name": "user5@example.com",
+              "title": "Tester",
+              "phone_number": "+12487961824",
+              "full_name": "user5@example.com user5@example.com",
+              "organization": "Org 1 Tests"
+            },
+            {
+              "id": 13,
+              "email": "user2@example.com",
+              "first_name": "user2@example.com",
+              "last_name": "user2@example.com",
+              "title": "",
+              "phone_number": "+123456789",
+              "full_name": "user2@example.com user2@example.com",
+              "organization": ""
+            }
+          ],
+          "checklists": [],
+          "notes": [
+            {
+              "id": 281,
+              "noteable_type": "Task",
+              "noteable_id": 336,
+              "user_id": 12,
+              "body": "Task completed successfully with no issues or concerns.",
+              "created_at": "2021-08-23T08:54:45.000-04:00",
+              "updated_at": "2021-08-23T08:54:45.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            }
+          ],
+          "completed": true,
+          "program_name": "Program #1",
+          "project_group": "Unassigned",
+          "notes_updated_at": ["2021-08-23T08:54:45.000-04:00"],
+          "last_update": {
+            "id": 281,
+            "noteable_type": "Task",
+            "noteable_id": 336,
+            "user_id": 12,
+            "body": "Task completed successfully with no issues or concerns.",
+            "created_at": "2021-08-23T08:54:45.000-04:00",
+            "updated_at": "2021-08-23T08:54:45.000-04:00",
+            "user": {
+              "id": 12,
+              "full_name": "user1@example.com user1@example.com"
+            }
+          },
+          "is_overdue": false,
+          "planned": false,
+          "closed": false,
+          "in_progress": false,
+          "responsible_users": [
+            {
+              "id": 2,
+              "name": "user5@example.com user5@example.com"
+            }
+          ],
+          "responsible_users_last_name": ["user5@example.com"],
+          "responsible_users_first_name": ["user5@example.com"],
+          "accountable_users": [
+            {
+              "id": 13,
+              "name": "user2@example.com user2@example.com"
+            }
+          ],
+          "accountable_users_last_name": ["user2@example.com"],
+          "accountable_users_first_name": ["user2@example.com"],
+          "consulted_users": [],
+          "informed_users": [],
+          "responsible_user_ids": [2],
+          "accountable_user_ids": [13],
+          "consulted_user_ids": [],
+          "informed_user_ids": [],
+          "facility_id": 1427,
+          "facility_name": "Project Beta",
+          "contract_nickname": null,
+          "vehicle_nickname": null,
+          "project_id": 12,
+          "sub_tasks": [],
+          "sub_issues": [],
+          "sub_task_ids": [],
+          "sub_issue_ids": [],
+          "sub_risk_ids": []
+        },
+        {
+          "id": 338,
+          "text": "Task #8",
+          "description": "This is task #8",
+          "due_date": "2021-08-27",
+          "created_at": "2021-08-23T09:01:07.000-04:00",
+          "updated_at": "2021-08-29T19:29:41.000-04:00",
+          "progress": 0,
+          "task_type_id": 4,
+          "start_date": "2021-08-01",
+          "facility_project_id": 1425,
+          "auto_calculate": true,
+          "watched": false,
+          "watched_at": null,
+          "task_stage_id": 4,
+          "kanban_order": 0,
+          "important": false,
+          "ongoing": true,
+          "draft": false,
+          "on_hold": false,
+          "reportable": false,
+          "closed_date": null,
+          "contract_id": null,
+          "project_contract_id": null,
+          "project_contract_vehicle_id": null,
+          "owner_id": null,
+          "owner_type": null,
+          "planned_effort": "0",
+          "actual_effort": "0",
+          "auto_calculate_planned_effort": true,
+          "class_name": "Task",
+          "attach_files": [],
+          "progress_status": "active",
+          "task_type": "Training",
+          "task_stage": "In Review",
+          "user_ids": [2, 13],
+          "due_date_duplicate": "2021-08-27",
+          "user_names": "user5@example.com user5@example.com, user2@example.com user2@example.com",
+          "users": [
+            {
+              "id": 2,
+              "email": "user5@example.com",
+              "first_name": "user5@example.com",
+              "last_name": "user5@example.com",
+              "title": "Tester",
+              "phone_number": "+12487961824",
+              "full_name": "user5@example.com user5@example.com",
+              "organization": "Org 1 Tests"
+            },
+            {
+              "id": 13,
+              "email": "user2@example.com",
+              "first_name": "user2@example.com",
+              "last_name": "user2@example.com",
+              "title": "",
+              "phone_number": "+123456789",
+              "full_name": "user2@example.com user2@example.com",
+              "organization": ""
+            }
+          ],
+          "checklists": [],
+          "notes": [
+            {
+              "id": 283,
+              "noteable_type": "Task",
+              "noteable_id": 338,
+              "user_id": 12,
+              "body": "It has been determined that is ongoing task can be closed as no longer applicable.",
+              "created_at": "2021-08-23T09:01:07.000-04:00",
+              "updated_at": "2021-08-23T09:01:07.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            }
+          ],
+          "completed": false,
+          "program_name": "Program #1",
+          "project_group": "Unassigned",
+          "notes_updated_at": ["2021-08-23T09:01:07.000-04:00"],
+          "last_update": {
+            "id": 283,
+            "noteable_type": "Task",
+            "noteable_id": 338,
+            "user_id": 12,
+            "body": "It has been determined that is ongoing task can be closed as no longer applicable.",
+            "created_at": "2021-08-23T09:01:07.000-04:00",
+            "updated_at": "2021-08-23T09:01:07.000-04:00",
+            "user": {
+              "id": 12,
+              "full_name": "user1@example.com user1@example.com"
+            }
+          },
+          "is_overdue": false,
+          "planned": false,
+          "closed": false,
+          "in_progress": false,
+          "responsible_users": [
+            {
+              "id": 2,
+              "name": "user5@example.com user5@example.com"
+            }
+          ],
+          "responsible_users_last_name": ["user5@example.com"],
+          "responsible_users_first_name": ["user5@example.com"],
+          "accountable_users": [
+            {
+              "id": 13,
+              "name": "user2@example.com user2@example.com"
+            }
+          ],
+          "accountable_users_last_name": ["user2@example.com"],
+          "accountable_users_first_name": ["user2@example.com"],
+          "consulted_users": [],
+          "informed_users": [],
+          "responsible_user_ids": [2],
+          "accountable_user_ids": [13],
+          "consulted_user_ids": [],
+          "informed_user_ids": [],
+          "facility_id": 1427,
+          "facility_name": "Project Beta",
+          "contract_nickname": null,
+          "vehicle_nickname": null,
+          "project_id": 12,
+          "sub_tasks": [],
+          "sub_issues": [],
+          "sub_task_ids": [],
+          "sub_issue_ids": [],
+          "sub_risk_ids": []
+        },
+        {
+          "id": 337,
+          "text": "Task #7",
+          "description": "This is task #7",
+          "due_date": null,
+          "created_at": "2021-08-23T08:58:31.000-04:00",
+          "updated_at": "2021-08-23T12:23:15.000-04:00",
+          "progress": 0,
+          "task_type_id": 3,
+          "start_date": "2021-08-01",
+          "facility_project_id": 1425,
+          "auto_calculate": true,
+          "watched": false,
+          "watched_at": null,
+          "task_stage_id": 3,
+          "kanban_order": 3,
+          "important": false,
+          "ongoing": true,
+          "draft": false,
+          "on_hold": false,
+          "reportable": false,
+          "closed_date": null,
+          "contract_id": null,
+          "project_contract_id": null,
+          "project_contract_vehicle_id": null,
+          "owner_id": null,
+          "owner_type": null,
+          "planned_effort": "0",
+          "actual_effort": "0",
+          "auto_calculate_planned_effort": true,
+          "class_name": "Task",
+          "attach_files": [],
+          "progress_status": "active",
+          "task_type": "Site Assessment",
+          "task_stage": "Progressing",
+          "user_ids": [2, 22],
+          "due_date_duplicate": null,
+          "user_names": "user5@example.com user5@example.com, user3@example.com user3@example.com",
+          "users": [
+            {
+              "id": 2,
+              "email": "user5@example.com",
+              "first_name": "user5@example.com",
+              "last_name": "user5@example.com",
+              "title": "Tester",
+              "phone_number": "+12487961824",
+              "full_name": "user5@example.com user5@example.com",
+              "organization": "Org 1 Tests"
+            },
+            {
+              "id": 22,
+              "email": "user3@example.com",
+              "first_name": "user3@example.com",
+              "last_name": "user3@example.com",
+              "title": "Tester",
+              "phone_number": "",
+              "full_name": "user3@example.com user3@example.com",
+              "organization": ""
+            }
+          ],
+          "checklists": [],
+          "notes": [
+            {
+              "id": 282,
+              "noteable_type": "Task",
+              "noteable_id": 337,
+              "user_id": 12,
+              "body": "Analysis of the blue sector of the site will be performed in the background for the foreseeable future.",
+              "created_at": "2021-08-23T08:58:31.000-04:00",
+              "updated_at": "2021-08-23T08:58:31.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            }
+          ],
+          "completed": false,
+          "program_name": "Program #1",
+          "project_group": "Unassigned",
+          "notes_updated_at": ["2021-08-23T08:58:31.000-04:00"],
+          "last_update": {
+            "id": 282,
+            "noteable_type": "Task",
+            "noteable_id": 337,
+            "user_id": 12,
+            "body": "Analysis of the blue sector of the site will be performed in the background for the foreseeable future.",
+            "created_at": "2021-08-23T08:58:31.000-04:00",
+            "updated_at": "2021-08-23T08:58:31.000-04:00",
+            "user": {
+              "id": 12,
+              "full_name": "user1@example.com user1@example.com"
+            }
+          },
+          "is_overdue": false,
+          "planned": false,
+          "closed": false,
+          "in_progress": false,
+          "responsible_users": [
+            {
+              "id": 22,
+              "name": "user3@example.com user3@example.com"
+            }
+          ],
+          "responsible_users_last_name": ["user3@example.com"],
+          "responsible_users_first_name": ["user3@example.com"],
+          "accountable_users": [
+            {
+              "id": 2,
+              "name": "user5@example.com user5@example.com"
+            }
+          ],
+          "accountable_users_last_name": ["user5@example.com"],
+          "accountable_users_first_name": ["user5@example.com"],
+          "consulted_users": [],
+          "informed_users": [],
+          "responsible_user_ids": [22],
+          "accountable_user_ids": [2],
+          "consulted_user_ids": [],
+          "informed_user_ids": [],
+          "facility_id": 1427,
+          "facility_name": "Project Beta",
+          "contract_nickname": null,
+          "vehicle_nickname": null,
+          "project_id": 12,
+          "sub_tasks": [],
+          "sub_issues": [],
+          "sub_task_ids": [],
+          "sub_issue_ids": [],
+          "sub_risk_ids": []
+        }
+      ],
+      "issues": [
+        {
+          "id": 89,
+          "title": "Issue A",
+          "description": "",
+          "issue_type_id": 4,
+          "issue_severity_id": 2,
+          "facility_project_id": 1425,
+          "start_date": "2021-07-02",
+          "due_date": "2021-07-27",
+          "created_at": "2021-07-15T18:43:03.000-04:00",
+          "updated_at": "2021-08-24T16:58:36.000-04:00",
+          "progress": 0,
+          "auto_calculate": false,
+          "watched": false,
+          "watched_at": null,
+          "issue_stage_id": 2,
+          "kanban_order": 0,
+          "task_type_id": null,
+          "important": false,
+          "draft": false,
+          "on_hold": false,
+          "reportable": false,
+          "contract_id": null,
+          "project_contract_id": null,
+          "project_contract_vehicle_id": null,
+          "owner_id": null,
+          "owner_type": null,
+          "class_name": "Issue",
+          "progress_status": "active",
+          "attach_files": [],
+          "completed": false,
+          "planned": false,
+          "program_name": "Program #1",
+          "in_progress": false,
+          "issue_type": "Issue type 3",
+          "project_group": "Unassigned",
+          "issue_stage": "Not Started",
+          "issue_severity": "low severity",
+          "task_type_name": null,
+          "due_date_duplicate": "2021-07-27",
+          "responsible_user_names": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+          "user_names": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+          "user_ids": [13, 22],
+          "users": [
+            {
+              "id": 13,
+              "email": "user2@example.com",
+              "first_name": "user2@example.com",
+              "last_name": "user2@example.com",
+              "title": "",
+              "phone_number": "+123456789",
+              "full_name": "user2@example.com user2@example.com",
+              "organization": ""
+            },
+            {
+              "id": 22,
+              "email": "user3@example.com",
+              "first_name": "user3@example.com",
+              "last_name": "user3@example.com",
+              "title": "Tester",
+              "phone_number": "",
+              "full_name": "user3@example.com user3@example.com",
+              "organization": ""
+            }
+          ],
+          "is_overdue": true,
+          "responsible_users": [
+            {
+              "id": 13,
+              "name": "user2@example.com user2@example.com"
+            }
+          ],
+          "responsible_users_last_name": ["user2@example.com"],
+          "responsible_users_first_name": ["user2@example.com"],
+          "accountable_users": [
+            {
+              "id": 22,
+              "name": "user3@example.com user3@example.com"
+            }
+          ],
+          "accountable_users_last_name": ["user3@example.com"],
+          "accountable_users_first_name": ["user3@example.com"],
+          "consulted_users": [],
+          "informed_users": [],
+          "responsible_user_ids": [13],
+          "accountable_user_ids": [22],
+          "consulted_user_ids": [],
+          "informed_user_ids": [],
+          "checklists": [],
+          "notes": [
+            {
+              "id": 257,
+              "noteable_type": "Issue",
+              "noteable_id": 89,
+              "user_id": 12,
+              "body": "Another update",
+              "created_at": "2021-07-15T18:43:56.000-04:00",
+              "updated_at": "2021-07-15T18:43:56.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            },
+            {
+              "id": 256,
+              "noteable_type": "Issue",
+              "noteable_id": 89,
+              "user_id": 12,
+              "body": "Update 1 at 6:43 PM on 7/15 by user1",
+              "created_at": "2021-07-15T18:43:37.000-04:00",
+              "updated_at": "2021-07-15T18:43:37.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            }
+          ],
+          "notes_updated_at": [
+            "2021-07-15T18:43:56.000-04:00",
+            "2021-07-15T18:43:37.000-04:00"
+          ],
+          "last_update": {
+            "id": 257,
+            "noteable_type": "Issue",
+            "noteable_id": 89,
+            "user_id": 12,
+            "body": "Another update",
+            "created_at": "2021-07-15T18:43:56.000-04:00",
+            "updated_at": "2021-07-15T18:43:56.000-04:00",
+            "user": {
+              "id": 12,
+              "full_name": "user1@example.com user1@example.com"
+            }
+          },
+          "facility_id": 1427,
+          "facility_name": "Project Beta",
+          "contract_nickname": null,
+          "vehicle_nickname": null,
+          "project_id": 12,
+          "sub_tasks": [],
+          "sub_issues": [],
+          "sub_task_ids": [],
+          "sub_issue_ids": [],
+          "sub_risk_ids": []
+        }
+      ],
+      "risks": [
+        {
+          "id": 62,
+          "risk_description": "Descr 1",
+          "impact_description": "",
+          "start_date": "2021-07-19",
+          "due_date": "2021-07-29",
+          "auto_calculate": true,
+          "progress": 0,
+          "probability": 1,
+          "impact_level": 1,
+          "priority_level": 1,
+          "risk_approach": "avoid",
+          "risk_approach_description": "",
+          "watched": false,
+          "watched_at": null,
+          "user_id": 12,
+          "facility_project_id": 1425,
+          "created_at": "2021-07-15T18:45:03.000-04:00",
+          "updated_at": "2022-08-08T09:43:44.000-04:00",
+          "task_type_id": 3,
+          "text": "Risk #2",
+          "kanban_order": 0,
+          "risk_stage_id": null,
+          "probability_name": "1 - Rare",
+          "impact_level_name": "1 - Negligible",
+          "probability_description": "",
+          "approval_time": "",
+          "approved": null,
+          "important": false,
+          "ongoing": false,
+          "draft": false,
+          "on_hold": false,
+          "explanation": "",
+          "duration": 0,
+          "status": null,
+          "duration_name": "Temporary",
+          "status_name": "Monitoring",
+          "reportable": false,
+          "closed_date": null,
+          "contract_id": null,
+          "project_contract_id": null,
+          "project_contract_vehicle_id": null,
+          "owner_id": 1425,
+          "owner_type": "FacilityProject",
+          "priority_level_name": "Very Low",
+          "task_type": {
+            "id": 3,
+            "name": "Site Assessment",
+            "created_at": "2020-02-27T14:44:48.000-05:00",
+            "updated_at": "2021-03-18T15:06:04.000-04:00",
+            "progress": 20
+          },
+          "category": "Site Assessment",
+          "risk_stage": null,
+          "class_name": "Risk",
+          "completed": false,
+          "planned": false,
+          "project_group": "Unassigned",
+          "program_name": "Program #1",
+          "closed": false,
+          "in_progress": false,
+          "attach_files": [],
+          "progress_status": "active",
+          "checklists": [],
+          "due_date_duplicate": "2021-07-29",
+          "facility_id": 1427,
+          "facility_name": "Project Beta",
+          "user_ids": [13, 22],
+          "risk_owners": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+          "users": [
+            {
+              "id": 13,
+              "email": "user2@example.com",
+              "first_name": "user2@example.com",
+              "last_name": "user2@example.com",
+              "title": "",
+              "phone_number": "+123456789",
+              "full_name": "user2@example.com user2@example.com",
+              "organization": ""
+            },
+            {
+              "id": 22,
+              "email": "user3@example.com",
+              "first_name": "user3@example.com",
+              "last_name": "user3@example.com",
+              "title": "Tester",
+              "phone_number": "",
+              "full_name": "user3@example.com user3@example.com",
+              "organization": ""
+            }
+          ],
+          "user_names": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+          "is_overdue": true,
+          "responsible_users": [
+            {
+              "id": 22,
+              "name": "user3@example.com user3@example.com"
+            }
+          ],
+          "responsible_users_last_name": ["user3@example.com"],
+          "responsible_users_first_name": ["user3@example.com"],
+          "accountable_users": [
+            {
+              "id": 13,
+              "name": "user2@example.com user2@example.com"
+            }
+          ],
+          "accountable_users_last_name": ["user2@example.com"],
+          "accountable_users_first_name": ["user2@example.com"],
+          "consulted_users": [],
+          "informed_users": [],
+          "responsible_user_ids": [22],
+          "accountable_user_ids": [13],
+          "consulted_user_ids": [],
+          "informed_user_ids": [],
+          "risk_approver": [],
+          "risk_approver_user_ids": [],
+          "notes": [
+            {
+              "id": 287,
+              "noteable_type": "Risk",
+              "noteable_id": 62,
+              "user_id": 12,
+              "body": "Need additional information to determine the actual risk.",
+              "created_at": "2021-08-23T10:20:03.000-04:00",
+              "updated_at": "2021-08-23T10:20:03.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            },
+            {
+              "id": 259,
+              "noteable_type": "Risk",
+              "noteable_id": 62,
+              "user_id": 12,
+              "body": "Another risk update",
+              "created_at": "2021-07-15T18:46:13.000-04:00",
+              "updated_at": "2021-07-15T18:46:13.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            },
+            {
+              "id": 258,
+              "noteable_type": "Risk",
+              "noteable_id": 62,
+              "user_id": 12,
+              "body": "Update at 6:45 PM on 7/15 by user1",
+              "created_at": "2021-07-15T18:45:39.000-04:00",
+              "updated_at": "2021-07-15T18:45:39.000-04:00",
+              "user": {
+                "id": 12,
+                "full_name": "user1@example.com user1@example.com"
+              }
+            }
+          ],
+          "contract_nickname": null,
+          "vehicle_nickname": null,
+          "notes_updated_at": [
+            "2021-08-23T10:20:03.000-04:00",
+            "2021-07-15T18:46:13.000-04:00",
+            "2021-07-15T18:45:39.000-04:00"
+          ],
+          "last_update": {
+            "id": 287,
+            "noteable_type": "Risk",
+            "noteable_id": 62,
+            "user_id": 12,
+            "body": "Need additional information to determine the actual risk.",
+            "created_at": "2021-08-23T10:20:03.000-04:00",
+            "updated_at": "2021-08-23T10:20:03.000-04:00",
+            "user": {
+              "id": 12,
+              "full_name": "user1@example.com user1@example.com"
+            }
+          },
+          "project_id": 12,
+          "sub_tasks": [],
+          "sub_issues": [],
+          "sub_risks": [],
+          "sub_task_ids": [],
+          "sub_issue_ids": [],
+          "sub_risk_ids": []
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "contracts": [],
+  "contract_vehicles": [],
+  "facility_groups": [
+    {
+      "id": 81,
+      "name": "Unassigned",
+      "created_at": "2022-06-11T10:36:54.000-04:00",
+      "updated_at": "2022-06-11T10:36:54.000-04:00",
+      "code": "UNAS",
+      "status": "active",
+      "region_type": 0,
+      "center": null,
+      "project_id": null,
+      "progress": 0,
+      "is_portfolio": true,
+      "user_id": null,
+      "owner_id": null,
+      "owner_type": null,
+      "is_default": false,
+      "facilities": [
+        {
+          "id": 1424,
+          "facility_id": 1426,
+          "project_id": 12,
+          "created_at": "2021-06-09T00:10:23.000-04:00",
+          "updated_at": "2022-07-07T18:16:07.000-04:00",
+          "due_date": null,
+          "status_id": 2,
+          "progress": 37,
+          "color": "#ff0000",
+          "facility_group_id": 81,
+          "project_facility_group_id": null,
+          "class": "FacilityProject",
+          "project_status": "On Schedule",
+          "facility_project_id": 1424,
+          "facility_name": "Project Alpha",
+          "facility": {
+            "id": 1426,
+            "facility_name": "Project Alpha",
+            "region_name": 0,
+            "address":  "fake address",
+            "point_of_contact": "user1 ",
+            "phone_number": "+17034315628",
+            "email": "user1@example.com",
+            "created_at": "2021-06-08T23:42:05.000-04:00",
+            "updated_at": "2021-06-09T00:14:35.000-04:00",
+            "facility_group_id": 81,
+            "creator_id": 12,
+            "lat": "38.91545430000001",
+            "lng": "-77.2310674",
+            "status": "active",
+            "country_code": "US",
+            "project_facility_group_id": null,
+            "is_portfolio": true,
+            "project_id": 12,
+            "facility_group_name": "Unassigned",
+            "facility_group_status": "active"
+          },
+          "tasks": [
+            {
+              "id": 327,
+              "text": "Task #2",
+              "description": "This is task #2",
+              "due_date": "2021-06-16",
+              "created_at": "2021-06-14T14:18:50.000-04:00",
+              "updated_at": "2021-08-23T08:40:26.000-04:00",
+              "progress": 0,
+              "task_type_id": 3,
+              "start_date": "2021-06-01",
+              "facility_project_id": 1424,
+              "auto_calculate": true,
+              "watched": false,
+              "watched_at": null,
+              "task_stage_id": null,
+              "kanban_order": 0,
+              "important": false,
+              "ongoing": false,
+              "draft": false,
+              "on_hold": true,
+              "reportable": false,
+              "closed_date": null,
+              "contract_id": null,
+              "project_contract_id": null,
+              "project_contract_vehicle_id": null,
+              "owner_id": null,
+              "owner_type": null,
+              "planned_effort": "0",
+              "actual_effort": "0",
+              "auto_calculate_planned_effort": true,
+              "class_name": "Task",
+              "attach_files": [],
+              "progress_status": "active",
+              "task_type": "Site Assessment",
+              "task_stage": null,
+              "user_ids": [2, 22],
+              "due_date_duplicate": "2021-06-16",
+              "user_names": "user5@example.com user5@example.com, user3@example.com user3@example.com",
+              "users": [
+                {
+                  "id": 2,
+                  "email": "user5@example.com",
+                  "first_name": "user5@example.com",
+                  "last_name": "user5@example.com",
+                  "title": "Tester",
+                  "phone_number": "+12487961824",
+                  "full_name": "user5@example.com user5@example.com",
+                  "organization": "Org 1 Tests"
+                },
+                {
+                  "id": 22,
+                  "email": "user3@example.com",
+                  "first_name": "user3@example.com",
+                  "last_name": "user3@example.com",
+                  "title": "Tester",
+                  "phone_number": "",
+                  "full_name": "user3@example.com user3@example.com",
+                  "organization": ""
+                }
+              ],
+              "checklists": [
+                {
+                  "id": 290,
+                  "listable_type": "Task",
+                  "listable_id": 327,
+                  "checked": false,
+                  "text": "dfdfd",
+                  "created_at": "2021-06-14T14:18:50.000-04:00",
+                  "updated_at": "2021-06-14T14:18:50.000-04:00",
+                  "user_id": null,
+                  "position": 0,
+                  "due_date": "2021-06-10",
+                  "planned_effort": "0.0",
+                  "user": null,
+                  "progress_lists": []
+                }
+              ],
+              "notes": [
+                {
+                  "id": 280,
+                  "noteable_type": "Task",
+                  "noteable_id": 327,
+                  "user_id": 12,
+                  "body": "Additional research needed before work can continue.",
+                  "created_at": "2021-08-23T08:52:53.000-04:00",
+                  "updated_at": "2021-08-23T08:52:53.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                }
+              ],
+              "completed": false,
+              "program_name": "Program #1",
+              "project_group": "Unassigned",
+              "notes_updated_at": ["2021-08-23T08:52:53.000-04:00"],
+              "last_update": {
+                "id": 280,
+                "noteable_type": "Task",
+                "noteable_id": 327,
+                "user_id": 12,
+                "body": "Additional research needed before work can continue.",
+                "created_at": "2021-08-23T08:52:53.000-04:00",
+                "updated_at": "2021-08-23T08:52:53.000-04:00",
+                "user": {
+                  "id": 12,
+                  "full_name": "user1@example.com user1@example.com"
+                }
+              },
+              "is_overdue": false,
+              "planned": false,
+              "closed": false,
+              "in_progress": false,
+              "responsible_users": [
+                {
+                  "id": 2,
+                  "name": "user5@example.com user5@example.com"
+                }
+              ],
+              "responsible_users_last_name": ["user5@example.com"],
+              "responsible_users_first_name": ["user5@example.com"],
+              "accountable_users": [
+                {
+                  "id": 22,
+                  "name": "user3@example.com user3@example.com"
+                }
+              ],
+              "accountable_users_last_name": ["user3@example.com"],
+              "accountable_users_first_name": ["user3@example.com"],
+              "consulted_users": [],
+              "informed_users": [],
+              "responsible_user_ids": [2],
+              "accountable_user_ids": [22],
+              "consulted_user_ids": [],
+              "informed_user_ids": [],
+              "facility_id": 1426,
+              "facility_name": "Project Alpha",
+              "contract_nickname": null,
+              "vehicle_nickname": null,
+              "project_id": 12,
+              "sub_tasks": [],
+              "sub_issues": [],
+              "sub_task_ids": [],
+              "sub_issue_ids": [],
+              "sub_risk_ids": []
+            },
+            {
+              "id": 328,
+              "text": "Task #1",
+              "description": "",
+              "due_date": "2021-10-01",
+              "created_at": "2021-06-24T22:44:40.000-04:00",
+              "updated_at": "2021-08-23T08:48:54.000-04:00",
+              "progress": 75,
+              "task_type_id": 4,
+              "start_date": "2021-06-17",
+              "facility_project_id": 1424,
+              "auto_calculate": false,
+              "watched": true,
+              "watched_at": "2021-08-23T08:48:46.000-04:00",
+              "task_stage_id": 3,
+              "kanban_order": 0,
+              "important": false,
+              "ongoing": false,
+              "draft": false,
+              "on_hold": false,
+              "reportable": true,
+              "closed_date": null,
+              "contract_id": null,
+              "project_contract_id": null,
+              "project_contract_vehicle_id": null,
+              "owner_id": null,
+              "owner_type": null,
+              "planned_effort": "0",
+              "actual_effort": "0",
+              "auto_calculate_planned_effort": true,
+              "class_name": "Task",
+              "attach_files": [],
+              "progress_status": "active",
+              "task_type": "Training",
+              "task_stage": "Progressing",
+              "user_ids": [13, 22],
+              "due_date_duplicate": "2021-10-01",
+              "user_names": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+              "users": [
+                {
+                  "id": 13,
+                  "email": "user2@example.com",
+                  "first_name": "user2@example.com",
+                  "last_name": "user2@example.com",
+                  "title": "",
+                  "phone_number": "+123456789",
+                  "full_name": "user2@example.com user2@example.com",
+                  "organization": ""
+                },
+                {
+                  "id": 22,
+                  "email": "user3@example.com",
+                  "first_name": "user3@example.com",
+                  "last_name": "user3@example.com",
+                  "title": "Tester",
+                  "phone_number": "",
+                  "full_name": "user3@example.com user3@example.com",
+                  "organization": ""
+                }
+              ],
+              "checklists": [
+                {
+                  "id": 291,
+                  "listable_type": "Task",
+                  "listable_id": 328,
+                  "checked": false,
+                  "text": "Checklist Item #1",
+                  "created_at": "2021-06-24T22:47:27.000-04:00",
+                  "updated_at": "2021-06-24T22:47:27.000-04:00",
+                  "user_id": null,
+                  "position": 0,
+                  "due_date": null,
+                  "planned_effort": "0.0",
+                  "user": null,
+                  "progress_lists": []
+                }
+              ],
+              "notes": [
+                {
+                  "id": 260,
+                  "noteable_type": "Task",
+                  "noteable_id": 328,
+                  "user_id": 12,
+                  "body": "Another task update",
+                  "created_at": "2021-07-15T18:49:18.000-04:00",
+                  "updated_at": "2021-07-15T18:49:18.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                },
+                {
+                  "id": 254,
+                  "noteable_type": "Task",
+                  "noteable_id": 328,
+                  "user_id": 12,
+                  "body": "This is an update at 6:38 PM on 7/15 by user1.  Performed an update on the update.",
+                  "created_at": "2021-07-15T18:39:07.000-04:00",
+                  "updated_at": "2021-07-15T18:49:47.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                },
+                {
+                  "id": 226,
+                  "noteable_type": "Task",
+                  "noteable_id": 328,
+                  "user_id": 12,
+                  "body": "This an update at 10:49 pm on 6/24 by user1",
+                  "created_at": "2021-06-24T22:49:35.000-04:00",
+                  "updated_at": "2021-06-24T22:49:35.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                },
+                {
+                  "id": 225,
+                  "noteable_type": "Task",
+                  "noteable_id": 328,
+                  "user_id": 12,
+                  "body": "This an update at 10:45 pm on 6/24 by user1.  Just wanted to add an update this one.",
+                  "created_at": "2021-06-24T22:45:46.000-04:00",
+                  "updated_at": "2021-07-15T18:48:46.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                },
+                {
+                  "id": 224,
+                  "noteable_type": "Task",
+                  "noteable_id": 328,
+                  "user_id": 12,
+                  "body": "This an update at 10:44 pm on 6/24 by user1",
+                  "created_at": "2021-06-24T22:45:04.000-04:00",
+                  "updated_at": "2021-06-24T22:45:04.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                }
+              ],
+              "completed": false,
+              "program_name": "Program #1",
+              "project_group": "Unassigned",
+              "notes_updated_at": [
+                "2021-07-15T18:49:18.000-04:00",
+                "2021-07-15T18:39:07.000-04:00",
+                "2021-06-24T22:49:35.000-04:00",
+                "2021-06-24T22:45:46.000-04:00",
+                "2021-06-24T22:45:04.000-04:00"
+              ],
+              "last_update": {
+                "id": 260,
+                "noteable_type": "Task",
+                "noteable_id": 328,
+                "user_id": 12,
+                "body": "Another task update",
+                "created_at": "2021-07-15T18:49:18.000-04:00",
+                "updated_at": "2021-07-15T18:49:18.000-04:00",
+                "user": {
+                  "id": 12,
+                  "full_name": "user1@example.com user1@example.com"
+                }
+              },
+              "is_overdue": true,
+              "planned": false,
+              "closed": false,
+              "in_progress": false,
+              "responsible_users": [
+                {
+                  "id": 13,
+                  "name": "user2@example.com user2@example.com"
+                }
+              ],
+              "responsible_users_last_name": ["user2@example.com"],
+              "responsible_users_first_name": ["user2@example.com"],
+              "accountable_users": [
+                {
+                  "id": 22,
+                  "name": "user3@example.com user3@example.com"
+                }
+              ],
+              "accountable_users_last_name": ["user3@example.com"],
+              "accountable_users_first_name": ["user3@example.com"],
+              "consulted_users": [],
+              "informed_users": [],
+              "responsible_user_ids": [13],
+              "accountable_user_ids": [22],
+              "consulted_user_ids": [],
+              "informed_user_ids": [],
+              "facility_id": 1426,
+              "facility_name": "Project Alpha",
+              "contract_nickname": null,
+              "vehicle_nickname": null,
+              "project_id": 12,
+              "sub_tasks": [],
+              "sub_issues": [],
+              "sub_task_ids": [],
+              "sub_issue_ids": [],
+              "sub_risk_ids": []
+            },
+            {
+              "id": 333,
+              "text": "Task #3",
+              "description": "This is task #3",
+              "due_date": "2021-10-01",
+              "created_at": "2021-08-23T08:45:55.000-04:00",
+              "updated_at": "2021-08-23T08:49:22.000-04:00",
+              "progress": 0,
+              "task_type_id": 3,
+              "start_date": "2021-09-01",
+              "facility_project_id": 1424,
+              "auto_calculate": true,
+              "watched": false,
+              "watched_at": null,
+              "task_stage_id": null,
+              "kanban_order": 0,
+              "important": true,
+              "ongoing": false,
+              "draft": false,
+              "on_hold": false,
+              "reportable": false,
+              "closed_date": null,
+              "contract_id": null,
+              "project_contract_id": null,
+              "project_contract_vehicle_id": null,
+              "owner_id": null,
+              "owner_type": null,
+              "planned_effort": "0",
+              "actual_effort": "0",
+              "auto_calculate_planned_effort": true,
+              "class_name": "Task",
+              "attach_files": [],
+              "progress_status": "active",
+              "task_type": "Site Assessment",
+              "task_stage": null,
+              "user_ids": [13, 22],
+              "due_date_duplicate": "2021-10-01",
+              "user_names": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+              "users": [
+                {
+                  "id": 13,
+                  "email": "user2@example.com",
+                  "first_name": "user2@example.com",
+                  "last_name": "user2@example.com",
+                  "title": "",
+                  "phone_number": "+123456789",
+                  "full_name": "user2@example.com user2@example.com",
+                  "organization": ""
+                },
+                {
+                  "id": 22,
+                  "email": "user3@example.com",
+                  "first_name": "user3@example.com",
+                  "last_name": "user3@example.com",
+                  "title": "Tester",
+                  "phone_number": "",
+                  "full_name": "user3@example.com user3@example.com",
+                  "organization": ""
+                }
+              ],
+              "checklists": [],
+              "notes": [],
+              "completed": false,
+              "program_name": "Program #1",
+              "project_group": "Unassigned",
+              "notes_updated_at": [],
+              "last_update": null,
+              "is_overdue": true,
+              "planned": false,
+              "closed": false,
+              "in_progress": false,
+              "responsible_users": [
+                {
+                  "id": 22,
+                  "name": "user3@example.com user3@example.com"
+                }
+              ],
+              "responsible_users_last_name": ["user3@example.com"],
+              "responsible_users_first_name": ["user3@example.com"],
+              "accountable_users": [
+                {
+                  "id": 13,
+                  "name": "user2@example.com user2@example.com"
+                }
+              ],
+              "accountable_users_last_name": ["user2@example.com"],
+              "accountable_users_first_name": ["user2@example.com"],
+              "consulted_users": [],
+              "informed_users": [],
+              "responsible_user_ids": [22],
+              "accountable_user_ids": [13],
+              "consulted_user_ids": [],
+              "informed_user_ids": [],
+              "facility_id": 1426,
+              "facility_name": "Project Alpha",
+              "contract_nickname": null,
+              "vehicle_nickname": null,
+              "project_id": 12,
+              "sub_tasks": [],
+              "sub_issues": [],
+              "sub_task_ids": [],
+              "sub_issue_ids": [],
+              "sub_risk_ids": []
+            },
+            {
+              "id": 334,
+              "text": "Task #4",
+              "description": "This is task #4",
+              "due_date": "2021-11-01",
+              "created_at": "2021-08-23T08:47:13.000-04:00",
+              "updated_at": "2021-08-23T08:47:13.000-04:00",
+              "progress": 0,
+              "task_type_id": 4,
+              "start_date": "2021-10-01",
+              "facility_project_id": 1424,
+              "auto_calculate": true,
+              "watched": false,
+              "watched_at": null,
+              "task_stage_id": null,
+              "kanban_order": 0,
+              "important": false,
+              "ongoing": false,
+              "draft": true,
+              "on_hold": false,
+              "reportable": false,
+              "closed_date": null,
+              "contract_id": null,
+              "project_contract_id": null,
+              "project_contract_vehicle_id": null,
+              "owner_id": null,
+              "owner_type": null,
+              "planned_effort": "0",
+              "actual_effort": "0",
+              "auto_calculate_planned_effort": true,
+              "class_name": "Task",
+              "attach_files": [],
+              "progress_status": "active",
+              "task_type": "Training",
+              "task_stage": null,
+              "user_ids": [2, 13],
+              "due_date_duplicate": "2021-11-01",
+              "user_names": "user5@example.com user5@example.com, user2@example.com user2@example.com",
+              "users": [
+                {
+                  "id": 2,
+                  "email": "user5@example.com",
+                  "first_name": "user5@example.com",
+                  "last_name": "user5@example.com",
+                  "title": "Tester",
+                  "phone_number": "+12487961824",
+                  "full_name": "user5@example.com user5@example.com",
+                  "organization": "Org 1 Tests"
+                },
+                {
+                  "id": 13,
+                  "email": "user2@example.com",
+                  "first_name": "user2@example.com",
+                  "last_name": "user2@example.com",
+                  "title": "",
+                  "phone_number": "+123456789",
+                  "full_name": "user2@example.com user2@example.com",
+                  "organization": ""
+                }
+              ],
+              "checklists": [],
+              "notes": [],
+              "completed": false,
+              "program_name": "Program #1",
+              "project_group": "Unassigned",
+              "notes_updated_at": [],
+              "last_update": null,
+              "is_overdue": false,
+              "planned": false,
+              "closed": false,
+              "in_progress": false,
+              "responsible_users": [
+                {
+                  "id": 2,
+                  "name": "user5@example.com user5@example.com"
+                }
+              ],
+              "responsible_users_last_name": ["user5@example.com"],
+              "responsible_users_first_name": ["user5@example.com"],
+              "accountable_users": [
+                {
+                  "id": 13,
+                  "name": "user2@example.com user2@example.com"
+                }
+              ],
+              "accountable_users_last_name": ["user2@example.com"],
+              "accountable_users_first_name": ["user2@example.com"],
+              "consulted_users": [],
+              "informed_users": [],
+              "responsible_user_ids": [2],
+              "accountable_user_ids": [13],
+              "consulted_user_ids": [],
+              "informed_user_ids": [],
+              "facility_id": 1426,
+              "facility_name": "Project Alpha",
+              "contract_nickname": null,
+              "vehicle_nickname": null,
+              "project_id": 12,
+              "sub_tasks": [],
+              "sub_issues": [],
+              "sub_task_ids": [],
+              "sub_issue_ids": [],
+              "sub_risk_ids": []
+            }
+          ],
+          "issues": [
+            {
+              "id": 92,
+              "title": "Issue #1",
+              "description": "This is issue #1",
+              "issue_type_id": 2,
+              "issue_severity_id": 2,
+              "facility_project_id": 1424,
+              "start_date": "2021-08-01",
+              "due_date": "2021-09-01",
+              "created_at": "2021-08-23T09:05:07.000-04:00",
+              "updated_at": "2021-08-23T13:02:29.000-04:00",
+              "progress": 75,
+              "auto_calculate": false,
+              "watched": true,
+              "watched_at": "2021-08-23T09:05:20.000-04:00",
+              "issue_stage_id": 3,
+              "kanban_order": 0,
+              "task_type_id": 4,
+              "important": false,
+              "draft": false,
+              "on_hold": false,
+              "reportable": true,
+              "contract_id": null,
+              "project_contract_id": null,
+              "project_contract_vehicle_id": null,
+              "owner_id": null,
+              "owner_type": null,
+              "class_name": "Issue",
+              "progress_status": "active",
+              "attach_files": [],
+              "completed": false,
+              "planned": false,
+              "program_name": "Program #1",
+              "in_progress": false,
+              "issue_type": "Issue type 1",
+              "project_group": "Unassigned",
+              "issue_stage": "In Progress",
+              "issue_severity": "low severity",
+              "task_type_name": "Training",
+              "due_date_duplicate": "2021-09-01",
+              "responsible_user_names": "user5@example.com user5@example.com, user2@example.com user2@example.com",
+              "user_names": "user5@example.com user5@example.com, user2@example.com user2@example.com",
+              "user_ids": [2, 13],
+              "users": [
+                {
+                  "id": 2,
+                  "email": "user5@example.com",
+                  "first_name": "user5@example.com",
+                  "last_name": "user5@example.com",
+                  "title": "Tester",
+                  "phone_number": "+12487961824",
+                  "full_name": "user5@example.com user5@example.com",
+                  "organization": "Org 1 Tests"
+                },
+                {
+                  "id": 13,
+                  "email": "user2@example.com",
+                  "first_name": "user2@example.com",
+                  "last_name": "user2@example.com",
+                  "title": "",
+                  "phone_number": "+123456789",
+                  "full_name": "user2@example.com user2@example.com",
+                  "organization": ""
+                }
+              ],
+              "is_overdue": true,
+              "responsible_users": [
+                {
+                  "id": 13,
+                  "name": "user2@example.com user2@example.com"
+                }
+              ],
+              "responsible_users_last_name": ["user2@example.com"],
+              "responsible_users_first_name": ["user2@example.com"],
+              "accountable_users": [
+                {
+                  "id": 2,
+                  "name": "user5@example.com user5@example.com"
+                }
+              ],
+              "accountable_users_last_name": ["user5@example.com"],
+              "accountable_users_first_name": ["user5@example.com"],
+              "consulted_users": [],
+              "informed_users": [],
+              "responsible_user_ids": [13],
+              "accountable_user_ids": [2],
+              "consulted_user_ids": [],
+              "informed_user_ids": [],
+              "checklists": [],
+              "notes": [
+                {
+                  "id": 284,
+                  "noteable_type": "Issue",
+                  "noteable_id": 92,
+                  "user_id": 12,
+                  "body": "This issue does not appear to represent any risk.",
+                  "created_at": "2021-08-23T09:05:07.000-04:00",
+                  "updated_at": "2021-08-23T09:05:07.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                }
+              ],
+              "notes_updated_at": ["2021-08-23T09:05:07.000-04:00"],
+              "last_update": {
+                "id": 284,
+                "noteable_type": "Issue",
+                "noteable_id": 92,
+                "user_id": 12,
+                "body": "This issue does not appear to represent any risk.",
+                "created_at": "2021-08-23T09:05:07.000-04:00",
+                "updated_at": "2021-08-23T09:05:07.000-04:00",
+                "user": {
+                  "id": 12,
+                  "full_name": "user1@example.com user1@example.com"
+                }
+              },
+              "facility_id": 1426,
+              "facility_name": "Project Alpha",
+              "contract_nickname": null,
+              "vehicle_nickname": null,
+              "project_id": 12,
+              "sub_tasks": [],
+              "sub_issues": [],
+              "sub_task_ids": [],
+              "sub_issue_ids": [],
+              "sub_risk_ids": []
+            }
+          ],
+          "risks": [
+            {
+              "id": 64,
+              "risk_description": "This is risk #1",
+              "impact_description": "There is no impact because the functionality is no longer applicable.",
+              "start_date": "2021-08-02",
+              "due_date": "2021-08-23",
+              "auto_calculate": true,
+              "progress": 0,
+              "probability": 2,
+              "impact_level": 1,
+              "priority_level": 2,
+              "risk_approach": "mitigate",
+              "risk_approach_description": "The functionality causing the risk is being removed.",
+              "watched": false,
+              "watched_at": null,
+              "user_id": 12,
+              "facility_project_id": 1424,
+              "created_at": "2021-08-23T09:12:12.000-04:00",
+              "updated_at": "2022-08-08T09:43:44.000-04:00",
+              "task_type_id": 3,
+              "text": "Risk #1",
+              "kanban_order": 0,
+              "risk_stage_id": 2,
+              "probability_name": "2 - Unlikely",
+              "impact_level_name": "1 - Negligible",
+              "probability_description": "It does not appear that this is a problem",
+              "approval_time": "user1  on 8/23/2021, 9:12:23 AM",
+              "approved": true,
+              "important": false,
+              "ongoing": true,
+              "draft": false,
+              "on_hold": false,
+              "explanation": "Functionality causing the risk has been removed so the risk is able to be closed.",
+              "duration": 1,
+              "status": null,
+              "duration_name": "Temporary",
+              "status_name": "Monitoring",
+              "reportable": false,
+              "closed_date": null,
+              "contract_id": null,
+              "project_contract_id": null,
+              "project_contract_vehicle_id": null,
+              "owner_id": 1424,
+              "owner_type": "FacilityProject",
+              "priority_level_name": "Low",
+              "task_type": {
+                "id": 3,
+                "name": "Site Assessment",
+                "created_at": "2020-02-27T14:44:48.000-05:00",
+                "updated_at": "2021-03-18T15:06:04.000-04:00",
+                "progress": 20
+              },
+              "category": "Site Assessment",
+              "risk_stage": "In Progress",
+              "class_name": "Risk",
+              "completed": false,
+              "planned": false,
+              "project_group": "Unassigned",
+              "program_name": "Program #1",
+              "closed": false,
+              "in_progress": false,
+              "attach_files": [],
+              "progress_status": "active",
+              "checklists": [],
+              "due_date_duplicate": "2021-08-23",
+              "facility_id": 1426,
+              "facility_name": "Project Alpha",
+              "user_ids": [13, 22],
+              "risk_owners": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+              "users": [
+                {
+                  "id": 13,
+                  "email": "user2@example.com",
+                  "first_name": "user2@example.com",
+                  "last_name": "user2@example.com",
+                  "title": "",
+                  "phone_number": "+123456789",
+                  "full_name": "user2@example.com user2@example.com",
+                  "organization": ""
+                },
+                {
+                  "id": 22,
+                  "email": "user3@example.com",
+                  "first_name": "user3@example.com",
+                  "last_name": "user3@example.com",
+                  "title": "Tester",
+                  "phone_number": "",
+                  "full_name": "user3@example.com user3@example.com",
+                  "organization": ""
+                }
+              ],
+              "user_names": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+              "is_overdue": false,
+              "responsible_users": [
+                {
+                  "id": 22,
+                  "name": "user3@example.com user3@example.com"
+                }
+              ],
+              "responsible_users_last_name": ["user3@example.com"],
+              "responsible_users_first_name": ["user3@example.com"],
+              "accountable_users": [
+                {
+                  "id": 13,
+                  "name": "user2@example.com user2@example.com"
+                }
+              ],
+              "accountable_users_last_name": ["user2@example.com"],
+              "accountable_users_first_name": ["user2@example.com"],
+              "consulted_users": [],
+              "informed_users": [],
+              "responsible_user_ids": [22],
+              "accountable_user_ids": [13],
+              "consulted_user_ids": [],
+              "informed_user_ids": [],
+              "risk_approver": [],
+              "risk_approver_user_ids": [],
+              "notes": [
+                {
+                  "id": 288,
+                  "noteable_type": "Risk",
+                  "noteable_id": 64,
+                  "user_id": 12,
+                  "body": "The functionality in question has been removed.",
+                  "created_at": "2021-08-23T10:30:43.000-04:00",
+                  "updated_at": "2021-08-23T10:30:43.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                }
+              ],
+              "contract_nickname": null,
+              "vehicle_nickname": null,
+              "notes_updated_at": ["2021-08-23T10:30:43.000-04:00"],
+              "last_update": {
+                "id": 288,
+                "noteable_type": "Risk",
+                "noteable_id": 64,
+                "user_id": 12,
+                "body": "The functionality in question has been removed.",
+                "created_at": "2021-08-23T10:30:43.000-04:00",
+                "updated_at": "2021-08-23T10:30:43.000-04:00",
+                "user": {
+                  "id": 12,
+                  "full_name": "user1@example.com user1@example.com"
+                }
+              },
+              "project_id": 12,
+              "sub_tasks": [],
+              "sub_issues": [],
+              "sub_risks": [],
+              "sub_task_ids": [],
+              "sub_issue_ids": [],
+              "sub_risk_ids": []
+            }
+          ],
+          "notes": []
+        },
+        {
+          "id": 1425,
+          "facility_id": 1427,
+          "project_id": 12,
+          "created_at": "2021-06-09T00:13:47.000-04:00",
+          "updated_at": "2022-07-07T18:16:07.000-04:00",
+          "due_date": null,
+          "status_id": 4,
+          "progress": 25,
+          "color": "#ff0000",
+          "facility_group_id": 81,
+          "project_facility_group_id": null,
+          "class": "FacilityProject",
+          "project_status": "Not Started",
+          "facility_project_id": 1425,
+          "facility_name": "Project Beta",
+          "facility": {
+            "id": 1427,
+            "facility_name": "Project Beta",
+            "region_name": 0,
+            "address":  "fake address",
+            "point_of_contact": "user1 ",
+            "phone_number": "+17034315628",
+            "email": "user1@example.com",
+            "created_at": "2021-06-09T00:13:47.000-04:00",
+            "updated_at": "2021-06-09T00:14:47.000-04:00",
+            "facility_group_id": 81,
+            "creator_id": 12,
+            "lat": "38.91545430000001",
+            "lng": "-77.2310674",
+            "status": "active",
+            "country_code": "US",
+            "project_facility_group_id": null,
+            "is_portfolio": true,
+            "project_id": 12,
+            "facility_group_name": "Unassigned",
+            "facility_group_status": "active"
+          },
+          "tasks": [
+            {
+              "id": 335,
+              "text": "Task #5",
+              "description": "This is task #5",
+              "due_date": "2021-08-20",
+              "created_at": "2021-08-23T08:51:26.000-04:00",
+              "updated_at": "2021-08-23T12:23:01.000-04:00",
+              "progress": 50,
+              "task_type_id": 3,
+              "start_date": "2021-08-01",
+              "facility_project_id": 1425,
+              "auto_calculate": false,
+              "watched": false,
+              "watched_at": null,
+              "task_stage_id": 3,
+              "kanban_order": 1,
+              "important": false,
+              "ongoing": false,
+              "draft": false,
+              "on_hold": false,
+              "reportable": true,
+              "closed_date": null,
+              "contract_id": null,
+              "project_contract_id": null,
+              "project_contract_vehicle_id": null,
+              "owner_id": null,
+              "owner_type": null,
+              "planned_effort": "0",
+              "actual_effort": "0",
+              "auto_calculate_planned_effort": true,
+              "class_name": "Task",
+              "attach_files": [],
+              "progress_status": "active",
+              "task_type": "Site Assessment",
+              "task_stage": "Progressing",
+              "user_ids": [13, 22],
+              "due_date_duplicate": "2021-08-20",
+              "user_names": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+              "users": [
+                {
+                  "id": 13,
+                  "email": "user2@example.com",
+                  "first_name": "user2@example.com",
+                  "last_name": "user2@example.com",
+                  "title": "",
+                  "phone_number": "+123456789",
+                  "full_name": "user2@example.com user2@example.com",
+                  "organization": ""
+                },
+                {
+                  "id": 22,
+                  "email": "user3@example.com",
+                  "first_name": "user3@example.com",
+                  "last_name": "user3@example.com",
+                  "title": "Tester",
+                  "phone_number": "",
+                  "full_name": "user3@example.com user3@example.com",
+                  "organization": ""
+                }
+              ],
+              "checklists": [],
+              "notes": [
+                {
+                  "id": 279,
+                  "noteable_type": "Task",
+                  "noteable_id": 335,
+                  "user_id": 12,
+                  "body": "Delays caused by changes to the environment.",
+                  "created_at": "2021-08-23T08:52:10.000-04:00",
+                  "updated_at": "2021-08-23T08:52:10.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                }
+              ],
+              "completed": false,
+              "program_name": "Program #1",
+              "project_group": "Unassigned",
+              "notes_updated_at": ["2021-08-23T08:52:10.000-04:00"],
+              "last_update": {
+                "id": 279,
+                "noteable_type": "Task",
+                "noteable_id": 335,
+                "user_id": 12,
+                "body": "Delays caused by changes to the environment.",
+                "created_at": "2021-08-23T08:52:10.000-04:00",
+                "updated_at": "2021-08-23T08:52:10.000-04:00",
+                "user": {
+                  "id": 12,
+                  "full_name": "user1@example.com user1@example.com"
+                }
+              },
+              "is_overdue": true,
+              "planned": false,
+              "closed": false,
+              "in_progress": false,
+              "responsible_users": [
+                {
+                  "id": 13,
+                  "name": "user2@example.com user2@example.com"
+                }
+              ],
+              "responsible_users_last_name": ["user2@example.com"],
+              "responsible_users_first_name": ["user2@example.com"],
+              "accountable_users": [
+                {
+                  "id": 22,
+                  "name": "user3@example.com user3@example.com"
+                }
+              ],
+              "accountable_users_last_name": ["user3@example.com"],
+              "accountable_users_first_name": ["user3@example.com"],
+              "consulted_users": [],
+              "informed_users": [],
+              "responsible_user_ids": [13],
+              "accountable_user_ids": [22],
+              "consulted_user_ids": [],
+              "informed_user_ids": [],
+              "facility_id": 1427,
+              "facility_name": "Project Beta",
+              "contract_nickname": null,
+              "vehicle_nickname": null,
+              "project_id": 12,
+              "sub_tasks": [],
+              "sub_issues": [],
+              "sub_task_ids": [],
+              "sub_issue_ids": [],
+              "sub_risk_ids": []
+            },
+            {
+              "id": 336,
+              "text": "Task #6",
+              "description": "This is task #6",
+              "due_date": "2021-08-20",
+              "created_at": "2021-08-23T08:54:45.000-04:00",
+              "updated_at": "2021-08-23T12:23:09.000-04:00",
+              "progress": 100,
+              "task_type_id": 4,
+              "start_date": "2021-08-01",
+              "facility_project_id": 1425,
+              "auto_calculate": false,
+              "watched": false,
+              "watched_at": null,
+              "task_stage_id": 3,
+              "kanban_order": 2,
+              "important": true,
+              "ongoing": false,
+              "draft": false,
+              "on_hold": false,
+              "reportable": true,
+              "closed_date": null,
+              "contract_id": null,
+              "project_contract_id": null,
+              "project_contract_vehicle_id": null,
+              "owner_id": null,
+              "owner_type": null,
+              "planned_effort": "0",
+              "actual_effort": "0",
+              "auto_calculate_planned_effort": true,
+              "class_name": "Task",
+              "attach_files": [],
+              "progress_status": "completed",
+              "task_type": "Training",
+              "task_stage": "Progressing",
+              "user_ids": [2, 13],
+              "due_date_duplicate": "2021-08-20",
+              "user_names": "user5@example.com user5@example.com, user2@example.com user2@example.com",
+              "users": [
+                {
+                  "id": 2,
+                  "email": "user5@example.com",
+                  "first_name": "user5@example.com",
+                  "last_name": "user5@example.com",
+                  "title": "Tester",
+                  "phone_number": "+12487961824",
+                  "full_name": "user5@example.com user5@example.com",
+                  "organization": "Org 1 Tests"
+                },
+                {
+                  "id": 13,
+                  "email": "user2@example.com",
+                  "first_name": "user2@example.com",
+                  "last_name": "user2@example.com",
+                  "title": "",
+                  "phone_number": "+123456789",
+                  "full_name": "user2@example.com user2@example.com",
+                  "organization": ""
+                }
+              ],
+              "checklists": [],
+              "notes": [
+                {
+                  "id": 281,
+                  "noteable_type": "Task",
+                  "noteable_id": 336,
+                  "user_id": 12,
+                  "body": "Task completed successfully with no issues or concerns.",
+                  "created_at": "2021-08-23T08:54:45.000-04:00",
+                  "updated_at": "2021-08-23T08:54:45.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                }
+              ],
+              "completed": true,
+              "program_name": "Program #1",
+              "project_group": "Unassigned",
+              "notes_updated_at": ["2021-08-23T08:54:45.000-04:00"],
+              "last_update": {
+                "id": 281,
+                "noteable_type": "Task",
+                "noteable_id": 336,
+                "user_id": 12,
+                "body": "Task completed successfully with no issues or concerns.",
+                "created_at": "2021-08-23T08:54:45.000-04:00",
+                "updated_at": "2021-08-23T08:54:45.000-04:00",
+                "user": {
+                  "id": 12,
+                  "full_name": "user1@example.com user1@example.com"
+                }
+              },
+              "is_overdue": false,
+              "planned": false,
+              "closed": false,
+              "in_progress": false,
+              "responsible_users": [
+                {
+                  "id": 2,
+                  "name": "user5@example.com user5@example.com"
+                }
+              ],
+              "responsible_users_last_name": ["user5@example.com"],
+              "responsible_users_first_name": ["user5@example.com"],
+              "accountable_users": [
+                {
+                  "id": 13,
+                  "name": "user2@example.com user2@example.com"
+                }
+              ],
+              "accountable_users_last_name": ["user2@example.com"],
+              "accountable_users_first_name": ["user2@example.com"],
+              "consulted_users": [],
+              "informed_users": [],
+              "responsible_user_ids": [2],
+              "accountable_user_ids": [13],
+              "consulted_user_ids": [],
+              "informed_user_ids": [],
+              "facility_id": 1427,
+              "facility_name": "Project Beta",
+              "contract_nickname": null,
+              "vehicle_nickname": null,
+              "project_id": 12,
+              "sub_tasks": [],
+              "sub_issues": [],
+              "sub_task_ids": [],
+              "sub_issue_ids": [],
+              "sub_risk_ids": []
+            },
+            {
+              "id": 338,
+              "text": "Task #8",
+              "description": "This is task #8",
+              "due_date": "2021-08-27",
+              "created_at": "2021-08-23T09:01:07.000-04:00",
+              "updated_at": "2021-08-29T19:29:41.000-04:00",
+              "progress": 0,
+              "task_type_id": 4,
+              "start_date": "2021-08-01",
+              "facility_project_id": 1425,
+              "auto_calculate": true,
+              "watched": false,
+              "watched_at": null,
+              "task_stage_id": 4,
+              "kanban_order": 0,
+              "important": false,
+              "ongoing": true,
+              "draft": false,
+              "on_hold": false,
+              "reportable": false,
+              "closed_date": null,
+              "contract_id": null,
+              "project_contract_id": null,
+              "project_contract_vehicle_id": null,
+              "owner_id": null,
+              "owner_type": null,
+              "planned_effort": "0",
+              "actual_effort": "0",
+              "auto_calculate_planned_effort": true,
+              "class_name": "Task",
+              "attach_files": [],
+              "progress_status": "active",
+              "task_type": "Training",
+              "task_stage": "In Review",
+              "user_ids": [2, 13],
+              "due_date_duplicate": "2021-08-27",
+              "user_names": "user5@example.com user5@example.com, user2@example.com user2@example.com",
+              "users": [
+                {
+                  "id": 2,
+                  "email": "user5@example.com",
+                  "first_name": "user5@example.com",
+                  "last_name": "user5@example.com",
+                  "title": "Tester",
+                  "phone_number": "+12487961824",
+                  "full_name": "user5@example.com user5@example.com",
+                  "organization": "Org 1 Tests"
+                },
+                {
+                  "id": 13,
+                  "email": "user2@example.com",
+                  "first_name": "user2@example.com",
+                  "last_name": "user2@example.com",
+                  "title": "",
+                  "phone_number": "+123456789",
+                  "full_name": "user2@example.com user2@example.com",
+                  "organization": ""
+                }
+              ],
+              "checklists": [],
+              "notes": [
+                {
+                  "id": 283,
+                  "noteable_type": "Task",
+                  "noteable_id": 338,
+                  "user_id": 12,
+                  "body": "It has been determined that is ongoing task can be closed as no longer applicable.",
+                  "created_at": "2021-08-23T09:01:07.000-04:00",
+                  "updated_at": "2021-08-23T09:01:07.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                }
+              ],
+              "completed": false,
+              "program_name": "Program #1",
+              "project_group": "Unassigned",
+              "notes_updated_at": ["2021-08-23T09:01:07.000-04:00"],
+              "last_update": {
+                "id": 283,
+                "noteable_type": "Task",
+                "noteable_id": 338,
+                "user_id": 12,
+                "body": "It has been determined that is ongoing task can be closed as no longer applicable.",
+                "created_at": "2021-08-23T09:01:07.000-04:00",
+                "updated_at": "2021-08-23T09:01:07.000-04:00",
+                "user": {
+                  "id": 12,
+                  "full_name": "user1@example.com user1@example.com"
+                }
+              },
+              "is_overdue": false,
+              "planned": false,
+              "closed": false,
+              "in_progress": false,
+              "responsible_users": [
+                {
+                  "id": 2,
+                  "name": "user5@example.com user5@example.com"
+                }
+              ],
+              "responsible_users_last_name": ["user5@example.com"],
+              "responsible_users_first_name": ["user5@example.com"],
+              "accountable_users": [
+                {
+                  "id": 13,
+                  "name": "user2@example.com user2@example.com"
+                }
+              ],
+              "accountable_users_last_name": ["user2@example.com"],
+              "accountable_users_first_name": ["user2@example.com"],
+              "consulted_users": [],
+              "informed_users": [],
+              "responsible_user_ids": [2],
+              "accountable_user_ids": [13],
+              "consulted_user_ids": [],
+              "informed_user_ids": [],
+              "facility_id": 1427,
+              "facility_name": "Project Beta",
+              "contract_nickname": null,
+              "vehicle_nickname": null,
+              "project_id": 12,
+              "sub_tasks": [],
+              "sub_issues": [],
+              "sub_task_ids": [],
+              "sub_issue_ids": [],
+              "sub_risk_ids": []
+            },
+            {
+              "id": 337,
+              "text": "Task #7",
+              "description": "This is task #7",
+              "due_date": null,
+              "created_at": "2021-08-23T08:58:31.000-04:00",
+              "updated_at": "2021-08-23T12:23:15.000-04:00",
+              "progress": 0,
+              "task_type_id": 3,
+              "start_date": "2021-08-01",
+              "facility_project_id": 1425,
+              "auto_calculate": true,
+              "watched": false,
+              "watched_at": null,
+              "task_stage_id": 3,
+              "kanban_order": 3,
+              "important": false,
+              "ongoing": true,
+              "draft": false,
+              "on_hold": false,
+              "reportable": false,
+              "closed_date": null,
+              "contract_id": null,
+              "project_contract_id": null,
+              "project_contract_vehicle_id": null,
+              "owner_id": null,
+              "owner_type": null,
+              "planned_effort": "0",
+              "actual_effort": "0",
+              "auto_calculate_planned_effort": true,
+              "class_name": "Task",
+              "attach_files": [],
+              "progress_status": "active",
+              "task_type": "Site Assessment",
+              "task_stage": "Progressing",
+              "user_ids": [2, 22],
+              "due_date_duplicate": null,
+              "user_names": "user5@example.com user5@example.com, user3@example.com user3@example.com",
+              "users": [
+                {
+                  "id": 2,
+                  "email": "user5@example.com",
+                  "first_name": "user5@example.com",
+                  "last_name": "user5@example.com",
+                  "title": "Tester",
+                  "phone_number": "+12487961824",
+                  "full_name": "user5@example.com user5@example.com",
+                  "organization": "Org 1 Tests"
+                },
+                {
+                  "id": 22,
+                  "email": "user3@example.com",
+                  "first_name": "user3@example.com",
+                  "last_name": "user3@example.com",
+                  "title": "Tester",
+                  "phone_number": "",
+                  "full_name": "user3@example.com user3@example.com",
+                  "organization": ""
+                }
+              ],
+              "checklists": [],
+              "notes": [
+                {
+                  "id": 282,
+                  "noteable_type": "Task",
+                  "noteable_id": 337,
+                  "user_id": 12,
+                  "body": "Analysis of the blue sector of the site will be performed in the background for the foreseeable future.",
+                  "created_at": "2021-08-23T08:58:31.000-04:00",
+                  "updated_at": "2021-08-23T08:58:31.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                }
+              ],
+              "completed": false,
+              "program_name": "Program #1",
+              "project_group": "Unassigned",
+              "notes_updated_at": ["2021-08-23T08:58:31.000-04:00"],
+              "last_update": {
+                "id": 282,
+                "noteable_type": "Task",
+                "noteable_id": 337,
+                "user_id": 12,
+                "body": "Analysis of the blue sector of the site will be performed in the background for the foreseeable future.",
+                "created_at": "2021-08-23T08:58:31.000-04:00",
+                "updated_at": "2021-08-23T08:58:31.000-04:00",
+                "user": {
+                  "id": 12,
+                  "full_name": "user1@example.com user1@example.com"
+                }
+              },
+              "is_overdue": false,
+              "planned": false,
+              "closed": false,
+              "in_progress": false,
+              "responsible_users": [
+                {
+                  "id": 22,
+                  "name": "user3@example.com user3@example.com"
+                }
+              ],
+              "responsible_users_last_name": ["user3@example.com"],
+              "responsible_users_first_name": ["user3@example.com"],
+              "accountable_users": [
+                {
+                  "id": 2,
+                  "name": "user5@example.com user5@example.com"
+                }
+              ],
+              "accountable_users_last_name": ["user5@example.com"],
+              "accountable_users_first_name": ["user5@example.com"],
+              "consulted_users": [],
+              "informed_users": [],
+              "responsible_user_ids": [22],
+              "accountable_user_ids": [2],
+              "consulted_user_ids": [],
+              "informed_user_ids": [],
+              "facility_id": 1427,
+              "facility_name": "Project Beta",
+              "contract_nickname": null,
+              "vehicle_nickname": null,
+              "project_id": 12,
+              "sub_tasks": [],
+              "sub_issues": [],
+              "sub_task_ids": [],
+              "sub_issue_ids": [],
+              "sub_risk_ids": []
+            }
+          ],
+          "issues": [
+            {
+              "id": 89,
+              "title": "Issue A",
+              "description": "",
+              "issue_type_id": 4,
+              "issue_severity_id": 2,
+              "facility_project_id": 1425,
+              "start_date": "2021-07-02",
+              "due_date": "2021-07-27",
+              "created_at": "2021-07-15T18:43:03.000-04:00",
+              "updated_at": "2021-08-24T16:58:36.000-04:00",
+              "progress": 0,
+              "auto_calculate": false,
+              "watched": false,
+              "watched_at": null,
+              "issue_stage_id": 2,
+              "kanban_order": 0,
+              "task_type_id": null,
+              "important": false,
+              "draft": false,
+              "on_hold": false,
+              "reportable": false,
+              "contract_id": null,
+              "project_contract_id": null,
+              "project_contract_vehicle_id": null,
+              "owner_id": null,
+              "owner_type": null,
+              "class_name": "Issue",
+              "progress_status": "active",
+              "attach_files": [],
+              "completed": false,
+              "planned": false,
+              "program_name": "Program #1",
+              "in_progress": false,
+              "issue_type": "Issue type 3",
+              "project_group": "Unassigned",
+              "issue_stage": "Not Started",
+              "issue_severity": "low severity",
+              "task_type_name": null,
+              "due_date_duplicate": "2021-07-27",
+              "responsible_user_names": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+              "user_names": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+              "user_ids": [13, 22],
+              "users": [
+                {
+                  "id": 13,
+                  "email": "user2@example.com",
+                  "first_name": "user2@example.com",
+                  "last_name": "user2@example.com",
+                  "title": "",
+                  "phone_number": "+123456789",
+                  "full_name": "user2@example.com user2@example.com",
+                  "organization": ""
+                },
+                {
+                  "id": 22,
+                  "email": "user3@example.com",
+                  "first_name": "user3@example.com",
+                  "last_name": "user3@example.com",
+                  "title": "Tester",
+                  "phone_number": "",
+                  "full_name": "user3@example.com user3@example.com",
+                  "organization": ""
+                }
+              ],
+              "is_overdue": true,
+              "responsible_users": [
+                {
+                  "id": 13,
+                  "name": "user2@example.com user2@example.com"
+                }
+              ],
+              "responsible_users_last_name": ["user2@example.com"],
+              "responsible_users_first_name": ["user2@example.com"],
+              "accountable_users": [
+                {
+                  "id": 22,
+                  "name": "user3@example.com user3@example.com"
+                }
+              ],
+              "accountable_users_last_name": ["user3@example.com"],
+              "accountable_users_first_name": ["user3@example.com"],
+              "consulted_users": [],
+              "informed_users": [],
+              "responsible_user_ids": [13],
+              "accountable_user_ids": [22],
+              "consulted_user_ids": [],
+              "informed_user_ids": [],
+              "checklists": [],
+              "notes": [
+                {
+                  "id": 257,
+                  "noteable_type": "Issue",
+                  "noteable_id": 89,
+                  "user_id": 12,
+                  "body": "Another update",
+                  "created_at": "2021-07-15T18:43:56.000-04:00",
+                  "updated_at": "2021-07-15T18:43:56.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                },
+                {
+                  "id": 256,
+                  "noteable_type": "Issue",
+                  "noteable_id": 89,
+                  "user_id": 12,
+                  "body": "Update 1 at 6:43 PM on 7/15 by user1",
+                  "created_at": "2021-07-15T18:43:37.000-04:00",
+                  "updated_at": "2021-07-15T18:43:37.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                }
+              ],
+              "notes_updated_at": [
+                "2021-07-15T18:43:56.000-04:00",
+                "2021-07-15T18:43:37.000-04:00"
+              ],
+              "last_update": {
+                "id": 257,
+                "noteable_type": "Issue",
+                "noteable_id": 89,
+                "user_id": 12,
+                "body": "Another update",
+                "created_at": "2021-07-15T18:43:56.000-04:00",
+                "updated_at": "2021-07-15T18:43:56.000-04:00",
+                "user": {
+                  "id": 12,
+                  "full_name": "user1@example.com user1@example.com"
+                }
+              },
+              "facility_id": 1427,
+              "facility_name": "Project Beta",
+              "contract_nickname": null,
+              "vehicle_nickname": null,
+              "project_id": 12,
+              "sub_tasks": [],
+              "sub_issues": [],
+              "sub_task_ids": [],
+              "sub_issue_ids": [],
+              "sub_risk_ids": []
+            }
+          ],
+          "risks": [
+            {
+              "id": 62,
+              "risk_description": "Descr 1",
+              "impact_description": "",
+              "start_date": "2021-07-19",
+              "due_date": "2021-07-29",
+              "auto_calculate": true,
+              "progress": 0,
+              "probability": 1,
+              "impact_level": 1,
+              "priority_level": 1,
+              "risk_approach": "avoid",
+              "risk_approach_description": "",
+              "watched": false,
+              "watched_at": null,
+              "user_id": 12,
+              "facility_project_id": 1425,
+              "created_at": "2021-07-15T18:45:03.000-04:00",
+              "updated_at": "2022-08-08T09:43:44.000-04:00",
+              "task_type_id": 3,
+              "text": "Risk #2",
+              "kanban_order": 0,
+              "risk_stage_id": null,
+              "probability_name": "1 - Rare",
+              "impact_level_name": "1 - Negligible",
+              "probability_description": "",
+              "approval_time": "",
+              "approved": null,
+              "important": false,
+              "ongoing": false,
+              "draft": false,
+              "on_hold": false,
+              "explanation": "",
+              "duration": 0,
+              "status": null,
+              "duration_name": "Temporary",
+              "status_name": "Monitoring",
+              "reportable": false,
+              "closed_date": null,
+              "contract_id": null,
+              "project_contract_id": null,
+              "project_contract_vehicle_id": null,
+              "owner_id": 1425,
+              "owner_type": "FacilityProject",
+              "priority_level_name": "Very Low",
+              "task_type": {
+                "id": 3,
+                "name": "Site Assessment",
+                "created_at": "2020-02-27T14:44:48.000-05:00",
+                "updated_at": "2021-03-18T15:06:04.000-04:00",
+                "progress": 20
+              },
+              "category": "Site Assessment",
+              "risk_stage": null,
+              "class_name": "Risk",
+              "completed": false,
+              "planned": false,
+              "project_group": "Unassigned",
+              "program_name": "Program #1",
+              "closed": false,
+              "in_progress": false,
+              "attach_files": [],
+              "progress_status": "active",
+              "checklists": [],
+              "due_date_duplicate": "2021-07-29",
+              "facility_id": 1427,
+              "facility_name": "Project Beta",
+              "user_ids": [13, 22],
+              "risk_owners": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+              "users": [
+                {
+                  "id": 13,
+                  "email": "user2@example.com",
+                  "first_name": "user2@example.com",
+                  "last_name": "user2@example.com",
+                  "title": "",
+                  "phone_number": "+123456789",
+                  "full_name": "user2@example.com user2@example.com",
+                  "organization": ""
+                },
+                {
+                  "id": 22,
+                  "email": "user3@example.com",
+                  "first_name": "user3@example.com",
+                  "last_name": "user3@example.com",
+                  "title": "Tester",
+                  "phone_number": "",
+                  "full_name": "user3@example.com user3@example.com",
+                  "organization": ""
+                }
+              ],
+              "user_names": "user2@example.com user2@example.com, user3@example.com user3@example.com",
+              "is_overdue": true,
+              "responsible_users": [
+                {
+                  "id": 22,
+                  "name": "user3@example.com user3@example.com"
+                }
+              ],
+              "responsible_users_last_name": ["user3@example.com"],
+              "responsible_users_first_name": ["user3@example.com"],
+              "accountable_users": [
+                {
+                  "id": 13,
+                  "name": "user2@example.com user2@example.com"
+                }
+              ],
+              "accountable_users_last_name": ["user2@example.com"],
+              "accountable_users_first_name": ["user2@example.com"],
+              "consulted_users": [],
+              "informed_users": [],
+              "responsible_user_ids": [22],
+              "accountable_user_ids": [13],
+              "consulted_user_ids": [],
+              "informed_user_ids": [],
+              "risk_approver": [],
+              "risk_approver_user_ids": [],
+              "notes": [
+                {
+                  "id": 287,
+                  "noteable_type": "Risk",
+                  "noteable_id": 62,
+                  "user_id": 12,
+                  "body": "Need additional information to determine the actual risk.",
+                  "created_at": "2021-08-23T10:20:03.000-04:00",
+                  "updated_at": "2021-08-23T10:20:03.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                },
+                {
+                  "id": 259,
+                  "noteable_type": "Risk",
+                  "noteable_id": 62,
+                  "user_id": 12,
+                  "body": "Another risk update",
+                  "created_at": "2021-07-15T18:46:13.000-04:00",
+                  "updated_at": "2021-07-15T18:46:13.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                },
+                {
+                  "id": 258,
+                  "noteable_type": "Risk",
+                  "noteable_id": 62,
+                  "user_id": 12,
+                  "body": "Update at 6:45 PM on 7/15 by user1",
+                  "created_at": "2021-07-15T18:45:39.000-04:00",
+                  "updated_at": "2021-07-15T18:45:39.000-04:00",
+                  "user": {
+                    "id": 12,
+                    "full_name": "user1@example.com user1@example.com"
+                  }
+                }
+              ],
+              "contract_nickname": null,
+              "vehicle_nickname": null,
+              "notes_updated_at": [
+                "2021-08-23T10:20:03.000-04:00",
+                "2021-07-15T18:46:13.000-04:00",
+                "2021-07-15T18:45:39.000-04:00"
+              ],
+              "last_update": {
+                "id": 287,
+                "noteable_type": "Risk",
+                "noteable_id": 62,
+                "user_id": 12,
+                "body": "Need additional information to determine the actual risk.",
+                "created_at": "2021-08-23T10:20:03.000-04:00",
+                "updated_at": "2021-08-23T10:20:03.000-04:00",
+                "user": {
+                  "id": 12,
+                  "full_name": "user1@example.com user1@example.com"
+                }
+              },
+              "project_id": 12,
+              "sub_tasks": [],
+              "sub_issues": [],
+              "sub_risks": [],
+              "sub_task_ids": [],
+              "sub_issue_ids": [],
+              "sub_risk_ids": []
+            }
+          ],
+          "notes": []
+        }
+      ],
+      "project_ids": [4, 12, 15],
+      "contracts": [],
+      "contract_project_ids": [],
+      "contract_vehicles": [],
+      "contract_vehicle_ids": []
+    },
+    {
+      "id": 90,
+      "name": "Unassigned",
+      "created_at": "2022-07-06T17:17:34.000-04:00",
+      "updated_at": "2022-07-06T17:17:34.000-04:00",
+      "code": null,
+      "status": "active",
+      "region_type": 0,
+      "center": null,
+      "project_id": null,
+      "progress": 0,
+      "is_portfolio": false,
+      "user_id": null,
+      "owner_id": null,
+      "owner_type": null,
+      "is_default": false,
+      "facilities": [],
+      "project_ids": [],
+      "contracts": [],
+      "contract_project_ids": [],
+      "contract_vehicles": [],
+      "contract_vehicle_ids": []
+    },
+    {
+      "id": 95,
+      "name": "Unassigned",
+      "created_at": "2022-07-07T16:24:29.000-04:00",
+      "updated_at": "2023-02-07T15:45:41.000-05:00",
+      "code": null,
+      "status": "active",
+      "region_type": 0,
+      "center": null,
+      "project_id": null,
+      "progress": 0,
+      "is_portfolio": false,
+      "user_id": null,
+      "owner_id": 12,
+      "owner_type": "Project",
+      "is_default": true,
+      "facilities": [],
+      "project_ids": [],
+      "contracts": [],
+      "contract_project_ids": [12, 12],
+      "contract_vehicles": [],
+      "contract_vehicle_ids": []
+    }
+  ],
+  "statuses": [
+    {
+      "id": 2,
+      "name": "On Schedule",
+      "color": "#4dac73"
+    },
+    {
+      "id": 4,
+      "name": "Not Started",
+      "color": "#000000"
+    },
+    {
+      "id": 5,
+      "name": "Complete",
+      "color": "#683ea8"
+    }
+  ],
+  "task_types": [
+    {
+      "id": 3,
+      "name": "Site Assessment",
+      "created_at": "2020-02-27T14:44:48.000-05:00",
+      "updated_at": "2021-03-18T15:06:04.000-04:00",
+      "progress": 20
+    },
+    {
+      "id": 4,
+      "name": "Training",
+      "created_at": "2020-02-27T14:44:58.000-05:00",
+      "updated_at": "2021-03-18T15:06:04.000-04:00",
+      "progress": 21
+    }
+  ],
+  "issue_types": [
+    {
+      "id": 2,
+      "name": "Issue type 1",
+      "created_at": "2020-06-10T12:31:52.000-04:00",
+      "updated_at": "2021-08-23T13:00:03.000-04:00"
+    },
+    {
+      "id": 3,
+      "name": "Issue type 2",
+      "created_at": "2020-10-21T13:03:53.000-04:00",
+      "updated_at": "2021-08-23T13:00:28.000-04:00"
+    },
+    {
+      "id": 4,
+      "name": "Issue type 3",
+      "created_at": "2020-12-09T09:35:53.000-05:00",
+      "updated_at": "2021-08-23T12:59:48.000-04:00"
+    }
+  ],
+  "issue_severities": [
+    {
+      "id": 2,
+      "name": "low severity",
+      "created_at": "2020-06-10T12:32:08.000-04:00",
+      "updated_at": "2020-11-30T15:22:05.000-05:00"
+    },
+    {
+      "id": 3,
+      "name": "medium severity",
+      "created_at": "2020-11-30T15:22:15.000-05:00",
+      "updated_at": "2020-11-30T15:22:15.000-05:00"
+    },
+    {
+      "id": 4,
+      "name": "high severity",
+      "created_at": "2020-11-30T15:22:25.000-05:00",
+      "updated_at": "2020-11-30T15:22:25.000-05:00"
+    }
+  ],
+  "task_stages": [
+    {
+      "id": 3,
+      "name": "Progressing",
+      "created_at": "2020-11-19T09:02:24.000-05:00",
+      "updated_at": "2021-02-03T01:53:06.000-05:00",
+      "percentage": 35
+    },
+    {
+      "id": 4,
+      "name": "In Review",
+      "created_at": "2020-11-19T09:02:40.000-05:00",
+      "updated_at": "2020-11-26T09:34:15.000-05:00",
+      "percentage": 75
+    }
+  ],
+  "issue_stages": [
+    {
+      "id": 2,
+      "name": "Not Started",
+      "created_at": "2020-11-19T09:03:06.000-05:00",
+      "updated_at": "2020-11-19T09:03:06.000-05:00",
+      "percentage": 0
+    },
+    {
+      "id": 3,
+      "name": "In Progress",
+      "created_at": "2020-11-19T09:03:14.000-05:00",
+      "updated_at": "2020-11-26T09:34:40.000-05:00",
+      "percentage": 37
+    },
+    {
+      "id": 5,
+      "name": "Done",
+      "created_at": "2020-11-19T09:03:28.000-05:00",
+      "updated_at": "2020-11-26T09:34:52.000-05:00",
+      "percentage": 100
+    }
+  ],
+  "risk_stages": [
+    {
+      "id": 1,
+      "name": "Not Started",
+      "percentage": 0,
+      "created_at": "2020-12-31T09:45:29.000-05:00",
+      "updated_at": "2020-12-31T09:45:29.000-05:00"
+    },
+    {
+      "id": 2,
+      "name": "In Progress",
+      "percentage": 37,
+      "created_at": "2020-12-31T09:46:00.000-05:00",
+      "updated_at": "2020-12-31T09:46:34.000-05:00"
+    },
+    {
+      "id": 4,
+      "name": "Done",
+      "percentage": 100,
+      "created_at": "2020-12-31T09:47:39.000-05:00",
+      "updated_at": "2020-12-31T09:47:39.000-05:00"
+    }
+  ],
+  "lesson_stages": [
+    {
+      "id": 1,
+      "name": "Identify",
+      "created_at": "2021-05-04T15:09:27.604-04:00",
+      "updated_at": "2021-06-24T15:18:01.251-04:00"
+    },
+    {
+      "id": 2,
+      "name": "Document",
+      "created_at": "2021-05-04T15:10:44.675-04:00",
+      "updated_at": "2021-06-24T15:18:12.869-04:00"
+    },
+    {
+      "id": 4,
+      "name": "Analyze",
+      "created_at": "2021-06-15T19:15:41.988-04:00",
+      "updated_at": "2021-06-24T15:18:25.687-04:00"
+    },
+    {
+      "id": 5,
+      "name": "Store",
+      "created_at": "2021-06-15T19:16:04.968-04:00",
+      "updated_at": "2021-06-24T15:18:37.738-04:00"
+    },
+    {
+      "id": 6,
+      "name": "Retrieve",
+      "created_at": "2021-06-15T19:16:14.262-04:00",
+      "updated_at": "2021-06-24T15:18:53.122-04:00"
+    }
+  ],
+  "contract_types": [
+    {
+      "id": 1,
+      "name": "contracttype1",
+      "created_at": "2022-06-13T15:40:57.290-04:00",
+      "updated_at": "2022-06-13T15:40:57.290-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 2,
+      "name": "contract type 1",
+      "created_at": "2022-06-14T15:20:53.672-04:00",
+      "updated_at": "2022-06-14T15:20:53.672-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 3,
+      "name": "contract type 1",
+      "created_at": "2022-06-14T15:21:10.471-04:00",
+      "updated_at": "2022-06-14T15:21:10.471-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 4,
+      "name": "contract type 1",
+      "created_at": "2022-06-14T15:22:32.640-04:00",
+      "updated_at": "2022-06-14T15:22:32.640-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 5,
+      "name": "contract type 1",
+      "created_at": "2022-06-14T15:22:50.086-04:00",
+      "updated_at": "2022-06-14T15:22:50.086-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 6,
+      "name": "contract type 1",
+      "created_at": "2022-06-14T15:25:43.140-04:00",
+      "updated_at": "2022-06-14T15:25:43.140-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 7,
+      "name": "contract type 1",
+      "created_at": "2022-06-14T15:31:50.357-04:00",
+      "updated_at": "2022-06-14T15:31:50.357-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 8,
+      "name": "contract type 1",
+      "created_at": "2022-06-14T15:32:37.637-04:00",
+      "updated_at": "2022-06-14T15:32:37.637-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 9,
+      "name": "contract type 1",
+      "created_at": "2022-06-14T15:35:20.764-04:00",
+      "updated_at": "2022-06-14T15:35:20.764-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 10,
+      "name": "contract type 1",
+      "created_at": "2022-06-14T15:42:04.149-04:00",
+      "updated_at": "2022-06-14T15:42:04.149-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 11,
+      "name": "contract type 1",
+      "created_at": "2022-06-14T16:18:44.948-04:00",
+      "updated_at": "2022-06-14T16:18:44.948-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 12,
+      "name": "contract type 1",
+      "created_at": "2022-06-14T16:26:46.290-04:00",
+      "updated_at": "2022-06-14T16:26:46.290-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 13,
+      "name": "contract type 1",
+      "created_at": "2022-06-15T13:48:16.257-04:00",
+      "updated_at": "2022-06-15T13:48:16.257-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 14,
+      "name": "13",
+      "created_at": "2022-06-29T16:32:12.611-04:00",
+      "updated_at": "2022-06-29T16:32:12.611-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 15,
+      "name": "14",
+      "created_at": "2022-06-29T16:33:57.550-04:00",
+      "updated_at": "2022-06-29T16:33:57.550-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 16,
+      "name": "contract type 1",
+      "created_at": "2022-10-17T17:27:12.624-04:00",
+      "updated_at": "2022-10-17T17:27:12.624-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 17,
+      "name": "contract type 1",
+      "created_at": "2022-10-17T17:29:10.493-04:00",
+      "updated_at": "2022-10-17T17:29:10.493-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 19,
+      "name": "contract type 1",
+      "created_at": "2022-10-17T17:31:43.925-04:00",
+      "updated_at": "2022-10-17T17:31:43.925-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 20,
+      "name": "contract type 1",
+      "created_at": "2022-10-17T17:32:03.752-04:00",
+      "updated_at": "2022-10-17T17:32:03.752-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 22,
+      "name": "contract type 1",
+      "created_at": "2022-10-17T17:33:51.917-04:00",
+      "updated_at": "2022-10-17T17:33:51.917-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 23,
+      "name": "contract type 1",
+      "created_at": "2022-10-17T17:34:17.783-04:00",
+      "updated_at": "2022-10-17T17:34:17.783-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 24,
+      "name": "contract type 1",
+      "created_at": "2022-10-17T17:34:32.815-04:00",
+      "updated_at": "2022-10-17T17:34:32.815-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 25,
+      "name": "contract type 1",
+      "created_at": "2022-10-17T17:34:53.350-04:00",
+      "updated_at": "2022-10-17T17:34:53.350-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 26,
+      "name": "contract type 1",
+      "created_at": "2022-10-17T17:35:51.081-04:00",
+      "updated_at": "2022-10-17T17:35:51.081-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 27,
+      "name": "contract type 1",
+      "created_at": "2022-10-18T15:28:12.187-04:00",
+      "updated_at": "2022-10-18T15:28:12.187-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 28,
+      "name": "contract type 1",
+      "created_at": "2022-10-18T15:28:55.467-04:00",
+      "updated_at": "2022-10-18T15:28:55.467-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 29,
+      "name": "contract type 1",
+      "created_at": "2022-10-18T15:29:09.380-04:00",
+      "updated_at": "2022-10-18T15:29:09.380-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 30,
+      "name": "contract type 1",
+      "created_at": "2022-10-18T15:45:47.315-04:00",
+      "updated_at": "2022-10-18T15:45:47.315-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 31,
+      "name": "contract type 1",
+      "created_at": "2022-10-18T15:46:52.123-04:00",
+      "updated_at": "2022-10-18T15:46:52.123-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 32,
+      "name": "contract type 1",
+      "created_at": "2022-10-18T15:47:24.926-04:00",
+      "updated_at": "2022-10-18T15:47:24.926-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 33,
+      "name": "contract type 1",
+      "created_at": "2022-10-18T15:49:51.581-04:00",
+      "updated_at": "2022-10-18T15:49:51.581-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 34,
+      "name": "contract type 1",
+      "created_at": "2022-10-18T15:50:24.492-04:00",
+      "updated_at": "2022-10-18T15:50:24.492-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 36,
+      "name": "contract type 1",
+      "created_at": "2022-10-21T15:44:46.731-04:00",
+      "updated_at": "2022-10-21T15:44:46.731-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 37,
+      "name": "contract type 1",
+      "created_at": "2022-10-21T15:49:04.542-04:00",
+      "updated_at": "2022-10-21T15:49:04.542-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 38,
+      "name": "contract type 1",
+      "created_at": "2022-10-21T15:50:21.110-04:00",
+      "updated_at": "2022-10-21T15:50:21.110-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 39,
+      "name": "contract type 1",
+      "created_at": "2022-10-21T15:52:04.807-04:00",
+      "updated_at": "2022-10-21T15:52:04.807-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 40,
+      "name": "contract type 1",
+      "created_at": "2022-10-21T15:52:15.567-04:00",
+      "updated_at": "2022-10-21T15:52:15.567-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 41,
+      "name": "contract type 1",
+      "created_at": "2022-10-21T15:52:29.919-04:00",
+      "updated_at": "2022-10-21T15:52:29.919-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 42,
+      "name": "contract type 1",
+      "created_at": "2022-10-21T15:52:36.009-04:00",
+      "updated_at": "2022-10-21T15:52:36.009-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 43,
+      "name": "contract type 1",
+      "created_at": "2022-10-21T15:52:41.277-04:00",
+      "updated_at": "2022-10-21T15:52:41.277-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 44,
+      "name": "contract type 1",
+      "created_at": "2022-10-25T10:13:30.834-04:00",
+      "updated_at": "2022-10-25T10:13:30.834-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 45,
+      "name": "contract type 1",
+      "created_at": "2022-10-26T14:59:46.915-04:00",
+      "updated_at": "2022-10-26T14:59:46.915-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 46,
+      "name": "contract type 1",
+      "created_at": "2022-10-26T15:00:59.420-04:00",
+      "updated_at": "2022-10-26T15:00:59.420-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 47,
+      "name": "contract type 1",
+      "created_at": "2022-10-26T15:01:27.431-04:00",
+      "updated_at": "2022-10-26T15:01:27.431-04:00",
+      "user_id": 11
+    }
+  ],
+  "contract_statues": [
+    {
+      "id": 1,
+      "name": "8A",
+      "created_at": "2022-06-11T10:36:54.289-04:00",
+      "updated_at": "2022-06-11T10:36:54.289-04:00"
+    },
+    {
+      "id": 2,
+      "name": "8(a)/ SDVOSB",
+      "created_at": "2022-06-11T10:36:54.298-04:00",
+      "updated_at": "2022-06-11T10:36:54.298-04:00"
+    },
+    {
+      "id": 3,
+      "name": "SDVOSB",
+      "created_at": "2022-06-11T10:36:54.306-04:00",
+      "updated_at": "2022-06-11T10:36:54.306-04:00"
+    },
+    {
+      "id": 4,
+      "name": "SB",
+      "created_at": "2022-06-11T10:36:54.316-04:00",
+      "updated_at": "2022-06-11T10:36:54.316-04:00"
+    },
+    {
+      "id": 5,
+      "name": "8(a)",
+      "created_at": "2022-06-11T10:36:54.327-04:00",
+      "updated_at": "2022-06-11T10:36:54.327-04:00"
+    },
+    {
+      "id": 6,
+      "name": "N/A",
+      "created_at": "2022-06-11T10:36:54.335-04:00",
+      "updated_at": "2022-06-11T10:36:54.335-04:00"
+    }
+  ],
+  "contract_customers": [
+    {
+      "id": 1,
+      "name": "customer1",
+      "created_at": "2022-06-13T15:40:57.194-04:00",
+      "updated_at": "2022-06-13T15:40:57.194-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 2,
+      "name": "2",
+      "created_at": "2022-06-14T15:20:53.600-04:00",
+      "updated_at": "2022-06-14T15:20:53.600-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 3,
+      "name": "customer 1",
+      "created_at": "2022-06-15T13:48:16.087-04:00",
+      "updated_at": "2022-06-15T13:48:16.087-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 5,
+      "name": "asdf",
+      "created_at": "2022-06-27T16:00:08.898-04:00",
+      "updated_at": "2022-06-27T16:00:08.898-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 6,
+      "name": "3 Customer",
+      "created_at": "2022-06-29T16:49:08.545-04:00",
+      "updated_at": "2022-06-29T16:49:08.545-04:00",
+      "user_id": 11
+    }
+  ],
+  "contract_vehicle_numbers": [
+    {
+      "id": 1,
+      "name": "0353-21-2545",
+      "created_at": "2022-06-11T10:36:54.443-04:00",
+      "updated_at": "2022-06-11T10:36:54.443-04:00"
+    },
+    {
+      "id": 2,
+      "name": "19AQMM19D0147",
+      "created_at": "2022-06-11T10:36:54.453-04:00",
+      "updated_at": "2022-06-11T10:36:54.453-04:00"
+    },
+    {
+      "id": 3,
+      "name": "36C10B18D5000",
+      "created_at": "2022-06-11T10:36:54.461-04:00",
+      "updated_at": "2022-06-11T10:36:54.461-04:00"
+    },
+    {
+      "id": 4,
+      "name": "36C10B20N0015",
+      "created_at": "2022-06-11T10:36:54.470-04:00",
+      "updated_at": "2022-06-11T10:36:54.470-04:00"
+    },
+    {
+      "id": 5,
+      "name": "36C10B20N0028",
+      "created_at": "2022-06-11T10:36:54.479-04:00",
+      "updated_at": "2022-06-11T10:36:54.479-04:00"
+    },
+    {
+      "id": 6,
+      "name": "47QRAA-18-D-0098",
+      "created_at": "2022-06-11T10:36:54.509-04:00",
+      "updated_at": "2022-06-11T10:36:54.509-04:00"
+    },
+    {
+      "id": 7,
+      "name": "GS00Q17GWD2387",
+      "created_at": "2022-06-11T10:36:54.517-04:00",
+      "updated_at": "2022-06-11T10:36:54.517-04:00"
+    },
+    {
+      "id": 8,
+      "name": "47QTCH18D0041",
+      "created_at": "2022-06-11T10:36:54.526-04:00",
+      "updated_at": "2022-06-11T10:36:54.526-04:00"
+    },
+    {
+      "id": 9,
+      "name": "GS11T08BJD6001",
+      "created_at": "2022-06-11T10:36:54.535-04:00",
+      "updated_at": "2022-06-11T10:36:54.535-04:00"
+    },
+    {
+      "id": 10,
+      "name": "GS-35F-0142W",
+      "created_at": "2022-06-11T10:36:54.543-04:00",
+      "updated_at": "2022-06-11T10:36:54.543-04:00"
+    },
+    {
+      "id": 11,
+      "name": "GS35F349CA",
+      "created_at": "2022-06-11T10:36:54.552-04:00",
+      "updated_at": "2022-06-11T10:36:54.552-04:00"
+    },
+    {
+      "id": 12,
+      "name": "GS-35F-413BA",
+      "created_at": "2022-06-11T10:36:54.561-04:00",
+      "updated_at": "2022-06-11T10:36:54.561-04:00"
+    },
+    {
+      "id": 13,
+      "name": "HHSN316201800023W",
+      "created_at": "2022-06-11T10:36:54.569-04:00",
+      "updated_at": "2022-06-11T10:36:54.569-04:00"
+    },
+    {
+      "id": 14,
+      "name": "HHM402-17-A-0007",
+      "created_at": "2022-06-11T10:36:54.578-04:00",
+      "updated_at": "2022-06-11T10:36:54.578-04:00"
+    },
+    {
+      "id": 15,
+      "name": "HT003821C0006",
+      "created_at": "2022-06-11T10:36:54.586-04:00",
+      "updated_at": "2022-06-11T10:36:54.586-04:00"
+    },
+    {
+      "id": 16,
+      "name": "VA118-16-D-1006",
+      "created_at": "2022-06-11T10:36:54.594-04:00",
+      "updated_at": "2022-06-11T10:36:54.594-04:00"
+    },
+    {
+      "id": 17,
+      "name": "N/A",
+      "created_at": "2022-06-11T10:36:54.603-04:00",
+      "updated_at": "2022-06-11T10:36:54.603-04:00"
+    },
+    {
+      "id": 18,
+      "name": "TBD",
+      "created_at": "2022-06-11T10:36:54.612-04:00",
+      "updated_at": "2022-06-11T10:36:54.612-04:00"
+    }
+  ],
+  "contract_numbers": [
+    {
+      "id": 1,
+      "name": "0353-21-2545/7335105102P0012",
+      "created_at": "2022-06-11T10:36:54.628-04:00",
+      "updated_at": "2022-06-11T10:36:54.628-04:00",
+      "user_id": null
+    },
+    {
+      "id": 2,
+      "name": "19AQMM19D0147/19AQMM19F4405",
+      "created_at": "2022-06-11T10:36:54.637-04:00",
+      "updated_at": "2022-06-11T10:36:54.637-04:00",
+      "user_id": null
+    },
+    {
+      "id": 3,
+      "name": "19AQMM19D0147/19AQMM20F0955",
+      "created_at": "2022-06-11T10:36:54.646-04:00",
+      "updated_at": "2022-06-11T10:36:54.646-04:00",
+      "user_id": null
+    },
+    {
+      "id": 4,
+      "name": "19AQMM19D0147/19AQMM20F1904",
+      "created_at": "2022-06-11T10:36:54.656-04:00",
+      "updated_at": "2022-06-11T10:36:54.656-04:00",
+      "user_id": null
+    },
+    {
+      "id": 5,
+      "name": "19AQMM19D0147/19AQMM20F2118",
+      "created_at": "2022-06-11T10:36:54.664-04:00",
+      "updated_at": "2022-06-11T10:36:54.664-04:00",
+      "user_id": null
+    },
+    {
+      "id": 6,
+      "name": "36C10B18D5000",
+      "created_at": "2022-06-11T10:36:54.673-04:00",
+      "updated_at": "2022-06-11T10:36:54.673-04:00",
+      "user_id": null
+    },
+    {
+      "id": 7,
+      "name": "36C10B19N0008",
+      "created_at": "2022-06-11T10:36:54.681-04:00",
+      "updated_at": "2022-06-11T10:36:54.681-04:00",
+      "user_id": null
+    },
+    {
+      "id": 8,
+      "name": "36C19N0010",
+      "created_at": "2022-06-11T10:36:54.690-04:00",
+      "updated_at": "2022-06-11T10:36:54.690-04:00",
+      "user_id": null
+    },
+    {
+      "id": 9,
+      "name": "36C10B19N0016",
+      "created_at": "2022-06-11T10:36:54.699-04:00",
+      "updated_at": "2022-06-11T10:36:54.699-04:00",
+      "user_id": null
+    },
+    {
+      "id": 10,
+      "name": "36C10B19N0021",
+      "created_at": "2022-06-11T10:36:54.708-04:00",
+      "updated_at": "2022-06-11T10:36:54.708-04:00",
+      "user_id": null
+    },
+    {
+      "id": 11,
+      "name": "36C10B20N0015",
+      "created_at": "2022-06-11T10:36:54.716-04:00",
+      "updated_at": "2022-06-11T10:36:54.716-04:00",
+      "user_id": null
+    },
+    {
+      "id": 12,
+      "name": "36C10B20N0015EHRM",
+      "created_at": "2022-06-11T10:36:54.724-04:00",
+      "updated_at": "2022-06-11T10:36:54.724-04:00",
+      "user_id": null
+    },
+    {
+      "id": 13,
+      "name": "36C10B20N0030",
+      "created_at": "2022-06-11T10:36:54.733-04:00",
+      "updated_at": "2022-06-11T10:36:54.733-04:00",
+      "user_id": null
+    },
+    {
+      "id": 14,
+      "name": "36C10B20N0034",
+      "created_at": "2022-06-11T10:36:54.742-04:00",
+      "updated_at": "2022-06-11T10:36:54.742-04:00",
+      "user_id": null
+    },
+    {
+      "id": 15,
+      "name": "36C10B20N0035",
+      "created_at": "2022-06-11T10:36:54.751-04:00",
+      "updated_at": "2022-06-11T10:36:54.751-04:00",
+      "user_id": null
+    },
+    {
+      "id": 16,
+      "name": "36C10B20N0036",
+      "created_at": "2022-06-11T10:36:54.759-04:00",
+      "updated_at": "2022-06-11T10:36:54.759-04:00",
+      "user_id": null
+    },
+    {
+      "id": 17,
+      "name": "36C10B20N10060037",
+      "created_at": "2022-06-11T10:36:54.768-04:00",
+      "updated_at": "2022-06-11T10:36:54.768-04:00",
+      "user_id": null
+    },
+    {
+      "id": 18,
+      "name": "47QFSA20F0034",
+      "created_at": "2022-06-11T10:36:54.776-04:00",
+      "updated_at": "2022-06-11T10:36:54.776-04:00",
+      "user_id": null
+    },
+    {
+      "id": 19,
+      "name": "47FWA19F0046",
+      "created_at": "2022-06-11T10:36:54.785-04:00",
+      "updated_at": "2022-06-11T10:36:54.785-04:00",
+      "user_id": null
+    },
+    {
+      "id": 20,
+      "name": "47QTCH18D0041/47QFSA21F0005",
+      "created_at": "2022-06-11T10:36:54.794-04:00",
+      "updated_at": "2022-06-11T10:36:54.794-04:00",
+      "user_id": null
+    },
+    {
+      "id": 21,
+      "name": "50310219A0005/50310219F0145",
+      "created_at": "2022-06-11T10:36:54.802-04:00",
+      "updated_at": "2022-06-11T10:36:54.802-04:00",
+      "user_id": null
+    },
+    {
+      "id": 22,
+      "name": "50310219A0005/50310220F0086",
+      "created_at": "2022-06-11T10:36:54.811-04:00",
+      "updated_at": "2022-06-11T10:36:54.811-04:00",
+      "user_id": null
+    },
+    {
+      "id": 23,
+      "name": "50310219A0005/50310220F0119",
+      "created_at": "2022-06-11T10:36:54.820-04:00",
+      "updated_at": "2022-06-11T10:36:54.820-04:00",
+      "user_id": null
+    },
+    {
+      "id": 24,
+      "name": "75N98118D00023/70Z0G320FPMG00100",
+      "created_at": "2022-06-11T10:36:54.828-04:00",
+      "updated_at": "2022-06-11T10:36:54.828-04:00",
+      "user_id": null
+    },
+    {
+      "id": 25,
+      "name": "89303020CMA00052",
+      "created_at": "2022-06-11T10:36:54.836-04:00",
+      "updated_at": "2022-06-11T10:36:54.836-04:00",
+      "user_id": null
+    },
+    {
+      "id": 26,
+      "name": "GS00Q1700Q17GWD2387",
+      "created_at": "2022-06-11T10:36:54.845-04:00",
+      "updated_at": "2022-06-11T10:36:54.845-04:00",
+      "user_id": null
+    },
+    {
+      "id": 27,
+      "name": "GS11T08BJD6001",
+      "created_at": "2022-06-11T10:36:54.854-04:00",
+      "updated_at": "2022-06-11T10:36:54.854-04:00",
+      "user_id": null
+    },
+    {
+      "id": 28,
+      "name": "GS35F413BA/140D418F0001",
+      "created_at": "2022-06-11T10:36:54.863-04:00",
+      "updated_at": "2022-06-11T10:36:54.863-04:00",
+      "user_id": null
+    },
+    {
+      "id": 29,
+      "name": "GS35F413BA175R60220F80134",
+      "created_at": "2022-06-11T10:36:54.871-04:00",
+      "updated_at": "2022-06-11T10:36:54.871-04:00",
+      "user_id": null
+    },
+    {
+      "id": 30,
+      "name": "HHM402-17-A-0007/0008",
+      "created_at": "2022-06-11T10:36:54.900-04:00",
+      "updated_at": "2022-06-11T10:36:54.900-04:00",
+      "user_id": null
+    },
+    {
+      "id": 31,
+      "name": "HHSH250201800032B/75R60220F34006",
+      "created_at": "2022-06-11T10:36:54.909-04:00",
+      "updated_at": "2022-06-11T10:36:54.909-04:00",
+      "user_id": null
+    },
+    {
+      "id": 32,
+      "name": "HHSh25020180032b/75R60220F34007",
+      "created_at": "2022-06-11T10:36:54.918-04:00",
+      "updated_at": "2022-06-11T10:36:54.918-04:00",
+      "user_id": null
+    },
+    {
+      "id": 33,
+      "name": "HQMMMBBX6",
+      "created_at": "2022-06-11T10:36:54.927-04:00",
+      "updated_at": "2022-06-11T10:36:54.927-04:00",
+      "user_id": null
+    },
+    {
+      "id": 34,
+      "name": "HT001419C0023",
+      "created_at": "2022-06-11T10:36:54.936-04:00",
+      "updated_at": "2022-06-11T10:36:54.936-04:00",
+      "user_id": null
+    },
+    {
+      "id": 35,
+      "name": "HT003821C0006",
+      "created_at": "2022-06-11T10:36:54.945-04:00",
+      "updated_at": "2022-06-11T10:36:54.945-04:00",
+      "user_id": null
+    },
+    {
+      "id": 36,
+      "name": "Q-ACLD-19-SME-01",
+      "created_at": "2022-06-11T10:36:54.953-04:00",
+      "updated_at": "2022-06-11T10:36:54.953-04:00",
+      "user_id": null
+    },
+    {
+      "id": 37,
+      "name": "VA118-16-F-1006-0012",
+      "created_at": "2022-06-11T10:36:54.962-04:00",
+      "updated_at": "2022-06-11T10:36:54.962-04:00",
+      "user_id": null
+    },
+    {
+      "id": 38,
+      "name": "VA11817F10060016",
+      "created_at": "2022-06-11T10:36:54.971-04:00",
+      "updated_at": "2022-06-11T10:36:54.971-04:00",
+      "user_id": null
+    },
+    {
+      "id": 39,
+      "name": "W81XWH18F0361",
+      "created_at": "2022-06-11T10:36:54.979-04:00",
+      "updated_at": "2022-06-11T10:36:54.979-04:00",
+      "user_id": null
+    },
+    {
+      "id": 40,
+      "name": "W912DY-19-C-0018",
+      "created_at": "2022-06-11T10:36:54.987-04:00",
+      "updated_at": "2022-06-11T10:36:54.987-04:00",
+      "user_id": null
+    },
+    {
+      "id": 41,
+      "name": "W9133L-21-C-1000",
+      "created_at": "2022-06-11T10:36:54.995-04:00",
+      "updated_at": "2022-06-11T10:36:54.995-04:00",
+      "user_id": null
+    },
+    {
+      "id": 42,
+      "name": "TBA",
+      "created_at": "2022-06-11T10:36:55.006-04:00",
+      "updated_at": "2022-06-11T10:36:55.006-04:00",
+      "user_id": null
+    },
+    {
+      "id": 43,
+      "name": "cnumber1",
+      "created_at": "2022-06-13T15:40:57.178-04:00",
+      "updated_at": "2022-06-13T15:40:57.178-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 44,
+      "name": "asdfasfasf",
+      "created_at": "2022-06-15T13:48:16.068-04:00",
+      "updated_at": "2022-06-15T13:48:16.068-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 45,
+      "name": "44",
+      "created_at": "2022-06-29T16:32:12.491-04:00",
+      "updated_at": "2022-06-29T16:32:12.491-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 46,
+      "name": "45",
+      "created_at": "2022-06-29T16:33:57.520-04:00",
+      "updated_at": "2022-06-29T16:33:57.520-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 47,
+      "name": "46",
+      "created_at": "2022-06-29T16:37:26.318-04:00",
+      "updated_at": "2022-06-29T16:37:26.318-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 48,
+      "name": "c223344",
+      "created_at": "2022-07-07T17:10:21.638-04:00",
+      "updated_at": "2022-07-07T17:10:21.638-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 49,
+      "name": "[object Object]",
+      "created_at": "2022-07-07T17:14:40.078-04:00",
+      "updated_at": "2022-07-07T17:14:40.078-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 50,
+      "name": "[object Object]",
+      "created_at": "2022-07-07T17:26:57.567-04:00",
+      "updated_at": "2022-07-07T17:26:57.567-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 51,
+      "name": "c123",
+      "created_at": "2022-07-07T17:33:13.840-04:00",
+      "updated_at": "2022-07-07T17:33:13.840-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 52,
+      "name": "111111111",
+      "created_at": "2022-07-08T13:22:55.588-04:00",
+      "updated_at": "2022-07-08T13:22:55.588-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 53,
+      "name": "222222",
+      "created_at": "2022-07-08T13:25:22.827-04:00",
+      "updated_at": "2022-07-08T13:25:22.827-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 54,
+      "name": "3333333",
+      "created_at": "2022-07-08T13:25:43.927-04:00",
+      "updated_at": "2022-07-08T13:25:43.927-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 55,
+      "name": "44444",
+      "created_at": "2022-07-08T13:26:15.652-04:00",
+      "updated_at": "2022-07-08T13:26:15.652-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 56,
+      "name": "qqqqqq",
+      "created_at": "2022-07-13T13:31:24.232-04:00",
+      "updated_at": "2022-07-13T13:31:24.232-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 58,
+      "name": "New Contract Number",
+      "created_at": "2022-09-07T11:31:07.539-04:00",
+      "updated_at": "2022-09-07T11:31:07.539-04:00",
+      "user_id": 11
+    }
+  ],
+  "subcontract_numbers": [
+    {
+      "id": 1,
+      "name": "2016-004-T4NG-SC/POVAT4NG-016-006",
+      "created_at": "2022-06-11T10:36:55.023-04:00",
+      "updated_at": "2022-06-11T10:36:55.023-04:00"
+    },
+    {
+      "id": 2,
+      "name": "2016-004-T4NG-SC/PO-T4NG-037-002",
+      "created_at": "2022-06-11T10:36:55.032-04:00",
+      "updated_at": "2022-06-11T10:36:55.032-04:00"
+    },
+    {
+      "id": 3,
+      "name": "2017-006-T4NG-SC/POVAT4NG-012-003",
+      "created_at": "2022-06-11T10:36:55.040-04:00",
+      "updated_at": "2022-06-11T10:36:55.040-04:00"
+    },
+    {
+      "id": 4,
+      "name": "2018-001-DIA-SC/DIA-008-002",
+      "created_at": "2022-06-11T10:36:55.050-04:00",
+      "updated_at": "2022-06-11T10:36:55.050-04:00"
+    },
+    {
+      "id": 5,
+      "name": "2020-02",
+      "created_at": "2022-06-11T10:36:55.058-04:00",
+      "updated_at": "2022-06-11T10:36:55.058-04:00"
+    },
+    {
+      "id": 6,
+      "name": "AstraFireJV2019-004/AFJV202151",
+      "created_at": "2022-06-11T10:36:55.067-04:00",
+      "updated_at": "2022-06-11T10:36:55.067-04:00"
+    },
+    {
+      "id": 7,
+      "name": "GCMS41714",
+      "created_at": "2022-06-11T10:36:55.076-04:00",
+      "updated_at": "2022-06-11T10:36:55.076-04:00"
+    },
+    {
+      "id": 8,
+      "name": "IIS-2015-SUB002/2021-ARNG-1003",
+      "created_at": "2022-06-11T10:36:55.086-04:00",
+      "updated_at": "2022-06-11T10:36:55.086-04:00"
+    },
+    {
+      "id": 9,
+      "name": "MA-000789-2018/PO2TI0502-01",
+      "created_at": "2022-06-11T10:36:55.099-04:00",
+      "updated_at": "2022-06-11T10:36:55.099-04:00"
+    },
+    {
+      "id": 10,
+      "name": "MASI1-19-S-LH-0225",
+      "created_at": "2022-06-11T10:36:55.110-04:00",
+      "updated_at": "2022-06-11T10:36:55.110-04:00"
+    },
+    {
+      "id": 11,
+      "name": "N/A",
+      "created_at": "2022-06-11T10:36:55.124-04:00",
+      "updated_at": "2022-06-11T10:36:55.124-04:00"
+    },
+    {
+      "id": 12,
+      "name": "S21012",
+      "created_at": "2022-06-11T10:36:55.137-04:00",
+      "updated_at": "2022-06-11T10:36:55.137-04:00"
+    },
+    {
+      "id": 13,
+      "name": "SC-13-04",
+      "created_at": "2022-06-11T10:36:55.149-04:00",
+      "updated_at": "2022-06-11T10:36:55.149-04:00"
+    },
+    {
+      "id": 14,
+      "name": "SC-13-04/PO2019-0075&PO2019-077/2020-0116",
+      "created_at": "2022-06-11T10:36:55.162-04:00",
+      "updated_at": "2022-06-11T10:36:55.162-04:00"
+    },
+    {
+      "id": 15,
+      "name": "TO 53444-15",
+      "created_at": "2022-06-11T10:36:55.175-04:00",
+      "updated_at": "2022-06-11T10:36:55.175-04:00"
+    },
+    {
+      "id": 16,
+      "name": "TO 52492-15",
+      "created_at": "2022-06-11T10:36:55.188-04:00",
+      "updated_at": "2022-06-11T10:36:55.188-04:00"
+    },
+    {
+      "id": 17,
+      "name": "TO 53940-08",
+      "created_at": "2022-06-11T10:36:55.201-04:00",
+      "updated_at": "2022-06-11T10:36:55.201-04:00"
+    },
+    {
+      "id": 18,
+      "name": "TO 55543-28",
+      "created_at": "2022-06-11T10:36:55.216-04:00",
+      "updated_at": "2022-06-11T10:36:55.216-04:00"
+    },
+    {
+      "id": 19,
+      "name": "TO 56511-28",
+      "created_at": "2022-06-11T10:36:55.231-04:00",
+      "updated_at": "2022-06-11T10:36:55.231-04:00"
+    },
+    {
+      "id": 20,
+      "name": "TO 57551-10",
+      "created_at": "2022-06-11T10:36:55.242-04:00",
+      "updated_at": "2022-06-11T10:36:55.242-04:00"
+    },
+    {
+      "id": 21,
+      "name": "TO 57552-16",
+      "created_at": "2022-06-11T10:36:55.254-04:00",
+      "updated_at": "2022-06-11T10:36:55.254-04:00"
+    },
+    {
+      "id": 22,
+      "name": "TO  57553-21",
+      "created_at": "2022-06-11T10:36:55.265-04:00",
+      "updated_at": "2022-06-11T10:36:55.265-04:00"
+    },
+    {
+      "id": 23,
+      "name": "TO 57554-30",
+      "created_at": "2022-06-11T10:36:55.276-04:00",
+      "updated_at": "2022-06-11T10:36:55.276-04:00"
+    },
+    {
+      "id": 24,
+      "name": "TO 57555-34",
+      "created_at": "2022-06-11T10:36:55.288-04:00",
+      "updated_at": "2022-06-11T10:36:55.288-04:00"
+    },
+    {
+      "id": 25,
+      "name": "TO 57556-35",
+      "created_at": "2022-06-11T10:36:55.299-04:00",
+      "updated_at": "2022-06-11T10:36:55.299-04:00"
+    },
+    {
+      "id": 26,
+      "name": "TO 57557-36",
+      "created_at": "2022-06-11T10:36:55.311-04:00",
+      "updated_at": "2022-06-11T10:36:55.311-04:00"
+    },
+    {
+      "id": 27,
+      "name": "TO 57564-08",
+      "created_at": "2022-06-11T10:36:55.323-04:00",
+      "updated_at": "2022-06-11T10:36:55.323-04:00"
+    },
+    {
+      "id": 28,
+      "name": "TO 57789-15",
+      "created_at": "2022-06-11T10:36:55.334-04:00",
+      "updated_at": "2022-06-11T10:36:55.334-04:00"
+    }
+  ],
+  "contract_primes": [
+    {
+      "id": 1,
+      "name": "3M",
+      "created_at": "2022-06-11T10:36:55.390-04:00",
+      "updated_at": "2022-06-11T10:36:55.390-04:00"
+    },
+    {
+      "id": 2,
+      "name": "American Systems Cooperation",
+      "created_at": "2022-06-11T10:36:55.399-04:00",
+      "updated_at": "2022-06-11T10:36:55.399-04:00"
+    },
+    {
+      "id": 3,
+      "name": "AstraFine JV LLC",
+      "created_at": "2022-06-11T10:36:55.409-04:00",
+      "updated_at": "2022-06-11T10:36:55.409-04:00"
+    },
+    {
+      "id": 4,
+      "name": "Cerner Government Services, inc.",
+      "created_at": "2022-06-11T10:36:55.418-04:00",
+      "updated_at": "2022-06-11T10:36:55.418-04:00"
+    },
+    {
+      "id": 5,
+      "name": "Diverse Systems Group, LLC",
+      "created_at": "2022-06-11T10:36:55.427-04:00",
+      "updated_at": "2022-06-11T10:36:55.427-04:00"
+    },
+    {
+      "id": 6,
+      "name": "Favor TechConsulting, LLC",
+      "created_at": "2022-06-11T10:36:55.436-04:00",
+      "updated_at": "2022-06-11T10:36:55.436-04:00"
+    },
+    {
+      "id": 7,
+      "name": "Innovative Information Solutions, LLC",
+      "created_at": "2022-06-11T10:36:55.444-04:00",
+      "updated_at": "2022-06-11T10:36:55.444-04:00"
+    },
+    {
+      "id": 8,
+      "name": "ManTech Advance Systems International, inc.",
+      "created_at": "2022-06-11T10:36:55.452-04:00",
+      "updated_at": "2022-06-11T10:36:55.452-04:00"
+    },
+    {
+      "id": 9,
+      "name": "MicroHealth, LLC",
+      "created_at": "2022-06-11T10:36:55.460-04:00",
+      "updated_at": "2022-06-11T10:36:55.460-04:00"
+    },
+    {
+      "id": 10,
+      "name": "Planned Systems International inc.",
+      "created_at": "2022-06-11T10:36:55.472-04:00",
+      "updated_at": "2022-06-11T10:36:55.472-04:00"
+    },
+    {
+      "id": 11,
+      "name": "Verizon Federal Services, inc.",
+      "created_at": "2022-06-11T10:36:55.482-04:00",
+      "updated_at": "2022-06-11T10:36:55.482-04:00"
+    }
+  ],
+  "contract_current_pops": [
+    {
+      "id": 1,
+      "name": "cpop1",
+      "created_at": "2022-06-13T15:40:57.307-04:00",
+      "updated_at": "2022-06-13T15:40:57.307-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 2,
+      "name": "current pops",
+      "created_at": "2022-06-14T15:20:53.681-04:00",
+      "updated_at": "2022-06-14T15:20:53.681-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 3,
+      "name": "current pops",
+      "created_at": "2022-06-14T15:21:10.503-04:00",
+      "updated_at": "2022-06-14T15:21:10.503-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 4,
+      "name": "current pops",
+      "created_at": "2022-06-14T15:22:32.660-04:00",
+      "updated_at": "2022-06-14T15:22:32.660-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 5,
+      "name": "current pops",
+      "created_at": "2022-06-14T15:22:50.107-04:00",
+      "updated_at": "2022-06-14T15:22:50.107-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 6,
+      "name": "current pops",
+      "created_at": "2022-06-14T15:25:43.351-04:00",
+      "updated_at": "2022-06-14T15:25:43.351-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 7,
+      "name": "current pops",
+      "created_at": "2022-06-14T15:31:50.405-04:00",
+      "updated_at": "2022-06-14T15:31:50.405-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 8,
+      "name": "current pops",
+      "created_at": "2022-06-14T15:32:37.658-04:00",
+      "updated_at": "2022-06-14T15:32:37.658-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 9,
+      "name": "current pops",
+      "created_at": "2022-06-14T15:35:20.785-04:00",
+      "updated_at": "2022-06-14T15:35:20.785-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 10,
+      "name": "current pops",
+      "created_at": "2022-06-14T15:42:04.181-04:00",
+      "updated_at": "2022-06-14T15:42:04.181-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 11,
+      "name": "current pops",
+      "created_at": "2022-06-14T16:18:44.984-04:00",
+      "updated_at": "2022-06-14T16:18:44.984-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 12,
+      "name": "current pops",
+      "created_at": "2022-06-14T16:26:46.306-04:00",
+      "updated_at": "2022-06-14T16:26:46.306-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 13,
+      "name": "current pops",
+      "created_at": "2022-06-15T13:48:16.316-04:00",
+      "updated_at": "2022-06-15T13:48:16.316-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 14,
+      "name": "13",
+      "created_at": "2022-06-29T16:44:47.664-04:00",
+      "updated_at": "2022-06-29T16:44:47.664-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 15,
+      "name": "current pops",
+      "created_at": "2022-10-17T17:27:12.640-04:00",
+      "updated_at": "2022-10-17T17:27:12.640-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 16,
+      "name": "current pops",
+      "created_at": "2022-10-17T17:29:10.498-04:00",
+      "updated_at": "2022-10-17T17:29:10.498-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 18,
+      "name": "current pops",
+      "created_at": "2022-10-17T17:31:43.943-04:00",
+      "updated_at": "2022-10-17T17:31:43.943-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 19,
+      "name": "current pops",
+      "created_at": "2022-10-17T17:32:03.772-04:00",
+      "updated_at": "2022-10-17T17:32:03.772-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 21,
+      "name": "current pops",
+      "created_at": "2022-10-17T17:33:51.932-04:00",
+      "updated_at": "2022-10-17T17:33:51.932-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 22,
+      "name": "current pops",
+      "created_at": "2022-10-17T17:34:17.791-04:00",
+      "updated_at": "2022-10-17T17:34:17.791-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 23,
+      "name": "current pops",
+      "created_at": "2022-10-17T17:34:32.832-04:00",
+      "updated_at": "2022-10-17T17:34:32.832-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 24,
+      "name": "current pops",
+      "created_at": "2022-10-17T17:34:53.367-04:00",
+      "updated_at": "2022-10-17T17:34:53.367-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 25,
+      "name": "current pops",
+      "created_at": "2022-10-17T17:35:51.098-04:00",
+      "updated_at": "2022-10-17T17:35:51.098-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 26,
+      "name": "current pops",
+      "created_at": "2022-10-18T15:28:12.203-04:00",
+      "updated_at": "2022-10-18T15:28:12.203-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 27,
+      "name": "current pops",
+      "created_at": "2022-10-18T15:28:55.490-04:00",
+      "updated_at": "2022-10-18T15:28:55.490-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 28,
+      "name": "current pops",
+      "created_at": "2022-10-18T15:29:09.396-04:00",
+      "updated_at": "2022-10-18T15:29:09.396-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 29,
+      "name": "current pops",
+      "created_at": "2022-10-18T15:45:47.329-04:00",
+      "updated_at": "2022-10-18T15:45:47.329-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 30,
+      "name": "current pops",
+      "created_at": "2022-10-18T15:46:52.138-04:00",
+      "updated_at": "2022-10-18T15:46:52.138-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 31,
+      "name": "current pops",
+      "created_at": "2022-10-18T15:47:24.937-04:00",
+      "updated_at": "2022-10-18T15:47:24.937-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 32,
+      "name": "current pops",
+      "created_at": "2022-10-18T15:49:51.597-04:00",
+      "updated_at": "2022-10-18T15:49:51.597-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 33,
+      "name": "current pops",
+      "created_at": "2022-10-18T15:50:24.497-04:00",
+      "updated_at": "2022-10-18T15:50:24.497-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 35,
+      "name": "current pops",
+      "created_at": "2022-10-21T15:44:46.751-04:00",
+      "updated_at": "2022-10-21T15:44:46.751-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 36,
+      "name": "current pops",
+      "created_at": "2022-10-21T15:49:04.557-04:00",
+      "updated_at": "2022-10-21T15:49:04.557-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 37,
+      "name": "current pops",
+      "created_at": "2022-10-21T15:50:21.126-04:00",
+      "updated_at": "2022-10-21T15:50:21.126-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 38,
+      "name": "current pops",
+      "created_at": "2022-10-21T15:52:04.824-04:00",
+      "updated_at": "2022-10-21T15:52:04.824-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 39,
+      "name": "current pops",
+      "created_at": "2022-10-21T15:52:15.574-04:00",
+      "updated_at": "2022-10-21T15:52:15.574-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 40,
+      "name": "current pops",
+      "created_at": "2022-10-21T15:52:29.924-04:00",
+      "updated_at": "2022-10-21T15:52:29.924-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 41,
+      "name": "current pops",
+      "created_at": "2022-10-21T15:52:36.015-04:00",
+      "updated_at": "2022-10-21T15:52:36.015-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 42,
+      "name": "current pops",
+      "created_at": "2022-10-21T15:52:41.285-04:00",
+      "updated_at": "2022-10-21T15:52:41.285-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 43,
+      "name": "current pops",
+      "created_at": "2022-10-25T10:13:30.852-04:00",
+      "updated_at": "2022-10-25T10:13:30.852-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 44,
+      "name": "current pops",
+      "created_at": "2022-10-26T14:59:46.922-04:00",
+      "updated_at": "2022-10-26T14:59:46.922-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 45,
+      "name": "current pops",
+      "created_at": "2022-10-26T15:00:59.428-04:00",
+      "updated_at": "2022-10-26T15:00:59.428-04:00",
+      "user_id": 11
+    },
+    {
+      "id": 46,
+      "name": "current pops",
+      "created_at": "2022-10-26T15:01:27.436-04:00",
+      "updated_at": "2022-10-26T15:01:27.436-04:00",
+      "user_id": 11
+    }
+  ],
+  "contract_classifications": [
+    {
+      "id": 1,
+      "name": "FFP",
+      "created_at": "2022-06-11T10:36:55.525-04:00",
+      "updated_at": "2022-06-11T10:36:55.525-04:00"
+    },
+    {
+      "id": 2,
+      "name": "T&M",
+      "created_at": "2022-06-11T10:36:55.536-04:00",
+      "updated_at": "2022-06-11T10:36:55.536-04:00"
+    },
+    {
+      "id": 3,
+      "name": "Labor Hour",
+      "created_at": "2022-06-11T10:36:55.545-04:00",
+      "updated_at": "2022-06-11T10:36:55.545-04:00"
+    },
+    {
+      "id": 4,
+      "name": "FFP for support services/ T&M for travel",
+      "created_at": "2022-06-11T10:36:55.554-04:00",
+      "updated_at": "2022-06-11T10:36:55.554-04:00"
+    },
+    {
+      "id": 5,
+      "name": "FFP/ T&M",
+      "created_at": "2022-06-11T10:36:55.562-04:00",
+      "updated_at": "2022-06-11T10:36:55.562-04:00"
+    },
+    {
+      "id": 6,
+      "name": "FFP/ FFPU",
+      "created_at": "2022-06-11T10:36:55.570-04:00",
+      "updated_at": "2022-06-11T10:36:55.570-04:00"
+    }
+  ]
+}
