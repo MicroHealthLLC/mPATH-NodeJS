@@ -1,0 +1,98 @@
+[
+    {
+        "id": 3,
+        "name": "Electronic Health Record Modernization (EHRM)",
+        "description": "Over the next 10 years, VA will move from using its current electronic health record (EHR) system — the software that stores health information and tracks all aspects of patient care — to a new system that will link in with the Department of Defense’s patient records and unify all VA facilities on one system. The program that will manage VA’s steady transition to the new EHR is called Electronic Health Record Modernization (EHRM).",
+        "created_at": "2020-02-25T13:50:52.000-05:00",
+        "updated_at": "2021-04-15T20:12:52.000-04:00",
+        "uuid": "618a89db-dc19-4c84-b3c1-c864c2eec54f",
+        "project_type_id": 6,
+        "status": "active",
+        "progress": 15,
+        "project_type": "Software Upgrade"
+    },
+    {
+        "id": 4,
+        "name": "End User Device Refresh",
+        "description": "",
+        "created_at": "2020-02-25T14:15:38.000-05:00",
+        "updated_at": "2021-08-25T09:44:50.000-04:00",
+        "uuid": "b4c268c1-585a-4d5d-8889-f613710e154c",
+        "project_type_id": 1,
+        "status": "active",
+        "progress": 46,
+        "project_type": "Network Upgrade"
+    },
+    {
+        "id": 8,
+        "name": "Temp Project",
+        "description": "",
+        "created_at": "2020-08-13T13:44:27.000-04:00",
+        "updated_at": "2021-06-07T14:24:59.000-04:00",
+        "uuid": "6f56eb59-1eef-4f69-a63f-bf43f8108b2c",
+        "project_type_id": 6,
+        "status": "active",
+        "progress": 100,
+        "project_type": "Software Upgrade"
+    },
+    {
+        "id": 11,
+        "name": "DeleteProgramTest",
+        "description": "",
+        "created_at": "2021-04-07T15:04:57.000-04:00",
+        "updated_at": "2021-08-03T13:32:46.000-04:00",
+        "uuid": "ee58e0a4-e8d2-4dbf-a638-1625f426c2e3",
+        "project_type_id": 8,
+        "status": "active",
+        "progress": 75,
+        "project_type": "DeleteProgramTypeTest"
+    },
+    {
+        "id": 12,
+        "name": "Program #1",
+        "description": "",
+        "created_at": "2021-06-09T00:10:23.000-04:00",
+        "updated_at": "2021-08-23T10:08:09.000-04:00",
+        "uuid": "70d0c9af-9a68-4c21-a984-96dc4d37ecd3",
+        "project_type_id": 1,
+        "status": "active",
+        "progress": 27,
+        "project_type": "Network Upgrade"
+    },
+    {
+        "id": 13,
+        "name": "One Project Program",
+        "description": "",
+        "created_at": "2021-08-04T10:39:59.000-04:00",
+        "updated_at": "2021-08-04T10:39:59.000-04:00",
+        "uuid": "dd37f49d-84b6-4d94-b53b-9da699bb4840",
+        "project_type_id": 6,
+        "status": "active",
+        "progress": 0,
+        "project_type": "Software Upgrade"
+    },
+    {
+        "id": 14,
+        "name": "Program #2",
+        "description": "",
+        "created_at": "2021-08-23T09:43:22.000-04:00",
+        "updated_at": "2021-08-23T12:50:00.000-04:00",
+        "uuid": "739e87e7-b1b4-497e-bba0-5481c305f787",
+        "project_type_id": 6,
+        "status": "active",
+        "progress": 31,
+        "project_type": "Software Upgrade"
+    },
+    {
+        "id": 15,
+        "name": "Program #3",
+        "description": "",
+        "created_at": "2021-08-23T19:54:31.000-04:00",
+        "updated_at": "2021-08-23T19:54:31.000-04:00",
+        "uuid": "b4982b90-c4ee-4a7d-8dc3-86e4fd408880",
+        "project_type_id": 7,
+        "status": "active",
+        "progress": 0,
+        "project_type": "Hardware Upgrade"
+    }
+]

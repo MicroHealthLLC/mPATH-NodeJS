@@ -1,3 +1,7 @@
+
+import http from "./../../common/http";
+import { API_BASE_PATH } from "./../../mixins/utils";
+
 const programStore = {
   state: () => ({
     curr_task_page: 1,
@@ -21,11 +25,39 @@ const programStore = {
 
     program_categories_filter: null,
 
+    all_programs: [],
+    program_loaded: false
   
   }),
 
-  actions: {},
+  actions: {
+
+    fetchAllPrograms({ commit, dispatch }) {
+      return new Promise((resolve, reject) => {
+        http
+          .get(`${API_BASE_PATH}/programs`)
+          .then((res) => {
+            let programs = res.data.projects;
+            // for (let facility of res.data.facilities) {
+            //   facilities.push({...facility, ...facility.facility})
+            // }
+            commit("setAllPrograms", programs);
+            commit("setProgramsLoaded", true);
+            resolve();
+            
+          })
+          .catch((err) => {
+            console.error(err);
+            reject();
+          });
+      });
+    }
+
+  },
   mutations: {
+    setAllPrograms: (state, value) => state.all_programs = value,
+    setProgramsLoaded: (state, value) => state.program_loaded = value,
+
     setCurrTaskPage: (state, value) => state.curr_task_page = value,
     setCurrIssuePage: (state, value) => state.curr_issue_page = value,
     setCurrRiskPage: (state, value) => state.curr_risk_page = value,
@@ -50,6 +82,7 @@ const programStore = {
   },
 
   getters: {
+    getAllProjects: state => state.all_programs,
     currTaskPage: state => state.curr_task_page, 
     currIssuePage: state => state.curr_issue_page, 
     currRiskPage: state => state.curr_risk_page, 

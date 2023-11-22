@@ -4,8 +4,10 @@ const { db } = require("../database/models");
 const index = async (req, res) => {
   try {
     // Fetch user profile using req.userId
-    const allProjects = await db.Project.findAll();
-    res.json({ allProjects: allProjects });
+    // const allProjects = await db.Project.findAll();
+    const response = require('../../static_responses/projects_index.json');
+
+    res.json({ projects: response });
   } catch (error) {
     res.status(500).json({ error: "Error fetching lessons" });
   }
