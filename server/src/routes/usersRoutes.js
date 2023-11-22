@@ -1,9 +1,9 @@
 const { Router } = require("express");
-const { users } = require("../controllers/admin/UsersController");
+const { preferences } = require("../controllers/UsersController");
 
 const router = Router();
 
 // Route for all users in adminPanel
-router.get("/", users);
+router.get("/preferences", preferences);
 
 module.exports = router;

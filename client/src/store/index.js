@@ -17,6 +17,7 @@ import lessonStore from "./modules/lesson-store";
 import effortStore from './modules/effort-store'
 import portfolioModule from "./modules/portfolio-store";
 import { API_BASE_PATH } from "./../mixins/utils";
+import AuthorizationService from '../services/authorization_service.js'
 
 // utility function
 const getSimpleDate = (date) => {
@@ -614,6 +615,7 @@ export default new Vuex.Store({
   },
 
   getters: {
+    getProjectFacilityHash: (state) => state.projectFacilityHash,
     isLoggedIn(state) {
       console.log("isLoggedIn", (state.token != "") );
       return state.token != "";
@@ -3671,6 +3673,78 @@ export default new Vuex.Store({
   },
 
   actions: {
+
+    // This action will fetch all facility_project records and
+    // set variable preferences
+    fetchProgramAdminRole({ commit, dispatch }) {
+      return new Promise((resolve, reject) => {
+        http
+          .get(`${API_BASE_PATH}/program_setting_role`)
+          .then((res) => {
+            let program_admin_role = res.data.program_admin_user_role;
+            // for (let facility of res.data.facilities) {
+            //   facilities.push({...facility, ...facility.facility})
+            // }
+            commit("setProgramAdminRole", program_admin_user_role);
+            AuthorizationService.program_admin_role = program_admin_user_role;
+
+            resolve();
+            
+          })
+          .catch((err) => {
+            console.error(err);
+            reject();
+          });
+      });
+    },
+
+    // This action will fetch all facility_project records and
+    // set variable preferences
+    fetchPreferences({ commit, dispatch }) {
+      return new Promise((resolve, reject) => {
+        http
+          .get(`${API_BASE_PATH}/preferences`)
+          .then((res) => {
+            let preferences = res.data.preferences;
+            // for (let facility of res.data.facilities) {
+            //   facilities.push({...facility, ...facility.facility})
+            // }
+            commit("setPreferences", preferences);
+            AuthorizationService.preferences = preferences
+            Vue.prototype.$preferences = preferences
+            resolve();
+            
+          })
+          .catch((err) => {
+            console.error(err);
+            reject();
+          });
+      });
+    },
+
+    // This action will fetch all facility_project records and
+    // set variable project_facility_hash
+    fetchProjectFacilityHash({ commit, dispatch }) {
+      return new Promise((resolve, reject) => {
+        http
+          .get(`${API_BASE_PATH}/programs/project_facility_hash`)
+          .then((res) => {
+            let project_facility_hash = res.data.project_facility_hash;
+            // for (let facility of res.data.facilities) {
+            //   facilities.push({...facility, ...facility.facility})
+            // }
+            commit("setProjectFacilityHash", project_facility_hash);
+            AuthorizationService.projectFacilityHash = project_facility_hash
+
+            resolve();
+            
+          })
+          .catch((err) => {
+            console.error(err);
+            reject();
+          });
+      });
+    },
     fetchFacilities({ commit, dispatch }, id) {
       return new Promise((resolve, reject) => {
         http

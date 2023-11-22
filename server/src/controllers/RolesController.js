@@ -1,12 +1,12 @@
 const { db } = require("../database/models");
 
 // Function for retrieving user details
-const preferences = async (req, res) => {
+const program_setting_role = async (req, res) => {
   try {
     // Fetch user profile using req.userId
-    const preferences = require('../../static_responses/preferences.json');
+    const program_setting_role = require('../../static_responses/program_setting_role.json');
 
-    res.json({ preferences: preferences });
+    res.json({ program_setting_role: program_setting_role });
 
   } catch (error) {
     res.status(500).json({ error: "Error fetching data" });
@@ -14,5 +14,5 @@ const preferences = async (req, res) => {
 };
 
 module.exports = {
-  preferences
+  program_setting_role
 };

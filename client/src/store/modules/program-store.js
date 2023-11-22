@@ -25,9 +25,7 @@ const programStore = {
 
     program_categories_filter: null,
 
-    all_programs: [],
-    program_loaded: false
-  
+    all_programs: []
   }),
 
   actions: {
@@ -42,7 +40,6 @@ const programStore = {
             //   facilities.push({...facility, ...facility.facility})
             // }
             commit("setAllPrograms", programs);
-            commit("setProgramsLoaded", true);
             resolve();
             
           })
@@ -56,8 +53,7 @@ const programStore = {
   },
   mutations: {
     setAllPrograms: (state, value) => state.all_programs = value,
-    setProgramsLoaded: (state, value) => state.program_loaded = value,
-
+    
     setCurrTaskPage: (state, value) => state.curr_task_page = value,
     setCurrIssuePage: (state, value) => state.curr_issue_page = value,
     setCurrRiskPage: (state, value) => state.curr_risk_page = value,
@@ -82,6 +78,7 @@ const programStore = {
   },
 
   getters: {
+    getFacilityProjects: state => state.facility_projects,
     getAllProjects: state => state.all_programs,
     currTaskPage: state => state.curr_task_page, 
     currIssuePage: state => state.curr_issue_page, 
