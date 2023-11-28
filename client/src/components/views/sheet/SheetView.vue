@@ -229,7 +229,7 @@ export default {
   beforeMount() {
     console.log("SheetView beforeMount")
     this.fetchCurrentProject(this.$route.params.programId)
-    this.setContentLoaded(true);
+    // this.setContentLoaded(true);
     // this.fetchContracts()
     if (this.contentLoaded && this.$route.params.projectId) {
       this.currentFacility = this.facilities.find(

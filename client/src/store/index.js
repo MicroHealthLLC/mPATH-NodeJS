@@ -3681,7 +3681,7 @@ export default new Vuex.Store({
         http
           .get(`${API_BASE_PATH}/program_setting_role`)
           .then((res) => {
-            let program_admin_role = res.data.program_admin_user_role;
+            let program_admin_user_role = res.data.program_admin_user_role;
             // for (let facility of res.data.facilities) {
             //   facilities.push({...facility, ...facility.facility})
             // }
@@ -3703,7 +3703,7 @@ export default new Vuex.Store({
     fetchPreferences({ commit, dispatch }) {
       return new Promise((resolve, reject) => {
         http
-          .get(`${API_BASE_PATH}/preferences`)
+          .get(`${API_BASE_PATH}/users/preferences`)
           .then((res) => {
             let preferences = res.data.preferences;
             // for (let facility of res.data.facilities) {
@@ -3844,6 +3844,7 @@ export default new Vuex.Store({
             commit("setIssueTypes", res.data.project.issueTypes);
             commit("setIssueSeverities", res.data.project.issueSeverities);
             commit("SET_LESSON_STAGES", res.data.project.lessonStages);
+            commit("setContentLoaded", true);
             resolve();
           })
           .catch((err) => {

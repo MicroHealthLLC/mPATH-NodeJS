@@ -255,6 +255,7 @@ export default {
         this.contentLoaded &&
         (this.currentProject !== null || this.currentProject !== undefined)
       ) {
+        console.log("programName()",this.currentProject)
         return this.currentProject.name;
       }
     },
