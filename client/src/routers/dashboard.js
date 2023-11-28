@@ -2651,10 +2651,12 @@ router.beforeEach((to, from, next) => {
     // If the user is not logged in, redirect them to the login page
     next({ name: 'LoginView' });
   } 
-  else {
+  else if (to.name == "HomeView") {
     console.log("router.beforeEach Else",to.meta.requiresAuth,store.getters.isLoggedIn, to, from)
     // If the user is logged in, allow them to proceed to their destination
-    next();
+    next({ name: 'ProgramListView' });
+  }else{
+    next()
   }
 });
 

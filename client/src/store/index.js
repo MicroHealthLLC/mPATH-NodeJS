@@ -185,6 +185,15 @@ export default new Vuex.Store({
   },
 
   mutations: {
+    nullifyLocalStorage: (state,value) =>{
+      console.log("Logging out...")
+      state.currentUser = null;
+      state.preferences = {};
+      state.topNavigationPermissions = null;
+      state.token = '';
+      state.programAdminRole = {};
+      state.projectFacilityHash = {};
+    },
     setCurrentUser(state, user) {
       state.currentUser = user;
     },
@@ -3673,7 +3682,9 @@ export default new Vuex.Store({
   },
 
   actions: {
-
+    doLogout({ commit, dispatch }){
+      commit("nullifyLocalStorage");
+    },
     // This action will fetch all facility_project records and
     // set variable preferences
     fetchProgramAdminRole({ commit, dispatch }) {
@@ -4274,6 +4285,8 @@ export default new Vuex.Store({
         "onWatchFilter",
         "progressFilter",
         "mapFilters",
+        "token",
+        "currentUser"
       ],
     }),
   ],

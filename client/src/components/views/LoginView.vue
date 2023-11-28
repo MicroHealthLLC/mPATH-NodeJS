@@ -130,7 +130,7 @@
 
 <script>
 import axios from "axios";
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import AuthorizationService from '../../services/authorization_service.js'
 
 export default {
