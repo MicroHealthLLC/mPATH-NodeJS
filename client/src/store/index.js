@@ -624,11 +624,13 @@ export default new Vuex.Store({
   },
 
   getters: {
+    getCurrentUser: (state) => state.currentUser,
     getProjectFacilityHash: (state) => state.projectFacilityHash,
     isLoggedIn(state) {
       console.log("isLoggedIn", (state.token != "") );
       return state.token != "";
     },
+    getToken: (state) => state.token,
     getExpandedGroup: (state) => state.expandedGroup,
     getFacilityProjectOptions: (state, getters) => {
       var options = [];
@@ -3684,6 +3686,27 @@ export default new Vuex.Store({
   actions: {
     doLogout({ commit, dispatch }){
       commit("nullifyLocalStorage");
+    },
+    fetchCurrentUser({ commit, getters }, payload) {
+      return new Promise((resolve, reject) => {
+        http
+          .get(`${API_BASE_PATH}/users/current_user?token=${getters.getToken}`)
+          .then((res) => {
+            let current_user = res.data.current_user;
+            // for (let facility of res.data.facilities) {
+            //   facilities.push({...facility, ...facility.facility})
+            // }
+            commit("setCurrentUser", current_user);
+            AuthorizationService.current_user = current_user;
+
+            resolve();
+            
+          })
+          .catch((err) => {
+            console.error(err);
+            reject();
+          });
+      });
     },
     // This action will fetch all facility_project records and
     // set variable preferences

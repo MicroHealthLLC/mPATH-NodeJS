@@ -1133,7 +1133,7 @@ export default {
       }
     },
     fetchFilters(){
-      var url = `/projects/${this.currentProject.id}/query_filters.json`
+      var url = `/projects/${this.currentProject.id}/query_filters`
       var method = "GET"
 
       axios({
@@ -1364,7 +1364,7 @@ export default {
         formData.append('query_filters[][filter_value]', dates )        
       }
 
-      var url = `/projects/${this.currentProject.id}/query_filters.json`
+      var url = `/projects/${this.currentProject.id}/query_filters`
       var method = "POST"
       var callback = "filter-created"
 

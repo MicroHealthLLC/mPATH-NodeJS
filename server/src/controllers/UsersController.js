@@ -13,6 +13,19 @@ const preferences = async (req, res) => {
   }
 };
 
+const current_user = async (req, res) => {
+  try {
+    // Fetch user profile using req.userId
+    const cu = require('../../static_responses/current_user.json');
+
+    res.json({ current_user: cu });
+
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching data" });
+  }
+};
+
 module.exports = {
-  preferences
+  preferences,
+  current_user
 };

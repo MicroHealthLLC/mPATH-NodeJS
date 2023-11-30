@@ -2644,20 +2644,20 @@ const router = new VueRouter({
   },
 });
 
-router.beforeEach((to, from, next) => {
-  console.log("router.beforeEach", to.meta.requiresAuth,store.getters.isLoggedIn, to, from)
-  if (to.meta.requiresAuth && !store.getters.isLoggedIn) {
-    console.log("router.beforeEach if", to.meta.requiresAuth,store.getters.isLoggedIn, to, from)
-    // If the user is not logged in, redirect them to the login page
-    next({ name: 'LoginView' });
-  } 
-  else if (to.name == "HomeView") {
-    console.log("router.beforeEach Else",to.meta.requiresAuth,store.getters.isLoggedIn, to, from)
-    // If the user is logged in, allow them to proceed to their destination
-    next({ name: 'ProgramListView' });
-  }else{
-    next()
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   console.log("router.beforeEach", to.meta.requiresAuth,store.getters.isLoggedIn, to, from)
+//   if (to.meta.requiresAuth && !store.getters.isLoggedIn) {
+//     console.log("router.beforeEach if", to.meta.requiresAuth,store.getters.isLoggedIn, to, from)
+//     // If the user is not logged in, redirect them to the login page
+//     next({ name: 'LoginView' });
+//   } 
+//   else if (to.name == "HomeView") {
+//     console.log("router.beforeEach Else",to.meta.requiresAuth,store.getters.isLoggedIn, to, from)
+//     // If the user is logged in, allow them to proceed to their destination
+//     next({ name: 'ProgramListView' });
+//   }else{
+//     next()
+//   }
+// });
 
 export default router;

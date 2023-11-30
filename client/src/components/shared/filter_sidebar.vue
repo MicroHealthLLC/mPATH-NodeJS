@@ -1009,7 +1009,7 @@ export default {
       }
     },
     fetchFilters(){
-      var url = `${API_BASE_PATH}/programs/${this.currentProject.id}/query_filters.json`
+      var url = `${API_BASE_PATH}/programs/${this.currentProject.id}/query_filters`
       var method = "GET"
 
       axios({
@@ -1236,7 +1236,7 @@ export default {
         formData.append('query_filters[][filter_value]', dates )        
       }
 
-      var url = `${API_BASE_PATH}/programs/${this.currentProject.id}/query_filters.json`
+      var url = `${API_BASE_PATH}/programs/${this.currentProject.id}/query_filters`
       var method = "POST"
       var callback = "filter-created"
 

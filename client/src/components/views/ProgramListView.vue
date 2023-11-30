@@ -7,7 +7,6 @@
       <div v-for="project in this.allProjects" :key="project.id" >
         <p><router-link :to="`/programs/${project.id}/sheet`">{{project.name}}</router-link></p>
       </div>
-      <button @click="logoutClick">Logout</button>
     </div> 
   </div>
 </template>
@@ -37,7 +36,6 @@
       ])
     },
     methods: {
-      ...mapMutations(['nullifyLocalStorage']),
       ...mapActions([
         'fetchAllPrograms',
         'fetchProjectFacilityHash',
@@ -46,11 +44,7 @@
       ]),
       ...mapGetters([
         'getProjectFacilityHash'
-      ]),
-      async logoutClick(e){
-        this.nullifyLocalStorage()
-        this.$router.push(`/login`)
-      }
+      ])
     },
     beforeCreate(){
       console.log("ProgramListView beforeCreate", this.allProjects)

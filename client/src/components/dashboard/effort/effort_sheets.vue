@@ -738,7 +738,7 @@ input[type=search] {
 //   border-top: solid 4px #ededed;
 //   padding-top: 8px;  
 // }
-</style>
+
   .calendarBtn {
     transition: all .2s ease-in-out;
     box-shadow: 0 2.5px 5px rgba(56, 56, 56, 0.19),

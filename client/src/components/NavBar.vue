@@ -99,7 +99,8 @@ export default {
   <!-- <RouterView />  -->
 </template>
 
-<style >
+<style scoped lang="scss">
+
 .text-dark {
   color: #383838;
 }

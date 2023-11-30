@@ -18,6 +18,8 @@ const programsRoute = require('./routes/programsRoutes');
 const lessonsRoutes = require('./routes/lessonsRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
 const filterDataRoutes = require('./routes/filterDataRoutes');
+const queryRouters = require('./routes/queryRouters');
+
 const {db} = require('./database/models'); // import models
 const PORT = 3000;
 
@@ -42,6 +44,7 @@ app.use('/api/v1/programs', programsRoute);
 app.use('/api/v1/programs/:id/lessons',lessonsRoutes);
 app.use('/api/v1/',rolesRoutes);
 app.use('/api/v1/filter_data',filterDataRoutes);
+app.use('/api/v1/programs/:id/query_filters',queryRouters);
 
 // express-winston errorLogger makes sense AFTER the router.
 app.use(expressWinston.errorLogger({
