@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.ProjectRiskStage,{ foreignKey: '' });
+this.belongsToMany(models.Project,{through: models.ProjectRiskStage, foreignKey: '', otherKey: '' })
+
     }
   }
   RiskStage.init({

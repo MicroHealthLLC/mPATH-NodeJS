@@ -11,6 +11,47 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.ProjectUser,{ foreignKey: 'project_id' })
+      this.belongsToMany(models.User,{ through: models.ProjectUser, foreignKey: 'project_id' })
+      this.hasMany(models.FacilityProject,{ foreignKey: 'project_id' })
+      // this.belongsToMany(models.Facility,{ through: models.FacilityProject, foreignKey: 'project_id' })
+      // this.belongsToMany(models.FacilityGroup,{ through: models.FacilityProject, foreignKey: 'project_id' })
+      this.hasMany(models.ProjectFacilityGroup,{foreignKey: 'project_id' })
+      // this.belongsToMany(models.ProjectGroup,{through: models.ProjectFacilityGroup, foreignKey: 'project_id' })
+      this.belongsToMany(models.Issue,{through: models.FacilityProject, foreignKey: 'project_id' })
+      this.belongsToMany(models.Risk,{through: models.FacilityProject, foreignKey: 'project_id' })
+      this.belongsToMany(models.Lesson,{through: models.FacilityProject, foreignKey: 'project_id' })
+      this.belongsTo(models.ProjectType,{ foreignKey: 'project_id' })
+
+      this.hasMany(models.ProjectStatus,{ foreignKey: 'project_id' })
+      this.belongsToMany(models.Status,{through: models.ProjectStatus, foreignKey: 'project_id' })
+      this.hasMany(models.ProjectTaskType,{ foreignKey: 'project_id' })
+      this.belongsToMany(models.TaskType,{ through: models.ProjectTaskType, foreignKey: 'project_id' })
+      this.hasMany(models.ProjectIssueType,{ foreignKey: 'project_id' })
+      this.belongsToMany(models.IssueType,{ through: models.ProjectIssueType, foreignKey: 'project_id' })
+      this.hasMany(models.ProjectIssueSeverity,{ foreignKey: 'project_id' })
+      this.belongsToMany(models.Issue,{through: models.ProjectIssueSeverity, foreignKey: 'project_id' })
+      this.hasMany(models.ProjectTaskStage,{ foreignKey: 'project_id' })
+      this.belongsToMany(models.TaskStage,{through: models.ProjectTaskStage, foreignKey: 'project_id' })
+      this.hasMany(models.ProjectRiskStage,{ foreignKey: 'project_id' })
+      this.belongsToMany(models.RiskStage,{through: models.ProjectRiskStage, foreignKey: 'project_id' })
+
+      this.hasMany(models.ProjectIssueStage,{ foreignKey: 'project_id' })
+      this.belongsToMany(models.IssueStage,{through: models.ProjectIssueStage, foreignKey: 'project_id' })
+      this.hasMany(models.FavoriteFilter,{ foreignKey: 'project_id' })
+      this.hasMany(models.QueryFilter,{ foreignKey: 'project_id' })
+
+      this.hasMany(models.ProjectLessonStage,{ foreignKey: 'project_id' })
+      this.belongsToMany(models.LessonStage,{through: models.ProjectLessonStage, foreignKey: 'project_id' })
+      this.hasMany(models.Contract,{ foreignKey: 'project_id' })
+      this.hasMany(models.Roles,{ foreignKey: 'project_id' })
+      this.hasMany(models.RoleUser,{ foreignKey: 'project_id' })
+      this.hasMany(models.ProjectContract,{ foreignKey: 'project_id' })
+      this.belongsToMany(models.ContractProjectData,{through: models.ProjectContract, foreignKey: 'project_id' })
+      this.hasMany(models.ProjectContractVehicle,{ foreignKey: 'project_id' })
+      this.belongsToMany(models.ContractVehicle,{ through: models.ProjectContractVehicle,foreignKey: 'project_id' })
+      this.hasMany(models.ProjectContractVehicleGroup,{ foreignKey: 'project_id' })
+
     }
   }
   Project.init({

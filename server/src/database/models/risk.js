@@ -11,6 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.User,{ foreignKey: '' });
+this.hasMany(models.RiskUser,{ foreignKey: '' });
+this.belongsTo(models.RiskStage,{ foreignKey: '' });
+this.belongsToMany(models.User,{through: models.RiskUser, foreignKey: '', otherKey: '' });
+this.belongsTo(models.TaskType,{ foreignKey: '' });
+this.hasMany(models.RiskFile,{ foreignKey: '' });
+this.hasMany(models.Note,{ foreignKey: '' })
+
     }
   }
   Risk.init({

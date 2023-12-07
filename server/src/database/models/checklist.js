@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      // this.belongsTo(models.Listable,{ foreignKey: '' });
+      this.belongsTo(models.User,{ foreignKey: '' });
+      this.hasMany(models.ProgressList,{ foreignKey: '' })
     }
   }
   Checklist.init({

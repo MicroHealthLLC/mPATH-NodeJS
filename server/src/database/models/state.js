@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.RegionState,{ foreignKey: '' });
+this.belongsToMany(models.FacilityGroup,{through: models.RegionState, foreignKey: '', otherKey: '' })
+
     }
   }
   State.init({

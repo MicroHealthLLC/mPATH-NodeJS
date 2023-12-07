@@ -11,6 +11,24 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.User,{ foreignKey: '' });
+      this.belongsTo(models.TaskType,{ foreignKey: '' });
+      this.belongsTo(models.LessonStage,{ foreignKey: '' });
+      this.hasMany(models.LessonUser,{ foreignKey: '' });
+      this.belongsToMany(models.User,{through: models.LessonUser, foreignKey: '', otherKey: '' });
+      this.belongsTo(models.FacilityProject,{ foreignKey: '' });
+      this.belongsTo(models.ProjectContract,{ foreignKey: '' });
+      this.belongsTo(models.ProjectContractVehicle,{ foreignKey: '' });
+      this.hasMany(models.Note,{ foreignKey: '' });
+      // this.hasMany(models.LessonFile,{ foreignKey: '' });
+      this.hasMany(models.LessonDetail,{ foreignKey: '' });
+      this.hasMany(models.RelatedTask,{ foreignKey: '' });
+      this.hasMany(models.RelatedIssue,{ foreignKey: '' });
+      this.hasMany(models.RelatedRisk,{ foreignKey: '' });
+      // this.belongsToMany(models.SubTask,{through: models.RelatedTask, foreignKey: '', otherKey: '' });
+      // this.belongsToMany(models.SubIssue,{through: models.RelatedIssue, foreignKey: '', otherKey: '' });
+      // this.belongsToMany(models.SubRisk,{through: models.RelatedRisk, foreignKey: '', otherKey: '' })
+
     }
   }
   Lesson.init({

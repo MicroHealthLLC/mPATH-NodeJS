@@ -11,6 +11,28 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.ContractType,{ foreignKey: '' });
+      this.belongsTo(models.ContractStatus,{ foreignKey: '' });
+      this.belongsTo(models.ContractCustomer,{ foreignKey: '' });
+      this.belongsTo(models.ContractVehicle,{ foreignKey: '' });
+      this.belongsTo(models.ContractVehicleNumber,{ foreignKey: '' });
+      this.belongsTo(models.ContractNumber,{ foreignKey: '' });
+      this.belongsTo(models.SubcontractNumber,{ foreignKey: '' });
+      this.belongsTo(models.ContractPrime,{ foreignKey: '' });
+      this.belongsTo(models.ContractCurrentPop,{ foreignKey: '' });
+      this.belongsTo(models.ContractClassification,{ foreignKey: '' });
+      this.belongsTo(models.ContractClientType,{ foreignKey: '' });
+      this.belongsTo(models.ContractCategory,{ foreignKey: '' });
+      this.belongsTo(models.FacilityGroup,{ foreignKey: '' });
+      this.belongsTo(models.Project,{ foreignKey: '' });
+      // this.belongsTo(models.ContractProject,{ foreignKey: '' });
+      // this.belongsTo(models.ContractFacilityGroup,{ foreignKey: '' });
+      this.hasMany(models.Task,{ foreignKey: '' });
+      this.hasMany(models.Issue,{ foreignKey: '' });
+      this.hasMany(models.Risk,{ foreignKey: '' });
+      this.hasMany(models.Lesson,{ foreignKey: '' });
+      this.hasMany(models.Note,{ foreignKey: '' })
+      
     }
   }
   Contract.init({

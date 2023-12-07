@@ -11,6 +11,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.Facility,{ foreignKey: '' });
+this.belongsTo(models.Project,{ foreignKey: '' });
+this.belongsTo(models.Status,{ foreignKey: '' });
+this.hasMany(models.Task,{ foreignKey: '' });
+this.belongsToMany(models.TaskType,{through: models.Task, foreignKey: '', otherKey: '' });
+this.hasMany(models.Issue,{ foreignKey: '' });
+this.hasMany(models.Risk,{ foreignKey: '' });
+this.hasMany(models.Lesson,{ foreignKey: '' });
+this.hasMany(models.Note,{ foreignKey: '' });
+this.hasMany(models.FacilityPrivilege,{ foreignKey: '' });
+this.belongsTo(models.FacilityGroup,{ foreignKey: '' });
+this.hasMany(models.Effort,{ foreignKey: '' })
+
     }
   }
   FacilityProject.init({
