@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.Relatable,{ foreignKey: '' });
-this.belongsTo(models.SubTask,{ foreignKey: '' })
+      // this.belongsTo(models.Relatable,{ foreignKey: '' });
+      // this.belongsTo(models.SubTask,{ foreignKey: '' })
 
     }
   }

@@ -12,12 +12,25 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.TaskType,{ foreignKey: '' });
-this.belongsTo(models.TaskStage,{ foreignKey: '' });
-this.hasMany(models.TaskUser,{ foreignKey: '' });
-this.belongsToMany(models.User,{through: models.TaskUser, foreignKey: '', otherKey: '' });
-this.hasMany(models.TaskFile,{ foreignKey: '' });
-this.hasMany(models.Note,{ foreignKey: '' });
-this.hasMany(models.Effort,{ foreignKey: '' })
+      this.belongsTo(models.TaskStage,{ foreignKey: '' });
+      this.hasMany(models.TaskUser,{ foreignKey: '' });
+      this.belongsToMany(models.User,{through: models.TaskUser, foreignKey: '', otherKey: '' });
+      // this.hasMany(models.TaskFile,{ foreignKey: '' });
+      this.hasMany(models.Note,{ foreignKey: '' });
+      this.hasMany(models.Effort,{ foreignKey: '' })
+
+      this.belongsTo(models.FacilityProject,{ foreignKey: '' });
+      this.belongsTo(models.Contract,{ foreignKey: '' });
+      this.belongsTo(models.ProjectContract,{ foreignKey: '' });
+      this.belongsTo(models.ProjectContractVehicle,{ foreignKey: '' });
+      this.hasMany(models.Checklist,{ foreignKey: '' });
+      this.hasMany(models.RelatedTask,{ foreignKey: '' });
+      this.hasMany(models.RelatedIssue,{ foreignKey: '' });
+      this.hasMany(models.RelatedRisk,{ foreignKey: '' });
+      // this.belongsToMany(models.SubTask,{through: models.RelatedTask, foreignKey: '', otherKey: '' });
+      // this.belongsToMany(models.SubIssue,{through: models.RelatedIssue, foreignKey: '', otherKey: '' });
+      // this.belongsToMany(models.SubRisk,{through: models.RelatedRisk, foreignKey: '', otherKey: '' })
+      
 
     }
   }

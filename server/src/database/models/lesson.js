@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.LessonStage,{ foreignKey: '' });
       this.hasMany(models.LessonUser,{ foreignKey: '' });
       this.belongsToMany(models.User,{through: models.LessonUser, foreignKey: '', otherKey: '' });
+      // this.belongsTo(models.FacilityProject,{ foreignKey: '' , as: 'LessonFacilityProject' });
       this.belongsTo(models.FacilityProject,{ foreignKey: '' });
       this.belongsTo(models.ProjectContract,{ foreignKey: '' });
       this.belongsTo(models.ProjectContractVehicle,{ foreignKey: '' });

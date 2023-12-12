@@ -12,15 +12,15 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.ContractProjectDatum,{ foreignKey: '' });
-this.belongsTo(models.Project,{ foreignKey: '' });
-this.belongsTo(models.ContractProject,{ foreignKey: '' });
-this.belongsTo(models.ContractFacilityGroup,{ foreignKey: '' });
-this.belongsTo(models.FacilityGroup,{ foreignKey: '' });
-this.hasMany(models.Task,{ foreignKey: '' });
-this.hasMany(models.Issue,{ foreignKey: '' });
-this.hasMany(models.Risk,{ foreignKey: '' });
-this.hasMany(models.Lesson,{ foreignKey: '' });
-this.hasMany(models.Note,{ foreignKey: '' })
+      this.belongsTo(models.Project,{ foreignKey: '' });
+      // this.belongsTo(models.ContractProject,{ foreignKey: '' });
+      // this.belongsTo(models.ContractFacilityGroup,{ foreignKey: '' });
+      this.belongsTo(models.FacilityGroup,{ foreignKey: '' });
+      this.hasMany(models.Task,{ foreignKey: '' });
+      this.hasMany(models.Issue,{ foreignKey: '' });
+      this.hasMany(models.Risk,{ foreignKey: '' });
+      this.hasMany(models.Lesson,{ foreignKey: '' });
+      this.hasMany(models.Note,{ foreignKey: '' })
 
     }
   }

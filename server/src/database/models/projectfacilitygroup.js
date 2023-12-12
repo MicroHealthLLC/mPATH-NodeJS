@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.Project,{ foreignKey: '' });
-this.belongsTo(models.ProjectGroup,{ foreignKey: '' })
+      // this.belongsTo(models.ProjectGroup,{ foreignKey: '' })
 
     }
   }
