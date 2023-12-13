@@ -269,6 +269,7 @@ export default {
       },
     },
     sortedGroups() {
+      console.log("sortedGroups()", this.facilityGroups)
       // Sort groups by name
       return this.facilityGroups.sort((a, b) => a.name.localeCompare(b.name));
     },

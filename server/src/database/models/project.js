@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsToMany(models.User,{ through: models.ProjectUser, foreignKey: 'project_id' })
       this.hasMany(models.FacilityProject,{ foreignKey: 'project_id' })
 
-      // this.belongsToMany(models.Facility,{ through: models.FacilityProject, foreignKey: 'project_id' })
+      this.belongsToMany(models.Facility,{ through: models.FacilityProject, foreignKey: 'project_id' })
       // this.belongsToMany(models.FacilityGroup,{ through: models.FacilityProject, foreignKey: 'project_id' })
       
       this.hasMany(models.ProjectFacilityGroup,{foreignKey: 'project_id' })
