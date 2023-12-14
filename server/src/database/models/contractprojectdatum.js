@@ -11,20 +11,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.ContractCustomer,{ foreignKey: '' });
-this.belongsTo(models.ContractVehicle,{ foreignKey: '' });
-this.belongsTo(models.ContractAwardTo,{ foreignKey: '' });
-this.belongsTo(models.ContractNaic,{ foreignKey: '' });
-this.belongsTo(models.ContractAwardType,{ foreignKey: '' });
-this.belongsTo(models.ContractType,{ foreignKey: '' });
-this.belongsTo(models.ContractCurrentPop,{ foreignKey: '' });
-this.belongsTo(models.ContractPop,{ foreignKey: '' });
-this.belongsTo(models.ContractNumber,{ foreignKey: '' });
-this.belongsTo(models.User,{ foreignKey: '' });
-this.hasMany(models.ProjectContract,{ foreignKey: '' });
-this.belongsToMany(models.Project,{through: models.ProjectContract, foreignKey: '', otherKey: '' });
-this.hasMany(models.ContractProjectPocResource,{ foreignKey: '' });
-this.belongsToMany(models.ContractProjectPoc,{through: models.ContractProjectPocResource, foreignKey: '', otherKey: '' })
+      this.belongsTo(models.ContractCustomer);
+      this.belongsTo(models.ContractVehicle);
+      this.belongsTo(models.ContractAwardTo);
+      this.belongsTo(models.ContractNaic);
+      this.belongsTo(models.ContractAwardType);
+      this.belongsTo(models.ContractType);
+      this.belongsTo(models.ContractCurrentPop);
+      this.belongsTo(models.ContractPop);
+      this.belongsTo(models.ContractNumber);
+      this.belongsTo(models.User);
+      this.hasMany(models.ProjectContract);
+      this.belongsToMany(models.Project,{through: models.ProjectContract, foreignKey: '', otherKey: '' });
+      this.hasMany(models.ContractProjectPocResource);
+      this.belongsToMany(models.ContractProjectPoc,{through: models.ContractProjectPocResource, foreignKey: '', otherKey: '' })
 
     }
   }
@@ -62,6 +62,7 @@ this.belongsToMany(models.ContractProjectPoc,{through: models.ContractProjectPoc
     updatedAt: 'updated_at',
     tableName: 'contract_project_data',
     modelName: 'ContractProjectDatum',
+    underscored: true
   });
   return ContractProjectDatum;
 };

@@ -12,12 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.hasMany(models.Facility,{ foreignKey: 'facility_group_id' });
-      this.hasMany(models.FacilityProject,{ foreignKey: '' });
-      this.hasMany(models.ProjectContract,{ foreignKey: '' });
-      this.hasMany(models.ProjectContractVehicle,{ foreignKey: '' });
-      this.hasMany(models.ProjectFacilityGroup,{ foreignKey: '' });
+      this.hasMany(models.FacilityProject,{ foreignKey: 'facility_project_id' });
+      this.hasMany(models.ProjectContract);
+      this.hasMany(models.ProjectContractVehicle);
+      this.hasMany(models.ProjectFacilityGroup);
       this.belongsToMany(models.Project,{through: models.ProjectFacilityGroup, foreignKey: '', otherKey: '' });
-      this.hasMany(models.Contract,{ foreignKey: '' })
+      this.hasMany(models.Contract)
 
     }
   }
@@ -40,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'facility_groups',
     modelName: 'FacilityGroup',
+    underscored: true
   });
   return FacilityGroup;
 };

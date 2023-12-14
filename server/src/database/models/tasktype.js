@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Task,{ foreignKey: '' });
-this.belongsToMany(models.FacilityProject,{through: models.Task, foreignKey: '', otherKey: '' });
-this.belongsToMany(models.Facility,{through: models.FacilityProject, foreignKey: '', otherKey: '' });
-this.hasMany(models.ProjectTaskType,{ foreignKey: '' });
-this.belongsToMany(models.Project,{through: models.ProjectTaskType, foreignKey: '', otherKey: '' })
+      this.hasMany(models.Task,{ foreignKey: 'task_type_id' });
+      this.belongsToMany(models.FacilityProject,{through: models.Task, foreignKey: 'task_type_id', otherKey: '' });
+      this.belongsToMany(models.Facility,{through: models.FacilityProject, foreignKey: 'facility_id', otherKey: '' });
+      this.hasMany(models.ProjectTaskType);
+      this.belongsToMany(models.Project,{through: models.ProjectTaskType, foreignKey: '', otherKey: '' })
 
     }
   }
@@ -28,6 +28,7 @@ this.belongsToMany(models.Project,{through: models.ProjectTaskType, foreignKey: 
     updatedAt: 'updated_at',
     tableName: 'task_types',
     modelName: 'TaskType',
+    underscored: true
   });
   return TaskType;
 };

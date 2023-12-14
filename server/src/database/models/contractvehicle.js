@@ -11,15 +11,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.ContractSubCategory,{ foreignKey: '' });
-this.belongsTo(models.ContractAgency,{ foreignKey: '' });
-this.belongsTo(models.ContractVehicleType,{ foreignKey: '' });
-this.belongsTo(models.ContractNumber,{ foreignKey: '' });
-this.belongsTo(models.User,{ foreignKey: '' });
-this.hasMany(models.ContractProjectDatum,{ foreignKey: '' });
-this.hasMany(models.ProjectContractVehicle,{ foreignKey: '' });
+      this.belongsTo(models.ContractSubCategory);
+this.belongsTo(models.ContractAgency);
+this.belongsTo(models.ContractVehicleType);
+this.belongsTo(models.ContractNumber);
+this.belongsTo(models.User);
+this.hasMany(models.ContractProjectDatum);
+this.hasMany(models.ProjectContractVehicle);
 this.belongsToMany(models.Project,{through: models.ProjectContractVehicle, foreignKey: '', otherKey: '' });
-this.hasMany(models.ContractProjectPocResource,{ foreignKey: '' });
+this.hasMany(models.ContractProjectPocResource);
 this.belongsToMany(models.ContractProjectPoc,{through: models.ContractProjectPocResource, foreignKey: '', otherKey: '' })
 
     }
@@ -48,6 +48,7 @@ this.belongsToMany(models.ContractProjectPoc,{through: models.ContractProjectPoc
     updatedAt: 'updated_at',
     tableName: 'contract_vehicles',
     modelName: 'ContractVehicle',
+    underscored: true
   });
   return ContractVehicle;
 };

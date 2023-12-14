@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Contract,{ foreignKey: '' })
+      this.hasMany(models.Contract)
     }
   }
   ContractCategory.init({
@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'contract_categories',
     modelName: 'ContractCategory',
+    underscored: true
   });
   return ContractCategory;
 };

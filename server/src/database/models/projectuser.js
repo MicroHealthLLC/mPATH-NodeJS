@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'project_users',
     modelName: 'ProjectUser',
+    underscored: true
   });
   return ProjectUser;
 };

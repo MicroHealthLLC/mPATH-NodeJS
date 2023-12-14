@@ -11,21 +11,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.FacilityGroup,{ foreignKey: 'facility_group_id' });
+      // this.belongsTo(models.FacilityGroup,{ foreignKey: 'facility_group_id' });
       
       this.belongsTo(models.User,{ as: 'Creator', foreignKey: 'creator_id' });
       this.hasMany(models.FacilityProject,{ foreignKey: 'facility_id' });
-      this.belongsToMany(models.Project,{through: models.FacilityProject, foreignKey: '', otherKey: '' });
-      this.belongsToMany(models.Task,{through: models.FacilityProject, foreignKey: '', otherKey: '' });
-      this.belongsToMany(models.TaskType,{through: models.Task, foreignKey: '', otherKey: '' });
-      // this.hasMany(models.Comment,{ foreignKey: '' })
+      this.belongsToMany(models.Project,{through: models.FacilityProject, foreignKey: 'facility_id', otherKey: '' });
+      this.belongsToMany(models.Task,{through: models.FacilityProject, foreignKey: 'facility_project_id', otherKey: '' });
+      // this.belongsToMany(models.TaskType,{through: models.Task, foreignKey: 'facility_project_id', otherKey: '' });
+      // this.hasMany(models.Comment)
 
     }
   }
   Facility.init({
     facility_name: DataTypes.STRING,
     region_name: DataTypes.INTEGER,
-    creator_id: DataTypes.INTEGER,
     address: DataTypes.STRING,
     point_of_contact: DataTypes.STRING,
     phone_number: DataTypes.STRING,
@@ -45,6 +44,8 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'facilities',
     modelName: 'Facility',
+    underscored: true
+
   });
   return Facility;
 };

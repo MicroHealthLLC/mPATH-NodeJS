@@ -11,8 +11,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Contract,{ foreignKey: '' });
-this.belongsTo(models.User,{ foreignKey: '' })
 
     }
   }
@@ -25,6 +23,7 @@ this.belongsTo(models.User,{ foreignKey: '' })
     updatedAt: 'updated_at',
     tableName: 'contract_pops',
     modelName: 'ContractPop',
+    underscored: true
   });
   return ContractPop;
 };

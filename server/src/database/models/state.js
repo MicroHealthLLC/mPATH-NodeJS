@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.RegionState,{ foreignKey: '' });
+      this.hasMany(models.RegionState);
 this.belongsToMany(models.FacilityGroup,{through: models.RegionState, foreignKey: '', otherKey: '' })
 
     }
@@ -26,6 +26,7 @@ this.belongsToMany(models.FacilityGroup,{through: models.RegionState, foreignKey
     updatedAt: 'updated_at',
     tableName: 'states',
     modelName: 'State',
+    underscored: true
   });
   return State;
 };

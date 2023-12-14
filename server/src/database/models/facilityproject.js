@@ -12,28 +12,48 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.Facility);
-      this.belongsTo(models.Project,{ foreignKey: 'project_id' });
-      this.belongsTo(models.Status,{ foreignKey: '' });
-      this.hasMany(models.Task,{ foreignKey: '' });
-      this.belongsToMany(models.TaskType,{through: models.Task, foreignKey: '', otherKey: '' });
-      this.hasMany(models.Issue,{ foreignKey: '' });
-      this.hasMany(models.Risk,{ foreignKey: '' });
-      this.hasMany(models.Lesson,{ foreignKey: '' });
-      this.hasMany(models.Note,{ foreignKey: '' });
-      this.hasMany(models.FacilityPrivilege,{ foreignKey: '' });
-      this.belongsTo(models.FacilityGroup,{ foreignKey: '' });
-      this.hasMany(models.Effort,{ foreignKey: '' })
+      this.belongsTo(models.Project);
+      this.belongsTo(models.Status);
+      this.hasMany(models.Task);
+      // this.belongsToMany(models.TaskType,{through: models.Task, foreignKey: '', otherKey: '' });
+      this.hasMany(models.Issue);
+      this.hasMany(models.Risk);
+      this.hasMany(models.Lesson);
+      this.hasMany(models.Note);
+      this.hasMany(models.FacilityPrivilege);
+      // this.belongsTo(models.FacilityGroup,{ foreignKey: 'facility_group_id' });
+      this.hasMany(models.Effort)
 
     }
   }
   FacilityProject.init({
+    // FacilityId:{
+    //   type: DataTypes.INTEGER,
+    //   field: 'facility_id'
+    // },
     facility_id: DataTypes.INTEGER,
+    // ProjectId:{
+    //   type: DataTypes.INTEGER,
+    //   field: 'project_id'
+    // },
     project_id: DataTypes.INTEGER,
     due_date: DataTypes.DATE,
+    // StatusId: {
+    //   type: DataTypes.INTEGER,
+    //   field: 'status_id'
+    // },
     status_id: DataTypes.INTEGER,
     progress: DataTypes.INTEGER,
     color: DataTypes.STRING,
+    // FacilityGroupId: {
+    //   type: DataTypes.INTEGER,
+    //   field: 'facility_group_id'
+    // },
     facility_group_id: DataTypes.INTEGER,
+    // ProjectFacilityGroupId: {
+    //   type: DataTypes.INTEGER,
+    //   field: 'project_facility_group_id'
+    // }
     project_facility_group_id: DataTypes.INTEGER
   }, {
     sequelize,
@@ -41,6 +61,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'facility_projects',
     modelName: 'FacilityProject',
+    underscored: true
   });
   return FacilityProject;
 };

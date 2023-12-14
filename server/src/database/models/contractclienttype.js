@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Contract,{ foreignKey: '' });
-      this.belongsTo(models.User,{ foreignKey: '' });
+      this.hasMany(models.Contract);
+      this.belongsTo(models.User);
 
     }
   }
@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'contract_client_types',
     modelName: 'ContractClientType',
+    underscored: true
   });
   return ContractClientType;
 };

@@ -11,21 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.User,{ foreignKey: '' });
-      this.belongsTo(models.TaskType,{ foreignKey: '' });
-      this.belongsTo(models.LessonStage,{ foreignKey: '' });
-      this.hasMany(models.LessonUser,{ foreignKey: '' });
+      this.belongsTo(models.User);
+      this.belongsTo(models.TaskType);
+      this.belongsTo(models.LessonStage);
+      this.hasMany(models.LessonUser);
       this.belongsToMany(models.User,{through: models.LessonUser, foreignKey: '', otherKey: '' });
       // this.belongsTo(models.FacilityProject,{ foreignKey: '' , as: 'LessonFacilityProject' });
-      this.belongsTo(models.FacilityProject,{ foreignKey: '' });
-      this.belongsTo(models.ProjectContract,{ foreignKey: '' });
-      this.belongsTo(models.ProjectContractVehicle,{ foreignKey: '' });
-      this.hasMany(models.Note,{ foreignKey: '' });
-      // this.hasMany(models.LessonFile,{ foreignKey: '' });
-      this.hasMany(models.LessonDetail,{ foreignKey: '' });
-      this.hasMany(models.RelatedTask,{ foreignKey: '' });
-      this.hasMany(models.RelatedIssue,{ foreignKey: '' });
-      this.hasMany(models.RelatedRisk,{ foreignKey: '' });
+      this.belongsTo(models.FacilityProject);
+      this.belongsTo(models.ProjectContract);
+      this.belongsTo(models.ProjectContractVehicle);
+      this.hasMany(models.Note);
+      // this.hasMany(models.LessonFile);
+      this.hasMany(models.LessonDetail);
+      this.hasMany(models.RelatedTask);
+      this.hasMany(models.RelatedIssue);
+      this.hasMany(models.RelatedRisk);
       // this.belongsToMany(models.SubTask,{through: models.RelatedTask, foreignKey: '', otherKey: '' });
       // this.belongsToMany(models.SubIssue,{through: models.RelatedIssue, foreignKey: '', otherKey: '' });
       // this.belongsToMany(models.SubRisk,{through: models.RelatedRisk, foreignKey: '', otherKey: '' })
@@ -55,6 +55,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'lessons',
     modelName: 'Lesson',
+    underscored: true
   });
   return Lesson;
 };

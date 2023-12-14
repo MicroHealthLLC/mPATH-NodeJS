@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.User,{ foreignKey: '' })
+      this.belongsTo(models.User)
 
     }
   }
@@ -42,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'privileges',
     modelName: 'Privilege',
+    underscored: true
   });
   return Privilege;
 };

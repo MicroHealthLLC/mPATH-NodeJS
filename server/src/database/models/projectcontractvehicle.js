@@ -11,16 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.ContractVehicle,{ foreignKey: '' });
-      this.belongsTo(models.Project,{ foreignKey: '' });
-      // this.belongsTo(models.ContractVehicleProject,{ foreignKey: '' });
-      // this.belongsTo(models.ContractVehicleFacilityGroup,{ foreignKey: '' });
-      this.belongsTo(models.FacilityGroup,{ foreignKey: '' });
-      this.hasMany(models.Task,{ foreignKey: '' });
-      this.hasMany(models.Issue,{ foreignKey: '' });
-      this.hasMany(models.Risk,{ foreignKey: '' });
-      this.hasMany(models.Lesson,{ foreignKey: '' });
-      this.hasMany(models.Note,{ foreignKey: '' })
+      this.belongsTo(models.ContractVehicle);
+      this.belongsTo(models.Project);
+      // this.belongsTo(models.ContractVehicleProject);
+      // this.belongsTo(models.ContractVehicleFacilityGroup);
+      this.belongsTo(models.FacilityGroup);
+      this.hasMany(models.Task);
+      this.hasMany(models.Issue);
+      this.hasMany(models.Risk);
+      this.hasMany(models.Lesson);
+      this.hasMany(models.Note)
 
     }
   }
@@ -36,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'project_contract_vehicles',
     modelName: 'ProjectContractVehicle',
+    underscored: true
   });
   return ProjectContractVehicle;
 };

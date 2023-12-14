@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.Project,{ foreignKey: '' });
-this.belongsTo(models.User,{ foreignKey: '' });
-this.hasMany(models.QueryFilter,{ foreignKey: '' })
+      this.belongsTo(models.Project);
+this.belongsTo(models.User);
+this.hasMany(models.QueryFilter)
 
     }
   }
@@ -30,6 +30,7 @@ this.hasMany(models.QueryFilter,{ foreignKey: '' })
     updatedAt: 'updated_at',
     tableName: 'favorite_filters',
     modelName: 'FavoriteFilter',
+    underscored: true
   });
   return FavoriteFilter;
 };

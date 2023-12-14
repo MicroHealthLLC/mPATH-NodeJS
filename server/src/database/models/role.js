@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.User,{ foreignKey: '' });
-this.belongsTo(models.Project,{ foreignKey: '' });
-this.hasMany(models.RoleUser,{ foreignKey: '' });
+      this.belongsTo(models.User);
+this.belongsTo(models.Project);
+this.hasMany(models.RoleUser);
 this.belongsToMany(models.User,{through: models.RoleUser, foreignKey: '', otherKey: '' });
-this.hasMany(models.RolePrivilege,{ foreignKey: '' })
+this.hasMany(models.RolePrivilege)
 
     }
   }
@@ -32,6 +32,7 @@ this.hasMany(models.RolePrivilege,{ foreignKey: '' })
     updatedAt: 'updated_at',
     tableName: 'roles',
     modelName: 'Role',
+    underscored: true
   });
   return Role;
 };

@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // this.belongsTo(models.Noteable,{ foreignKey: '' });
-      this.belongsTo(models.User,{ foreignKey: '' });
-      // this.hasMany(models.NoteFile,{ foreignKey: '' })
+      // this.belongsTo(models.Noteable);
+      this.belongsTo(models.User);
+      // this.hasMany(models.NoteFile)
 
     }
   }
@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'notes',
     modelName: 'Note',
+    underscored: true
   });
   return Note;
 };

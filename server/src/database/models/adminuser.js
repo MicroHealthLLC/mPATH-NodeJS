@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'admin_users',
     modelName: 'AdminUser',
+    underscored: true
   });
   return AdminUser;
 };

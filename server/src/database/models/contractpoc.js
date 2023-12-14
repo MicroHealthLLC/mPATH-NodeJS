@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'contract_pocs',
     modelName: 'ContractPoc',
+    underscored: true
   });
   return ContractPoc;
 };

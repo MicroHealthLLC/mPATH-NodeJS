@@ -11,13 +11,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.User,{ foreignKey: '' });
-      this.belongsTo(models.Role,{ foreignKey: '' });
+      this.belongsTo(models.User);
+      this.belongsTo(models.Role);
       // this.belongsToMany(models.RolePrivilege,{through: models.Role, foreignKey: '', otherKey: '' });
-      this.belongsTo(models.FacilityProject,{ foreignKey: '' });
-      this.belongsTo(models.ProjectContract,{ foreignKey: '' });
-      this.belongsTo(models.ProjectContractVehicle,{ foreignKey: '' });
-      this.belongsTo(models.Project,{ foreignKey: '' })
+      this.belongsTo(models.FacilityProject);
+      this.belongsTo(models.ProjectContract);
+      this.belongsTo(models.ProjectContractVehicle);
+      this.belongsTo(models.Project)
 
     }
   }
@@ -36,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'role_users',
     modelName: 'RoleUser',
+    underscored: true
   });
   return RoleUser;
 };

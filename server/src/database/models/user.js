@@ -70,6 +70,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'users',
     modelName: 'User',
+    underscored: true
   });
   // User.hasMany(ProjectUser);
   // User.hasMany(Project);

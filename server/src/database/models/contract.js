@@ -11,27 +11,27 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.ContractType,{ foreignKey: '' });
-      this.belongsTo(models.ContractStatus,{ foreignKey: '' });
-      this.belongsTo(models.ContractCustomer,{ foreignKey: '' });
-      this.belongsTo(models.ContractVehicle,{ foreignKey: '' });
-      this.belongsTo(models.ContractVehicleNumber,{ foreignKey: '' });
-      this.belongsTo(models.ContractNumber,{ foreignKey: '' });
-      this.belongsTo(models.SubcontractNumber,{ foreignKey: '' });
-      this.belongsTo(models.ContractPrime,{ foreignKey: '' });
-      this.belongsTo(models.ContractCurrentPop,{ foreignKey: '' });
-      this.belongsTo(models.ContractClassification,{ foreignKey: '' });
-      this.belongsTo(models.ContractClientType,{ foreignKey: '' });
-      this.belongsTo(models.ContractCategory,{ foreignKey: '' });
-      this.belongsTo(models.FacilityGroup,{ foreignKey: '' });
-      this.belongsTo(models.Project,{ foreignKey: '' });
-      // this.belongsTo(models.ContractProject,{ foreignKey: '' });
-      // this.belongsTo(models.ContractFacilityGroup,{ foreignKey: '' });
-      this.hasMany(models.Task,{ foreignKey: '' });
-      this.hasMany(models.Issue,{ foreignKey: '' });
-      this.hasMany(models.Risk,{ foreignKey: '' });
-      this.hasMany(models.Lesson,{ foreignKey: '' });
-      this.hasMany(models.Note,{ foreignKey: '' })
+      this.belongsTo(models.ContractType);
+      this.belongsTo(models.ContractStatus);
+      this.belongsTo(models.ContractCustomer);
+      this.belongsTo(models.ContractVehicle);
+      this.belongsTo(models.ContractVehicleNumber);
+      this.belongsTo(models.ContractNumber);
+      this.belongsTo(models.SubcontractNumber);
+      this.belongsTo(models.ContractPrime);
+      this.belongsTo(models.ContractCurrentPop);
+      this.belongsTo(models.ContractClassification);
+      this.belongsTo(models.ContractClientType);
+      this.belongsTo(models.ContractCategory);
+      this.belongsTo(models.FacilityGroup);
+      this.belongsTo(models.Project);
+      // this.belongsTo(models.ContractProject);
+      // this.belongsTo(models.ContractFacilityGroup);
+      this.hasMany(models.Task);
+      this.hasMany(models.Issue);
+      this.hasMany(models.Risk);
+      this.hasMany(models.Lesson);
+      this.hasMany(models.Note)
       
     }
   }
@@ -71,6 +71,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'contracts',
     modelName: 'Contract',
+    underscored: true
   });
   return Contract;
 };

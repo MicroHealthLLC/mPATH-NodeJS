@@ -11,23 +11,23 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.IssueType,{ foreignKey: '' });
-      this.belongsTo(models.IssueStage,{ foreignKey: '' });
-      this.belongsTo(models.TaskType,{ foreignKey: '' });
-      this.belongsTo(models.IssueSeverity,{ foreignKey: '' });
-      this.hasMany(models.IssueUser,{ foreignKey: '' });
+      this.belongsTo(models.IssueType);
+      this.belongsTo(models.IssueStage);
+      this.belongsTo(models.TaskType);
+      this.belongsTo(models.IssueSeverity);
+      this.hasMany(models.IssueUser);
       this.belongsToMany(models.User,{through: models.IssueUser, foreignKey: '', otherKey: '' });
-      // this.hasMany(models.IssueFile,{ foreignKey: '' });
-      this.hasMany(models.Note,{ foreignKey: '' });
+      // this.hasMany(models.IssueFile);
+      this.hasMany(models.Note);
 
-      this.belongsTo(models.FacilityProject,{ foreignKey: '' });
-      this.belongsTo(models.Contract,{ foreignKey: '' });
-      this.belongsTo(models.ProjectContract,{ foreignKey: '' });
-      this.belongsTo(models.ProjectContractVehicle,{ foreignKey: '' });
-      this.hasMany(models.Checklist,{ foreignKey: '' });
-      this.hasMany(models.RelatedTask,{ foreignKey: '' });
-      this.hasMany(models.RelatedIssue,{ foreignKey: '' });
-      this.hasMany(models.RelatedRisk,{ foreignKey: '' });
+      this.belongsTo(models.FacilityProject);
+      this.belongsTo(models.Contract);
+      this.belongsTo(models.ProjectContract);
+      this.belongsTo(models.ProjectContractVehicle);
+      this.hasMany(models.Checklist);
+      this.hasMany(models.RelatedTask);
+      this.hasMany(models.RelatedIssue);
+      this.hasMany(models.RelatedRisk);
       // this.belongsToMany(models.SubTask,{through: models.RelatedTask, foreignKey: '', otherKey: '' });
       // this.belongsToMany(models.SubIssue,{through: models.RelatedIssue, foreignKey: '', otherKey: '' });
       // this.belongsToMany(models.SubRisk,{through: models.RelatedRisk, foreignKey: '', otherKey: '' })
@@ -65,6 +65,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'issues',
     modelName: 'Issue',
+    underscored: true
   });
   return Issue;
 };

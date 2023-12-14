@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     tableName: 'project_types',
     modelName: 'ProjectType',
+    underscored: true
   });
   return ProjectType;
 };

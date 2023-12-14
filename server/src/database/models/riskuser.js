@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.User,{ foreignKey: '' });
-this.belongsTo(models.Risk,{ foreignKey: '' })
+      this.belongsTo(models.User);
+this.belongsTo(models.Risk)
 
     }
   }
@@ -27,6 +27,7 @@ this.belongsTo(models.Risk,{ foreignKey: '' })
     updatedAt: 'updated_at',
     tableName: 'risk_users',
     modelName: 'RiskUser',
+    underscored: true
   });
   return RiskUser;
 };
