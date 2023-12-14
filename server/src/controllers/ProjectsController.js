@@ -30,7 +30,7 @@ const show = async (req, res) => {
     response.users = await  program.getUsers()
     response.project_users = await  program.getProjectUsers()
     response.facilities = await program.getFacilities()
-    response.contracts = []
+    response.contracts = await program.getContracts()
     response.contract_vehicles = []
     response.facility_groups = []
     response.task_types = []
