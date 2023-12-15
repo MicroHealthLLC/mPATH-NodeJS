@@ -11,12 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.ProjectUser,{ foreignKey: 'project_id' })
-      this.belongsToMany(models.User,{ through: models.ProjectUser, foreignKey: 'project_id' })
-      this.hasMany(models.FacilityProject,{ foreignKey: 'project_id' })
+      this.hasMany(models.ProjectUser)
+      this.belongsToMany(models.User,{ through: models.ProjectUser})
+      this.hasMany(models.FacilityProject)
 
-      this.belongsToMany(models.Facility,{ through: models.FacilityProject, foreignKey: 'project_id' })
-      // this.belongsToMany(models.FacilityGroup,{ through: models.FacilityProject, foreignKey: 'project_id' })
+      this.belongsToMany(models.Facility,{ through: models.FacilityProject })
+      this.belongsToMany(models.FacilityGroup,{ through: models.FacilityProject })
       
       this.hasMany(models.ProjectFacilityGroup,{foreignKey: 'project_id' })
       
@@ -25,36 +25,39 @@ module.exports = (sequelize, DataTypes) => {
       // this.belongsToMany(models.Risk,{through: models.FacilityProject, foreignKey: 'project_id' })
       // this.belongsToMany(models.Lesson,{through: models.FacilityProject, as: "ProjectLesson", foreignKey: 'project_id', otherKey: 'facility_id'  })
       
-      this.belongsTo(models.ProjectType,{foreignKey: 'project_type_id' })
+      this.belongsTo(models.ProjectType)
 
-      this.hasMany(models.ProjectStatus,{ foreignKey: 'project_id' })
+      this.hasMany(models.ProjectStatus)
       this.belongsToMany(models.Status,{through: models.ProjectStatus, foreignKey: 'project_id' })
-      this.hasMany(models.ProjectTaskType,{ foreignKey: 'project_id' })
+      this.hasMany(models.ProjectTaskType)
       this.belongsToMany(models.TaskType,{ through: models.ProjectTaskType, foreignKey: 'project_id' })
-      this.hasMany(models.ProjectIssueType,{ foreignKey: 'project_id' })
+      this.hasMany(models.ProjectIssueType)
       this.belongsToMany(models.IssueType,{ through: models.ProjectIssueType, foreignKey: 'project_id' })
-      this.hasMany(models.ProjectIssueSeverity,{ foreignKey: 'project_id' })
-      this.belongsToMany(models.Issue,{through: models.ProjectIssueSeverity, foreignKey: 'project_id' })
-      this.hasMany(models.ProjectTaskStage,{ foreignKey: 'project_id' })
+      
+      this.hasMany(models.ProjectIssueSeverity)
+      this.belongsToMany(models.IssueSeverity,{through: models.ProjectIssueSeverity, foreignKey: 'project_id' })
+
+      this.hasMany(models.ProjectTaskStage)
       this.belongsToMany(models.TaskStage,{through: models.ProjectTaskStage, foreignKey: 'project_id' })
-      this.hasMany(models.ProjectRiskStage,{ foreignKey: 'project_id' })
+      this.hasMany(models.ProjectRiskStage)
       this.belongsToMany(models.RiskStage,{through: models.ProjectRiskStage, foreignKey: 'project_id' })
 
-      this.hasMany(models.ProjectIssueStage,{ foreignKey: 'project_id' })
+      this.hasMany(models.ProjectIssueStage)
       this.belongsToMany(models.IssueStage,{through: models.ProjectIssueStage, foreignKey: 'project_id' })
-      this.hasMany(models.FavoriteFilter,{ foreignKey: 'project_id' })
-      this.hasMany(models.QueryFilter,{ foreignKey: 'project_id' })
+      this.hasMany(models.FavoriteFilter)
+      this.hasMany(models.QueryFilter)
 
-      this.hasMany(models.ProjectLessonStage,{ foreignKey: 'project_id' })
+      this.hasMany(models.ProjectLessonStage)
       this.belongsToMany(models.LessonStage,{through: models.ProjectLessonStage, foreignKey: 'project_id' })
-      this.hasMany(models.Contract,{ foreignKey: 'project_id' })
-      this.hasMany(models.Role,{ foreignKey: 'project_id' })
-      this.hasMany(models.RoleUser,{ foreignKey: 'project_id' })
-      this.hasMany(models.ProjectContract,{ foreignKey: 'project_id' })
+      this.hasMany(models.Contract)
+      this.hasMany(models.Role)
+      this.hasMany(models.RoleUser)
+      this.hasMany(models.ProjectContract)
+      this.hasMany(models.ProjectContract)
       this.belongsToMany(models.ContractProjectDatum,{through: models.ProjectContract, foreignKey: 'project_id' })
-      this.hasMany(models.ProjectContractVehicle,{ foreignKey: 'project_id' })
+      this.hasMany(models.ProjectContractVehicle)
       this.belongsToMany(models.ContractVehicle,{ through: models.ProjectContractVehicle,foreignKey: 'project_id' })
-      // this.hasMany(models.ProjectContractVehicleGroup,{ foreignKey: 'project_id' })
+      // this.hasMany(models.ProjectContractVehicleGroup)
 
     }
   }

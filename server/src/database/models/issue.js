@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Note);
 
       this.belongsTo(models.FacilityProject);
+      // this.belongsToMany(models.Project, {through: models.FacilityProject});
       this.belongsTo(models.Contract);
       this.belongsTo(models.ProjectContract);
       this.belongsTo(models.ProjectContractVehicle);

@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
-    tableName: 'sub_contract_numbers',
+    tableName: 'subcontract_numbers',
     modelName: 'SubcontractNumber',
     underscored: true
   });

@@ -23,7 +23,7 @@ this.belongsTo(models.LessonStage)
     sequelize,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
-    tableName: 'project_lession_stages',
+    tableName: 'project_lesson_stages',
     modelName: 'ProjectLessonStage',
     underscored: true
   });
