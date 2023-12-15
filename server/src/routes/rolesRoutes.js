@@ -1,11 +1,11 @@
-const { Router } = require("express");
+// const { Router } = require("express");
 const { 
         program_setting_role
       } = require("../controllers/RolesController");
 
-const router = Router();
+// const router = Router();
 //Fetch all programs
-router.get("/program_setting_role", program_setting_role);
+// router.get("/program_setting_role", program_setting_role);
 
 // //Create a program
 // router.post("/createprogram", createProgram);
@@ -14,4 +14,9 @@ router.get("/program_setting_role", program_setting_role);
 // // Delete all programs
 // router.delete("/deleteallprograms", deleteAllPrograms);
 
-module.exports = router;
+// module.exports = router;
+
+async function routes (fastify, options) {
+  fastify.get("/api/v1/program_setting_role", program_setting_role);
+}
+module.exports = routes

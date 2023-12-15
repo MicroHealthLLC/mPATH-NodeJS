@@ -105,7 +105,7 @@ const login = async (req, res) => {
             full_name:"admin@example.com admin@example.com",
             organization:"Test Org"
           }
-          res.json({ message: "Login successful", token: token, current_user: user_hash });
+          res.send({ message: "Login successful", token: token, current_user: user_hash });
         }
       }
     }
