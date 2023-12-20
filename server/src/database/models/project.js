@@ -1,4 +1,7 @@
 'use strict';
+
+const {_} = require("lodash") 
+
 const {
   Model
 } = require('sequelize');
@@ -59,6 +62,41 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsToMany(models.ContractVehicle,{ through: models.ProjectContractVehicle,foreignKey: 'project_id' })
       // this.hasMany(models.ProjectContractVehicleGroup)
 
+    }
+
+    async build_json_response(options){
+      const { db } = require("./index.js");
+
+      console.log("####### build_json_response")
+      let response = this.toJSON()
+      response.facilities = await this.getFacilities()
+
+      response.users = await  this.getUsers({
+        attributes: ['id','email', 'first_name', 'last_name', 'title', 'phone_number', 'status', 'full_name']
+      })
+      response.project_users = await  this.getProjectUsers()
+      response.contracts = await this.getContracts()
+      response.contract_vehicles = await this.getContractVehicles()
+      let facility_groups = await this.getFacilityGroups()
+      response.facility_groups = _.uniqWith(facility_groups, function(x,y){ return x.id == y.id} );
+      response.task_types = await this.getTaskTypes()
+      response.issue_types = await this.getIssueTypes()
+      response.issue_severities = await this.getIssueSeverities()
+      response.task_stages= await this.getTaskStages()
+      response.issue_stages = await this.getIssueStages()
+      response.risk_stages = await this.getRiskStages()
+      response.lesson_stages = await this.getLessonStages()
+      response.contract_types = await db.ContractType.findAll()
+      response.contract_statues = await db.ContractStatus.findAll()
+      response.contract_customers = await db.ContractCustomer.findAll()
+      response.contract_vehicle_numbers = await db.ContractVehicleNumber.findAll()
+      response.contract_numbers = await db.ContractNumber.findAll()
+      response.subcontract_numbers = await db.SubcontractNumber.findAll()
+      response.contract_primes = await db.ContractPrime.findAll()
+      response.contract_current_pops = await db.ContractCurrentPop.findAll()
+      response.contract_classifications = await db.ContractClassification.findAll()
+
+      return response
     }
   }
   Project.init({

@@ -7,10 +7,10 @@ const index = async (req, res) => {
     // const allLessons = await db.Lesson.findAll();
     const lessons = require('../../static_responses/lessons_index.json');
 
-    res.json({ lessons: lessons });
+    return({ lessons: lessons });
 
   } catch (error) {
-    res.status(500).json({ error: "Error fetching lessons" });
+    res.code(500).json({ error: "Error fetching lessons" });
   }
 };
 
@@ -18,10 +18,10 @@ const show = async (req, res) => {
   try {
     // Fetch user profile using req.userId
     const allLessons = await db.Lesson.findAll();
-    res.json({ allLessons: allLessons });
+    return({ allLessons: allLessons });
 
   } catch (error) {
-    res.status(500).json({ error: "Error fetching lessons" });
+    res.code(500).json({ error: "Error fetching lessons" });
   }
 };
 

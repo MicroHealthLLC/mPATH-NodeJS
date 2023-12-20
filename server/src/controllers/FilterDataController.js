@@ -6,10 +6,10 @@ const program_admin_programs = async (req, res) => {
     // Fetch user profile using req.userId
     const program_admin_programs = require('../../static_responses/program_admin_programs.json');
 
-    res.json({ portfolio_filters: program_admin_programs });
+    return({ portfolio_filters: program_admin_programs });
 
   } catch (error) {
-    res.status(500).json({ error: "Error fetching data" });
+    res.code(500).json({ error: "Error fetching data" });
   }
 };
 

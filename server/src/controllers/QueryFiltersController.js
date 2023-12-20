@@ -8,7 +8,7 @@ const query_filters = async (req, res) => {
     res.json(qf);
 
   } catch (error) {
-    res.status(500).json({ error: "Error fetching data" });
+    res.code(500).json({ error: "Error fetching data" });
   }
 };
 

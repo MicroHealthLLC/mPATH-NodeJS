@@ -9,14 +9,14 @@ const verifyToken = (req, res, next) => {
     const token = auth_header.split(" ")[1];
     jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
       if (err) {
-        return res.status(401).json({ error: "Invalid token" });
+        return res.code(401).json({ error: "Invalid token" });
       } else {
         req.userId = decoded.userId;
         next();
       }
     });
   } else {
-    return res.status(401).json({ error: "Token not provided" });
+    return res.code(401).json({ error: "Token not provided" });
   }
 };
 
@@ -25,15 +25,15 @@ const register = async (req, res) => {
   try {
     let { username, email, password } = req.body;
     if (!username) {
-      return res.status(400).json({ error: "Username field is required" });
+      return res.code(400).json({ error: "Username field is required" });
     } else if (!email) {
-      return res.status(400).json({ error: "Email field is required" });
+      return res.code(400).json({ error: "Email field is required" });
     } else if (!password) {
-      return res.status(400).json({ error: "Password field is required" });
+      return res.code(400).json({ error: "Password field is required" });
     } else {
       const user_db = await db.user.findOne({ where: { email } });
       if (user_db) {
-        return res.status(400).json({ error: "Email already exists" });
+        return res.code(400).json({ error: "Email already exists" });
       } else {
         // Hash the password
         const hashedPassword = await cryptPassword(password);
@@ -49,12 +49,12 @@ const register = async (req, res) => {
           process.env.JWT_SECRET_KEY,
           { expiresIn: "1h" }
         );
-        return res.json({ message: "User registered successfully", token });
+        return({ message: "User registered successfully", token });
       }
     }
   } catch (error) {
     console.log(error); // Log the caught error for debugging
-    return res.status(500).json({ error: "Registration failed" });
+    return res.code(500).json({ error: "Registration failed" });
   }
 };
 // User login function
@@ -64,9 +64,9 @@ const login = async (req, res) => {
     // console.log("login", req.body)
 
     if (!email) {
-      res.status(400).json({ error: "Email field is required" });
+      res.code(400).json({ error: "Email field is required" });
     } else if (!password) {
-      res.status(400).json({ error: "Password field is required" });
+      res.code(400).json({ error: "Password field is required" });
     } else {
       
       // Find the user by email
@@ -75,12 +75,12 @@ const login = async (req, res) => {
       // console.log("user", user_db)
 
       if (!user_db) {
-        return res.status(404).json({ error: "User not found" });
+        return res.code(404).json({ error: "User not found" });
       } else {
         // Compare the provided password with the hashed password
         const passwordMatch = await comparePassword(password, user_db.encrypted_password);
         if (!passwordMatch) {
-          return res.status(401).json({ error: "Invalid password" });
+          return res.code(401).json({ error: "Invalid password" });
         } else {
           // Generate JWT token
           const token = jwt.sign({ userId: user_db.id }, process.env.JWT_SECRET_KEY,{ expiresIn: "1h" });
@@ -110,7 +110,7 @@ const login = async (req, res) => {
       }
     }
   } catch (error) {
-    res.status(500).json({ error: "Login failed", message: error });
+    res.code(500).json({ error: "Login failed", message: error });
   }
 };
 

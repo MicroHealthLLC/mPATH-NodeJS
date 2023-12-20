@@ -6,10 +6,10 @@ const program_setting_role = async (req, res) => {
     // Fetch user profile using req.userId
     const program_setting_role = require('../../static_responses/program_setting_role.json');
 
-    res.json({ program_setting_role: program_setting_role });
+    return({ program_setting_role: program_setting_role });
 
   } catch (error) {
-    res.status(500).json({ error: "Error fetching data" });
+    res.code(500).json({ error: "Error fetching data" });
   }
 };
 
