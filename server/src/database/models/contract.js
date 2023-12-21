@@ -10,28 +10,28 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      this.belongsTo(models.ContractType);
-      this.belongsTo(models.ContractStatus);
-      this.belongsTo(models.ContractCustomer);
-      this.belongsTo(models.ContractVehicle);
-      this.belongsTo(models.ContractVehicleNumber);
-      this.belongsTo(models.ContractNumber);
-      this.belongsTo(models.SubcontractNumber);
-      this.belongsTo(models.ContractPrime);
-      this.belongsTo(models.ContractCurrentPop);
-      this.belongsTo(models.ContractClassification);
-      this.belongsTo(models.ContractClientType);
-      this.belongsTo(models.ContractCategory);
-      this.belongsTo(models.FacilityGroup);
-      this.belongsTo(models.Project);
-      // this.belongsTo(models.ContractProject);
-      // this.belongsTo(models.ContractFacilityGroup);
-      this.hasMany(models.Task);
-      this.hasMany(models.Issue);
-      this.hasMany(models.Risk);
-      this.hasMany(models.Lesson);
-      this.hasMany(models.Note)
+      // // define association here
+      // this.belongsTo(models.ContractType);
+      // this.belongsTo(models.ContractStatus);
+      // this.belongsTo(models.ContractCustomer);
+      // this.belongsTo(models.ContractVehicle);
+      // this.belongsTo(models.ContractVehicleNumber);
+      // this.belongsTo(models.ContractNumber);
+      // this.belongsTo(models.SubcontractNumber);
+      // this.belongsTo(models.ContractPrime);
+      // this.belongsTo(models.ContractCurrentPop);
+      // this.belongsTo(models.ContractClassification);
+      // this.belongsTo(models.ContractClientType);
+      // this.belongsTo(models.ContractCategory);
+      // this.belongsTo(models.FacilityGroup);
+      // this.belongsTo(models.Project);
+      // // this.belongsTo(models.ContractProject);
+      // // this.belongsTo(models.ContractFacilityGroup);
+      // this.hasMany(models.Task);
+      // this.hasMany(models.Issue);
+      // this.hasMany(models.Risk);
+      // this.hasMany(models.Lesson);
+      // this.hasMany(models.Note)
       
     }
   }

@@ -10,19 +10,19 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      this.belongsTo(models.Facility);
-      this.belongsTo(models.Project);
-      this.belongsTo(models.Status);
-      this.hasMany(models.Task);
-      // this.belongsToMany(models.TaskType,{through: models.Task, foreignKey: '', otherKey: '' });
-      this.hasMany(models.Issue);
-      this.hasMany(models.Risk);
-      this.hasMany(models.Lesson);
-      this.hasMany(models.Note);
-      this.hasMany(models.FacilityPrivilege);
-      // this.belongsTo(models.FacilityGroup,{ foreignKey: 'facility_group_id' });
-      this.hasMany(models.Effort)
+      // // define association here
+      this.belongsTo(models.Facility,{foreignKey: 'facility_id'});
+      // this.belongsTo(models.Project);
+      // this.belongsTo(models.Status);
+      // this.hasMany(models.Task);
+      // // this.belongsToMany(models.TaskType,{through: models.Task, foreignKey: '', otherKey: '' });
+      // this.hasMany(models.Issue);
+      // this.hasMany(models.Risk);
+      // this.hasMany(models.Lesson);
+      // this.hasMany(models.Note);
+      // this.hasMany(models.FacilityPrivilege);
+      // // this.belongsTo(models.FacilityGroup,{ foreignKey: 'facility_group_id' });
+      // this.hasMany(models.Effort)
 
     }
   }

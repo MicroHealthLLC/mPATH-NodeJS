@@ -10,21 +10,21 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      this.belongsTo(models.ContractCustomer);
-      this.belongsTo(models.ContractVehicle);
-      this.belongsTo(models.ContractAwardTo);
-      this.belongsTo(models.ContractNaic);
-      this.belongsTo(models.ContractAwardType);
-      this.belongsTo(models.ContractType);
-      this.belongsTo(models.ContractCurrentPop);
-      this.belongsTo(models.ContractPop);
-      this.belongsTo(models.ContractNumber);
-      this.belongsTo(models.User);
-      this.hasMany(models.ProjectContract);
-      this.belongsToMany(models.Project,{through: models.ProjectContract, foreignKey: '', otherKey: '' });
-      this.hasMany(models.ContractProjectPocResource);
-      this.belongsToMany(models.ContractProjectPoc,{through: models.ContractProjectPocResource, foreignKey: '', otherKey: '' })
+      // // define association here
+      // this.belongsTo(models.ContractCustomer);
+      // this.belongsTo(models.ContractVehicle);
+      // this.belongsTo(models.ContractAwardTo);
+      // this.belongsTo(models.ContractNaic);
+      // this.belongsTo(models.ContractAwardType);
+      // this.belongsTo(models.ContractType);
+      // this.belongsTo(models.ContractCurrentPop);
+      // this.belongsTo(models.ContractPop);
+      // this.belongsTo(models.ContractNumber);
+      // this.belongsTo(models.User);
+      // this.hasMany(models.ProjectContract);
+      // this.belongsToMany(models.Project,{through: models.ProjectContract, foreignKey: '', otherKey: '' });
+      // this.hasMany(models.ContractProjectPocResource);
+      // this.belongsToMany(models.ContractProjectPoc,{through: models.ContractProjectPocResource, foreignKey: '', otherKey: '' })
 
     }
   }

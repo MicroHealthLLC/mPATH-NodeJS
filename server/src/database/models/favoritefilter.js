@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      this.belongsTo(models.Project);
-this.belongsTo(models.User);
-this.hasMany(models.QueryFilter)
+      // // define association here
+      // this.belongsTo(models.Project);
+      // this.belongsTo(models.User);
+      // this.hasMany(models.QueryFilter)
 
     }
   }

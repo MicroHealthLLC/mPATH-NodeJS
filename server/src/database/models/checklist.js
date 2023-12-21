@@ -10,10 +10,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      // this.belongsTo(models.Listable);
-      this.belongsTo(models.User);
-      this.hasMany(models.ProgressList)
+      // // define association here
+      this.belongsTo(models.Task,{foreignKey: 'listable_id'})
+      // // this.belongsTo(models.Listable);
+      // this.belongsTo(models.User);
+      this.hasMany(models.ProgressList, {foreignKey: 'checklist_id'})
     }
   }
   Checklist.init({

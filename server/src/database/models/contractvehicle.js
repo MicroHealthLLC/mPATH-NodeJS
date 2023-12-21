@@ -10,17 +10,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      this.belongsTo(models.ContractSubCategory);
-this.belongsTo(models.ContractAgency);
-this.belongsTo(models.ContractVehicleType);
-this.belongsTo(models.ContractNumber);
-this.belongsTo(models.User);
-this.hasMany(models.ContractProjectDatum);
-this.hasMany(models.ProjectContractVehicle);
-this.belongsToMany(models.Project,{through: models.ProjectContractVehicle, foreignKey: '', otherKey: '' });
-this.hasMany(models.ContractProjectPocResource);
-this.belongsToMany(models.ContractProjectPoc,{through: models.ContractProjectPocResource, foreignKey: '', otherKey: '' })
+      // // define association here
+      // this.belongsTo(models.ContractSubCategory);
+      // this.belongsTo(models.ContractAgency);
+      // this.belongsTo(models.ContractVehicleType);
+      // this.belongsTo(models.ContractNumber);
+      // this.belongsTo(models.User);
+      // this.hasMany(models.ContractProjectDatum);
+      // this.hasMany(models.ProjectContractVehicle);
+      // this.belongsToMany(models.Project,{through: models.ProjectContractVehicle, foreignKey: '', otherKey: '' });
+      // this.hasMany(models.ContractProjectPocResource);
+      // this.belongsToMany(models.ContractProjectPoc,{through: models.ContractProjectPocResource, foreignKey: '', otherKey: '' })
 
     }
   }

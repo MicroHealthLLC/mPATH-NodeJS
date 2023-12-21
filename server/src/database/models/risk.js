@@ -10,26 +10,26 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      this.belongsTo(models.User);
-      this.hasMany(models.RiskUser);
-      this.belongsTo(models.RiskStage);
-      this.belongsToMany(models.User,{through: models.RiskUser, foreignKey: '', otherKey: '' });
-      this.belongsTo(models.TaskType);
-      // this.hasMany(models.RiskFile);
-      this.hasMany(models.Note)
+      // // define association here
+      // this.belongsTo(models.User);
+      // this.hasMany(models.RiskUser);
+      // this.belongsTo(models.RiskStage);
+      // this.belongsToMany(models.User,{through: models.RiskUser, foreignKey: '', otherKey: '' });
+      // this.belongsTo(models.TaskType);
+      // // this.hasMany(models.RiskFile);
+      // this.hasMany(models.Note)
       
-      this.belongsTo(models.FacilityProject);
-      this.belongsTo(models.Contract);
-      this.belongsTo(models.ProjectContract);
-      this.belongsTo(models.ProjectContractVehicle);
-      this.hasMany(models.Checklist);
-      this.hasMany(models.RelatedTask);
-      this.hasMany(models.RelatedIssue);
-      this.hasMany(models.RelatedRisk);
-      // this.belongsToMany(models.SubTask,{through: models.RelatedTask, foreignKey: '', otherKey: '' });
-      // this.belongsToMany(models.SubIssue,{through: models.RelatedIssue, foreignKey: '', otherKey: '' });
-      // this.belongsToMany(models.SubRisk,{through: models.RelatedRisk, foreignKey: '', otherKey: '' })
+      // this.belongsTo(models.FacilityProject);
+      // this.belongsTo(models.Contract);
+      // this.belongsTo(models.ProjectContract);
+      // this.belongsTo(models.ProjectContractVehicle);
+      // this.hasMany(models.Checklist);
+      // this.hasMany(models.RelatedTask);
+      // this.hasMany(models.RelatedIssue);
+      // this.hasMany(models.RelatedRisk);
+      // // this.belongsToMany(models.SubTask,{through: models.RelatedTask, foreignKey: '', otherKey: '' });
+      // // this.belongsToMany(models.SubIssue,{through: models.RelatedIssue, foreignKey: '', otherKey: '' });
+      // // this.belongsToMany(models.SubRisk,{through: models.RelatedRisk, foreignKey: '', otherKey: '' })
 
     }
   }

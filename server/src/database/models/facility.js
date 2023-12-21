@@ -10,15 +10,15 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      // this.belongsTo(models.FacilityGroup,{ foreignKey: 'facility_group_id' });
+      // // define association here
+      // // this.belongsTo(models.FacilityGroup,{ foreignKey: 'facility_group_id' });
       
-      this.belongsTo(models.User,{ as: 'Creator', foreignKey: 'creator_id' });
-      this.hasMany(models.FacilityProject,{ foreignKey: 'facility_id' });
-      this.belongsToMany(models.Project,{through: models.FacilityProject, foreignKey: 'facility_id', otherKey: '' });
-      this.belongsToMany(models.Task,{through: models.FacilityProject, foreignKey: 'facility_project_id', otherKey: '' });
-      // this.belongsToMany(models.TaskType,{through: models.Task, foreignKey: 'facility_project_id', otherKey: '' });
-      // this.hasMany(models.Comment)
+      // this.belongsTo(models.User,{ as: 'Creator', foreignKey: 'creator_id' });
+      // this.hasMany(models.FacilityProject,{ foreignKey: 'facility_id' });
+      // this.belongsToMany(models.Project,{through: models.FacilityProject, foreignKey: 'facility_id', otherKey: '' });
+      // this.belongsToMany(models.Task,{through: models.FacilityProject, foreignKey: 'facility_project_id', otherKey: '' });
+      // // this.belongsToMany(models.TaskType,{through: models.Task, foreignKey: 'facility_project_id', otherKey: '' });
+      // // this.hasMany(models.Comment)
 
     }
   }
