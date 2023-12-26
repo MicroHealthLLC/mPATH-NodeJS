@@ -34,11 +34,19 @@ module.exports = (sequelize, DataTypes) => {
 
     }
     // async toJSON(){
-    //   const { db } = require("./index.js");
-    //   let response = await this.get({ plain: true });
-    //   response.checklists = this.getListable({include: [db.ProgressList]})
 
-    //   return await(response)
+    //   const { db } = require("./index.js");
+    //   let response = this.get({ plain: true });
+    //   //Replace this code with eager loading
+    //   // response.checklists = await this.getListable({include: [db.ProgressList]})
+    //   response.checklists = []
+    //   let checklists = await db.Checklist.findAll({where: {listable_id: response.id, listable_type: 'Task'}})
+    //   for(var checklist of checklists){
+    //     let progress_lists = await checklist.getProgressLists()
+    //     checklist.progress_lists = progress_lists
+    //     response.checklists.push(checklist)
+    //   }
+    //   return response
     // }
   }
   Task.init({

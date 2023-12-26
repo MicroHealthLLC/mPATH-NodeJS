@@ -80,17 +80,123 @@ module.exports = (sequelize, DataTypes) => {
         facility_project_ids.push(facility_project.id)
         facility_ids.push(facility_project.facility_id)
 
+        // Adding Task Data
         // facility_hash.facility = await facility_project.getFacility()
         facility_hash.tasks = [] 
 
-        let tasks = await db.Task.findAll({where: {facility_project_id: facility_project_ids} })
+        var tasks = await db.Task.findAll({where: {facility_project_id: facility_project_ids} })
+        var task_ids = tasks.map(function(e){return e.id})
+        var checklists = await db.Checklist.findAll({where: {listable_id: task_ids, listable_type: 'Task'}})
+        var checklist_ids = checklists.map(function(e){return e.id})
+        var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}})
 
         for(var task of tasks){
           let _task = task.toJSON()
-          _task.checklists = await task.getListable({include: [db.ProgressList]})
+
+          let _tchecklists = []
+          for(var i = 0; i < checklists.length; i++ ){
+
+            if(checklists[i].listable_id == _task.id){
+
+              let c = checklists[i].toJSON()
+              c.progress_lists = []
+              c.user = {id: c.user_id, full_name: ""}
+              for(var k = 0; k < progress_lists.length; k++ ){
+                if(progress_lists[k].checklist_id == c.id){
+                  let p = progress_lists[k].toJSON()
+                  p.user = {id: p.user_id, full_name: ""}
+                  c.progress_lists.push(p)
+                }
+              }
+              _tchecklists.push(c)
+              console.log("################# _tchecklists", _tchecklists)
+
+            }
+          }   
+
+          _task.checklists = _tchecklists
+          // _task.checklists = await task.getListable({include: [db.ProgressList, db.User]})
           facility_hash.tasks.push(_task)
         }
-        // facility_hash.issues = await db.Issue.findAll({where: {facility_project_id: facility_project_ids} })
+
+        // Adding issues data
+        facility_hash.issues = [] 
+
+        var issues = await db.Issue.findAll({where: {facility_project_id: facility_project_ids} })
+        var issue_ids = issues.map(function(e){return e.id})
+        var checklists = await db.Checklist.findAll({where: {listable_id: issue_ids, listable_type: 'Issue'}})
+        var checklist_ids = checklists.map(function(e){return e.id})
+        var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}})
+
+        for(var issue of issues){
+          let _issue = issue.toJSON()
+
+          let _tchecklists = []
+          for(var i = 0; i < checklists.length; i++ ){
+
+            if(checklists[i].listable_id == _issue.id){
+
+              let c = checklists[i].toJSON()
+              c.progress_lists = []
+              c.user = {id: c.user_id, full_name: ""}
+              for(var k = 0; k < progress_lists.length; k++ ){
+                if(progress_lists[k].checklist_id == c.id){
+                  let p = progress_lists[k].toJSON()
+                  p.user = {id: p.user_id, full_name: ""}
+                  c.progress_lists.push(p)
+                }
+              }
+              _tchecklists.push(c)
+              console.log("################# _tchecklists", _tchecklists)
+
+            }
+          }   
+
+          _issue.checklists = _tchecklists
+          // _task.checklists = await task.getListable({include: [db.ProgressList, db.User]})
+          facility_hash.issues.push(_issue)
+        }
+
+
+        // Adding risk data
+        facility_hash.risks = [] 
+
+        var risks = await db.Risk.findAll({where: {facility_project_id: facility_project_ids} })
+        var risk_ids = risks.map(function(e){return e.id})
+        var checklists = await db.Checklist.findAll({where: {listable_id: issue_ids, listable_type: 'Risk'}})
+        var checklist_ids = checklists.map(function(e){return e.id})
+        var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}})
+
+        for(var risk of risks){
+          let _risk = risk.toJSON()
+
+          let _tchecklists = []
+          for(var i = 0; i < checklists.length; i++ ){
+
+            if(checklists[i].listable_id == _risk.id){
+
+              let c = checklists[i].toJSON()
+              c.progress_lists = []
+              c.user = {id: c.user_id, full_name: ""}
+              for(var k = 0; k < progress_lists.length; k++ ){
+                if(progress_lists[k].checklist_id == c.id){
+                  let p = progress_lists[k].toJSON()
+                  p.user = {id: p.user_id, full_name: ""}
+                  c.progress_lists.push(p)
+                }
+              }
+              _tchecklists.push(c)
+              console.log("################# _tchecklists", _tchecklists)
+
+            }
+          }   
+
+          _risk.checklists = _tchecklists
+          // _task.checklists = await task.getListable({include: [db.ProgressList, db.User]})
+          facility_hash.risks.push(_risk)
+        }
+
+
         // facility_hash.risks = await db.Risk.findAll({where: {facility_project_id: facility_project_ids} })
 
         response.facilities.push(facility_hash)
