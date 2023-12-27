@@ -13,6 +13,6 @@ const { index } = require("../controllers/ProfilesController");
 // module.exports = router;
 
 async function routes (fastify, options) {
-  fastify.get("/api/v1/profile/", index);
+  fastify.get("/api/v1/profile", index);
 }
 module.exports = routes

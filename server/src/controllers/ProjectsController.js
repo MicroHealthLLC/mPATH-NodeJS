@@ -41,7 +41,24 @@ const show = async (req, res) => {
   }
 };
 
+const project_facility_hash = async (req, res) => {
+  try {
+
+    //As response contains all data, we will add data in steps.
+    // For now returning static response. and then will override 
+    // the data with real data
+    response = require('../../static_responses/project_facility_hash.json');
+    res.type('application/json').code(200)
+    return( response );
+    // console.log("Program: ", program);
+  } catch (error) {
+    res.code(500)
+    return({ error: "Error fetching program " + error });
+  }
+};
+
 module.exports = {
   index,
   show,
+  project_facility_hash
 };

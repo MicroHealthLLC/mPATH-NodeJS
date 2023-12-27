@@ -18,6 +18,6 @@ const {
 // module.exports = router;
 
 async function routes (fastify, options) {
-  fastify.get("/api/v1/programs/:id/query_filters/", query_filters);
+  fastify.get("/api/v1/programs/:id/query_filters", query_filters);
 }
 module.exports = routes
