@@ -23,8 +23,9 @@ module.exports = (sequelize, DataTypes) => {
     user_type: DataTypes.STRING
   }, {
     sequelize,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
+    timestamps: false,
+    // createdAt: 'created_at',
+    // updatedAt: 'updated_at',
     tableName: 'risk_users',
     modelName: 'RiskUser',
     underscored: true
