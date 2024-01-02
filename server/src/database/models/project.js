@@ -82,6 +82,7 @@ module.exports = (sequelize, DataTypes) => {
 
       let all_facilities = await db.Facility.findAll({where: {id: facility_ids}})
       let all_facility_groups = await db.FacilityGroup.findAll({where: {id: facility_group_ids}})
+      let facility_projects_hash2 = {}
 
       for(var facility_project of facility_projects){
 
@@ -92,7 +93,7 @@ module.exports = (sequelize, DataTypes) => {
         facility_hash['facility_project_id'] = facility_project.id
         facility_hash['class'] = "FacilityProject"
         facility_hash['project_status'] = "Not Started"
-        facility_hash['facility_name'] = facility.title
+        facility_hash['facility_name'] = facility.facility_name
         facility_hash['facility'] = facility.toJSON()
         facility_hash['facility']["facility_group_name"] = facility_group.name
         facility_hash['facility']["facility_group_status"] = facility_group.status
@@ -131,7 +132,7 @@ module.exports = (sequelize, DataTypes) => {
           _task["consulted_user_ids"] =  []
           _task["informed_user_ids"] =  []
           _task["facility_id"] = facility.id
-          _task["facility_name"] =  facility.title
+          _task["facility_name"] =  facility.facility_name
           _task["contract_nickname"] =  null
           _task["vehicle_nickname"] =  null
           _task["project_id"] = this.id
@@ -198,7 +199,7 @@ module.exports = (sequelize, DataTypes) => {
           _issue["notes_updated_at"] = null
           _issue["last_update"] = null
           _issue["facility_id"] = facility.id
-          _issue["facility_name"] = facility.title
+          _issue["facility_name"] = facility.facility_name
           _issue["contract_nickname"] = ""
           _issue["vehicle_nickname"] = ""
           _issue["project_id"] = 4
@@ -265,7 +266,7 @@ module.exports = (sequelize, DataTypes) => {
           _risk["notes_updated_at"] = null
           _risk["last_update"] = null
           _risk["facility_id"] = facility.id
-          _risk["facility_name"] = facility.title
+          _risk["facility_name"] = facility.facility_name
           _risk["contract_nickname"] = ""
           _risk["vehicle_nickname"] = ""
           _risk["project_id"] = 4
@@ -305,6 +306,7 @@ module.exports = (sequelize, DataTypes) => {
         // facility_hash.risks = await db.Risk.findAll({where: {facility_project_id: facility_project_ids} })
 
         response.facilities.push(facility_hash)
+        facility_projects_hash2[facility_project.id] = facility_hash
       }
 
       let all_user_ids = []
@@ -366,13 +368,23 @@ module.exports = (sequelize, DataTypes) => {
       let facility_groups = await db.FacilityGroup.findAll({ where:{id: all_facility_group_ids} })
 
       for(var facility_group of facility_groups){
+
+        let fg_facility_projects = _.filter(facility_projects, function(e){ return e.facility_group_id == facility_group.id })
         let facility_group_hash = facility_group.toJSON()
         facility_group_hash['contracts'] = []
         facility_group_hash['facilities'] = []
-        facility_group_hash['project_ids'] = []
+        for(var fg_fp of fg_facility_projects){
+          if(facility_projects_hash2[fg_fp.id]){
+            facility_group_hash['facilities'].push(facility_projects_hash2[fg_fp.id])
+          }
+        }
+      
+        facility_group_hash['project_ids'] = [this.id]//_.uniq(_.map(fg_facility_projects, function(e){return e.project_id}))
         facility_group_hash['contract_project_ids'] = []
         facility_group_hash['contract_vehicles'] = []
         facility_group_hash['contract_vehicle_ids'] = []
+
+
 
         response.facility_groups.push(facility_group_hash)
       }
