@@ -2557,6 +2557,7 @@ export default {
       let statuses = [];
 
       if (this.contentLoaded && this.facilities.length > 0) {
+        console.log("projectStatuses()", this.statuses)
         this.statuses.forEach((status) => {
           // Find number of facilities with current status
           let count = this.facilities

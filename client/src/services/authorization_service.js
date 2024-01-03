@@ -120,7 +120,6 @@ const AuthorizationService = {
     );
   },
   checkPrivileges: (page, salut, route, extraData) => {
-
     let permissionHash = { write: "W", read: "R", delete: "D" };
     let s = permissionHash[salut];
     let program_id = route.params.programId;

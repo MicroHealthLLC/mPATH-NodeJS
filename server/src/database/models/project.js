@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       
       // this.belongsTo(models.ProjectType)
 
-      // this.hasMany(models.ProjectStatus)
+      this.hasMany(models.ProjectStatus)
       // this.belongsToMany(models.Status,{through: models.ProjectStatus, foreignKey: 'project_id' })
       // this.hasMany(models.ProjectTaskType)
       // this.belongsToMany(models.TaskType,{ through: models.ProjectTaskType, foreignKey: 'project_id' })
@@ -92,12 +92,14 @@ module.exports = (sequelize, DataTypes) => {
         let facility_hash = facility_project.toJSON()
         facility_hash['facility_project_id'] = facility_project.id
         facility_hash['class'] = "FacilityProject"
-        facility_hash['project_status'] = "Not Started"
+        facility_hash['project_status'] = "Behind Schedule"
         facility_hash['facility_name'] = facility.facility_name
         facility_hash['facility'] = facility.toJSON()
         facility_hash['facility']["facility_group_name"] = facility_group.name
-        facility_hash['facility']["facility_group_status"] = facility_group.status
-        
+        facility_hash['facility']["facility_group_status"] = facility_group.status == 1 ? 'active' : 'inactive'
+        facility_hash['facility']["status"] = facility_hash['facility']["status"] == 1 ? 'active' : 'inactive'
+        facility_hash['facility']["project_id"] = this.id
+
         // facility_project_ids.push(facility_project.id)
         facility_ids.push(facility_project.facility_id)
 
@@ -142,7 +144,9 @@ module.exports = (sequelize, DataTypes) => {
           _task["due_date_duplicate"] = []
           _task["progress_status"] = []
           _task["attach_files"] = []
+          _task["notes"] = []
           _task["class_name"] = "Task"
+          
 
           let _tchecklists = []
           for(var i = 0; i < checklists.length; i++ ){
@@ -371,6 +375,7 @@ module.exports = (sequelize, DataTypes) => {
 
         let fg_facility_projects = _.filter(facility_projects, function(e){ return e.facility_group_id == facility_group.id })
         let facility_group_hash = facility_group.toJSON()
+        facility_group_hash['status'] = facility_group_hash.status == 1 ? 'active' : 'inactive'
         facility_group_hash['contracts'] = []
         facility_group_hash['facilities'] = []
         for(var fg_fp of fg_facility_projects){
@@ -388,6 +393,11 @@ module.exports = (sequelize, DataTypes) => {
 
         response.facility_groups.push(facility_group_hash)
       }
+
+      // statues
+      let all_statues = await this.getProjectStatuses()
+      let all_status_ids = _.map( all_statues, function(fp){ return fp.status_id} )
+      response.statuses = await db.Status.findAll({where: {id: all_status_ids}})
       response.task_types = await db.TaskType.findAll() // await this.getTaskTypes()
       response.issue_types = await db.IssueType.findAll() //await this.getIssueTypes()
       response.issue_severities = await db.IssueSeverity.findAll() //await this.getIssueSeverities()

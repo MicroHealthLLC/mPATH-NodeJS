@@ -371,6 +371,10 @@ export default {
       });
     },
     _isallowedProjects(c, salut) {
+      console.log("_isallowedProjects",this.checkPrivileges("ProjectSidebar", salut, this.$route, {
+        method: "isallowedProject",
+        facility_project_id: c.facilityProjectId,
+      }))
       return this.checkPrivileges("ProjectSidebar", salut, this.$route, {
         method: "isallowedProject",
         facility_project_id: c.facilityProjectId,

@@ -2787,27 +2787,31 @@ export default new Vuex.Store({
       );
     },
     facilityGroupFacilities: (state, getters) => (group, status = "active") => {
-      return {
-      projects: { 
-          a: getters.filteredFacilities(status)
-          .filter(f => 
-              f.facilityGroupId == group.id &&
-              f.projectId == getters.currentProject.id
-              ).sort((a, b) => a.facilityName.localeCompare(b.facilityName)),
+      let h = {
+        projects: { 
+            a: getters.filteredFacilities(status)
+            .filter(f => 
+                f.facilityGroupId == group.id &&
+                f.projectId == getters.currentProject.id
+                ).sort((a, b) => a.facilityName.localeCompare(b.facilityName)),
         },
-      contracts: { 
-          b: getters.filteredContracts
-          .filter(f => 
-              f.facilityGroup.id == group.id 
-              ).sort((a, b) => a.name.localeCompare(b.name)),
-         },
-      vehicles: { 
-          c: getters.filteredVehicles
-          .filter(f => 
-              f.facilityGroup.id == group.id 
-              ).sort((a, b) => a.name.localeCompare(b.name)),
-      }      
+        contracts: { 
+            b: getters.filteredContracts
+            .filter(f => 
+                f.facilityGroup.id == group.id 
+                ).sort((a, b) => a.name.localeCompare(b.name)),
+        },
+        vehicles: { 
+            c: getters.filteredVehicles
+            .filter(f => 
+                f.facilityGroup.id == group.id 
+                ).sort((a, b) => a.name.localeCompare(b.name)),
+        }      
       }
+      
+      console.log("facilityGroupFacilities()",group.name, h)
+
+      return h
     },
     // for gantt chart view
     ganttData: (state, getters) => {
