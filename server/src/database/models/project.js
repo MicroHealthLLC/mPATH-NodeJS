@@ -3,7 +3,7 @@
 const {_} = require("lodash") 
 
 const {
-  Model
+  Op, Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Project extends Model {
@@ -72,15 +72,31 @@ module.exports = (sequelize, DataTypes) => {
       let all_issues = []
       let all_risks = []
 
+      let user = options.user
+      let role_users = await db.RoleUser.findAll({where: {user_id: user.id}})
+      let role_ids = _.uniq(_.map(role_users, function(f){ return f.role_id } ))
+      let role_privileges = await db.RolePrivilege.findAll({
+        where: { 
+          role_id: role_ids, 
+          privilege: { 
+            [Op.regexp]: "^[RWD]" 
+          }
+        },
+      });
+      let role_privilege_role_ids = _.uniq(_.map(role_privileges, function(f){ return f.role_id } ))
+      let role_users2 = await db.RoleUser.findAll({where: {user_id: user.id, role_id: role_privilege_role_ids}})
+      let authorized_facility_project_ids = _.uniq(_.map(role_users2, function(f){ return f.facility_project_id } ))
+      let authorized_project_contract_ids = _.uniq(_.map(role_users2, function(f){ return f.project_contract_id } ))
+      let authorized_project_contract_vehicle_ids = _.uniq(_.map(role_users2, function(f){ return f.project_contract_vehicle_id } ))
+
       // Facilities
       response.facilities = []
-      let facility_projects = await this.getFacilityProjects()
-      let facility_project_ids = _.map(facility_projects, function(f){ return f.id } )
-      let facility_ids =  _.map(facility_projects, function(f){ return f.facility_id } )
-      let facility_group_ids = _.map(facility_projects, function(f){ return f.facility_group_id } )
-
-
-      let all_facilities = await db.Facility.findAll({where: {id: facility_ids}})
+      let facility_projects = await db.FacilityProject.findAll({where: {project_id: this.id, id: authorized_facility_project_ids}})
+      let facility_project_ids = _.uniq(_.map(facility_projects, function(f){ return f.id } ))
+      let facility_ids = _.uniq( _.map(facility_projects, function(f){ return f.facility_id } ))
+      let facility_group_ids = _.uniq(_.map(facility_projects, function(f){ return f.facility_group_id } ))
+      
+      let all_facilities = await db.Facility.findAll({where: {id: facility_ids, status: 1}})
       let all_facility_groups = await db.FacilityGroup.findAll({where: {id: facility_group_ids}})
       let facility_projects_hash2 = {}
 
@@ -92,9 +108,11 @@ module.exports = (sequelize, DataTypes) => {
         let facility_hash = facility_project.toJSON()
         facility_hash['facility_project_id'] = facility_project.id
         facility_hash['class'] = "FacilityProject"
-        facility_hash['project_status'] = "Behind Schedule"
+        let facility_status = await facility_project.getStatus({attributes: ['name']})
+        facility_hash['project_status'] = facility_status.name//"Behind Schedule"
         facility_hash['facility_name'] = facility.facility_name
         facility_hash['facility'] = facility.toJSON()
+        facility_hash['facility']["facility_group_id"] = facility_group.id
         facility_hash['facility']["facility_group_name"] = facility_group.name
         facility_hash['facility']["facility_group_status"] = facility_group.status == 1 ? 'active' : 'inactive'
         facility_hash['facility']["status"] = facility_hash['facility']["status"] == 1 ? 'active' : 'inactive'
@@ -109,9 +127,9 @@ module.exports = (sequelize, DataTypes) => {
 
         var tasks = await db.Task.findAll({where: {facility_project_id: facility_project_ids} })
         all_tasks = all_tasks.concat(tasks)
-        var task_ids = tasks.map(function(e){return e.id})
+        var task_ids = _.uniq(tasks.map(function(e){return e.id}))
         var checklists = await db.Checklist.findAll({where: {listable_id: task_ids, listable_type: 'Task'}})
-        var checklist_ids = checklists.map(function(e){return e.id})
+        var checklist_ids = _.uniq(checklists.map(function(e){return e.id}))
         var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}})
 
         for(var task of tasks){
@@ -229,7 +247,7 @@ module.exports = (sequelize, DataTypes) => {
                 }
               }
               _tchecklists.push(c)
-              console.log("################# _tchecklists", _tchecklists)
+              // console.log("################# _tchecklists", _tchecklists)
 
             }
           }   
@@ -296,7 +314,7 @@ module.exports = (sequelize, DataTypes) => {
                 }
               }
               _tchecklists.push(c)
-              console.log("################# _tchecklists", _tchecklists)
+              // console.log("################# _tchecklists", _tchecklists)
 
             }
           }   
@@ -314,17 +332,17 @@ module.exports = (sequelize, DataTypes) => {
       }
 
       let all_user_ids = []
-      let all_task_user_ids = _.map(all_tasks, function(t){ return t.id })
+      let all_task_user_ids = _.uniq(_.map(all_tasks, function(t){ return t.id }))
       let all_task_users = await db.TaskUser.findAll({where: {task_id: all_task_user_ids}})
-      all_user_ids = all_user_ids.concat( _.map(all_task_users, function(tu){return tu.user_id } ) )
+      all_user_ids = _.uniq(all_user_ids.concat( _.map(all_task_users, function(tu){return tu.user_id } ) ))
 
-      let all_issue_user_ids = _.map(all_issues, function(t){ return t.id })
+      let all_issue_user_ids = _.uniq(_.map(all_issues, function(t){ return t.id }))
       let all_issue_users = await db.IssueUser.findAll({where: {issue_id: all_issue_user_ids}})
       all_user_ids = all_user_ids.concat( _.map(all_issue_users, function(iu){return iu.user_id } ) )
 
-      let all_risk_user_ids = _.map(all_risks, function(t){ return t.id })
+      let all_risk_user_ids = _.uniq(_.map(all_risks, function(t){ return t.id }))
       let all_risk_users = await db.RiskUser.findAll({where: {risk_id: all_risk_user_ids}})
-      all_user_ids = all_user_ids.concat( _.map(all_risk_users, function(ru){return ru.user_id } ) )
+      all_user_ids = _.uniq(all_user_ids.concat( _.map(all_risk_users, function(ru){return ru.user_id } ) ))
 
       response.users = await  db.User.findAll({
         where: {id: all_user_ids},
@@ -333,9 +351,9 @@ module.exports = (sequelize, DataTypes) => {
       response.project_users = await  this.getProjectUsers()
 
       // Contracts
-      let project_contracts = await this.getProjectContracts()
-      let project_contract_ids = _.map(project_contracts, function(pc){ return pc.id} )
-      let contract_project_datum_ids = _.map(project_contracts, function(pc){ return pc.contract_project_datum_id} )
+      let project_contracts = await db.ProjectContract.findAll({where: {project_id: this.id, id: authorized_project_contract_ids}})//await this.getProjectContracts()
+      let project_contract_ids = _.uniq(_.map(project_contracts, function(pc){ return pc.id} ))
+      let contract_project_datum_ids = _.uniq(_.map(project_contracts, function(pc){ return pc.contract_project_datum_id} ))
       let all_contract_project_data = await db.ContractProjectDatum.findAll({where: {id: contract_project_datum_ids} })
       response.contracts = []
 
@@ -349,8 +367,8 @@ module.exports = (sequelize, DataTypes) => {
       }
 
       // Contract Vehicles
-      let all_project_contract_vehicles = await this.getProjectContractVehicles()
-      let contract_vehicle_ids = _.map(all_project_contract_vehicles, function(pc){ return pc.contract_vehicle_id} )
+      let all_project_contract_vehicles = await db.ProjectContractVehicle.findAll({where: {project_id: this.id, id: authorized_project_contract_vehicle_ids}}) //await this.getProjectContractVehicles()
+      let contract_vehicle_ids = _.uniq(_.map(all_project_contract_vehicles, function(pc){ return pc.contract_vehicle_id} ) )
       let all_contract_vehicles = await db.ContractVehicle.findAll({where: {id: contract_vehicle_ids} })
       response.contract_vehicles = []
       for(var project_contract_vehicle of all_project_contract_vehicles){
@@ -365,10 +383,10 @@ module.exports = (sequelize, DataTypes) => {
       // Facility Groups
       response.facility_groups = [] //_.uniqWith(facility_groups, function(x,y){ return x.id == y.id} );
 
-      let all_facility_group_ids = _.map( ( facility_projects.concat(project_contracts)), function(fp){ return fp.facility_group_id} )
+      let all_facility_group_ids =_.uniq( _.map( ( facility_projects.concat(project_contracts)), function(fp){ return fp.facility_group_id} ))
       let project_facility_groups = await this.getProjectFacilityGroups()
       
-      all_facility_group_ids = all_facility_group_ids.concat( _.map( project_facility_groups, function(fp){ return fp.facility_group_id} ))
+      all_facility_group_ids = _.uniq(all_facility_group_ids.concat( _.map( project_facility_groups, function(fp){ return fp.facility_group_id} )))
       let facility_groups = await db.FacilityGroup.findAll({ where:{id: all_facility_group_ids} })
 
       for(var facility_group of facility_groups){
@@ -388,15 +406,13 @@ module.exports = (sequelize, DataTypes) => {
         facility_group_hash['contract_project_ids'] = []
         facility_group_hash['contract_vehicles'] = []
         facility_group_hash['contract_vehicle_ids'] = []
-
-
-
+        
         response.facility_groups.push(facility_group_hash)
       }
 
       // statues
       let all_statues = await this.getProjectStatuses()
-      let all_status_ids = _.map( all_statues, function(fp){ return fp.status_id} )
+      let all_status_ids = _.uniq(_.map( all_statues, function(fp){ return fp.status_id} ))
       response.statuses = await db.Status.findAll({where: {id: all_status_ids}})
       response.task_types = await db.TaskType.findAll() // await this.getTaskTypes()
       response.issue_types = await db.IssueType.findAll() //await this.getIssueTypes()

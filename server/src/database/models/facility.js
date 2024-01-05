@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     creator_id: DataTypes.INTEGER,
     lat: DataTypes.STRING,
     lng: DataTypes.STRING,
-    status: DataTypes.INTEGER,
+    status: DataTypes.INTEGER, //{"inactive"=>0, "active"=>1}
     country_code: DataTypes.STRING,
     project_facility_group_id: DataTypes.INTEGER,
     is_portfolio: DataTypes.BOOLEAN,

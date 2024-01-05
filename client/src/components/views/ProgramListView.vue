@@ -73,7 +73,7 @@
 
       Vue.prototype.$mpath_instance = window.mpath_instance
 
-      // AuthorizationService.getRolePrivileges();
+      AuthorizationService.getRolePrivileges();
       Vue.prototype.checkPrivileges = (page, salut, route, extraData) => {
         return AuthorizationService.checkPrivileges(page, salut, route, extraData);
       };

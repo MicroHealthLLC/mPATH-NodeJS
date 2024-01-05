@@ -10,6 +10,7 @@ const lessonsRoutes = require('./routes/lessonsRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
 const filterDataRoutes = require('./routes/filterDataRoutes');
 const queryRouters = require('./routes/queryRouters');
+const programSettingRoutes = require('./routes/programSettingRoutes');
 
 const {db} = require('./database/models'); // import models
 const PORT = 3000;
@@ -25,6 +26,7 @@ fastify.register(lessonsRoutes)
 fastify.register(rolesRoutes)
 fastify.register(filterDataRoutes)
 fastify.register(queryRouters)
+fastify.register(programSettingRoutes)
 
 async function assertDatabaseConnectionOk() {
 	console.log(`Checking database connection...`);

@@ -1578,7 +1578,7 @@ export default new Vuex.Store({
     },
 
     filteredFacilities: (state, getters) => (_status = "active") => {
-      // return getters.facilities;
+      console.log("filteredFacilities", getters.facilities);
 
       return _.filter(getters.facilities, (facility) => {
         let valid = _status === "all" || facility.status === _status;
@@ -2808,8 +2808,9 @@ export default new Vuex.Store({
                 ).sort((a, b) => a.name.localeCompare(b.name)),
         }      
       }
-      
-      console.log("facilityGroupFacilities()",group.name, h)
+      if(group.id == 98){
+        console.log("facilityGroupFacilities()",group.name,group.id, getters.filteredFacilities(status))
+      }
 
       return h
     },

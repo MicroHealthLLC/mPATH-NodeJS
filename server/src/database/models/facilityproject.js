@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // // define association here
       this.belongsTo(models.Facility,{foreignKey: 'facility_id'});
       // this.belongsTo(models.Project);
-      // this.belongsTo(models.Status);
+      this.belongsTo(models.Status);
       // this.hasMany(models.Task);
       // // this.belongsToMany(models.TaskType,{through: models.Task, foreignKey: '', otherKey: '' });
       // this.hasMany(models.Issue);

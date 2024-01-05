@@ -42,7 +42,7 @@ const AuthorizationService = {
 
   getRolePrivileges: () => {
     let ww = window.location.pathname.split('/')
-    let portfolioProgramID = ww[ww.length - 5] 
+    let portfolioProgramID = ww[ww.length - 2] 
     if(!window.current_program_id){
       id = portfolioProgramID
     }

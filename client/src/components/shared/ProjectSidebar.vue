@@ -375,6 +375,7 @@ export default {
         method: "isallowedProject",
         facility_project_id: c.facilityProjectId,
       }))
+       console.log("_isallowedProjects",c.facilityProjectId)
       return this.checkPrivileges("ProjectSidebar", salut, this.$route, {
         method: "isallowedProject",
         facility_project_id: c.facilityProjectId,

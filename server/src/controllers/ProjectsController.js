@@ -18,6 +18,8 @@ const show = async (req, res) => {
     programId = req.params.id;
     // console.log(req.params)
     // console.log(db)
+    // authorized facility_ids
+    let user = await db.User.findOne({where: {email: 'admin@example.com'}})
     // Fetch all users from the database
     const program = await db.Project.findOne(
       
@@ -26,7 +28,8 @@ const show = async (req, res) => {
         where: { id: programId }
       }
     );
-    let response = await program.build_json_response()
+    
+    let response = await program.build_json_response({user: user})
 
     //As response contains all data, we will add data in steps.
     // For now returning static response. and then will override 
