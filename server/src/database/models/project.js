@@ -3,7 +3,7 @@
 const {_} = require("lodash") 
 
 const {
-  Op, Model
+  Op, Model, QueryTypes
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Project extends Model {
@@ -89,6 +89,47 @@ module.exports = (sequelize, DataTypes) => {
       let authorized_project_contract_ids = _.uniq(_.map(role_users2, function(f){ return f.project_contract_id } ))
       let authorized_project_contract_vehicle_ids = _.uniq(_.map(role_users2, function(f){ return f.project_contract_vehicle_id } ))
 
+      let sql_result = await sequelize.query(
+        "SELECT distinct(facility_project_id), role_type FROM `role_users` INNER JOIN `roles` ON `roles`.`id` = `role_users`.`role_id` INNER JOIN `role_privileges` ON `role_privileges`.`role_id` = `roles`.`id` WHERE `role_users`.`user_id` = 1 AND (role_privileges.privilege REGEXP '^[RWD]' and role_users.facility_project_id in (:facility_project_ids))",
+        {
+          replacements: { facility_project_ids: authorized_facility_project_ids },
+          type: QueryTypes.SELECT
+        }
+      );
+      let facility_project_ids_with_project_tasks = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_TASKS }) )
+      let facility_project_ids_with_project_issues = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_ISSUES }) )
+      let facility_project_ids_with_project_risks = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_RISKS }) )
+      let facility_project_ids_with_project_lessons = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_LESSONS }) )
+      let facility_project_ids_with_project_notes = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_NOTES }) )
+
+      sql_result = await sequelize.query(
+        "SELECT distinct(project_contract_id), role_type FROM `role_users` INNER JOIN `roles` ON `roles`.`id` = `role_users`.`role_id` INNER JOIN `role_privileges` ON `role_privileges`.`role_id` = `roles`.`id` WHERE `role_users`.`user_id` = 1 AND (role_privileges.privilege REGEXP '^[RWD]' and role_users.project_contract_id in (:project_contract_ids))",
+        {
+          replacements: { project_contract_ids: authorized_project_contract_ids },
+          type: QueryTypes.SELECT
+        }
+      );
+
+      let project_contract_ids_with_contract_tasks = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_TASKS }) )
+      let project_contract_ids_with_contract_issues = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_ISSUES }) )
+      let project_contract_ids_with_contract_risks = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_RISKS }) )
+      let project_contract_ids_with_contract_lessons = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_LESSONS }) )
+      let project_contract_ids_with_contract_notes = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_NOTES }) )
+
+      sql_result = await sequelize.query(
+        "SELECT distinct(project_contract_vehicle_id), role_type FROM `role_users` INNER JOIN `roles` ON `roles`.`id` = `role_users`.`role_id` INNER JOIN `role_privileges` ON `role_privileges`.`role_id` = `roles`.`id` WHERE `role_users`.`user_id` = 1 AND (role_privileges.privilege REGEXP '^[RWD]' and role_users.project_contract_vehicle_id in (:project_contract_vehicle_ids))",
+        {
+          replacements: { project_contract_vehicle_ids: authorized_project_contract_vehicle_ids },
+          type: QueryTypes.SELECT
+        }
+      );
+
+      let project_contract_vehicle_ids_with_contract_tasks = _.uniq(_.map(sql_result, function(s){return s.project_contract_vehicle_id && s.role_type == db.RolePrivilege.CONTRACT_TASKS }) )
+      let project_contract_vehicle_ids_with_contract_issues = _.uniq(_.map(sql_result, function(s){return s.project_contract_vehicle_id && s.role_type ==db. RolePrivilege.CONTRACT_ISSUES }) )
+      let project_contract_vehicle_ids_with_contract_risks = _.uniq(_.map(sql_result, function(s){return s.project_contract_vehicle_id && s.role_type == db.RolePrivilege.CONTRACT_RISKS }) )
+      let project_contract_vehicle_ids_with_contract_notes = _.uniq(_.map(sql_result, function(s){return s.project_contract_vehicle_id && s.role_type == db.RolePrivilege.CONTRACT_NOTES }) )
+
+
       // Facilities
       response.facilities = []
       let facility_projects = await db.FacilityProject.findAll({where: {project_id: this.id, id: authorized_facility_project_ids}})
@@ -125,7 +166,7 @@ module.exports = (sequelize, DataTypes) => {
         // facility_hash.facility = await facility_project.getFacility()
         facility_hash.tasks = [] 
 
-        var tasks = await db.Task.findAll({where: {facility_project_id: facility_project_ids} })
+        var tasks = await db.Task.findAll({where: {facility_project_id: facility_project.id} })
         all_tasks = all_tasks.concat(tasks)
         var task_ids = _.uniq(tasks.map(function(e){return e.id}))
         var checklists = await db.Checklist.findAll({where: {listable_id: task_ids, listable_type: 'Task'}})
@@ -195,7 +236,7 @@ module.exports = (sequelize, DataTypes) => {
         // Adding issues data
         facility_hash.issues = [] 
 
-        var issues = await db.Issue.findAll({where: {facility_project_id: facility_project_ids} })
+        var issues = await db.Issue.findAll({where: {facility_project_id: facility_project.id} })
         all_issues = all_issues.concat(issues)
         var issue_ids = issues.map(function(e){return e.id})
         var checklists = await db.Checklist.findAll({where: {listable_id: issue_ids, listable_type: 'Issue'}})
@@ -224,7 +265,7 @@ module.exports = (sequelize, DataTypes) => {
           _issue["facility_name"] = facility.facility_name
           _issue["contract_nickname"] = ""
           _issue["vehicle_nickname"] = ""
-          _issue["project_id"] = 4
+          _issue["project_id"] = this.id
           _issue["sub_tasks"] = []
           _issue["sub_issues"] = []
           _issue["sub_task_ids"] = []
@@ -261,10 +302,10 @@ module.exports = (sequelize, DataTypes) => {
         // Adding risk data
         facility_hash.risks = [] 
 
-        var risks = await db.Risk.findAll({where: {facility_project_id: facility_project_ids} })
+        var risks = await db.Risk.findAll({where: {facility_project_id: facility_project.id} })
         all_risks = all_risks.concat(risks)
         var risk_ids = risks.map(function(e){return e.id})
-        var checklists = await db.Checklist.findAll({where: {listable_id: issue_ids, listable_type: 'Risk'}})
+        var checklists = await db.Checklist.findAll({where: {listable_id: risk_ids, listable_type: 'Risk'}})
         var checklist_ids = checklists.map(function(e){return e.id})
         var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}})
 
@@ -291,7 +332,7 @@ module.exports = (sequelize, DataTypes) => {
           _risk["facility_name"] = facility.facility_name
           _risk["contract_nickname"] = ""
           _risk["vehicle_nickname"] = ""
-          _risk["project_id"] = 4
+          _risk["project_id"] = this.id
           _risk["sub_tasks"] = []
           _risk["sub_issues"] = []
           _risk["sub_task_ids"] = []
