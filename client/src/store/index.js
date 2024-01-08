@@ -1578,7 +1578,7 @@ export default new Vuex.Store({
     },
 
     filteredFacilities: (state, getters) => (_status = "active") => {
-      console.log("filteredFacilities", getters.facilities);
+      // console.log("filteredFacilities", getters.facilities);
 
       return _.filter(getters.facilities, (facility) => {
         let valid = _status === "all" || facility.status === _status;
@@ -3768,7 +3768,7 @@ export default new Vuex.Store({
         http
           .get(`${API_BASE_PATH}/programs/project_facility_hash`)
           .then((res) => {
-            let project_facility_hash = res.data.project_facility_hash;
+            let project_facility_hash = res.data;
             // for (let facility of res.data.facilities) {
             //   facilities.push({...facility, ...facility.facility})
             // }

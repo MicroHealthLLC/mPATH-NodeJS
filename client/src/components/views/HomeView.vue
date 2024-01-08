@@ -67,6 +67,7 @@ import LoginView from './LoginView.vue'
 import Tabsbar from './../shared/tabsbar.vue'
 import FilterSidebar from './../shared/filter_sidebar.vue'
 import SettingsSidebar from '../views/settings/SettingsSidebar.vue'
+import AuthorizationService from '../../services/authorization_service'
 
 export default {
   name: 'HomeView',

@@ -227,7 +227,7 @@ export default {
   },
 
   beforeMount() {
-    console.log("SheetView beforeMount")
+    console.log("SheetView beforeMount", this.$route.params.programId)
     this.fetchCurrentProject(this.$route.params.programId)
     // this.setContentLoaded(true);
     // this.fetchContracts()

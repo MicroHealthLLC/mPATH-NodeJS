@@ -5,7 +5,7 @@
     <div class="container">
       <h1>All Programs</h1>
       <div v-for="project in this.allProjects" :key="project.id" >
-        <p><router-link :to="`/programs/${project.id}/sheet`">{{project.name}}</router-link></p>
+        <p><router-link :to="`/programs/${project.id}/sheet`"><span @click="fetchProgramRelatedData(project.id)">{{project.name}}</span></router-link></p>
       </div>
     </div> 
   </div>
@@ -44,7 +44,11 @@
       ]),
       ...mapGetters([
         'getProjectFacilityHash'
-      ])
+      ]),
+      fetchProgramRelatedData(project_id){
+        console.log("fetchProgramRelatedData", this)
+        AuthorizationService.getRolePrivileges(project_id);
+      }
     },
     beforeCreate(){
       console.log("ProgramListView beforeCreate", this.allProjects)
@@ -64,16 +68,13 @@
 
       // var program_admin_role = "{&quot;id&quot;:7,&quot;name&quot;:&quot;program-admin&quot;,&quot;project_id&quot;:null,&quot;user_id&quot;:null,&quot;is_portfolio&quot;:true,&quot;is_default&quot;:true,&quot;type_of&quot;:&quot;admin&quot;,&quot;created_at&quot;:&quot;2022-06-11 10:36:55 -0400&quot;,&quot;updated_at&quot;:&quot;2022-06-11 10:36:55 -0400&quot;,&quot;role_privileges&quot;:[],&quot;role_users&quot;:[]}";
 
-      var current_program_id = "15";
-      var mpath_instance = "";
-
       var google_api_key = "APIKEY";
       
       AuthorizationService.privilege = JSON.parse(privilege.replace(/&quot;/g, '"'))
 
       Vue.prototype.$mpath_instance = window.mpath_instance
 
-      AuthorizationService.getRolePrivileges();
+      // AuthorizationService.getRolePrivileges();
       Vue.prototype.checkPrivileges = (page, salut, route, extraData) => {
         return AuthorizationService.checkPrivileges(page, salut, route, extraData);
       };
@@ -86,7 +87,8 @@
       // this.setProjectFacilityHash(AuthorizationService.projectFacilityHash)
 
 
-    }
+    },
+
   };
   </script>
   

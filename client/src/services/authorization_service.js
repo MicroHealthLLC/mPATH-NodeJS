@@ -40,15 +40,17 @@ const AuthorizationService = {
   },
 
 
-  getRolePrivileges: () => {
-    let ww = window.location.pathname.split('/')
-    let portfolioProgramID = ww[ww.length - 2] 
-    if(!window.current_program_id){
-      id = portfolioProgramID
+  getRolePrivileges: (project_id) => {
+    let portfolioProgramID = project_id
+    if(!portfolioProgramID){
+      let ww = window.location.pathname.split('/')
+      let portfolioProgramID = ww[ww.length - 2] 
+      console.log("getRolePrivileges",ww)  
     }
+
     axios({
       method: "GET",
-      url: `${API_BASE_PATH}/program_settings/users/get_user_privileges?program_id=${id}`,
+      url: `${API_BASE_PATH}/program_settings/users/get_user_privileges?program_id=${portfolioProgramID}`,
       headers: {
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
           .attributes["content"].value,
@@ -664,6 +666,7 @@ const AuthorizationService = {
     return false;
   },
   findFacilityProjectId: (programId, projectId) => {
+    console.log("findFacilityProjectId", AuthorizationService.projectFacilityHash)
     let arr = AuthorizationService.projectFacilityHash[programId];
     let facilityProjectId = "";
     for (var i = 0; i < arr.length; i++) {
