@@ -355,7 +355,7 @@ const AuthorizationService = {
           AuthorizationService.projectPrivilegesRoles[
             extraData["facility_project_id"]
           ];
-
+          
         return (
           facility_project_privileges &&
           (facility_project_privileges.project_analytics ||
@@ -594,6 +594,9 @@ const AuthorizationService = {
           program_id,
           project_id
         );
+        
+        console.log("SheetProject",facility_project_id, program_id, project_id)
+
         let facility_project_privileges =
           AuthorizationService.projectPrivilegesRoles[facility_project_id];
         return (
@@ -666,12 +669,12 @@ const AuthorizationService = {
     return false;
   },
   findFacilityProjectId: (programId, projectId) => {
-    console.log("findFacilityProjectId", AuthorizationService.projectFacilityHash)
+    console.log("findFacilityProjectId", AuthorizationService.projectFacilityHash, programId)
     let arr = AuthorizationService.projectFacilityHash[programId];
     let facilityProjectId = "";
     for (var i = 0; i < arr.length; i++) {
-      if (arr[i].facility_id == projectId) {
-        facilityProjectId = arr[i].facility_project_id;
+      if (arr[i].facilityId == projectId) {
+        facilityProjectId = arr[i].facilityProjectId;
         break;
       }
     }
