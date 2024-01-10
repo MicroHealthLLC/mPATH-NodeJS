@@ -7,6 +7,7 @@ const profileRoute = require('./routes/profileRoute');
 const usersRoute = require('./routes/usersRoutes');
 const programsRoute = require('./routes/programsRoutes');
 const lessonsRoutes = require('./routes/lessonsRoutes');
+const tasksRoutes = require('./routes/tasksRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
 const filterDataRoutes = require('./routes/filterDataRoutes');
 const queryRouters = require('./routes/queryRouters');
@@ -23,6 +24,7 @@ fastify.register(profileRoute)
 fastify.register(usersRoute)
 fastify.register(programsRoute)
 fastify.register(lessonsRoutes)
+fastify.register(tasksRoutes)
 fastify.register(rolesRoutes)
 fastify.register(filterDataRoutes)
 fastify.register(queryRouters)
