@@ -62,7 +62,16 @@ module.exports = (sequelize, DataTypes) => {
       // // this.hasMany(models.ProjectContractVehicleGroup)
 
     }
-
+    toJSON() {
+      let h = {...super.toJSON()}
+      h['status'] = this.getStatus(h['status']) 
+      return h;
+    }
+    getStatus(v){
+      return {
+        0: 'inactive', 1: 'active'
+      }[v]   
+    }
     async build_json_response(options){
       const { db } = require("./index.js");
 
@@ -153,10 +162,11 @@ module.exports = (sequelize, DataTypes) => {
         facility_hash['project_status'] = facility_status.name//"Behind Schedule"
         facility_hash['facility_name'] = facility.facility_name
         facility_hash['facility'] = facility.toJSON()
-        facility_hash['facility']["facility_group_id"] = facility_group.id
-        facility_hash['facility']["facility_group_name"] = facility_group.name
-        facility_hash['facility']["facility_group_status"] = facility_group.status == 1 ? 'active' : 'inactive'
-        facility_hash['facility']["status"] = facility_hash['facility']["status"] == 1 ? 'active' : 'inactive'
+        let fg_hash = facility_group.toJSON()
+        facility_hash['facility']["facility_group_id"] = fg_hash['id']
+        facility_hash['facility']["facility_group_name"] = fg_hash['name']
+        facility_hash['facility']["facility_group_status"] = fg_hash['status']
+        // facility_hash['facility']["status"] = facility_hash['facility']["status"]
         facility_hash['facility']["project_id"] = this.id
 
         // facility_project_ids.push(facility_project.id)
@@ -271,6 +281,14 @@ module.exports = (sequelize, DataTypes) => {
           _issue["sub_task_ids"] = []
           _issue["sub_issue_ids"] = []
           _issue["sub_risk_ids"] = []
+          _issue["users"] = []
+          _issue["user_ids"] = []
+          _issue["user_names"] = []
+          _issue["due_date_duplicate"] = []
+          _issue["progress_status"] = []
+          _issue["attach_files"] = []
+          _issue["notes"] = []
+          _issue["class_name"] = "Issue"
 
           let _tchecklists = []
           for(var i = 0; i < checklists.length; i++ ){
@@ -338,6 +356,14 @@ module.exports = (sequelize, DataTypes) => {
           _risk["sub_task_ids"] = []
           _risk["sub_issue_ids"] = []
           _risk["sub_risk_ids"] = []
+          _risk["users"] = []
+          _risk["user_ids"] = []
+          _risk["user_names"] = []
+          _risk["due_date_duplicate"] = []
+          _risk["progress_status"] = []
+          _risk["attach_files"] = []
+          _risk["notes"] = []
+          _risk["class_name"] = "Risk"
 
           let _tchecklists = []
           for(var i = 0; i < checklists.length; i++ ){
@@ -434,7 +460,6 @@ module.exports = (sequelize, DataTypes) => {
 
         let fg_facility_projects = _.filter(facility_projects, function(e){ return e.facility_group_id == facility_group.id })
         let facility_group_hash = facility_group.toJSON()
-        facility_group_hash['status'] = facility_group_hash.status == 1 ? 'active' : 'inactive'
         facility_group_hash['contracts'] = []
         facility_group_hash['facilities'] = []
         for(var fg_fp of fg_facility_projects){

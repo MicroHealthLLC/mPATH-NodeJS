@@ -21,6 +21,16 @@ module.exports = (sequelize, DataTypes) => {
       // // this.hasMany(models.Comment)
 
     }
+    toJSON() {
+      let h = {...super.toJSON()}
+      h['status'] = this.getStatus(h['status']) 
+      return h;
+    }
+    getStatus(v){
+      return {
+        0: 'inactive', 1: 'active'
+      }[v]   
+    }
   }
   Facility.init({
     facility_name: DataTypes.STRING,

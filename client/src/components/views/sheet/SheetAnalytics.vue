@@ -1160,6 +1160,7 @@ export default {
       let taskIssueUsers = this.getTaskIssueUserFilter;
       return _.filter(this.facility.tasks, (resource) => {
         let valid = true;
+        console.log("filteredTasks()", resource)
         let userIds = [
           ..._.map(resource.checklists, "userId"),
           ...resource.userIds,
@@ -1383,6 +1384,7 @@ export default {
       let taskIssueUsers = this.getTaskIssueUserFilter;
       return _.filter(this.facility.issues, (resource) => {
         let valid = true;
+        console.log("filteredIssues()", resource)
         let userIds = [
           ..._.map(resource.checklists, "userId"),
           ...resource.userIds,

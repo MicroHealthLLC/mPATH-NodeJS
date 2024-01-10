@@ -74,7 +74,7 @@ const lessonModule = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/programs/${programId}/projects/${projectId}/lessons.json`,
+        url: `${API_BASE_PATH}/programs/${programId}/projects/${projectId}/lessons`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -97,7 +97,7 @@ const lessonModule = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/project_contracts/${contractId}/lessons.json`,
+        url: `${API_BASE_PATH}/project_contracts/${contractId}/lessons`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -120,7 +120,7 @@ const lessonModule = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/project_contract_vehicles/${vehicleId}/lessons.json`,
+        url: `${API_BASE_PATH}/project_contract_vehicles/${vehicleId}/lessons`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -209,7 +209,7 @@ const lessonModule = {
 
       axios({
         method: "POST",
-        url: `${API_BASE_PATH}/programs/${programId}/projects/${projectId}/lessons.json`,
+        url: `${API_BASE_PATH}/programs/${programId}/projects/${projectId}/lessons`,
         data: formData,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
@@ -235,7 +235,7 @@ const lessonModule = {
 
   axios({
     method: "POST",
-    url: `${API_BASE_PATH}/project_contracts/${contractId}/lessons.json`,
+    url: `${API_BASE_PATH}/project_contracts/${contractId}/lessons`,
     data: formData,
     headers: {
       "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
@@ -262,7 +262,7 @@ addVehicleLesson({ commit }, { lesson, vehicleId }) {
  
    axios({
      method: "POST",
-     url: `${API_BASE_PATH}/project_contract_vehicles/${vehicleId}/lessons.json`,
+     url: `${API_BASE_PATH}/project_contract_vehicles/${vehicleId}/lessons`,
      data: formData,
      headers: {
        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')

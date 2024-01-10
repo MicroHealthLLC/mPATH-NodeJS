@@ -20,6 +20,16 @@ module.exports = (sequelize, DataTypes) => {
       // this.hasMany(models.Contract)
 
     }
+    toJSON() {
+      let h = {...super.toJSON()}
+      h['status'] = this.getStatus(h['status']) 
+      return h;
+    }
+    getStatus(v){
+      return {
+        0: 'inactive', 1: 'active'
+      }[v]   
+    }
   }
   FacilityGroup.init({
     name: DataTypes.STRING,

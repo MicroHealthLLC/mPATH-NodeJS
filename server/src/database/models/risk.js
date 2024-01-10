@@ -32,6 +32,16 @@ module.exports = (sequelize, DataTypes) => {
       // // this.belongsToMany(models.SubRisk,{through: models.RelatedRisk, foreignKey: '', otherKey: '' })
 
     }
+    toJSON() {
+      let h = {...super.toJSON()}
+      h['risk_approach'] = this.getRiskApproach(h['risk_approach']) 
+      return h;
+    }
+    getRiskApproach(v){
+      return {
+        0: 'avoid', 1: 'mitigate', 2: "transfer",3: 'accept'
+      }[v]   
+    }
   }
   Risk.init({
     risk_description: DataTypes.TEXT,
@@ -43,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
     probability: DataTypes.INTEGER,
     impact_level: DataTypes.INTEGER,
     priority_level: DataTypes.INTEGER,
-    risk_approach: DataTypes.INTEGER,
+    risk_approach: DataTypes.STRING,
     risk_approach_description: DataTypes.TEXT,
     watched: DataTypes.BOOLEAN,
     watched_at: DataTypes.DATE,

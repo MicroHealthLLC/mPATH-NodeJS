@@ -29,6 +29,16 @@ module.exports = (sequelize, DataTypes) => {
       // this.belongsToMany(models.Role,{through: models.RoleUser, foreignKey: 'user_id',otherKey: 'role_id' })
       // this.hasMany(models.RolePrivilege,{ foreignKey: 'user_id' })
     }
+    toJSON() {
+      let h = {...super.toJSON()}
+      h['status'] = this.getStatus(h['status']) 
+      return h;
+    }
+    getStatus(v){
+      return {
+        0: 'inactive', 1: 'active'
+      }[v]   
+    }
   }
   User.init({
     // name: DataTypes.STRING,

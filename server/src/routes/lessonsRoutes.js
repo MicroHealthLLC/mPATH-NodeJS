@@ -13,7 +13,7 @@ const {
 // module.exports = router;
 
 async function routes (fastify, options) {
-  fastify.get("/api/v1/programs/:id/lessons", index);
+  fastify.get("/api/v1/programs/:id/projects/:project_id/lessons", index);
   fastify.get("/api/v1/programs/:id/lessons/:id", show);
 }
 module.exports = routes
