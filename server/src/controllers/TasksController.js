@@ -3,8 +3,9 @@ const {_} = require("lodash")
 // Function for retrieving user details
 const update = async (req, res) => {
   try {
-    // Fetch user profile using req.userId
-    // const allProjects = await db.Project.findAll();
+
+    console.log("task params", req)
+
     const response = require('../../static_responses/projects_index.json');
 
     return({ projects: response });

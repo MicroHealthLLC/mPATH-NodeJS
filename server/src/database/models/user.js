@@ -1,8 +1,9 @@
 'use strict';
 const {
-  Model
+  Op, Model, QueryTypes
 } = require('sequelize');
-const { ProjectUser } = require("./projectuser");
+
+const {_} = require("lodash") 
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -38,6 +39,33 @@ module.exports = (sequelize, DataTypes) => {
       return {
         0: 'inactive', 1: 'active'
       }[v]   
+    }
+    async getAuthorizedData(){
+      const { db } = require("./index.js");
+      let role_users = await db.RoleUser.findAll({where: {user_id: this.id}})
+      let role_ids = _.compact( _.uniq(_.map(role_users, function(f){ return f.role_id } )) )
+      let role_privileges = await db.RolePrivilege.findAll({
+        where: { 
+          role_id: role_ids, 
+          privilege: { 
+            [Op.regexp]: "^[RWD]" 
+          }
+        },
+      });
+
+      let role_privilege_role_ids = _.compact(_.uniq(_.map(role_privileges, function(f){ return f.role_id } )) )
+      let role_users2 = await db.RoleUser.findAll({where: {user_id: this.id, role_id: role_privilege_role_ids}})
+
+      let authorized_facility_project_ids = _.compact(_.uniq(_.map(role_users2, function(f){ return f.facility_project_id } )) )
+      let authorized_project_contract_ids = _.compact(_.uniq(_.map(role_users2, function(f){ return f.project_contract_id } )) )
+      let authorized_project_contract_vehicle_ids = _.compact(_.uniq(_.map(role_users2, function(f){ return f.project_contract_vehicle_id } )) )
+
+      let authorized_data_hash = {
+        authorized_facility_project_ids: authorized_facility_project_ids,
+        authorized_project_contract_ids: authorized_project_contract_ids,
+        authorized_project_contract_vehicle_ids: authorized_project_contract_vehicle_ids
+      }
+      return authorized_data_hash;
     }
   }
   User.init({

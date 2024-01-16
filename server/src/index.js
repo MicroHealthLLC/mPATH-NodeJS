@@ -19,6 +19,7 @@ const PORT = 3000;
 fastify.register(cors, { 
   // put your options here
 })
+fastify.register(require('@fastify/multipart'), {addToBody: true})
 fastify.register(authRoute)
 fastify.register(profileRoute)
 fastify.register(usersRoute)

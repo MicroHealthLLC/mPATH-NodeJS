@@ -82,62 +82,91 @@ module.exports = (sequelize, DataTypes) => {
       let all_risks = []
 
       let user = options.user
-      let role_users = await db.RoleUser.findAll({where: {user_id: user.id}})
-      let role_ids = _.uniq(_.map(role_users, function(f){ return f.role_id } ))
-      let role_privileges = await db.RolePrivilege.findAll({
-        where: { 
-          role_id: role_ids, 
-          privilege: { 
-            [Op.regexp]: "^[RWD]" 
+      // let role_users = await db.RoleUser.findAll({where: {user_id: user.id}})
+      // let role_ids = _.uniq(_.map(role_users, function(f){ return f.role_id } ))
+      // let role_privileges = await db.RolePrivilege.findAll({
+      //   where: { 
+      //     role_id: role_ids, 
+      //     privilege: { 
+      //       [Op.regexp]: "^[RWD]" 
+      //     }
+      //   },
+      // });
+      // let role_privilege_role_ids = _.uniq(_.map(role_privileges, function(f){ return f.role_id } ))
+      // let role_users2 = await db.RoleUser.findAll({where: {user_id: user.id, role_id: role_privilege_role_ids}})
+      // let authorized_facility_project_ids = _.uniq(_.map(role_users2, function(f){ return f.facility_project_id } ))
+      // let authorized_project_contract_ids = _.uniq(_.map(role_users2, function(f){ return f.project_contract_id } ))
+      // let authorized_project_contract_vehicle_ids = _.uniq(_.map(role_users2, function(f){ return f.project_contract_vehicle_id } ))
+
+      let authorized_data = await user.getAuthorizedData()
+      let authorized_facility_project_ids = authorized_data.authorized_facility_project_ids
+      let authorized_project_contract_ids = authorized_data.authorized_project_contract_ids
+      let authorized_project_contract_vehicle_ids = authorized_data.authorized_project_contract_vehicle_ids
+      let sql_result = ''
+
+      let facility_project_ids_with_project_tasks = []
+      let facility_project_ids_with_project_issues = []
+      let facility_project_ids_with_project_risks = []
+      let facility_project_ids_with_project_lessons = []
+      let facility_project_ids_with_project_notes =  []
+
+      if(authorized_facility_project_ids.length > 0){
+        sql_result = await sequelize.query(
+          "SELECT distinct(facility_project_id), role_type FROM `role_users` INNER JOIN `roles` ON `roles`.`id` = `role_users`.`role_id` INNER JOIN `role_privileges` ON `role_privileges`.`role_id` = `roles`.`id` WHERE `role_users`.`user_id` = 1 AND (role_privileges.privilege REGEXP '^[RWD]' and role_users.facility_project_id in (:facility_project_ids))",
+          {
+            replacements: { facility_project_ids: authorized_facility_project_ids },
+            type: QueryTypes.SELECT
           }
-        },
-      });
-      let role_privilege_role_ids = _.uniq(_.map(role_privileges, function(f){ return f.role_id } ))
-      let role_users2 = await db.RoleUser.findAll({where: {user_id: user.id, role_id: role_privilege_role_ids}})
-      let authorized_facility_project_ids = _.uniq(_.map(role_users2, function(f){ return f.facility_project_id } ))
-      let authorized_project_contract_ids = _.uniq(_.map(role_users2, function(f){ return f.project_contract_id } ))
-      let authorized_project_contract_vehicle_ids = _.uniq(_.map(role_users2, function(f){ return f.project_contract_vehicle_id } ))
+        );
+        facility_project_ids_with_project_tasks = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_TASKS }) )
+        facility_project_ids_with_project_issues = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_ISSUES }) )
+        facility_project_ids_with_project_risks = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_RISKS }) )
+        facility_project_ids_with_project_lessons = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_LESSONS }) )
+        facility_project_ids_with_project_notes = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_NOTES }) )
+      }
 
-      let sql_result = await sequelize.query(
-        "SELECT distinct(facility_project_id), role_type FROM `role_users` INNER JOIN `roles` ON `roles`.`id` = `role_users`.`role_id` INNER JOIN `role_privileges` ON `role_privileges`.`role_id` = `roles`.`id` WHERE `role_users`.`user_id` = 1 AND (role_privileges.privilege REGEXP '^[RWD]' and role_users.facility_project_id in (:facility_project_ids))",
-        {
-          replacements: { facility_project_ids: authorized_facility_project_ids },
-          type: QueryTypes.SELECT
-        }
-      );
-      let facility_project_ids_with_project_tasks = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_TASKS }) )
-      let facility_project_ids_with_project_issues = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_ISSUES }) )
-      let facility_project_ids_with_project_risks = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_RISKS }) )
-      let facility_project_ids_with_project_lessons = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_LESSONS }) )
-      let facility_project_ids_with_project_notes = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_NOTES }) )
+      let project_contract_ids_with_contract_tasks = []
+      let project_contract_ids_with_contract_issues = []
+      let project_contract_ids_with_contract_risks = []
+      let project_contract_ids_with_contract_lessons = []
+      let project_contract_ids_with_contract_notes = []
 
-      sql_result = await sequelize.query(
-        "SELECT distinct(project_contract_id), role_type FROM `role_users` INNER JOIN `roles` ON `roles`.`id` = `role_users`.`role_id` INNER JOIN `role_privileges` ON `role_privileges`.`role_id` = `roles`.`id` WHERE `role_users`.`user_id` = 1 AND (role_privileges.privilege REGEXP '^[RWD]' and role_users.project_contract_id in (:project_contract_ids))",
-        {
-          replacements: { project_contract_ids: authorized_project_contract_ids },
-          type: QueryTypes.SELECT
-        }
-      );
+      if(authorized_project_contract_ids.length > 0){
+        sql_result = await sequelize.query(
+          "SELECT distinct(project_contract_id), role_type FROM `role_users` INNER JOIN `roles` ON `roles`.`id` = `role_users`.`role_id` INNER JOIN `role_privileges` ON `role_privileges`.`role_id` = `roles`.`id` WHERE `role_users`.`user_id` = 1 AND (role_privileges.privilege REGEXP '^[RWD]' and role_users.project_contract_id in (:project_contract_ids))",
+          {
+            replacements: { project_contract_ids: authorized_project_contract_ids },
+            type: QueryTypes.SELECT
+          }
+        );
+  
+        project_contract_ids_with_contract_tasks = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_TASKS }) )
+        project_contract_ids_with_contract_issues = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_ISSUES }) )
+        project_contract_ids_with_contract_risks = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_RISKS }) )
+        project_contract_ids_with_contract_lessons = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_LESSONS }) )
+        project_contract_ids_with_contract_notes = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_NOTES }) )
+      }
 
-      let project_contract_ids_with_contract_tasks = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_TASKS }) )
-      let project_contract_ids_with_contract_issues = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_ISSUES }) )
-      let project_contract_ids_with_contract_risks = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_RISKS }) )
-      let project_contract_ids_with_contract_lessons = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_LESSONS }) )
-      let project_contract_ids_with_contract_notes = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_NOTES }) )
+      let project_contract_vehicle_ids_with_contract_tasks = []
+      let project_contract_vehicle_ids_with_contract_issues =  []
+      let project_contract_vehicle_ids_with_contract_risks = []
+      let project_contract_vehicle_ids_with_contract_notes = []
 
-      sql_result = await sequelize.query(
-        "SELECT distinct(project_contract_vehicle_id), role_type FROM `role_users` INNER JOIN `roles` ON `roles`.`id` = `role_users`.`role_id` INNER JOIN `role_privileges` ON `role_privileges`.`role_id` = `roles`.`id` WHERE `role_users`.`user_id` = 1 AND (role_privileges.privilege REGEXP '^[RWD]' and role_users.project_contract_vehicle_id in (:project_contract_vehicle_ids))",
-        {
-          replacements: { project_contract_vehicle_ids: authorized_project_contract_vehicle_ids },
-          type: QueryTypes.SELECT
-        }
-      );
-
-      let project_contract_vehicle_ids_with_contract_tasks = _.uniq(_.map(sql_result, function(s){return s.project_contract_vehicle_id && s.role_type == db.RolePrivilege.CONTRACT_TASKS }) )
-      let project_contract_vehicle_ids_with_contract_issues = _.uniq(_.map(sql_result, function(s){return s.project_contract_vehicle_id && s.role_type ==db. RolePrivilege.CONTRACT_ISSUES }) )
-      let project_contract_vehicle_ids_with_contract_risks = _.uniq(_.map(sql_result, function(s){return s.project_contract_vehicle_id && s.role_type == db.RolePrivilege.CONTRACT_RISKS }) )
-      let project_contract_vehicle_ids_with_contract_notes = _.uniq(_.map(sql_result, function(s){return s.project_contract_vehicle_id && s.role_type == db.RolePrivilege.CONTRACT_NOTES }) )
-
+      if(authorized_project_contract_vehicle_ids.length > 0){
+        sql_result = await sequelize.query(
+          "SELECT distinct(project_contract_vehicle_id), role_type FROM `role_users` INNER JOIN `roles` ON `roles`.`id` = `role_users`.`role_id` INNER JOIN `role_privileges` ON `role_privileges`.`role_id` = `roles`.`id` WHERE `role_users`.`user_id` = 1 AND (role_privileges.privilege REGEXP '^[RWD]' and role_users.project_contract_vehicle_id in (:project_contract_vehicle_ids))",
+          {
+            replacements: { project_contract_vehicle_ids: authorized_project_contract_vehicle_ids },
+            type: QueryTypes.SELECT
+          }
+        );
+  
+        project_contract_vehicle_ids_with_contract_tasks = _.uniq(_.map(sql_result, function(s){return s.project_contract_vehicle_id && s.role_type == db.RolePrivilege.CONTRACT_TASKS }) )
+        project_contract_vehicle_ids_with_contract_issues = _.uniq(_.map(sql_result, function(s){return s.project_contract_vehicle_id && s.role_type ==db. RolePrivilege.CONTRACT_ISSUES }) )
+        project_contract_vehicle_ids_with_contract_risks = _.uniq(_.map(sql_result, function(s){return s.project_contract_vehicle_id && s.role_type == db.RolePrivilege.CONTRACT_RISKS }) )
+        project_contract_vehicle_ids_with_contract_notes = _.uniq(_.map(sql_result, function(s){return s.project_contract_vehicle_id && s.role_type == db.RolePrivilege.CONTRACT_NOTES }) )
+  
+      }
 
       // Facilities
       response.facilities = []
@@ -390,8 +419,7 @@ module.exports = (sequelize, DataTypes) => {
           // _task.checklists = await task.getListable({include: [db.ProgressList, db.User]})
           facility_hash.risks.push(_risk)
         }
-
-
+        
         // facility_hash.risks = await db.Risk.findAll({where: {facility_project_id: facility_project_ids} })
 
         response.facilities.push(facility_hash)
