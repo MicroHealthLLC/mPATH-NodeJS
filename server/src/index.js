@@ -12,6 +12,7 @@ const rolesRoutes = require('./routes/rolesRoutes');
 const filterDataRoutes = require('./routes/filterDataRoutes');
 const queryRouters = require('./routes/queryRouters');
 const programSettingRoutes = require('./routes/programSettingRoutes');
+const formDataParser =  require("formzilla");
 
 const {db} = require('./database/models'); // import models
 const PORT = 3000;
@@ -19,7 +20,10 @@ const PORT = 3000;
 fastify.register(cors, { 
   // put your options here
 })
-fastify.register(require('@fastify/multipart'), {addToBody: true})
+
+// fastify.register(require('@fastify/multipart'), {addToBody: true})
+// fastify.register(require('@fastify/formbody'))
+fastify.register(formDataParser);
 fastify.register(authRoute)
 fastify.register(profileRoute)
 fastify.register(usersRoute)

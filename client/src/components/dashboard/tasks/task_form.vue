@@ -1382,6 +1382,7 @@ import AttachmentInput from "./../../shared/attachment_input.vue";
 import * as Moment from "moment";
 import { extendMoment } from "moment-range";
 import { API_BASE_PATH } from '../../../mixins/utils';
+
 import MessageDialogService from "../../../services/message_dialog_service.js";
 
 const moment = extendMoment(Moment);
@@ -1754,6 +1755,7 @@ export default {
         this.editToggle = !this.editToggle;
         this.loading = true;
         let formData = new FormData();
+
         formData.append("task[text]", this.DV_task.text);
         formData.append("task[due_date]", this.DV_task.dueDate);
         formData.append("task[start_date]", this.DV_task.startDate);
@@ -1902,7 +1904,7 @@ export default {
         for (let file of this.DV_task.taskFiles) {
           if (file.id) continue;
           if (!file.link) {
-            formData.append("task[task_files][]", file);
+            formData.append("task[task_files]["+this.guid()+"]", file);
           } else if (file.link) {
             formData.append("file_links[]", file.name);
           }
@@ -1940,9 +1942,11 @@ export default {
           method: method,
           url:  url,
           data: formData,
+          // data: Object.fromEntries(formData),
           headers: {
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
               .attributes["content"].value,
+            'Content-Type': 'multipart/form-data; boundary=Asrf456BGe4h'
           },
         })
           .then((response) => {

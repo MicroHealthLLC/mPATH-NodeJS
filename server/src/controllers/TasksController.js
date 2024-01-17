@@ -4,13 +4,20 @@ const {_} = require("lodash")
 const update = async (req, res) => {
   try {
 
-    console.log("task params", req)
+    console.log("task params", req.body)
+    // const parts = await req.files();
+    // console.log("************Files ", parts)
 
+    // for await (const data of parts) {
+    //   console.log("*******File being access**********");
+    //   console.log(data.filename); // access file name
+    // }
     const response = require('../../static_responses/projects_index.json');
 
     return({ projects: response });
   } catch (error) {
-    res.code(500).json({ error: "Error fetching lessons" });
+    res.code(500)
+    return({ error: "Error fetching task " + error });
   }
 };
 
