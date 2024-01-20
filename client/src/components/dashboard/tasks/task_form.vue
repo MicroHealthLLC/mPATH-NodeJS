@@ -1756,29 +1756,29 @@ export default {
         this.loading = true;
         let formData = new FormData();
 
-        formData.append("task[text]", this.DV_task.text);
-        formData.append("task[due_date]", this.DV_task.dueDate);
-        formData.append("task[start_date]", this.DV_task.startDate);
-        formData.append("task[task_type_id]", this.DV_task.taskTypeId);
-        formData.append("task[task_stage_id]", this.DV_task.taskStageId);
-        formData.append("task[progress]", this.DV_task.progress);
-        formData.append("task[auto_calculate]", this.DV_task.autoCalculate);
-        formData.append("task[auto_calculate_planned_effort]", this.DV_task.autoCalculatePlannedEffort);
-        formData.append("task[description]", this.DV_task.description);
-        formData.append("task[important]", this.DV_task.important);
-        formData.append("task[reportable]", this.DV_task.reportable);
-        formData.append("task[on_hold]", this.DV_task.onHold);
-        formData.append("task[draft]", this.DV_task.draft);
-        formData.append("task[ongoing]", this.DV_task.ongoing);
+        formData.append("text", this.DV_task.text);
+        formData.append("due_date", this.DV_task.dueDate);
+        formData.append("start_date", this.DV_task.startDate);
+        formData.append("task_type_id", this.DV_task.taskTypeId);
+        formData.append("task_stage_id", this.DV_task.taskStageId);
+        formData.append("progress", this.DV_task.progress);
+        formData.append("auto_calculate", this.DV_task.autoCalculate);
+        formData.append("auto_calculate_planned_effort", this.DV_task.autoCalculatePlannedEffort);
+        formData.append("description", this.DV_task.description);
+        formData.append("important", this.DV_task.important);
+        formData.append("reportable", this.DV_task.reportable);
+        formData.append("on_hold", this.DV_task.onHold);
+        formData.append("draft", this.DV_task.draft);
+        formData.append("ongoing", this.DV_task.ongoing);
         formData.append(
-          "task[destroy_file_ids]",
+          "destroy_file_ids",
           _.map(this.destroyedFiles, "id")
         );
 
         if (this.DV_task.autoCalculatePlannedEffort){
-          formData.append("task[planned_effort]", this.autoCalculatedPlannedEffort);
+          formData.append("planned_effort", this.autoCalculatedPlannedEffort);
         } else {
-          formData.append("task[planned_effort]", this.DV_task.plannedEffort);
+          formData.append("planned_effort", this.DV_task.plannedEffort);
         }
         // RACI USERS START HERE Awaiting backend work
 
@@ -1827,24 +1827,24 @@ export default {
         // More RACI Users in Computed section below
         if (this.DV_task.subTaskIds.length) {
           for (let u_id of this.DV_task.subTaskIds) {
-            formData.append("task[sub_task_ids][]", u_id);
+            formData.append("sub_task_ids[]", u_id);
           }
         } else {
-          formData.append("task[sub_task_ids][]", []);
+          formData.append("sub_task_ids[]", []);
         }
         if (this.DV_task.subIssueIds.length) {
           for (let u_id of this.DV_task.subIssueIds) {
-            formData.append("task[sub_issue_ids][]", u_id);
+            formData.append("sub_issue_ids[]", u_id);
           }
         } else {
-          formData.append("task[sub_issue_ids][]", []);
+          formData.append("sub_issue_ids[]", []);
         }
         if (this.DV_task.subRiskIds.length) {
           for (let u_id of this.DV_task.subRiskIds) {
-            formData.append("task[sub_risk_ids][]", u_id);
+            formData.append("sub_risk_ids[]", u_id);
           }
         } else {
-          formData.append("task[sub_risk_ids][]", []);
+          formData.append("sub_risk_ids[]", []);
         }
         for (let i in this.DV_task.checklists) {
           let check = this.DV_task.checklists[i];
@@ -1863,7 +1863,7 @@ export default {
             key = humps.decamelize(key);
             if (["created_at", "updated_at", "progress_lists"].includes(key))
               continue;
-            formData.append(`task[checklists_attributes][${i}][${key}]`, value);
+            formData.append(`checklists_attributes[${i}][${key}]`, value);
             for (let pi in check.progressLists) {
               let progressList = check.progressLists[pi];
               if (!progressList.body && !progressList._destroy) continue;
@@ -1878,7 +1878,7 @@ export default {
                 pkey = humps.decamelize(pkey);
                 if (["created_at", "updated_at"].includes(pkey)) continue;
                 formData.append(
-                  `task[checklists_attributes][${i}][progress_lists_attributes][${pi}][${pkey}]`,
+                  `checklists_attributes[${i}][progress_lists_attributes][${pi}][${pkey}]`,
                   pvalue
                 );
               }
@@ -1898,24 +1898,24 @@ export default {
                 if ( key == 'body') {
                   value = value.replace(/[^ -~]/g,'')
                 }           
-            formData.append(`task[notes_attributes][${i}][${key}]`, value);
+            formData.append(`notes_attributes[${i}][${key}]`, value);
           }
         }
         for (let file of this.DV_task.taskFiles) {
           if (file.id) continue;
           if (!file.link) {
-            formData.append("task[task_files]["+this.guid()+"]", file);
+            formData.append("task_files["+this.guid()+"]", file);
           } else if (file.link) {
             formData.append("file_links[]", file.name);
           }
         }
-         let url = `${API_BASE_PATH}/programs/${this.$route.params.programId}/projects/${this.$route.params.projectId}/tasks.json`;
+         let url = `${API_BASE_PATH}/programs/${this.$route.params.programId}/projects/${this.$route.params.projectId}/tasks`;
         if (this.contract) {
-            url =  `${API_BASE_PATH}/project_contracts/${this.$route.params.contractId}/tasks.json`
+            url =  `${API_BASE_PATH}/project_contracts/${this.$route.params.contractId}/tasks`
          }
          if (this.vehicle) {
           console.log(this.vehicle)
-            url =  `${API_BASE_PATH}/project_contract_vehicles/${this.$route.params.vehicleId}/tasks.json`
+            url =  `${API_BASE_PATH}/project_contract_vehicles/${this.$route.params.vehicleId}/tasks`
          }
         let method = "POST";
         let callback = "task-created";
@@ -1925,15 +1925,15 @@ export default {
         }
         if (this.task && this.task.id && this.task.facilityId) {
             method = "PUT";
-          url = `${API_BASE_PATH}/programs/${this.$route.params.programId}/projects/${this.task.facilityId}/tasks/${this.task.id}.json`;
+          url = `${API_BASE_PATH}/programs/${this.$route.params.programId}/projects/${this.task.facilityId}/tasks/${this.task.id}`;
          }
         if (this.task && this.task.id && this.task.projectContractId) {
            method = "PATCH";
-          url =  `${API_BASE_PATH}/project_contracts/${this.$route.params.contractId}/tasks/${this.task.id}.json`;
+          url =  `${API_BASE_PATH}/project_contracts/${this.$route.params.contractId}/tasks/${this.task.id}`;
         }
         if (this.task && this.task.id && this.task.projectContractVehicleId) {
            method = "PATCH";
-          url =  `${API_BASE_PATH}/project_contract_vehicles/${this.$route.params.vehicleId}/tasks/${this.task.id}.json`;
+          url =  `${API_BASE_PATH}/project_contract_vehicles/${this.$route.params.vehicleId}/tasks/${this.task.id}`;
         }
         // var beforeSaveTask = this.task
 
@@ -1953,6 +1953,7 @@ export default {
             // if(beforeSaveTask.facilityId && beforeSaveTask.projectId )
             //   this.$emit(callback, humps.camelizeKeys(beforeSaveTask))
             var responseTask = humps.camelizeKeys(response.data.task);
+            console.log("SAVE TASK", responseTask)
             this.loadTask(responseTask);
             //this.$emit(callback, responseTask)
             if (this.$route.params.contractId){

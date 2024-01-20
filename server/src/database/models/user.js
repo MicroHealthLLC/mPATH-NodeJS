@@ -35,6 +35,16 @@ module.exports = (sequelize, DataTypes) => {
       h['status'] = this.getStatus(h['status']) 
       return h;
     }
+    getFullName(){
+      n = ''
+      if(this.first_name){
+        n += this.first_name
+      }
+      if(this.last_name){
+        n = n + " " + this.last_name
+      }
+      return n
+    }
     getStatus(v){
       return {
         0: 'inactive', 1: 'active'
