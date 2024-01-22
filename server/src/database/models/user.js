@@ -36,9 +36,9 @@ module.exports = (sequelize, DataTypes) => {
       return h;
     }
     getFullName(){
-      n = ''
+      let n = ''
       if(this.first_name){
-        n += this.first_name
+        n +  n + this.first_name
       }
       if(this.last_name){
         n = n + " " + this.last_name

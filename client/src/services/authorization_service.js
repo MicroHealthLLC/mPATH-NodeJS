@@ -669,7 +669,7 @@ const AuthorizationService = {
     return false;
   },
   findFacilityProjectId: (programId, projectId) => {
-    console.log("findFacilityProjectId", AuthorizationService.projectFacilityHash, programId)
+    // console.log("findFacilityProjectId", AuthorizationService.projectFacilityHash, programId)
     let arr = AuthorizationService.projectFacilityHash[programId];
     let facilityProjectId = "";
     for (var i = 0; i < arr.length; i++) {

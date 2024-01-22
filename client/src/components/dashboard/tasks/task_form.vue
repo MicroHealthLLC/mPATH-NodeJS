@@ -1788,40 +1788,46 @@ export default {
           this.DV_task.responsibleUserIds &&
           this.DV_task.responsibleUserIds.length
         ) {
-          for (let u_id of this.DV_task.responsibleUserIds) {
-            formData.append("responsible_user_ids[]", u_id);
-          }
+          // for (let u_id of this.DV_task.responsibleUserIds) {
+          //   formData.append("responsible_user_ids["+this.guid()+"]", u_id);
+          // }
+          formData.append("responsible_user_ids", this.DV_task.responsibleUserIds);
         } else {
-          formData.append("responsible_user_ids[]", []);
+          formData.append("responsible_user_ids", '');
         }
         // Accountable UserId
         if (
           this.DV_task.accountableUserIds &&
           this.DV_task.accountableUserIds.length
         ) {
-          for (let u_id of this.DV_task.accountableUserIds) {
-            formData.append("accountable_user_ids[]", u_id);
-          }
+          // for (let u_id of this.DV_task.accountableUserIds) {
+          //   formData.append("accountable_user_ids["+this.guid()+"]", u_id);
+          // }
+            formData.append("accountable_user_ids", this.DV_task.accountableUserIds);
+
         } else {
-          formData.append("accountable_user_ids[]", []);
+          formData.append("accountable_user_ids", '');
         }
         // Consulted UserId
 
         if (this.DV_task.consultedUserIds.length) {
-          for (let u_id of this.DV_task.consultedUserIds) {
-            formData.append("consulted_user_ids[]", u_id);
-          }
+          // for (let u_id of this.DV_task.consultedUserIds) {
+          //   formData.append("consulted_user_ids["+this.guid()+"]", u_id);
+          // }
+          formData.append("consulted_user_ids", this.DV_task.consultedUserIds);
+
         } else {
-          formData.append("consulted_user_ids[]", []);
+          formData.append("consulted_user_ids", '');
         }
         // Informed UserId
 
         if (this.DV_task.informedUserIds.length) {
-          for (let u_id of this.DV_task.informedUserIds) {
-            formData.append("informed_user_ids[]", u_id);
-          }
+          // for (let u_id of this.DV_task.informedUserIds) {
+          //   formData.append("informed_user_ids["+this.guid()+"]", u_id);
+          // }
+          formData.append("informed_user_ids", this.DV_task.informedUserIds);
         } else {
-          formData.append("informed_user_ids[]", []);
+          formData.append("informed_user_ids", '');
         }
         // RACI USERS ABOVE THIS LINE  Awaiting backend work
         // More RACI Users in Computed section below
@@ -1953,7 +1959,7 @@ export default {
             // if(beforeSaveTask.facilityId && beforeSaveTask.projectId )
             //   this.$emit(callback, humps.camelizeKeys(beforeSaveTask))
             var responseTask = humps.camelizeKeys(response.data.task);
-            console.log("SAVE TASK", responseTask)
+            console.log("SAVED TASK", responseTask)
             this.loadTask(responseTask);
             //this.$emit(callback, responseTask)
             if (this.$route.params.contractId){

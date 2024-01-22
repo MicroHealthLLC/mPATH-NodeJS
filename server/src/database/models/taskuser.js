@@ -15,6 +15,18 @@ module.exports = (sequelize, DataTypes) => {
 // this.belongsTo(models.Task  )
 
     }
+    accountable(){
+      return this.user_type == "accountable"
+    }
+    responsible(){
+      return this.user_type == "responsible"
+    }
+    consulted(){
+      return this.user_type == "consulted"
+    }
+    informed(){
+      return this.user_type == "informed"
+    }
   }
   TaskUser.init({
     user_id: DataTypes.INTEGER,

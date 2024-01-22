@@ -213,37 +213,37 @@ module.exports = (sequelize, DataTypes) => {
         var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}})
 
         for(var task of tasks){
-          let _task = task.toJSON()
-          _task["sub_tasks"] = []
-          _task["sub_issues"] = []
-          _task["sub_task_ids"] = []
-          _task["sub_issue_ids"] = []
-          _task["sub_risk_ids"] = []
-          _task["responsible_users"] =  []
-          _task["responsible_users_last_name"] =  []
-          _task["responsible_users_first_name"] =  []
-          _task["accountable_users"] =  []
-          _task["accountable_users_last_name"] =  []
-          _task["accountable_users_first_name"] =  []
-          _task["consulted_users"] =  []
-          _task["informed_users"] =  []
-          _task["responsible_user_ids"] =  []
-          _task["accountable_user_ids"] =  []
-          _task["consulted_user_ids"] =  []
-          _task["informed_user_ids"] =  []
-          _task["facility_id"] = facility.id
-          _task["facility_name"] =  facility.facility_name
-          _task["contract_nickname"] =  null
-          _task["vehicle_nickname"] =  null
-          _task["project_id"] = this.id
-          _task["users"] = []
-          _task["user_ids"] = []
-          _task["user_names"] = []
-          _task["due_date_duplicate"] = []
-          _task["progress_status"] = []
-          _task["attach_files"] = []
-          _task["notes"] = []
-          _task["class_name"] = "Task"
+          let _task = await task.toJSON()
+          // _task["sub_tasks"] = []
+          // _task["sub_issues"] = []
+          // _task["sub_task_ids"] = []
+          // _task["sub_issue_ids"] = []
+          // _task["sub_risk_ids"] = []
+          // _task["responsible_users"] =  []
+          // _task["responsible_users_last_name"] =  []
+          // _task["responsible_users_first_name"] =  []
+          // _task["accountable_users"] =  []
+          // _task["accountable_users_last_name"] =  []
+          // _task["accountable_users_first_name"] =  []
+          // _task["consulted_users"] =  []
+          // _task["informed_users"] =  []
+          // _task["responsible_user_ids"] =  []
+          // _task["accountable_user_ids"] =  []
+          // _task["consulted_user_ids"] =  []
+          // _task["informed_user_ids"] =  []
+          // _task["facility_id"] = facility.id
+          // _task["facility_name"] =  facility.facility_name
+          // _task["contract_nickname"] =  null
+          // _task["vehicle_nickname"] =  null
+          // _task["project_id"] = this.id
+          // _task["users"] = []
+          // _task["user_ids"] = []
+          // _task["user_names"] = []
+          // _task["due_date_duplicate"] = []
+          // _task["progress_status"] = []
+          // _task["attach_files"] = []
+          // _task["notes"] = []
+          // _task["class_name"] = "Task"
           
 
           let _tchecklists = []
@@ -268,7 +268,6 @@ module.exports = (sequelize, DataTypes) => {
           }   
 
           _task.checklists = _tchecklists
-          // _task.checklists = await task.getListable({include: [db.ProgressList, db.User]})
           facility_hash.tasks.push(_task)
         }
 

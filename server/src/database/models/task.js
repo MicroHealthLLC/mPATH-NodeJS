@@ -41,18 +41,39 @@ module.exports = (sequelize, DataTypes) => {
       let _task = this.get({ plain: true });
       //Replace this code with eager loading
       // response.checklists = await this.getListable({include: [db.ProgressList]})
-      _task.checklists = []
-      let checklists = await db.Checklist.findAll({where: {listable_id: _task.id, listable_type: 'Task'}})
-      for(var checklist of checklists){
-        let progress_lists = await checklist.getProgressLists()
-        checklist.progress_lists = progress_lists
-        _task.checklists.push(checklist)
-      }
+
+      // Add checklists
+      // _task.checklists = []
+      // let checklists = await db.Checklist.findAll({where: {listable_id: _task.id, listable_type: 'Task'}, raw: true })
+      // var checklist_ids = _.uniq(checklists.map(function(e){return e.id}))
+      // var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}})
+
+      // console.log("***progress lists", progress_lists)
+      
+      // for(var checklist of checklists){
+      //   checklist.user = {id: checklist.user_id, full_name: ""}
+      //   checklist.progress_lists = progress_lists.filter(function(p){ p.checklist_id == checklist.id })
+      //   _task.checklists.push(checklist)
+      // }
+
       let facility_project = await this.getFacilityProject()
       let facility = await db.Facility.findOne({where: {id: facility_project.facility_id}})
       let task_users = await this.getTaskUsers()
       let all_user_ids = _.uniq(task_users.map(function(e){return e.user_id}))
       let users = await db.User.findAll({where: {id: all_user_ids}})
+
+      const accountableUserIds = task_users
+        .filter((ru) => ru.accountable)
+        .map((ru) => ru.user_id);
+      const responsibleUserIds = task_users
+        .filter((ru) => ru.responsible)
+        .map((ru) => ru.user_id);
+      const consultedUserIds = task_users
+        .filter((ru) => ru.consulted)
+        .map((ru) => ru.user_id);
+      const informedUserIds = task_users
+        .filter((ru) => ru.informed)
+        .map((ru) => ru.user_id);      
 
       _task["users"] = []
       _task["user_ids"] = []
@@ -72,31 +93,32 @@ module.exports = (sequelize, DataTypes) => {
         _task['user_names'].push(_uh.full_name)
       }
 
-      _task["sub_tasks"] = []
-      _task["sub_issues"] = []
-      _task["sub_task_ids"] = []
-      _task["sub_issue_ids"] = []
-      _task["sub_risk_ids"] = []
-      _task["responsible_users"] =  []
-      _task["responsible_users_last_name"] =  []
-      _task["responsible_users_first_name"] =  []
-      _task["accountable_users"] =  []
-      _task["accountable_users_last_name"] =  []
-      _task["accountable_users_first_name"] =  []
-      _task["consulted_users"] =  []
-      _task["informed_users"] =  []
-      _task["responsible_user_ids"] =  []
-      _task["accountable_user_ids"] =  []
-      _task["consulted_user_ids"] =  []
-      _task["informed_user_ids"] =  []
+      _task["sub_tasks"] = await db.RelatedTask.findAll({where: {relatable_type: 'Task', relatable_id: _task.id}, raw: true })
+      _task["sub_issues"] = await db.RelatedIssue.findAll({where: {relatable_type: 'Task', relatable_id: _task.id}, raw: true })
+      _task["sub_risks"] = await db.RelatedRisk.findAll({where: {relatable_type: 'Task', relatable_id: _task.id}, raw: true })
+      _task["sub_task_ids"] =  _.map(_task["sub_tasks"], function(u){ u.id} )
+      _task["sub_issue_ids"] = _.map(_task["sub_issues"], function(u){ u.id} )
+      _task["sub_risk_ids"] = _.map(_task["sub_risks"], function(u){ u.id} )
+      _task["responsible_users"] =  _.filter(users, function(u){ return responsibleUserIds.includes(u.id)  })
+      _task["responsible_users_last_name"] =  _.map(_task["responsible_users"], function(u){ return u.last_name} )
+      _task["responsible_users_first_name"] = _.map(_task["responsible_users"], function(u){ return u.first_name} )
+      _task["accountable_users"] =  _.filter(users, function(u){ return accountableUserIds.includes(u.id)  })
+      _task["accountable_users_last_name"] =  _.map(_task["accountable_users"], function(u){ return u.last_name} )
+      _task["accountable_users_first_name"] =  _.map(_task["accountable_users"], function(u){ return u.first_name} )
+      _task["consulted_users"] =  _.filter(users, function(u){ return consultedUserIds.includes(u.id)  })
+      _task["informed_users"] = _.filter(users, function(u){ return informedUserIds.includes(u.id)  })
+      _task["responsible_user_ids"] = responsibleUserIds
+      _task["accountable_user_ids"] = accountableUserIds
+      _task["consulted_user_ids"] =  consultedUserIds
+      _task["informed_user_ids"] =  informedUserIds
       _task["facility_id"] = facility.id
       _task["facility_name"] =  facility.facility_name
       _task["contract_nickname"] =  null
       _task["vehicle_nickname"] =  null
       _task["project_id"] = facility_project.project_id
+      _task["progress_status"] = _task.progress >= 100 ? "completed" : "active"
 
       _task["due_date_duplicate"] = []
-      _task["progress_status"] = []
       _task["attach_files"] = []
       _task["notes"] = []
       _task["class_name"] = "Task"
