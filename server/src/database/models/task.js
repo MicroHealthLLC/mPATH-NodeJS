@@ -1,6 +1,7 @@
 'use strict';
 const {_} = require("lodash") 
 
+
 const {
   Model
 } = require('sequelize');
@@ -35,9 +36,163 @@ module.exports = (sequelize, DataTypes) => {
       
 
     }
-    async toJSON(){
 
+    async createOrUpdateTask(params, user) {
+      const taskParams = params.task;
+      const task = this;
+      const tParams = { ...taskParams };
+      const userIds = tParams.user_ids;
+      // const subTaskIds = tParams.subTaskIds;
+      // const subIssueIds = tParams.subIssueIds;
+      // const subRiskIds = tParams.subRiskIds;
+      const checklistsAttributes = tParams.checklistsAttributes;
+      // const notesAttributes = tParams.notesAttributes;
+    
+      task.setAttributes(tParams);
+    
+      if (params.projectContractId) {
+        task.projectContractId = params.projectContractId;
+      } else if (params.projectContractVehicleId) {
+        task.projectContractVehicleId = params.projectContractVehicleId;
+      } else if (!task.facilityProjectId) {
+        const project = user.projects.active.find((p) => p.id === params.projectId);
+        const facilityProject = project.facilityProjects.find(
+          (fp) => fp.facilityId === params.facilityId
+        );
+        task.facilityProjectId = facilityProject.id;
+      }
+    
+      const allChecklists = task.checklists;
+    
+      if (!task.plannedEffort) {
+        task.plannedEffort = 0.0;
+      }
+    
+      if (!task.actualEffort) {
+        task.actualEffort = 0.0;
+      }
+    
+      try {
+        await sequelize.transaction(async (t) => {
+          await task.save({ transaction: t });
+    
+          if (userIds && userIds.length > 0) {
+            const taskUsersObj = userIds
+              .filter((uid) => uid)
+              .map((uid) => ({
+                taskId: task.id,
+                userId: uid,
+              }));
+            await TaskUser.bulkCreate(taskUsersObj, { transaction: t });
+          }
+    
+          // if (subTaskIds && subTaskIds.length > 0) {
+          //   const relatedTaskObjs = subTaskIds.map((sid) => ({
+          //     relatableId: task.id,
+          //     relatableType: 'Task',
+          //     taskId: sid,
+          //   }));
+          //   const relatedTaskObjs2 = subTaskIds.map((sid) => ({
+          //     relatableId: sid,
+          //     relatableType: 'Task',
+          //     taskId: task.id,
+          //   }));
+          //   await RelatedTask.bulkCreate(relatedTaskObjs, { transaction: t });
+          //   await RelatedTask.bulkCreate(relatedTaskObjs2, { transaction: t });
+          // }
+    
+          // if (subIssueIds && subIssueIds.length > 0) {
+          //   const relatedIssueObjs = subIssueIds.map((sid) => ({
+          //     relatableId: task.id,
+          //     relatableType: 'Task',
+          //     issueId: sid,
+          //   }));
+          //   const relatedTaskObjs2 = subIssueIds.map((sid) => ({
+          //     relatableId: sid,
+          //     relatableType: 'Issue',
+          //     taskId: task.id,
+          //   }));
+          //   await RelatedIssue.bulkCreate(relatedIssueObjs, { transaction: t });
+          //   await RelatedTask.bulkCreate(relatedTaskObjs2, { transaction: t });
+          // }
+    
+          // if (subRiskIds && subRiskIds.length > 0) {
+          //   const relatedRiskObjs = subRiskIds.map((sid) => ({
+          //     relatableId: task.id,
+          //     relatableType: 'Task',
+          //     riskId: sid,
+          //   }));
+          //   const relatedTaskObjs2 = subRiskIds.map((sid) => ({
+          //     relatableId: sid,
+          //     relatableType: 'Risk',
+          //     taskId: task.id,
+          //   }));
+          //   await RelatedRisk.bulkCreate(relatedRiskObjs, { transaction: t });
+          //   await RelatedTask.bulkCreate(relatedTaskObjs2, { transaction: t });
+          // }
+    
+          if (checklistsAttributes && Object.keys(checklistsAttributes).length > 0) {
+            const checklistObjs = Object.values(checklistsAttributes).map((value) => {
+              if (value.id) {
+                const c = allChecklists.find((cc) => cc.id === parseInt(value.id));
+                if (value._destroy && value._destroy === 'true') {
+                  return c.destroy({ transaction: t });
+                } else {
+                  c.setAttributes(value);
+                  return c.save({ transaction: t });
+                }
+              } else {
+                delete value._destroy;
+                const c = Checklist.build({
+                  ...value,
+                  listableId: task.id,
+                  listableType: 'Task',
+                });
+                c.progressLists.forEach((p) => {
+                  p.userId = user.id;
+                });
+                return c.save({ transaction: t });
+              }
+            });
+            // NOTE: as currently we don't have a solution for nested attributes
+            // await Checklist.bulkCreate(checklistObjs, { transaction: t });
+          }
+    
+          // if (notesAttributes && Object.keys(notesAttributes).length > 0) {
+          //   const notesObjs = Object.values(notesAttributes)
+          //     .filter((value) => !value._destroy || value._destroy !== 'true')
+          //     .map((value) => ({
+          //       ...value,
+          //       noteableId: task.id,
+          //       noteableType: 'Task',
+          //     }));
+          //   await Note.bulkCreate(notesObjs, { transaction: t });
+          // }
+    
+          await task.assignUsers(params, { transaction: t });
+        });
+    
+        // NOTE: This is not working inside the Transaction block.
+        // Reproduce: Create a new task with a file and link both, and it is giving an error
+        // Error performing ActiveStorage::AnalyzeJob ActiveStorage::FileNotFoundError (ActiveStorage::FileNotFoundError):
+        // task.addLinkAttachment(params);
+    
+        // await task.updateClosed();
+    
+        // await task.reload();
+        return task;
+      } catch (error) {
+        // Handle the error
+        console.error(error);
+      }
+    }
+    
+
+
+
+    async toJSON(){
       const { db } = require("./index.js");
+      
       let _task = this.get({ plain: true });
       //Replace this code with eager loading
       // response.checklists = await this.getListable({include: [db.ProgressList]})
@@ -63,16 +218,16 @@ module.exports = (sequelize, DataTypes) => {
       let users = await db.User.findAll({where: {id: all_user_ids}})
 
       const accountableUserIds = task_users
-        .filter((ru) => ru.accountable)
+        .filter((ru) => ru.accountable())
         .map((ru) => ru.user_id);
       const responsibleUserIds = task_users
-        .filter((ru) => ru.responsible)
+        .filter((ru) => ru.responsible())
         .map((ru) => ru.user_id);
       const consultedUserIds = task_users
-        .filter((ru) => ru.consulted)
+        .filter((ru) => ru.consulted())
         .map((ru) => ru.user_id);
       const informedUserIds = task_users
-        .filter((ru) => ru.informed)
+        .filter((ru) => ru.informed())
         .map((ru) => ru.user_id);      
 
       _task["users"] = []
@@ -117,7 +272,8 @@ module.exports = (sequelize, DataTypes) => {
       _task["vehicle_nickname"] =  null
       _task["project_id"] = facility_project.project_id
       _task["progress_status"] = _task.progress >= 100 ? "completed" : "active"
-
+      _task["task_type_id"] = parseInt(_task['task_type_id'])
+      _task["task_stage_id"] = parseInt(_task['task_stage_id'])
       _task["due_date_duplicate"] = []
       _task["attach_files"] = []
       _task["notes"] = []
@@ -125,6 +281,128 @@ module.exports = (sequelize, DataTypes) => {
 
       return _task
     }
+
+    async assignUsers(params){
+      
+      const { db } = require("./index.js");
+
+      const accountableResourceUsers = [];
+      const responsibleResourceUsers = [];
+      const consultedResourceUsers = [];
+      const informedResourceUsers = [];
+      const p_accountable_user_ids = _.compact(params.accountable_user_ids.split(","))
+      const p_responsible_user_ids = _.compact(params.responsible_user_ids.split(","))
+      const p_consulted_user_ids = _.compact(params.consulted_user_ids.split(","))
+      const p_informed_user_ids = _.compact(params.informed_user_ids.split(","))
+  
+      const resource = this;
+      const resourceUsers = await resource.getTaskUsers();
+      const accountableUserIds = resourceUsers
+        .filter((ru) => ru.accountable())
+        .map((ru) => ru.user_id);
+      const responsibleUserIds = resourceUsers
+        .filter((ru) => ru.responsible())
+        .map((ru) => ru.user_id);
+      const consultedUserIds = resourceUsers
+        .filter((ru) => ru.consulted())
+        .map((ru) => ru.user_id);
+      const informedUserIds = resourceUsers
+        .filter((ru) => ru.informed())
+        .map((ru) => ru.user_id);
+      
+      const usersToDelete = [];
+      
+      if (p_accountable_user_ids && p_accountable_user_ids.length > 0) {
+        p_accountable_user_ids.forEach((uid) => {
+          if (uid !== "undefined" && !accountableUserIds.includes(parseInt(uid))) {
+            accountableResourceUsers.push({
+              user_id: parseInt(uid),
+              task_id: resource.id,
+              user_type: 'accountable',
+            });
+          }
+        });
+        usersToDelete.push(
+          ...accountableUserIds.filter(
+            (uid) => !p_accountable_user_ids.includes(uid.toString())
+          )
+        );
+      }
+      
+      if (p_responsible_user_ids && p_responsible_user_ids.length > 0) {
+        p_responsible_user_ids.forEach((uid) => {
+          if (uid !== "undefined" && !responsibleUserIds.includes(parseInt(uid))) {
+            responsibleResourceUsers.push({
+              user_id: parseInt(uid),
+              task_id: resource.id,
+              user_type: 'responsible',
+            });
+          }
+        });
+        usersToDelete.push(
+          ...responsibleUserIds.filter(
+            (uid) => !p_responsible_user_ids.includes(uid.toString())
+          )
+        );
+      }
+      
+      if (p_consulted_user_ids &&p_consulted_user_ids.length > 0) {
+        p_consulted_user_ids.forEach((uid) => {
+          if (uid !== "undefined" && !consultedUserIds.includes(parseInt(uid))) {
+            consultedResourceUsers.push({
+              user_id: parseInt(uid),
+              task_id: resource.id,
+              user_type: 'consulted',
+            });
+          }
+        });
+        usersToDelete.push(
+          ...consultedUserIds.filter(
+            (uid) => !p_consulted_user_ids.includes(uid.toString())
+          )
+        );
+      }
+      
+      if (p_informed_user_ids && p_informed_user_ids.length > 0) {
+        p_informed_user_ids.forEach((uid) => {
+          if (uid !== "undefined" && !informedUserIds.includes(parseInt(uid))) {
+            informedResourceUsers.push({
+              user_id: parseInt(uid),
+              task_id: resource.id,
+              user_type: 'informed',
+            });
+          }
+        });
+        usersToDelete.push(
+          ...informedUserIds.filter(
+            (uid) => !p_informed_user_ids.includes(uid.toString())
+          )
+        );
+      }
+      
+      const recordsToImport = [
+        ...accountableResourceUsers,
+        ...responsibleResourceUsers,
+        ...consultedResourceUsers,
+        ...informedResourceUsers,
+      ];
+      console.log("***recordsToImport", recordsToImport)
+      console.log("***recordsToImport", usersToDelete)
+      if (usersToDelete.length > 0) {
+        resourceUsers
+          .filter((ru) => usersToDelete.includes(ru.user_id))
+          .forEach((ru) => ru.destroy());
+      }
+      
+      if (recordsToImport.length > 0) {
+        // TaskUser.import(recordsToImport);
+  
+        const captains = await db.TaskUser.bulkCreate(recordsToImport);
+  
+      }
+      
+    }
+
   }
   Task.init({
     text: DataTypes.STRING,
