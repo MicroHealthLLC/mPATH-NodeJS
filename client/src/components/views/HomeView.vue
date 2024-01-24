@@ -85,6 +85,7 @@ export default {
   mounted() {
     console.log('HomeView')
     if (this.isLoggedIn) {
+      this.verifyToken
       // console.log("LoginView Mounted", this.isLoggedIn)
       this.$router.push({ name: 'ProgramListView' })
       this.fetchCurrentUser
@@ -103,7 +104,7 @@ export default {
   computed: {
     ...mapGetters(['getCurrentUser','isLoggedIn', 'contentLoaded', 'facilities', 'getUnfilteredFacilities']),
     ...mapActions([
-      'fetchCurrentUser'
+      'fetchCurrentUser', 'verifyToken'
     ]),
     isProgramView() {
       console.log('HomeView isProgramView', this.$route)

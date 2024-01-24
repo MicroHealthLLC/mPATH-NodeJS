@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index",
-    "dev": "nodemon index",
+    "dev": "nodemon index --env-file=.env",
     "migrate": "node src/database/sync_database.js",
     "console": "node --experimental-repl-await ./console.js"
   },
@@ -30,6 +30,7 @@
     "jsonwebtoken": "^9.0.1",
     "lodash": "^4.17.21",
     "mysql2": "^3.6.0",
+    "qs": "^6.11.2",
     "sequelize": "^6.32.1",
     "winston": "^3.11.0"
   }

@@ -37,140 +37,132 @@ module.exports = (sequelize, DataTypes) => {
 
     }
 
-    async createOrUpdateTask(params, user) {
-      const taskParams = params.task;
-      const task = this;
-      const tParams = { ...taskParams };
-      const userIds = tParams.user_ids;
-      // const subTaskIds = tParams.subTaskIds;
-      // const subIssueIds = tParams.subIssueIds;
-      // const subRiskIds = tParams.subRiskIds;
-      const checklistsAttributes = tParams.checklistsAttributes;
-      // const notesAttributes = tParams.notesAttributes;
-    
-      task.setAttributes(tParams);
-    
-      if (params.projectContractId) {
-        task.projectContractId = params.projectContractId;
-      } else if (params.projectContractVehicleId) {
-        task.projectContractVehicleId = params.projectContractVehicleId;
-      } else if (!task.facilityProjectId) {
-        const project = user.projects.active.find((p) => p.id === params.projectId);
-        const facilityProject = project.facilityProjects.find(
-          (fp) => fp.facilityId === params.facilityId
-        );
-        task.facilityProjectId = facilityProject.id;
-      }
-    
-      const allChecklists = task.checklists;
-    
-      if (!task.plannedEffort) {
-        task.plannedEffort = 0.0;
-      }
-    
-      if (!task.actualEffort) {
-        task.actualEffort = 0.0;
-      }
-    
+    async createOrUpdateTask(params, options) {
       try {
-        await sequelize.transaction(async (t) => {
-          await task.save({ transaction: t });
-    
-          if (userIds && userIds.length > 0) {
-            const taskUsersObj = userIds
-              .filter((uid) => uid)
-              .map((uid) => ({
-                taskId: task.id,
-                userId: uid,
-              }));
-            await TaskUser.bulkCreate(taskUsersObj, { transaction: t });
-          }
-    
-          // if (subTaskIds && subTaskIds.length > 0) {
-          //   const relatedTaskObjs = subTaskIds.map((sid) => ({
-          //     relatableId: task.id,
-          //     relatableType: 'Task',
-          //     taskId: sid,
-          //   }));
-          //   const relatedTaskObjs2 = subTaskIds.map((sid) => ({
-          //     relatableId: sid,
-          //     relatableType: 'Task',
-          //     taskId: task.id,
-          //   }));
-          //   await RelatedTask.bulkCreate(relatedTaskObjs, { transaction: t });
-          //   await RelatedTask.bulkCreate(relatedTaskObjs2, { transaction: t });
-          // }
-    
-          // if (subIssueIds && subIssueIds.length > 0) {
-          //   const relatedIssueObjs = subIssueIds.map((sid) => ({
-          //     relatableId: task.id,
-          //     relatableType: 'Task',
-          //     issueId: sid,
-          //   }));
-          //   const relatedTaskObjs2 = subIssueIds.map((sid) => ({
-          //     relatableId: sid,
-          //     relatableType: 'Issue',
-          //     taskId: task.id,
-          //   }));
-          //   await RelatedIssue.bulkCreate(relatedIssueObjs, { transaction: t });
-          //   await RelatedTask.bulkCreate(relatedTaskObjs2, { transaction: t });
-          // }
-    
-          // if (subRiskIds && subRiskIds.length > 0) {
-          //   const relatedRiskObjs = subRiskIds.map((sid) => ({
-          //     relatableId: task.id,
-          //     relatableType: 'Task',
-          //     riskId: sid,
-          //   }));
-          //   const relatedTaskObjs2 = subRiskIds.map((sid) => ({
-          //     relatableId: sid,
-          //     relatableType: 'Risk',
-          //     taskId: task.id,
-          //   }));
-          //   await RelatedRisk.bulkCreate(relatedRiskObjs, { transaction: t });
-          //   await RelatedTask.bulkCreate(relatedTaskObjs2, { transaction: t });
-          // }
-    
-          if (checklistsAttributes && Object.keys(checklistsAttributes).length > 0) {
-            const checklistObjs = Object.values(checklistsAttributes).map((value) => {
-              if (value.id) {
-                const c = allChecklists.find((cc) => cc.id === parseInt(value.id));
-                if (value._destroy && value._destroy === 'true') {
-                  return c.destroy({ transaction: t });
-                } else {
-                  c.setAttributes(value);
-                  return c.save({ transaction: t });
-                }
-              } else {
-                delete value._destroy;
-                const c = Checklist.build({
-                  ...value,
-                  listableId: task.id,
-                  listableType: 'Task',
-                });
-                c.progressLists.forEach((p) => {
-                  p.userId = user.id;
-                });
-                return c.save({ transaction: t });
-              }
-            });
-            // NOTE: as currently we don't have a solution for nested attributes
-            // await Checklist.bulkCreate(checklistObjs, { transaction: t });
-          }
-    
-          // if (notesAttributes && Object.keys(notesAttributes).length > 0) {
-          //   const notesObjs = Object.values(notesAttributes)
-          //     .filter((value) => !value._destroy || value._destroy !== 'true')
-          //     .map((value) => ({
-          //       ...value,
-          //       noteableId: task.id,
-          //       noteableType: 'Task',
-          //     }));
-          //   await Note.bulkCreate(notesObjs, { transaction: t });
-          // }
-    
-          await task.assignUsers(params, { transaction: t });
-        });
+        const { db } = require("./index.js");
+        let user = options.user
+        let project_id = options.project_id
+        let facility_id = options.facility_id
+        const taskParams = params;
+        const task = this;
+        const tParams = { ...taskParams };
+        const user_ids = tParams.user_ids;
+        // const subTaskIds = tParams.subTaskIds;
+        // const subIssueIds = tParams.subIssueIds;
+        // const subRiskIds = tParams.subRiskIds;
+        const checklistsAttributes = tParams.checklistsAttributes;
+        // const notesAttributes = tParams.notesAttributes;
+      
+        if (!tParams.planned_effort) {
+          tParams.planned_effort = 0.0;
+        }
+        if (!tParams.actual_effort) {
+          tParams.actual_effort = 0.0;
+        }
+        let facility_project = await db.FacilityProject.findOne({where: {project_id: project_id, facility_id: facility_id}, raw: true})
+        tParams['facility_project_id'] = facility_project.id
+        console.log("**********tParams", tParams)
+        
+        task.setAttributes(tParams);
+        
+        console.log("***task.planned_effort", task.planned_effort)
+
+        if (tParams.project_contract_id) {
+          task.project_contract_id = params.project_contract_id;
+        } else if (tParams.project_contract_vehicle_id) {
+          task.project_contract_vehicle_id = params.project_contract_vehicle_id;
+        }
+      
+        const allChecklists = await db.Checklist.findAll({where: {listable_id: task.id, listable_type: 'Task'}})
+
+        await task.save();
+
+        await task.assignUsers(tParams)
+
+  
+        // if (subTaskIds && subTaskIds.length > 0) {
+        //   const relatedTaskObjs = subTaskIds.map((sid) => ({
+        //     relatableId: task.id,
+        //     relatableType: 'Task',
+        //     taskId: sid,
+        //   }));
+        //   const relatedTaskObjs2 = subTaskIds.map((sid) => ({
+        //     relatableId: sid,
+        //     relatableType: 'Task',
+        //     taskId: task.id,
+        //   }));
+        //   await RelatedTask.bulkCreate(relatedTaskObjs, { transaction: t });
+        //   await RelatedTask.bulkCreate(relatedTaskObjs2, { transaction: t });
+        // }
+  
+        // if (subIssueIds && subIssueIds.length > 0) {
+        //   const relatedIssueObjs = subIssueIds.map((sid) => ({
+        //     relatableId: task.id,
+        //     relatableType: 'Task',
+        //     issueId: sid,
+        //   }));
+        //   const relatedTaskObjs2 = subIssueIds.map((sid) => ({
+        //     relatableId: sid,
+        //     relatableType: 'Issue',
+        //     taskId: task.id,
+        //   }));
+        //   await RelatedIssue.bulkCreate(relatedIssueObjs, { transaction: t });
+        //   await RelatedTask.bulkCreate(relatedTaskObjs2, { transaction: t });
+        // }
+  
+        // if (subRiskIds && subRiskIds.length > 0) {
+        //   const relatedRiskObjs = subRiskIds.map((sid) => ({
+        //     relatableId: task.id,
+        //     relatableType: 'Task',
+        //     riskId: sid,
+        //   }));
+        //   const relatedTaskObjs2 = subRiskIds.map((sid) => ({
+        //     relatableId: sid,
+        //     relatableType: 'Risk',
+        //     taskId: task.id,
+        //   }));
+        //   await RelatedRisk.bulkCreate(relatedRiskObjs, { transaction: t });
+        //   await RelatedTask.bulkCreate(relatedTaskObjs2, { transaction: t });
+        // }
+  
+        // if (checklistsAttributes && Object.keys(checklistsAttributes).length > 0) {
+        //   const checklistObjs = Object.values(checklistsAttributes).map((value) => {
+        //     if (value.id) {
+        //       const c = allChecklists.find((cc) => cc.id === parseInt(value.id));
+        //       if (value._destroy && value._destroy === 'true') {
+        //         return c.destroy({ transaction: t });
+        //       } else {
+        //         c.setAttributes(value);
+        //         return c.save({ transaction: t });
+        //       }
+        //     } else {
+        //       delete value._destroy;
+        //       const c = Checklist.build({
+        //         ...value,
+        //         listableId: task.id,
+        //         listableType: 'Task',
+        //       });
+        //       c.progressLists.forEach((p) => {
+        //         p.userId = user.id;
+        //       });
+        //       return c.save({ transaction: t });
+        //     }
+        //   });
+        //   // NOTE: as currently we don't have a solution for nested attributes
+        //   // await Checklist.bulkCreate(checklistObjs, { transaction: t });
+        // }
+  
+        // if (notesAttributes && Object.keys(notesAttributes).length > 0) {
+        //   const notesObjs = Object.values(notesAttributes)
+        //     .filter((value) => !value._destroy || value._destroy !== 'true')
+        //     .map((value) => ({
+        //       ...value,
+        //       noteableId: task.id,
+        //       noteableType: 'Task',
+        //     }));
+        //   await Note.bulkCreate(notesObjs, { transaction: t });
+        // }
+  
     
         // NOTE: This is not working inside the Transaction block.
         // Reproduce: Create a new task with a file and link both, and it is giving an error
@@ -183,12 +175,9 @@ module.exports = (sequelize, DataTypes) => {
         return task;
       } catch (error) {
         // Handle the error
-        console.error(error);
+        console.error("Error in execution", error);
       }
     }
-    
-
-
 
     async toJSON(){
       const { db } = require("./index.js");
@@ -290,10 +279,10 @@ module.exports = (sequelize, DataTypes) => {
       const responsibleResourceUsers = [];
       const consultedResourceUsers = [];
       const informedResourceUsers = [];
-      const p_accountable_user_ids = _.compact(params.accountable_user_ids.split(","))
-      const p_responsible_user_ids = _.compact(params.responsible_user_ids.split(","))
-      const p_consulted_user_ids = _.compact(params.consulted_user_ids.split(","))
-      const p_informed_user_ids = _.compact(params.informed_user_ids.split(","))
+      const p_accountable_user_ids = _.compact(params.accountable_user_ids)
+      const p_responsible_user_ids = _.compact(params.responsible_user_ids)
+      const p_consulted_user_ids = _.compact(params.consulted_user_ids)
+      const p_informed_user_ids = _.compact(params.informed_user_ids)
   
       const resource = this;
       const resourceUsers = await resource.getTaskUsers();
@@ -428,8 +417,8 @@ module.exports = (sequelize, DataTypes) => {
     project_contract_vehicle_id: DataTypes.INTEGER,
     owner_id: DataTypes.INTEGER,
     owner_type: DataTypes.STRING,
-    planned_effort: DataTypes.DECIMAL,
-    actual_effort: DataTypes.DECIMAL,
+    planned_effort: DataTypes.DECIMAL(10,2),
+    actual_effort: DataTypes.DECIMAL(10,2),
     auto_calculate_planned_effort: DataTypes.BOOLEAN
   }, {
     sequelize,

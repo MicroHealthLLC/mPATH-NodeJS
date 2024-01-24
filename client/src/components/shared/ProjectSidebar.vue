@@ -269,7 +269,6 @@ export default {
       },
     },
     sortedGroups() {
-      console.log("sortedGroups()", this.facilityGroups)
       // Sort groups by name
       return this.facilityGroups.sort((a, b) => a.name.localeCompare(b.name));
     },
@@ -371,11 +370,7 @@ export default {
       });
     },
     _isallowedProjects(c, salut) {
-      console.log("_isallowedProjects",this.checkPrivileges("ProjectSidebar", salut, this.$route, {
-        method: "isallowedProject",
-        facility_project_id: c.facilityProjectId,
-      }))
-       console.log("_isallowedProjects",c.facilityProjectId)
+
       return this.checkPrivileges("ProjectSidebar", salut, this.$route, {
         method: "isallowedProject",
         facility_project_id: c.facilityProjectId,

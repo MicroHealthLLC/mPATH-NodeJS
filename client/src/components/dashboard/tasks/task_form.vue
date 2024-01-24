@@ -1481,11 +1481,12 @@ export default {
     } else {
       this.loadTask(this.DV_task);
     }
-
+    console.log("task form current_user", this.getCurrentUser())
     this.loading = false;
     this._ismounted = true;
   },
   methods: {
+    ...mapGetters(['getCurrentUser','isLoggedIn']),
     ...mapMutations(["setTaskForManager", "updateTasksHash", "updateContractTasks", "updateVehicleTasks"]),
     ...mapActions(["taskDeleted", "taskUpdated", "updateWatchedTasks"]),
     INITIAL_TASK_STATE() {
@@ -1781,73 +1782,81 @@ export default {
           formData.append("planned_effort", this.DV_task.plannedEffort);
         }
         // RACI USERS START HERE Awaiting backend work
-
+        let arrayCount = 0
         //Responsible USer Id
         //  formData.append('responsible_user_ids', this.DV_task.responsibleUserIds)
         if (
           this.DV_task.responsibleUserIds &&
           this.DV_task.responsibleUserIds.length
         ) {
-          // for (let u_id of this.DV_task.responsibleUserIds) {
-          //   formData.append("responsible_user_ids["+this.guid()+"]", u_id);
-          // }
-          formData.append("responsible_user_ids", this.DV_task.responsibleUserIds);
+          for (let u_id of this.DV_task.responsibleUserIds) {
+            formData.append("responsible_user_ids["+(arrayCount++)+"]", u_id);
+          }
+          // formData.append("responsible_user_ids", this.DV_task.responsibleUserIds);
         } else {
-          formData.append("responsible_user_ids", '');
+          formData.append("responsible_user_ids[]", []);
         }
         // Accountable UserId
         if (
           this.DV_task.accountableUserIds &&
           this.DV_task.accountableUserIds.length
         ) {
-          // for (let u_id of this.DV_task.accountableUserIds) {
-          //   formData.append("accountable_user_ids["+this.guid()+"]", u_id);
-          // }
-            formData.append("accountable_user_ids", this.DV_task.accountableUserIds);
+          arrayCount = 0
+          for (let u_id of this.DV_task.accountableUserIds) {
+            formData.append("accountable_user_ids["+(arrayCount++)+"]", u_id);
+          }
+            // formData.append("accountable_user_ids", this.DV_task.accountableUserIds);
 
         } else {
-          formData.append("accountable_user_ids", '');
+          formData.append("accountable_user_ids[]", []);
         }
         // Consulted UserId
 
         if (this.DV_task.consultedUserIds.length) {
-          // for (let u_id of this.DV_task.consultedUserIds) {
-          //   formData.append("consulted_user_ids["+this.guid()+"]", u_id);
-          // }
-          formData.append("consulted_user_ids", this.DV_task.consultedUserIds);
+          // formData.append("consulted_user_ids[]", this.DV_task.consultedUserIds);
+          arrayCount = 0
+          for (let u_id of this.DV_task.consultedUserIds) {
+            formData.append("consulted_user_ids["+(arrayCount++)+"]", u_id);
+          }
+          // formData.append("consulted_user_ids", this.DV_task.consultedUserIds);
 
         } else {
-          formData.append("consulted_user_ids", '');
+          formData.append("consulted_user_ids[]", []);
         }
+        // formData.append("consulted_user_ids[]", [1,2,3]);
         // Informed UserId
 
         if (this.DV_task.informedUserIds.length) {
-          // for (let u_id of this.DV_task.informedUserIds) {
-          //   formData.append("informed_user_ids["+this.guid()+"]", u_id);
-          // }
-          formData.append("informed_user_ids", this.DV_task.informedUserIds);
+          arrayCount = 0
+          for (let u_id of this.DV_task.informedUserIds) {
+            formData.append("informed_user_ids["+(arrayCount++)+"]", u_id);
+          }
+          // formData.append("informed_user_ids", this.DV_task.informedUserIds);
         } else {
-          formData.append("informed_user_ids", '');
+          formData.append("informed_user_ids[]", []);
         }
         // RACI USERS ABOVE THIS LINE  Awaiting backend work
         // More RACI Users in Computed section below
         if (this.DV_task.subTaskIds.length) {
+          arrayCount = 0
           for (let u_id of this.DV_task.subTaskIds) {
-            formData.append("sub_task_ids[]", u_id);
+            formData.append("sub_task_ids["+(arrayCount++)+"]", u_id);
           }
         } else {
           formData.append("sub_task_ids[]", []);
         }
         if (this.DV_task.subIssueIds.length) {
+          arrayCount = 0
           for (let u_id of this.DV_task.subIssueIds) {
-            formData.append("sub_issue_ids[]", u_id);
+            formData.append("sub_issue_ids["+(arrayCount++)+"]", u_id);
           }
         } else {
           formData.append("sub_issue_ids[]", []);
         }
         if (this.DV_task.subRiskIds.length) {
+          arrayCount = 0
           for (let u_id of this.DV_task.subRiskIds) {
-            formData.append("sub_risk_ids[]", u_id);
+            formData.append("sub_risk_ids["+(arrayCount++)+"]", u_id);
           }
         } else {
           formData.append("sub_risk_ids[]", []);
@@ -1899,7 +1908,7 @@ export default {
               key == "user_id"
                 ? note.user_id
                   ? note.user_id
-                  : this.$currentUser.id
+                  : this.getCurrentUser().id
                 : note[key];
                 if ( key == 'body') {
                   value = value.replace(/[^ -~]/g,'')
@@ -1907,12 +1916,14 @@ export default {
             formData.append(`notes_attributes[${i}][${key}]`, value);
           }
         }
+        arrayCount = 0
         for (let file of this.DV_task.taskFiles) {
           if (file.id) continue;
+          
           if (!file.link) {
-            formData.append("task_files["+this.guid()+"]", file);
+            formData.append("task_files["+(arrayCount++)+"]", file);
           } else if (file.link) {
-            formData.append("file_links[]", file.name);
+            formData.append("file_links["+(arrayCount++)+"]", file.name);
           }
         }
          let url = `${API_BASE_PATH}/programs/${this.$route.params.programId}/projects/${this.$route.params.projectId}/tasks`;
@@ -2057,7 +2068,7 @@ export default {
         ? `${note.user.fullName} at ${new Date(
             note.createdAt
           ).toLocaleString()}`
-        : `${this.$currentUser.full_name} at (Now)`;
+        : `${this.getCurrentUser().full_name} at (Now)`;
     },
     downloadFile(file) {
       let url = window.location.origin + file.uri;
@@ -2167,19 +2178,19 @@ export default {
     },
     isMyCheck(check) {
       return this.C_myTasks && check.id
-        ? check.user && check.user.id == this.$currentUser.id
+        ? check.user && check.user.id == this.getCurrentUser().id
         : true;
     },
     allowDeleteNote(note) {
       return (
         (this._isallowed("delete") && note.guid) ||
-        note.userId == this.$currentUser.id
+        note.userId == this.getCurrentUser().id
       );
     },
     allowEditNote(note) {
       return (
         (this._isallowed("write") && note.guid) ||
-        note.userId == this.$currentUser.id
+        note.userId == this.getCurrentUser().id
       );
     },
     disabledDateRange(date) {
@@ -2254,7 +2265,7 @@ export default {
       "myActionsFilter",
       "projectUsers",
       "taskStages",
-      "taskTypes",
+      "taskTypes"
     ]),
     taskStagesSorted() {
       var taskStagesSortedReturn = [...this.taskStages]; 

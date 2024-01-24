@@ -1,4 +1,5 @@
 const { db } = require("../database/models");
+const jwt = require("jsonwebtoken");
 
 // Function for retrieving user details
 const preferences = async (req, res) => {
@@ -15,13 +16,16 @@ const preferences = async (req, res) => {
 
 const current_user = async (req, res) => {
   try {
+    var decoded = jwt.verify( req.query.token, process.env.JWT_SECRET_KEY);
+    console.log("current user api", decoded)
     // Fetch user profile using req.userId
     const cu = require('../../static_responses/current_user.json');
 
     return({ current_user: cu });
 
   } catch (error) {
-    res.code(500).json({ error: "Error fetching data" });
+    res.code(500)
+    return({ error: "Error fetching data " + error });
   }
 };
 

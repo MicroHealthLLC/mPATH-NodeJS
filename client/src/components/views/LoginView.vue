@@ -190,7 +190,7 @@ export default {
 
             AuthorizationService.current_user = response.data.current_user //JSON.parse(current_user.replace(/&quot;/g, '"'))
             AuthorizationService.token = response.data.token
-            Vue.prototype.$currentUser = AuthorizationService.current_user;
+            AuthorizationService.refreshToken = response.data.refreshToken
             this.setUser( AuthorizationService.current_user);
             this.setToken(AuthorizationService.token);
 

@@ -1,3 +1,5 @@
+const dotenv = require('dotenv');
+dotenv.config();
 const fastify = require('fastify')({
   logger: true
 })

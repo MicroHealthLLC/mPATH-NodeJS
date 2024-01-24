@@ -2808,10 +2808,6 @@ export default new Vuex.Store({
                 ).sort((a, b) => a.name.localeCompare(b.name)),
         }      
       }
-      if(group.id == 98){
-        console.log("facilityGroupFacilities()",group.name,group.id, getters.filteredFacilities(status))
-      }
-
       return h
     },
     // for gantt chart view
@@ -3692,12 +3688,24 @@ export default new Vuex.Store({
     doLogout({ commit, dispatch }){
       commit("nullifyLocalStorage");
     },
+    verifyToken({ commit, getters }, payload) {
+      http.get(`${API_BASE_PATH}/auth/verify_token?token=${getters.getToken}`)
+      .then((res) => {
+        console.log("verifyToken", res)
+        // resolve();
+        
+      })
+      .catch((err) => {
+        console.log("verification token error",err);
+        // reject();
+      });
+    },
     fetchCurrentUser({ commit, getters }, payload) {
       return new Promise((resolve, reject) => {
         http
           .get(`${API_BASE_PATH}/users/current_user?token=${getters.getToken}`)
           .then((res) => {
-            let current_user = res.data.current_user;
+            let current_user = res.data.currentUser;
             // for (let facility of res.data.facilities) {
             //   facilities.push({...facility, ...facility.facility})
             // }

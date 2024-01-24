@@ -4,19 +4,21 @@ const { cryptPassword, comparePassword } = require("../utils/helpers");
 
 // Function for verifying JWT token
 const verifyToken = (req, res, next) => {
-  const auth_header = req.headers["authorization"];
-  if (auth_header) {
-    const token = auth_header.split(" ")[1];
-    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
-      if (err) {
-        return res.code(401).json({ error: "Invalid token" });
-      } else {
-        req.userId = decoded.userId;
-        next();
-      }
-    });
+  const token = req.query.token;
+  
+  if (token) {
+    try {
+      let decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
+      res.code(200)
+      return({ decoded: decoded, error: "Token is valid" });
+    } catch(err) {
+      res.code(401)
+      return({ error: err });
+    }
+
   } else {
-    return res.code(401).json({ error: "Token not provided" });
+    res.code(401)
+    return({ error: "Token not provided" });
   }
 };
 
@@ -54,7 +56,8 @@ const register = async (req, res) => {
     }
   } catch (error) {
     console.log(error); // Log the caught error for debugging
-    return res.code(500).json({ error: "Registration failed" });
+    res.code(500)
+    return({ error: "Registration failed" });
   }
 };
 // User login function
@@ -75,12 +78,14 @@ const login = async (req, res) => {
       // console.log("user", user_db)
 
       if (!user_db) {
-        return res.code(404).json({ error: "User not found" });
+        res.code(404)
+        return({ error: "User not found" });
       } else {
         // Compare the provided password with the hashed password
         const passwordMatch = await comparePassword(password, user_db.encrypted_password);
         if (!passwordMatch) {
-          return res.code(401).json({ error: "Invalid password" });
+          res.code(401) 
+          return({ error: "Invalid password" });
         } else {
           // Generate JWT token
           const token = jwt.sign({ userId: user_db.id }, process.env.JWT_SECRET_KEY,{ expiresIn: "1h" });
@@ -110,7 +115,8 @@ const login = async (req, res) => {
       }
     }
   } catch (error) {
-    res.code(500).json({ error: "Login failed", message: error });
+    res.code(500)
+    return({ error: "Login failed", message: error });
   }
 };
 
