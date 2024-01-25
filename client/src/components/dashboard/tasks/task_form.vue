@@ -1481,12 +1481,12 @@ export default {
     } else {
       this.loadTask(this.DV_task);
     }
-    console.log("task form current_user", this.getCurrentUser())
+    console.log("task form current_user", this.getCurrentUser(), this.getToken())
     this.loading = false;
     this._ismounted = true;
   },
   methods: {
-    ...mapGetters(['getCurrentUser','isLoggedIn']),
+    ...mapGetters(['getCurrentUser','getToken','isLoggedIn']),
     ...mapMutations(["setTaskForManager", "updateTasksHash", "updateContractTasks", "updateVehicleTasks"]),
     ...mapActions(["taskDeleted", "taskUpdated", "updateWatchedTasks"]),
     INITIAL_TASK_STATE() {
@@ -1963,6 +1963,7 @@ export default {
           headers: {
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
               .attributes["content"].value,
+            "X-authToken": 'Bearer '+this.getToken(),
             'Content-Type': 'multipart/form-data; boundary=Asrf456BGe4h'
           },
         })

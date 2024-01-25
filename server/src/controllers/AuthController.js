@@ -3,14 +3,21 @@ const jwt = require("jsonwebtoken");
 const { cryptPassword, comparePassword } = require("../utils/helpers");
 
 // Function for verifying JWT token
-const verifyToken = (req, res, next) => {
+const verifyToken = async (req, res, next) => {
   const token = req.query.token;
   
   if (token) {
     try {
       let decoded = jwt.verify(token, process.env.JWT_SECRET_KEY)
-      res.code(200)
-      return({ decoded: decoded, error: "Token is valid" });
+      console.log("verify decoded", decoded)
+      let user = await db.User.findOne({where: {id: decoded.userId}})
+      if(user){
+        res.code(200)
+        return({ message: "Token is valid" });
+      }else{
+        res.code(401)
+        return({ error: "Invalid token" });
+      }
     } catch(err) {
       res.code(401)
       return({ error: err });
@@ -88,7 +95,7 @@ const login = async (req, res) => {
           return({ error: "Invalid password" });
         } else {
           // Generate JWT token
-          const token = jwt.sign({ userId: user_db.id }, process.env.JWT_SECRET_KEY,{ expiresIn: "1h" });
+          const token = jwt.sign({ userId: user_db.id }, process.env.JWT_SECRET_KEY,{ expiresIn: "1d" });
           user_hash = {
             id: user_db.id,
             email: user_db.email,

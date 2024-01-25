@@ -57,16 +57,8 @@ const update = async (req, res) => {
     await task.save()
 
     await task.assignUsers(params)
-    
-    if(params.notes_attributes){
-      var notes = []
-      for(var note of params.notes_attributes){
-        note['noteable_id'] = task.id
-        note['noteable_type'] = "Task"
-        notes.push(note)
-      }
-      await db.Note.bulkCreate(notes)
-    }
+    await task.manageNotes(params)
+
     // task = await task.update(params)
     console.log("after update", task)
     const response = require('../../static_responses/projects_index.json');

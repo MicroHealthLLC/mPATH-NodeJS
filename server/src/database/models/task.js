@@ -78,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
         await task.save();
 
         await task.assignUsers(tParams)
-
+        await task.manageNotes(tParams)
   
         // if (subTaskIds && subTaskIds.length > 0) {
         //   const relatedTaskObjs = subTaskIds.map((sid) => ({
@@ -151,19 +151,8 @@ module.exports = (sequelize, DataTypes) => {
         //   // NOTE: as currently we don't have a solution for nested attributes
         //   // await Checklist.bulkCreate(checklistObjs, { transaction: t });
         // }
-  
-        // if (notesAttributes && Object.keys(notesAttributes).length > 0) {
-        //   const notesObjs = Object.values(notesAttributes)
-        //     .filter((value) => !value._destroy || value._destroy !== 'true')
-        //     .map((value) => ({
-        //       ...value,
-        //       noteableId: task.id,
-        //       noteableType: 'Task',
-        //     }));
-        //   await Note.bulkCreate(notesObjs, { transaction: t });
-        // }
-  
     
+        
         // NOTE: This is not working inside the Transaction block.
         // Reproduce: Create a new task with a file and link both, and it is giving an error
         // Error performing ActiveStorage::AnalyzeJob ActiveStorage::FileNotFoundError (ActiveStorage::FileNotFoundError):
@@ -179,6 +168,29 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
+    async manageNotes(params){
+      const { db } = require("./index.js");
+      if(params.notes_attributes){
+        var create_notes = []
+        var delete_note_ids = []
+        for(var note of params.notes_attributes){
+          note['noteable_id'] = this.id
+          note['noteable_type'] = "Task"
+          if(note['_destroy'] && note['_destroy'] == 'true' ){
+            delete_note_ids.push(note.id)
+          }else{
+            create_notes.push(note)
+          }            
+        }
+        if(create_notes.length > 0){
+          await db.Note.bulkCreate(create_notes, {updateOnDuplicate: ['id']})
+        }
+        if(delete_note_ids.length > 0){
+          await db.Note.destroy({ where: { id: delete_note_ids }})
+        }
+        console.log("*****delete_note_ids", delete_note_ids)
+      }
+    }
     async toJSON(){
       const { db } = require("./index.js");
       
@@ -203,7 +215,10 @@ module.exports = (sequelize, DataTypes) => {
       let facility_project = await this.getFacilityProject()
       let facility = await db.Facility.findOne({where: {id: facility_project.facility_id}})
       let task_users = await this.getTaskUsers()
-      let all_user_ids = _.uniq(task_users.map(function(e){return e.user_id}))
+      let notes = await db.Note.findAll({where: {noteable_type: 'Task', noteable_id: this.id},order: [['created_at', 'DESC']], raw: true})
+      let all_user_ids = _.compact(_.uniq(_.map(task_users, function(n){return n.user_id})))
+      var note_user_ids = _.compact(_.uniq(_.map(notes, function(n){return n.user_id})))
+      all_user_ids = _.concat(all_user_ids,note_user_ids)
       let users = await db.User.findAll({where: {id: all_user_ids}})
 
       const accountableUserIds = task_users
@@ -266,6 +281,17 @@ module.exports = (sequelize, DataTypes) => {
       _task["due_date_duplicate"] = []
       _task["attach_files"] = []
       _task["notes"] = []
+      
+      for(var note of notes){
+        let n = note
+        let user = _.find(users, function(u){ return u.id == n.user_id})
+        n['user'] = {id: user.id, full_name: user.full_name}
+
+        _task['notes'].push(n)
+        
+      }
+      _task['last_update'] = _task['notes'][0]
+
       _task["class_name"] = "Task"
 
       return _task

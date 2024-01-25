@@ -3691,13 +3691,11 @@ export default new Vuex.Store({
     verifyToken({ commit, getters }, payload) {
       http.get(`${API_BASE_PATH}/auth/verify_token?token=${getters.getToken}`)
       .then((res) => {
-        console.log("verifyToken", res)
-        // resolve();
-        
+        console.log(res.data.message)        
       })
       .catch((err) => {
+        commit("nullifyLocalStorage");
         console.log("verification token error",err);
-        // reject();
       });
     },
     fetchCurrentUser({ commit, getters }, payload) {
