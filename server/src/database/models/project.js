@@ -246,28 +246,28 @@ module.exports = (sequelize, DataTypes) => {
           // _task["class_name"] = "Task"
           
 
-          let _tchecklists = []
-          for(var i = 0; i < checklists.length; i++ ){
+          // let _tchecklists = []
+          // for(var i = 0; i < checklists.length; i++ ){
 
-            if(checklists[i].listable_id == _task.id){
+          //   if(checklists[i].listable_id == _task.id){
 
-              let c = checklists[i].toJSON()
-              c.progress_lists = []
-              c.user = {id: c.user_id, full_name: ""}
-              for(var k = 0; k < progress_lists.length; k++ ){
-                if(progress_lists[k].checklist_id == c.id){
-                  let p = progress_lists[k].toJSON()
-                  p.user = {id: p.user_id, full_name: ""}
-                  c.progress_lists.push(p)
-                }
-              }
-              _tchecklists.push(c)
-              // console.log("################# _tchecklists", _tchecklists)
+          //     let c = checklists[i].toJSON()
+          //     c.progress_lists = []
+          //     c.user = {id: c.user_id, full_name: ""}
+          //     for(var k = 0; k < progress_lists.length; k++ ){
+          //       if(progress_lists[k].checklist_id == c.id){
+          //         let p = progress_lists[k].toJSON()
+          //         p.user = {id: p.user_id, full_name: ""}
+          //         c.progress_lists.push(p)
+          //       }
+          //     }
+          //     _tchecklists.push(c)
+          //     // console.log("################# _tchecklists", _tchecklists)
 
-            }
-          }   
+          //   }
+          // }   
 
-          _task.checklists = _tchecklists
+          // _task.checklists = _tchecklists
           facility_hash.tasks.push(_task)
         }
 

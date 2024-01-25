@@ -58,7 +58,7 @@ const update = async (req, res) => {
 
     await task.assignUsers(params)
     await task.manageNotes(params)
-
+    await task.manageChecklists(params)
     // task = await task.update(params)
     console.log("after update", task)
     const response = require('../../static_responses/projects_index.json');

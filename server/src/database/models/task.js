@@ -79,7 +79,7 @@ module.exports = (sequelize, DataTypes) => {
 
         await task.assignUsers(tParams)
         await task.manageNotes(tParams)
-  
+        await task.manageChecklists(tParams)
         // if (subTaskIds && subTaskIds.length > 0) {
         //   const relatedTaskObjs = subTaskIds.map((sid) => ({
         //     relatableId: task.id,
@@ -155,7 +155,6 @@ module.exports = (sequelize, DataTypes) => {
         
         // NOTE: This is not working inside the Transaction block.
         // Reproduce: Create a new task with a file and link both, and it is giving an error
-        // Error performing ActiveStorage::AnalyzeJob ActiveStorage::FileNotFoundError (ActiveStorage::FileNotFoundError):
         // task.addLinkAttachment(params);
     
         // await task.updateClosed();
@@ -167,6 +166,34 @@ module.exports = (sequelize, DataTypes) => {
         console.error("Error in execution", error);
       }
     }
+    async manageChecklists(params){
+      const { db } = require("./index.js");
+      if(params.checklists_attributes){
+        var create_checklist = []
+        var delete_checklist_ids = []
+        for(var checklist of params.checklists_attributes){
+          
+          if(checklist['_destroy'] && checklist['_destroy'] == 'true' && checklist.id ){
+            delete_checklist_ids.push(checklist.id)
+          }else{
+            checklist['listable_id'] = this.id
+            checklist['listable_type'] = "Task"
+            
+            if(!checklist['user_id'] || checklist['user_id'] == 'null'){
+              checklist['user_id'] = this.user_id
+            }
+            create_checklist.push(checklist)
+          }
+        }
+        if(delete_checklist_ids.length > 0){
+          await db.Checklist.destroy({ where: { id: delete_checklist_ids }})
+        }
+
+        if(create_checklist.length > 0){
+          await db.Checklist.bulkCreate(create_checklist, {updateOnDuplicate: ['id']})
+        }
+      }
+    }
 
     async manageNotes(params){
       const { db } = require("./index.js");
@@ -176,7 +203,7 @@ module.exports = (sequelize, DataTypes) => {
         for(var note of params.notes_attributes){
           note['noteable_id'] = this.id
           note['noteable_type'] = "Task"
-          if(note['_destroy'] && note['_destroy'] == 'true' ){
+          if(note['_destroy'] && note['_destroy'] == 'true' && note.id ){
             delete_note_ids.push(note.id)
           }else{
             create_notes.push(note)
@@ -199,18 +226,19 @@ module.exports = (sequelize, DataTypes) => {
       // response.checklists = await this.getListable({include: [db.ProgressList]})
 
       // Add checklists
-      // _task.checklists = []
-      // let checklists = await db.Checklist.findAll({where: {listable_id: _task.id, listable_type: 'Task'}, raw: true })
-      // var checklist_ids = _.uniq(checklists.map(function(e){return e.id}))
-      // var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}})
+      _task.checklists = []
+      let checklists = await db.Checklist.findAll({where: {listable_id: _task.id, listable_type: 'Task'}, raw: true })
+      var checklist_ids = _.uniq(checklists.map(function(e){return e.id}))
+      var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}, raw: true})
 
-      // console.log("***progress lists", progress_lists)
-      
-      // for(var checklist of checklists){
-      //   checklist.user = {id: checklist.user_id, full_name: ""}
-      //   checklist.progress_lists = progress_lists.filter(function(p){ p.checklist_id == checklist.id })
-      //   _task.checklists.push(checklist)
-      // }
+      console.log("***progress lists", progress_lists)
+      console.log("***checklists lists", checklists)
+
+      for(var checklist of checklists){
+        checklist.user = {id: checklist.user_id, full_name: ""}
+        checklist.progress_lists = progress_lists.filter(function(p){ p.checklist_id == checklist.id })
+        _task.checklists.push(checklist)
+      }
 
       let facility_project = await this.getFacilityProject()
       let facility = await db.Facility.findOne({where: {id: facility_project.facility_id}})
