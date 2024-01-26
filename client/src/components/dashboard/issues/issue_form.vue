@@ -1844,12 +1844,12 @@ export default {
           }
         }
 
-       let url = `${API_BASE_PATH}/programs/${this.currentProject.id}/projects/${this.$route.params.projectId}/issues.json`;
+       let url = `${API_BASE_PATH}/programs/${this.currentProject.id}/projects/${this.$route.params.projectId}/issues`;
          if (this.contract) {
-            url =  `${API_BASE_PATH}/project_contracts/${this.$route.params.contractId}/issues.json`
+            url =  `${API_BASE_PATH}/project_contracts/${this.$route.params.contractId}/issues`
          }
          if (this.vehicle) {
-            url =  `${API_BASE_PATH}/project_contract_vehicles/${this.$route.params.vehicleId}/issues.json`
+            url =  `${API_BASE_PATH}/project_contract_vehicles/${this.$route.params.vehicleId}/issues`
          }
         let method = "POST";
         let callback = "issue-created";
@@ -1859,15 +1859,15 @@ export default {
         }        
         if (this.issue && this.issue.id && this.issue.facilityId) {  
            method = "PUT";     
-           url = `${API_BASE_PATH}/programs/${this.currentProject.id}/${this.object}/${this.issue.facilityId}/issues/${this.issue.id}.json`;
+           url = `${API_BASE_PATH}/programs/${this.currentProject.id}/${this.object}/${this.issue.facilityId}/issues/${this.issue.id}`;
         }
         if (this.issue && this.issue.id && this.issue.projectContractId) {
           method = "PATCH";
-          url =  `${API_BASE_PATH}/project_contracts/${this.$route.params.contractId}/issues/${this.issue.id}.json`;
+          url =  `${API_BASE_PATH}/project_contracts/${this.$route.params.contractId}/issues/${this.issue.id}`;
         }
         if (this.issue && this.issue.id && this.issue.projectContractVehicleId) {
           method = "PATCH";
-          url =  `${API_BASE_PATH}/project_contract_vehicles/${this.$route.params.vehicleId}/issues/${this.issue.id}.json`;
+          url =  `${API_BASE_PATH}/project_contract_vehicles/${this.$route.params.vehicleId}/issues/${this.issue.id}`;
         }
        axios({
           method: method,

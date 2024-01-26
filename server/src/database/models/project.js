@@ -214,60 +214,6 @@ module.exports = (sequelize, DataTypes) => {
 
         for(var task of tasks){
           let _task = await task.toJSON()
-          // _task["sub_tasks"] = []
-          // _task["sub_issues"] = []
-          // _task["sub_task_ids"] = []
-          // _task["sub_issue_ids"] = []
-          // _task["sub_risk_ids"] = []
-          // _task["responsible_users"] =  []
-          // _task["responsible_users_last_name"] =  []
-          // _task["responsible_users_first_name"] =  []
-          // _task["accountable_users"] =  []
-          // _task["accountable_users_last_name"] =  []
-          // _task["accountable_users_first_name"] =  []
-          // _task["consulted_users"] =  []
-          // _task["informed_users"] =  []
-          // _task["responsible_user_ids"] =  []
-          // _task["accountable_user_ids"] =  []
-          // _task["consulted_user_ids"] =  []
-          // _task["informed_user_ids"] =  []
-          // _task["facility_id"] = facility.id
-          // _task["facility_name"] =  facility.facility_name
-          // _task["contract_nickname"] =  null
-          // _task["vehicle_nickname"] =  null
-          // _task["project_id"] = this.id
-          // _task["users"] = []
-          // _task["user_ids"] = []
-          // _task["user_names"] = []
-          // _task["due_date_duplicate"] = []
-          // _task["progress_status"] = []
-          // _task["attach_files"] = []
-          // _task["notes"] = []
-          // _task["class_name"] = "Task"
-          
-
-          // let _tchecklists = []
-          // for(var i = 0; i < checklists.length; i++ ){
-
-          //   if(checklists[i].listable_id == _task.id){
-
-          //     let c = checklists[i].toJSON()
-          //     c.progress_lists = []
-          //     c.user = {id: c.user_id, full_name: ""}
-          //     for(var k = 0; k < progress_lists.length; k++ ){
-          //       if(progress_lists[k].checklist_id == c.id){
-          //         let p = progress_lists[k].toJSON()
-          //         p.user = {id: p.user_id, full_name: ""}
-          //         c.progress_lists.push(p)
-          //       }
-          //     }
-          //     _tchecklists.push(c)
-          //     // console.log("################# _tchecklists", _tchecklists)
-
-          //   }
-          // }   
-
-          // _task.checklists = _tchecklists
           facility_hash.tasks.push(_task)
         }
 

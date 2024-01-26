@@ -440,7 +440,7 @@ module.exports = (sequelize, DataTypes) => {
       if (recordsToImport.length > 0) {
         // TaskUser.import(recordsToImport);
   
-        const captains = await db.TaskUser.bulkCreate(recordsToImport);
+        const taskUsers = await db.TaskUser.bulkCreate(recordsToImport);
   
       }
       
