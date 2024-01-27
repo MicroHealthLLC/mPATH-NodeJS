@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
         let user = options.user
         let project_id = options.project_id
         let facility_id = options.facility_id
-        const issueParams = params;
+        const issueParams = params.issue;
         const issue = this;
         const iParams = { ...issueParams };
         const user_ids = iParams.user_ids;
@@ -78,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
 
         await issue.save();
 
-        await issue.assignUsers(iParams)
+        await issue.assignUsers(params)
         await issue.manageNotes(iParams)
         await issue.manageChecklists(iParams)
         // if (subTaskIds && subTaskIds.length > 0) {
@@ -255,7 +255,7 @@ module.exports = (sequelize, DataTypes) => {
           if (uid !== "undefined" && !accountableUserIds.includes(parseInt(uid))) {
             accountableResourceUsers.push({
               user_id: parseInt(uid),
-              task_id: resource.id,
+              issue_id: resource.id,
               user_type: 'accountable',
             });
           }
@@ -272,7 +272,7 @@ module.exports = (sequelize, DataTypes) => {
           if (uid !== "undefined" && !responsibleUserIds.includes(parseInt(uid))) {
             responsibleResourceUsers.push({
               user_id: parseInt(uid),
-              task_id: resource.id,
+              issue_id: resource.id,
               user_type: 'responsible',
             });
           }
@@ -289,7 +289,7 @@ module.exports = (sequelize, DataTypes) => {
           if (uid !== "undefined" && !consultedUserIds.includes(parseInt(uid))) {
             consultedResourceUsers.push({
               user_id: parseInt(uid),
-              task_id: resource.id,
+              issue_id: resource.id,
               user_type: 'consulted',
             });
           }
@@ -306,7 +306,7 @@ module.exports = (sequelize, DataTypes) => {
           if (uid !== "undefined" && !informedUserIds.includes(parseInt(uid))) {
             informedResourceUsers.push({
               user_id: parseInt(uid),
-              task_id: resource.id,
+              issue_id: resource.id,
               user_type: 'informed',
             });
           }
@@ -339,6 +339,113 @@ module.exports = (sequelize, DataTypes) => {
   
       }
       
+    }
+
+    async toJSON(){
+      const { db } = require("./index.js");
+      
+      let _resource = this.get({ plain: true });
+      //Replace this code with eager loading
+      // response.checklists = await this.getListable({include: [db.ProgressList]})
+
+      // Add checklists
+      _resource.checklists = []
+      let checklists = await db.Checklist.findAll({where: {listable_id: _resource.id, listable_type: 'Issue'}, raw: true })
+      var checklist_ids = _.uniq(checklists.map(function(e){return e.id}))
+      var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}, raw: true})
+
+      console.log("***progress lists", progress_lists)
+      console.log("***checklists lists", checklists)
+
+      for(var checklist of checklists){
+        checklist.user = {id: checklist.user_id, full_name: ""}
+        checklist.progress_lists = progress_lists.filter(function(p){ p.checklist_id == checklist.id })
+        _resource.checklists.push(checklist)
+      }
+
+      let facility_project = await this.getFacilityProject()
+      let facility = await db.Facility.findOne({where: {id: facility_project.facility_id}})
+      let issue_users = await this.getIssueUsers()
+      let notes = await db.Note.findAll({where: {noteable_type: 'Issue', noteable_id: this.id},order: [['created_at', 'DESC']], raw: true})
+      let all_user_ids = _.compact(_.uniq(_.map(issue_users, function(n){return n.user_id})))
+      var note_user_ids = _.compact(_.uniq(_.map(notes, function(n){return n.user_id})))
+      all_user_ids = _.concat(all_user_ids,note_user_ids)
+      let users = await db.User.findAll({where: {id: all_user_ids}})
+
+      const accountableUserIds = issue_users
+        .filter((ru) => ru.accountable())
+        .map((ru) => ru.user_id);
+      const responsibleUserIds = issue_users
+        .filter((ru) => ru.responsible())
+        .map((ru) => ru.user_id);
+      const consultedUserIds = issue_users
+        .filter((ru) => ru.consulted())
+        .map((ru) => ru.user_id);
+      const informedUserIds = issue_users
+        .filter((ru) => ru.informed())
+        .map((ru) => ru.user_id);      
+
+      _resource["users"] = []
+      _resource["user_ids"] = []
+      _resource["user_names"] = []
+      for(var user of users){
+        let _uh = {
+          id: user.id,
+          full_name: user.getFullName(),
+          title: user.title,
+          phone_number: user.phone_number,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          email: user.email
+        }
+        _resource['users'].push(_uh)
+        _resource["user_ids"].push(_uh.id)
+        _resource['user_names'].push(_uh.full_name)
+      }
+
+      _resource["sub_tasks"] = await db.RelatedTask.findAll({where: {relatable_type: 'Task', relatable_id: _resource.id}, raw: true })
+      _resource["sub_issues"] = await db.RelatedIssue.findAll({where: {relatable_type: 'Task', relatable_id: _resource.id}, raw: true })
+      _resource["sub_risks"] = await db.RelatedRisk.findAll({where: {relatable_type: 'Task', relatable_id: _resource.id}, raw: true })
+      _resource["sub_task_ids"] =  _.map(_resource["sub_tasks"], function(u){ return u.id} )
+      _resource["sub_issue_ids"] = _.map(_resource["sub_issues"], function(u){ return u.id} )
+      _resource["sub_risk_ids"] = _.map(_resource["sub_risks"], function(u){ return u.id} )
+      _resource["responsible_users"] =  _.filter(users, function(u){ return responsibleUserIds.includes(u.id)  })
+      _resource["responsible_users_last_name"] =  _.map(_resource["responsible_users"], function(u){ return u.last_name} )
+      _resource["responsible_users_first_name"] = _.map(_resource["responsible_users"], function(u){ return u.first_name} )
+      _resource["accountable_users"] =  _.filter(users, function(u){ return accountableUserIds.includes(u.id)  })
+      _resource["accountable_users_last_name"] =  _.map(_resource["accountable_users"], function(u){ return u.last_name} )
+      _resource["accountable_users_first_name"] =  _.map(_resource["accountable_users"], function(u){ return u.first_name} )
+      _resource["consulted_users"] =  _.filter(users, function(u){ return consultedUserIds.includes(u.id)  })
+      _resource["informed_users"] = _.filter(users, function(u){ return informedUserIds.includes(u.id)  })
+      _resource["responsible_user_ids"] = responsibleUserIds
+      _resource["accountable_user_ids"] = accountableUserIds
+      _resource["consulted_user_ids"] =  consultedUserIds
+      _resource["informed_user_ids"] =  informedUserIds
+      _resource["facility_id"] = facility.id
+      _resource["facility_name"] =  facility.facility_name
+      _resource["contract_nickname"] =  null
+      _resource["vehicle_nickname"] =  null
+      _resource["project_id"] = facility_project.project_id
+      _resource["progress_status"] = _resource.progress >= 100 ? "completed" : "active"
+      _resource["task_type_id"] = parseInt(_resource['task_type_id'])
+      _resource["issue_stage_id"] = parseInt(_resource['issue_stage_id'])
+      _resource["due_date_duplicate"] = []
+      _resource["attach_files"] = []
+      _resource["notes"] = []
+      
+      for(var note of notes){
+        let n = note
+        let user = _.find(users, function(u){ return u.id == n.user_id})
+        n['user'] = {id: user.id, full_name: user.full_name}
+
+        _resource['notes'].push(n)
+        
+      }
+      _resource['last_update'] = _resource['notes'][0]
+
+      _resource["class_name"] = "Issue"
+
+      return _resource
     }
 
   }

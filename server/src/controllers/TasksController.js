@@ -20,6 +20,7 @@ const create = async (req, res) => {
     console.log("task body", req.body)
     console.log("task params", req.params)
     let params = qs.parse(req.body)
+    let taskParams = params.task
     // const parts = await req.files();
     // console.log("************Files ", parts)
 
@@ -44,6 +45,7 @@ const update = async (req, res) => {
     var qs = require('qs');
     console.log("task params", qs.parse(req.body))
     let params = qs.parse(req.body)
+    let taskParams = params.task
     // const parts = await req.files();
     // console.log("************Files ", parts)
 
@@ -51,14 +53,14 @@ const update = async (req, res) => {
     //   console.log("*******File being access**********");
     //   console.log(data.filename); // access file name
     // }
-
+    console.log("******task params", taskParams)
     let task = await db.Task.findOne({where: {id: req.params.id } })
-    task.set(params)
+    task.set(taskParams)
     await task.save()
 
     await task.assignUsers(params)
-    await task.manageNotes(params)
-    await task.manageChecklists(params)
+    await task.manageNotes(taskParams)
+    await task.manageChecklists(taskParams)
     // task = await task.update(params)
     console.log("after update", task)
     const response = require('../../static_responses/projects_index.json');

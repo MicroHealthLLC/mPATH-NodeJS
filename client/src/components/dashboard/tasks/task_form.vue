@@ -1757,29 +1757,29 @@ export default {
         this.loading = true;
         let formData = new FormData();
 
-        formData.append("text", this.DV_task.text);
-        formData.append("due_date", this.DV_task.dueDate);
-        formData.append("start_date", this.DV_task.startDate);
-        formData.append("task_type_id", this.DV_task.taskTypeId);
-        formData.append("task_stage_id", this.DV_task.taskStageId);
-        formData.append("progress", this.DV_task.progress);
-        formData.append("auto_calculate", this.DV_task.autoCalculate);
-        formData.append("auto_calculate_planned_effort", this.DV_task.autoCalculatePlannedEffort);
-        formData.append("description", this.DV_task.description);
-        formData.append("important", this.DV_task.important);
-        formData.append("reportable", this.DV_task.reportable);
-        formData.append("on_hold", this.DV_task.onHold);
-        formData.append("draft", this.DV_task.draft);
-        formData.append("ongoing", this.DV_task.ongoing);
+        formData.append("task[text]", this.DV_task.text);
+        formData.append("task[due_date]", this.DV_task.dueDate);
+        formData.append("task[start_date]", this.DV_task.startDate);
+        formData.append("task[task_type_id]", this.DV_task.taskTypeId);
+        formData.append("task[task_stage_id]", this.DV_task.taskStageId);
+        formData.append("task[progress]", this.DV_task.progress);
+        formData.append("task[auto_calculate]", this.DV_task.autoCalculate);
+        formData.append("task[auto_calculate_planned_effort]", this.DV_task.autoCalculatePlannedEffort);
+        formData.append("task[description]", this.DV_task.description);
+        formData.append("task[important]", this.DV_task.important);
+        formData.append("task[reportable]", this.DV_task.reportable);
+        formData.append("task[on_hold]", this.DV_task.onHold);
+        formData.append("task[draft]", this.DV_task.draft);
+        formData.append("task[ongoing]", this.DV_task.ongoing);
         formData.append(
-          "destroy_file_ids",
+          "task[destroy_file_ids]",
           _.map(this.destroyedFiles, "id")
         );
 
         if (this.DV_task.autoCalculatePlannedEffort){
-          formData.append("planned_effort", this.autoCalculatedPlannedEffort);
+          formData.append("task[planned_effort]", this.autoCalculatedPlannedEffort);
         } else {
-          formData.append("planned_effort", this.DV_task.plannedEffort);
+          formData.append("task[planned_effort]", this.DV_task.plannedEffort);
         }
         // RACI USERS START HERE Awaiting backend work
         let arrayCount = 0
@@ -1840,26 +1840,26 @@ export default {
         if (this.DV_task.subTaskIds.length) {
           arrayCount = 0
           for (let u_id of this.DV_task.subTaskIds) {
-            formData.append("sub_task_ids["+(arrayCount++)+"]", u_id);
+            formData.append("task[sub_task_ids]["+(arrayCount++)+"]]", u_id);
           }
         } else {
-          formData.append("sub_task_ids[]", []);
+          formData.append("task[sub_task_ids][]", []);
         }
         if (this.DV_task.subIssueIds.length) {
           arrayCount = 0
           for (let u_id of this.DV_task.subIssueIds) {
-            formData.append("sub_issue_ids["+(arrayCount++)+"]", u_id);
+            formData.append("task[sub_issue_ids]["+(arrayCount++)+"]", u_id);
           }
         } else {
-          formData.append("sub_issue_ids[]", []);
+          formData.append("task[sub_issue_ids][]", []);
         }
         if (this.DV_task.subRiskIds.length) {
           arrayCount = 0
           for (let u_id of this.DV_task.subRiskIds) {
-            formData.append("sub_risk_ids["+(arrayCount++)+"]", u_id);
+            formData.append("task[sub_risk_ids]["+(arrayCount++)+"]", u_id);
           }
         } else {
-          formData.append("sub_risk_ids[]", []);
+          formData.append("task[sub_risk_ids][]", []);
         }
         for (let i in this.DV_task.checklists) {
           let check = this.DV_task.checklists[i];
@@ -1878,7 +1878,7 @@ export default {
             key = humps.decamelize(key);
             if (["created_at", "updated_at", "progress_lists"].includes(key))
               continue;
-            formData.append(`checklists_attributes[${i}][${key}]`, value);
+            formData.append(`task[checklists_attributes][${i}][${key}]`, value);
             for (let pi in check.progressLists) {
               let progressList = check.progressLists[pi];
               if (!progressList.body && !progressList._destroy) continue;
@@ -1893,7 +1893,7 @@ export default {
                 pkey = humps.decamelize(pkey);
                 if (["created_at", "updated_at"].includes(pkey)) continue;
                 formData.append(
-                  `checklists_attributes[${i}][progress_lists_attributes][${pi}][${pkey}]`,
+                  `task[checklists_attributes][${i}][progress_lists_attributes][${pi}][${pkey}]`,
                   pvalue
                 );
               }
@@ -1913,7 +1913,7 @@ export default {
                 if ( key == 'body') {
                   value = value.replace(/[^ -~]/g,'')
                 }           
-            formData.append(`notes_attributes[${i}][${key}]`, value);
+            formData.append(`task[notes_attributes][${i}][${key}]`, value);
           }
         }
         arrayCount = 0
@@ -1921,7 +1921,7 @@ export default {
           if (file.id) continue;
           
           if (!file.link) {
-            formData.append("task_files["+(arrayCount++)+"]", file);
+            formData.append("task[task_files]["+(arrayCount++)+"]", file);
           } else if (file.link) {
             formData.append("file_links["+(arrayCount++)+"]", file.name);
           }

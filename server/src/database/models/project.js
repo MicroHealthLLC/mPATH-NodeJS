@@ -228,64 +228,64 @@ module.exports = (sequelize, DataTypes) => {
         var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}})
 
         for(var issue of issues){
-          let _issue = issue.toJSON()
+          let _issue = await  issue.toJSON()
 
-          _issue["responsible_users"] = []
-          _issue["responsible_users_last_name"] = []
-          _issue["responsible_users_first_name"] = []
-          _issue["accountable_users"] = []
-          _issue["accountable_users_last_name"] = []
-          _issue["accountable_users_first_name"] = []
-          _issue["consulted_users"] = []
-          _issue["informed_users"] = []
-          _issue["responsible_user_ids"] = []
-          _issue["accountable_user_ids"] = []
-          _issue["consulted_user_ids"] = []
-          _issue["informed_user_ids"] = []
-          _issue["notes"] = []
-          _issue["notes_updated_at"] = null
-          _issue["last_update"] = null
-          _issue["facility_id"] = facility.id
-          _issue["facility_name"] = facility.facility_name
-          _issue["contract_nickname"] = ""
-          _issue["vehicle_nickname"] = ""
-          _issue["project_id"] = this.id
-          _issue["sub_tasks"] = []
-          _issue["sub_issues"] = []
-          _issue["sub_task_ids"] = []
-          _issue["sub_issue_ids"] = []
-          _issue["sub_risk_ids"] = []
-          _issue["users"] = []
-          _issue["user_ids"] = []
-          _issue["user_names"] = []
-          _issue["due_date_duplicate"] = []
-          _issue["progress_status"] = []
-          _issue["attach_files"] = []
-          _issue["notes"] = []
-          _issue["class_name"] = "Issue"
+          // _issue["responsible_users"] = []
+          // _issue["responsible_users_last_name"] = []
+          // _issue["responsible_users_first_name"] = []
+          // _issue["accountable_users"] = []
+          // _issue["accountable_users_last_name"] = []
+          // _issue["accountable_users_first_name"] = []
+          // _issue["consulted_users"] = []
+          // _issue["informed_users"] = []
+          // _issue["responsible_user_ids"] = []
+          // _issue["accountable_user_ids"] = []
+          // _issue["consulted_user_ids"] = []
+          // _issue["informed_user_ids"] = []
+          // _issue["notes"] = []
+          // _issue["notes_updated_at"] = null
+          // _issue["last_update"] = null
+          // _issue["facility_id"] = facility.id
+          // _issue["facility_name"] = facility.facility_name
+          // _issue["contract_nickname"] = ""
+          // _issue["vehicle_nickname"] = ""
+          // _issue["project_id"] = this.id
+          // _issue["sub_tasks"] = []
+          // _issue["sub_issues"] = []
+          // _issue["sub_task_ids"] = []
+          // _issue["sub_issue_ids"] = []
+          // _issue["sub_risk_ids"] = []
+          // _issue["users"] = []
+          // _issue["user_ids"] = []
+          // _issue["user_names"] = []
+          // _issue["due_date_duplicate"] = []
+          // _issue["progress_status"] = []
+          // _issue["attach_files"] = []
+          // _issue["notes"] = []
+          // _issue["class_name"] = "Issue"
 
-          let _tchecklists = []
-          for(var i = 0; i < checklists.length; i++ ){
+          // let _tchecklists = []
+          // for(var i = 0; i < checklists.length; i++ ){
 
-            if(checklists[i].listable_id == _issue.id){
+          //   if(checklists[i].listable_id == _issue.id){
 
-              let c = checklists[i].toJSON()
-              c.progress_lists = []
-              c.user = {id: c.user_id, full_name: ""}
-              for(var k = 0; k < progress_lists.length; k++ ){
-                if(progress_lists[k].checklist_id == c.id){
-                  let p = progress_lists[k].toJSON()
-                  p.user = {id: p.user_id, full_name: ""}
-                  c.progress_lists.push(p)
-                }
-              }
-              _tchecklists.push(c)
-              // console.log("################# _tchecklists", _tchecklists)
+          //     let c = checklists[i].toJSON()
+          //     c.progress_lists = []
+          //     c.user = {id: c.user_id, full_name: ""}
+          //     for(var k = 0; k < progress_lists.length; k++ ){
+          //       if(progress_lists[k].checklist_id == c.id){
+          //         let p = progress_lists[k].toJSON()
+          //         p.user = {id: p.user_id, full_name: ""}
+          //         c.progress_lists.push(p)
+          //       }
+          //     }
+          //     _tchecklists.push(c)
+          //     // console.log("################# _tchecklists", _tchecklists)
 
-            }
-          }   
+          //   }
+          // }   
 
-          _issue.checklists = _tchecklists
+          // _issue.checklists = _tchecklists
           // _task.checklists = await task.getListable({include: [db.ProgressList, db.User]})
           facility_hash.issues.push(_issue)
         }

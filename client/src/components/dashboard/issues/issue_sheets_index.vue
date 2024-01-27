@@ -786,8 +786,10 @@ export default {
         let taskIssueProgress = this.taskIssueProgressFilter
         let taskIssueUsers = this.getTaskIssueUserFilter
         var filterDataForAdvancedFilterFunction = this.filterDataForAdvancedFilter
+        console.log("filteredIssues", this.object)
         let issues = _.sortBy(_.filter(this.object.issues, ((resource) => {
           let valid = Boolean(resource && resource.hasOwnProperty('progress'))
+          
           let userIds = [..._.map(resource.checklists, 'userId'), ...resource.userIds]
           if (taskIssueUsers.length > 0) {
             if(taskIssueUsers.length > 0){

@@ -44,6 +44,8 @@ const update = async (req, res) => {
     var qs = require('qs');
     console.log("task params", qs.parse(req.body))
     let params = qs.parse(req.body)
+    let issueParams = params.issue
+
     // const parts = await req.files();
     // console.log("************Files ", parts)
 
@@ -53,12 +55,12 @@ const update = async (req, res) => {
     // }
 
     let issue = await db.Issue.findOne({where: {id: req.params.id } })
-    issue.set(params)
+    issue.set(issueParams)
     await issue.save()
 
     await issue.assignUsers(params)
-    await issue.manageNotes(params)
-    await issue.manageChecklists(params)
+    await issue.manageNotes(issueParams)
+    await issue.manageChecklists(issueParams)
     // task = await task.update(params)
     console.log("after update", issue)
     const response = require('../../static_responses/projects_index.json');
