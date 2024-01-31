@@ -29,10 +29,10 @@ const create = async (req, res) => {
     // }
     let issue = db.Issue.build();
     let user = await db.User.findOne({where: {email: 'admin@example.com'}})
-    await issue.createOrUpdateTask(params,{user: user, project_id: req.params.program_id, facility_id: req.params.project_id})
+    await issue.createOrUpdateIssue(params,{user: user, project_id: req.params.program_id, facility_id: req.params.project_id})
 
 
-    return({issue: await task.toJSON(), msg: "Issue created successfully" });
+    return({issue: await issue.toJSON(), msg: "Issue created successfully" });
   } catch (error) {
     res.code(500)
     return({ error: "Error fetching issue " + error });
@@ -42,7 +42,7 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   try {
     var qs = require('qs');
-    console.log("task params", qs.parse(req.body))
+    console.log("issue params", qs.parse(req.body))
     let params = qs.parse(req.body)
     let issueParams = params.issue
 
@@ -61,7 +61,6 @@ const update = async (req, res) => {
     await issue.assignUsers(params)
     await issue.manageNotes(issueParams)
     await issue.manageChecklists(issueParams)
-    // task = await task.update(params)
     console.log("after update", issue)
     const response = require('../../static_responses/projects_index.json');
 

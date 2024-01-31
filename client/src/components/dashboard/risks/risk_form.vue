@@ -2707,12 +2707,12 @@ export default {
           }
         }
 
-       let url = `${API_BASE_PATH}/programs/${this.currentProject.id}/projects/${this.$route.params.projectId}/risks.json`;
+       let url = `${API_BASE_PATH}/programs/${this.currentProject.id}/projects/${this.$route.params.projectId}/risks`;
         if (this.contract) {
-            url =  `${API_BASE_PATH}/project_contracts/${this.$route.params.contractId}/risks.json`
+            url =  `${API_BASE_PATH}/project_contracts/${this.$route.params.contractId}/risks`
          }
          if (this.vehicle) {
-            url =  `${API_BASE_PATH}/project_contract_vehicles/${this.$route.params.vehicleId}/risks.json`
+            url =  `${API_BASE_PATH}/project_contract_vehicles/${this.$route.params.vehicleId}/risks`
          }
         let method = "POST";
         let callback = "risk-created";
@@ -2722,15 +2722,15 @@ export default {
         }
         if (this.risk && this.risk.id && this.risk.facilityId) {
           method = "PUT";
-          url = `${API_BASE_PATH}/programs/${this.currentProject.id}/projects/${this.risk.facilityId}/risks/${this.risk.id}.json`;
+          url = `${API_BASE_PATH}/programs/${this.currentProject.id}/projects/${this.risk.facilityId}/risks/${this.risk.id}`;
         }
         if (this.risk && this.risk.id && this.risk.projectContractId) {
           method = "PATCH";
-          url =  `${API_BASE_PATH}/project_contracts/${this.$route.params.contractId}/risks/${this.risk.id}.json`;
+          url =  `${API_BASE_PATH}/project_contracts/${this.$route.params.contractId}/risks/${this.risk.id}`;
         }
         if (this.risk && this.risk.id && this.risk.projectContractVehicleId) {
           method = "PATCH";
-          url =  `${API_BASE_PATH}/project_contract_vehicles/${this.$route.params.vehicleId}/risks/${this.risk.id}.json`;
+          url =  `${API_BASE_PATH}/project_contract_vehicles/${this.$route.params.vehicleId}/risks/${this.risk.id}`;
         }
         // var beforeRisk = this.risk
         axios({

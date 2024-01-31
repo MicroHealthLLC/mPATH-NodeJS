@@ -302,65 +302,65 @@ module.exports = (sequelize, DataTypes) => {
         var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}})
 
         for(var risk of risks){
-          let _risk = risk.toJSON()
+          let _risk = await risk.toJSON()
 
-          _risk["task_type"] =  {}
-          _risk["responsible_users"] = []
-          _risk["responsible_users_last_name"] = []
-          _risk["responsible_users_first_name"] = []
-          _risk["accountable_users"] = []
-          _risk["accountable_users_last_name"] = []
-          _risk["accountable_users_first_name"] = []
-          _risk["consulted_users"] = []
-          _risk["informed_users"] = []
-          _risk["responsible_user_ids"] = []
-          _risk["accountable_user_ids"] = []
-          _risk["consulted_user_ids"] = []
-          _risk["informed_user_ids"] = []
-          _risk["notes"] = []
-          _risk["notes_updated_at"] = null
-          _risk["last_update"] = null
-          _risk["facility_id"] = facility.id
-          _risk["facility_name"] = facility.facility_name
-          _risk["contract_nickname"] = ""
-          _risk["vehicle_nickname"] = ""
-          _risk["project_id"] = this.id
-          _risk["sub_tasks"] = []
-          _risk["sub_issues"] = []
-          _risk["sub_task_ids"] = []
-          _risk["sub_issue_ids"] = []
-          _risk["sub_risk_ids"] = []
-          _risk["users"] = []
-          _risk["user_ids"] = []
-          _risk["user_names"] = []
-          _risk["due_date_duplicate"] = []
-          _risk["progress_status"] = []
-          _risk["attach_files"] = []
-          _risk["notes"] = []
-          _risk["class_name"] = "Risk"
+          // _risk["task_type"] =  {}
+          // _risk["responsible_users"] = []
+          // _risk["responsible_users_last_name"] = []
+          // _risk["responsible_users_first_name"] = []
+          // _risk["accountable_users"] = []
+          // _risk["accountable_users_last_name"] = []
+          // _risk["accountable_users_first_name"] = []
+          // _risk["consulted_users"] = []
+          // _risk["informed_users"] = []
+          // _risk["responsible_user_ids"] = []
+          // _risk["accountable_user_ids"] = []
+          // _risk["consulted_user_ids"] = []
+          // _risk["informed_user_ids"] = []
+          // _risk["notes"] = []
+          // _risk["notes_updated_at"] = null
+          // _risk["last_update"] = null
+          // _risk["facility_id"] = facility.id
+          // _risk["facility_name"] = facility.facility_name
+          // _risk["contract_nickname"] = ""
+          // _risk["vehicle_nickname"] = ""
+          // _risk["project_id"] = this.id
+          // _risk["sub_tasks"] = []
+          // _risk["sub_issues"] = []
+          // _risk["sub_task_ids"] = []
+          // _risk["sub_issue_ids"] = []
+          // _risk["sub_risk_ids"] = []
+          // _risk["users"] = []
+          // _risk["user_ids"] = []
+          // _risk["user_names"] = []
+          // _risk["due_date_duplicate"] = []
+          // _risk["progress_status"] = []
+          // _risk["attach_files"] = []
+          // _risk["notes"] = []
+          // _risk["class_name"] = "Risk"
 
-          let _tchecklists = []
-          for(var i = 0; i < checklists.length; i++ ){
+          // let _tchecklists = []
+          // for(var i = 0; i < checklists.length; i++ ){
 
-            if(checklists[i].listable_id == _risk.id){
+          //   if(checklists[i].listable_id == _risk.id){
 
-              let c = checklists[i].toJSON()
-              c.progress_lists = []
-              c.user = {id: c.user_id, full_name: ""}
-              for(var k = 0; k < progress_lists.length; k++ ){
-                if(progress_lists[k].checklist_id == c.id){
-                  let p = progress_lists[k].toJSON()
-                  p.user = {id: p.user_id, full_name: ""}
-                  c.progress_lists.push(p)
-                }
-              }
-              _tchecklists.push(c)
-              // console.log("################# _tchecklists", _tchecklists)
+          //     let c = checklists[i].toJSON()
+          //     c.progress_lists = []
+          //     c.user = {id: c.user_id, full_name: ""}
+          //     for(var k = 0; k < progress_lists.length; k++ ){
+          //       if(progress_lists[k].checklist_id == c.id){
+          //         let p = progress_lists[k].toJSON()
+          //         p.user = {id: p.user_id, full_name: ""}
+          //         c.progress_lists.push(p)
+          //       }
+          //     }
+          //     _tchecklists.push(c)
+          //     // console.log("################# _tchecklists", _tchecklists)
 
-            }
-          }   
+          //   }
+          // }   
 
-          _risk.checklists = _tchecklists
+          // _risk.checklists = _tchecklists
           // _task.checklists = await task.getListable({include: [db.ProgressList, db.User]})
           facility_hash.risks.push(_risk)
         }
