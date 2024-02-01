@@ -346,6 +346,11 @@ module.exports = (sequelize, DataTypes) => {
       _resource['priority_level_name'] = this.getPriorityLevelName(_resource['priority_level'])
       _resource['probability_name'] = this.getProbabilityName(_resource['probability'])
       _resource['impact_level_name'] = this.getImpactLevelName(_resource['impact_level'])
+      _resource['impact_level'] = parseInt(_resource['impact_level'])
+      _resource['priority_level'] = parseInt(_resource['priority_level'])
+      _resource['probability'] = parseInt(_resource['probability'])
+      _resource['status'] = parseInt(_resource['status'])
+      _resource['duration'] = parseInt(_resource['duration'])
       //Replace this code with eager loading
       // response.checklists = await this.getListable({include: [db.ProgressList]})
 
@@ -510,6 +515,19 @@ module.exports = (sequelize, DataTypes) => {
       return {
         'avoid': 0, 'mitigate': 1, "transfer": 2 ,'accept': 3 
       }[v]
+    }
+    getDurationNameHash(){
+      return {
+        1: "Temporary",
+        2: "Perpetual"
+      }
+    }
+    getDurationName(duration_number){
+      if(this.getDurationNameHash()[duration_number]){
+        return this.getDurationNameHash()[duration_number]
+      }else{
+        return this.getDurationNameHash()[1]
+      }
     }
   }
   Risk.init({

@@ -884,7 +884,7 @@ Tab 1 Row Begins here -->
                                     <span> {{ progress.user.fullName }}</span>
                                   </span>
                                   <span v-else>
-                                    {{ $currentUser.full_name }}
+                                    {{ getCurrentUser().full_name }}
                                   </span>
                                 </td>
                                 <td
@@ -1255,7 +1255,7 @@ Tab 1 Row Begins here -->
                         >{{ note.user.fullName }} on
                         {{ new Date(note.updatedAt).toLocaleString() }}</span
                       ><span v-else
-                        >{{ $currentUser.full_name }} on
+                        >{{ getCurrentUser().full_name }} on
                         {{ new Date().toLocaleDateString() }}</span
                       ></el-tag
                     >
@@ -1408,6 +1408,7 @@ export default {
     }
   },
   methods: {
+    ...mapGetters(['getCurrentUser','getToken','isLoggedIn']),
     ...mapMutations(["setTaskForManager", "updateIssuesHash", "updateContractIssues", "updateVehicleIssues"]),
     ...mapActions(["issueDeleted", "taskUpdated", "updateWatchedIssues"]),
     INITIAL_ISSUE_STATE() {
@@ -1826,7 +1827,7 @@ export default {
               key == "user_id"
                 ? note.user_id
                   ? note.user_id
-                  : this.$currentUser.id
+                  : this.getCurrentUser().id
                 : note[key];
             if ( key == 'body') {
                   value = value.replace(/[^ -~]/g,'')
@@ -1954,7 +1955,7 @@ export default {
         ? `${note.user.fullName} at ${new Date(
             note.createdAt
           ).toLocaleString()}`
-        : `${this.$currentUser.full_name} at (Now)`;
+        : `${this.getCurrentUser().full_name} at (Now)`;
     },
     downloadFile(file) {
       let url = window.location.origin + file.uri;
@@ -2045,19 +2046,19 @@ export default {
     },
     isMyCheck(check) {
       return this.C_myIssues && check.id
-        ? check.user && check.user.id == this.$currentUser.id
+        ? check.user && check.user.id == this.getCurrentUser().id
         : true;
     },
     allowDeleteNote(note) {
       return (
         (this._isallowed("delete") && note.guid) ||
-        note.userId == this.$currentUser.id
+        note.userId == this.getCurrentUser().id
       );
     },
     allowEditNote(note) {
       return (
         (this._isallowed("write") && note.guid) ||
-        note.userId == this.$currentUser.id
+        note.userId == this.getCurrentUser().id
       );
     },
     disabledDateRange(date) {

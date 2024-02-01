@@ -1545,7 +1545,7 @@
                                       <span> {{ progress.user.fullName }}</span>
                                     </span>
                                     <span v-else>
-                                      {{ $currentUser.full_name }}
+                                      {{ getCurrentUser().full_name }}
                                     </span>
                                   </td>
                                   <td
@@ -2000,7 +2000,7 @@
                           >{{ note.user.fullName }} on
                           {{ new Date(note.updatedAt).toLocaleString() }}</span
                         ><span v-else
-                          >{{ $currentUser.full_name }} on
+                          >{{ getCurrentUser().full_name }} on
                           {{ new Date().toLocaleDateString() }}</span
                         ></el-tag
                       >
@@ -2178,6 +2178,7 @@ export default {
     }
   },
   methods: {
+    ...mapGetters(['getCurrentUser','getToken','isLoggedIn']),
     ...mapMutations([
       "setRiskForManager",
       "setRiskProbabilityOptions",
@@ -2470,7 +2471,7 @@ export default {
         return;
       this.DV_risk = { ...this.DV_risk, approved: !this.DV_risk.approved };
       this.DV_risk.approvalTime =
-        this.$currentUser.full_name + " on " + new Date().toLocaleString();
+        this.getCurrentUser().full_name + " on " + new Date().toLocaleString();
       if (!this.DV_risk.approved) {
         this.DV_risk.approvalTime = "";
       }
@@ -2690,7 +2691,7 @@ export default {
               key == "user_id"
                 ? note.user_id
                   ? note.user_id
-                  : this.$currentUser.id
+                  : this.getCurrentUser().id
                 : note[key];
                 if ( key == 'body') {
                   value = value.replace(/[^ -~]/g,'')
@@ -2744,6 +2745,7 @@ export default {
         })
           .then((response) => {
             var responseRisk = humps.camelizeKeys(response.data.risk);
+            console.log("SAVED Risk", responseRisk)
             this.loadRisk(responseRisk);
             //this.$emit(callback, responseRisk);
             if (this.$route.params.contractId){
@@ -2858,7 +2860,7 @@ export default {
         ? `${note.user.fullName} at ${new Date(
             note.createdAt
           ).toLocaleString()}`
-        : `${this.$currentUser.full_name} at (Now)`;
+        : `${this.getCurrentUser().full_name} at (Now)`;
     },
     addNote() {
       this.DV_risk.notes.unshift({ body: "", user_id: "", guid: this.guid() });
@@ -2914,19 +2916,19 @@ export default {
     },
     isMyCheck(check) {
       return this.C_myRisks && check.id
-        ? check.user && check.user.id == this.$currentUser.id
+        ? check.user && check.user.id == this.getCurrentUser().id
         : true;
     },
     allowDeleteNote(note) {
       return (
         (this._isallowed("delete") && note.guid) ||
-        note.userId == this.$currentUser.id
+        note.userId == this.getCurrentUser().id
       );
     },
     allowEditNote(note) {
       return (
         (this._isallowed("write") && note.guid) ||
-        note.userId == this.$currentUser.id
+        note.userId == this.getCurrentUser().id
       );
     },
     disabledDateRange(date) {

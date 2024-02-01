@@ -32,7 +32,7 @@ const create = async (req, res) => {
     await risk.createOrUpdateRisk(params,{user: user, project_id: req.params.program_id, facility_id: req.params.project_id})
 
 
-    return({risk: await task.toJSON(), msg: "Risk created successfully" });
+    return({risk: await risk.toJSON(), msg: "Risk created successfully" });
   } catch (error) {
     res.code(500)
     return({ error: "Error fetching risk " + error });
@@ -42,7 +42,7 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   try {
     var qs = require('qs');
-    console.log("task params", qs.parse(req.body))
+    console.log("risk params", qs.parse(req.body))
     let params = qs.parse(req.body)
     let riskParams = params.risk
 
@@ -63,7 +63,7 @@ const update = async (req, res) => {
     await risk.assignUsers(params)
     await risk.manageNotes(riskParams)
     await risk.manageChecklists(riskParams)
-    // task = await task.update(params)
+    // risk = await risk.update(params)
     console.log("after update", risk)
     const response = require('../../static_responses/projects_index.json');
 

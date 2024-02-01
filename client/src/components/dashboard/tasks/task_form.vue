@@ -945,7 +945,7 @@
                                     <span> {{ progress.user.fullName }}</span>
                                   </span>
                                   <span v-else>
-                                    {{ $currentUser.full_name }}
+                                    {{ getCurrentUser().full_name }}
                                   </span>
                                 </td>
                                 <td
@@ -1316,7 +1316,7 @@
                         >{{ note.user.fullName }} on
                         {{ new Date(note.updatedAt).toLocaleString() }}</span
                       ><span v-else
-                        >{{ $currentUser.full_name }} on
+                        >{{ getCurrentUser().full_name }} on
                         {{ new Date().toLocaleDateString() }}</span
                       ></el-tag
                     >
