@@ -64,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
         await lesson.save();
 
         await lesson.manageNotes(iParams)
-        await lesson.addLessonDetail(iParams)
+        await lesson.addLessonDetail(iParams,user)
         // if (subTaskIds && subTaskIds.length > 0) {
         //   const relatedTaskObjs = subTaskIds.map((sid) => ({
         //     relatableId: lesson.id,
@@ -177,7 +177,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
-    async addLessonDetail(params){
+    async addLessonDetail(params,user){
       const { db } = require("./index.js");
       var create_lesson_details = []
       var delete_lesson_detail_ids = []
@@ -193,6 +193,9 @@ module.exports = (sequelize, DataTypes) => {
           }else{
             if(success['id'] == ''){
               delete(success['id'])
+            }
+            if(success['user_id'] == '' || success['user_id'] == 'null'){
+              success['user_id'] = user.id
             } 
             create_lesson_details.push(success)
           }          
@@ -207,7 +210,10 @@ module.exports = (sequelize, DataTypes) => {
           }else{
             if(failure['id'] == ''){
               delete(failure['id'])
-            }   
+            }
+            if(failure['user_id'] == '' || failure['user_id'] == 'null'){
+              failure['user_id'] = user.id
+            } 
             create_lesson_details.push(failure)
           } 
         }
@@ -221,7 +227,10 @@ module.exports = (sequelize, DataTypes) => {
           }else{
             if(best_practice['id'] == ''){
               delete(best_practice['id'])
-            }            
+            }
+            if(best_practice['user_id'] == '' || best_practice['user_id'] == 'null'){
+              best_practice['user_id'] = user.id
+            }           
             create_lesson_details.push(best_practice)
           } 
         }
@@ -261,9 +270,18 @@ module.exports = (sequelize, DataTypes) => {
       let facility = await db.Facility.findOne({where: {id: facility_project.facility_id}})
       let lesson_users = await this.getLessonUsers()
       let notes = await db.Note.findAll({where: {noteable_type: 'Lesson', noteable_id: this.id},order: [['created_at', 'DESC']], raw: true})
+
+      let successes = await db.LessonDetail.findAll({where: {lesson_id: this.id, detail_type: 'success'}, raw: true})
+      let failures = await db.LessonDetail.findAll({where: {lesson_id: this.id, detail_type: 'failure'}, raw: true})
+      let best_practices = await db.LessonDetail.findAll({where: {lesson_id: this.id, detail_type: 'best_practice'}, raw: true})
+
       let all_user_ids = _.compact(_.uniq(_.map(lesson_users, function(n){return n.user_id})))
+      let successes_user_ids = _.compact(_.uniq(_.map(successes, function(n){return n.user_id})))
+      let failures_user_ids = _.compact(_.uniq(_.map(failures, function(n){return n.user_id})))
+      let best_practices_user_ids = _.compact(_.uniq(_.map(best_practices, function(n){return n.user_id})))
+      
       var note_user_ids = _.compact(_.uniq(_.map(notes, function(n){return n.user_id})))
-      all_user_ids = _.concat(all_user_ids,note_user_ids)
+      all_user_ids = _.compact(_.uniq(_.concat(all_user_ids,note_user_ids,successes_user_ids, failures_user_ids,best_practices_user_ids)))
       let users = await db.User.findAll({where: {id: all_user_ids}})
       var program = await facility_project.getProject()
       _resource["program_name"] = program.name
@@ -302,16 +320,38 @@ module.exports = (sequelize, DataTypes) => {
         id: user.id,
         full_name: user.getFullName()
       }
-      _resource["successes"] = await db.LessonDetail.findAll({where: {lesson_id: this.id, detail_type: 'success'}, raw: true})
-      _resource["failures"] =await db.LessonDetail.findAll({where: {lesson_id: this.id, detail_type: 'failure'}, raw: true})
-      _resource["best_practices"] = await db.LessonDetail.findAll({where: {lesson_id: this.id, detail_type: 'best_practice'}, raw: true})
+
+      _resource["successes"] = []
+      for(var success of successes){
+        let user = _.find(users, function(u){ return u.id == success.user_id})
+        if(user)
+          success['user'] = {id: user.id, full_name: user.full_name}
+        _resource["successes"].push(success)
+      }
+      
+      _resource["failures"] = []
+      for(var failure of failures){
+        let user = _.find(users, function(u){ return u.id == failure.user_id})
+        if(user)
+          success['user'] = {id: user.id, full_name: user.full_name}
+        _resource["failures"].push(failure)
+      }
+      
+      _resource["best_practices"] = []
+      for(var best_practice of best_practices){
+        let user = _.find(users, function(u){ return u.id == best_practice.user_id})
+        if(user)
+          success['user'] = {id: user.id, full_name: user.full_name}
+        _resource["best_practices"].push(best_practice)
+      }
+
       _resource["attach_files"] = []
       _resource["sub_tasks"] = await db.RelatedTask.findAll({where: {relatable_type: 'Lesson', relatable_id: _resource.id}, raw: true })
       _resource["sub_issues"] = await db.RelatedIssue.findAll({where: {relatable_type: 'Lesson', relatable_id: _resource.id}, raw: true })
-      _resource["sub_lessons"] = await db.RelatedRisk.findAll({where: {relatable_type: 'Lesson', relatable_id: _resource.id}, raw: true })
+      _resource["sub_risks"] = await db.RelatedRisk.findAll({where: {relatable_type: 'Lesson', relatable_id: _resource.id}, raw: true })
       _resource["sub_task_ids"] =  _.map(_resource["sub_tasks"], function(u){ return u.id} )
       _resource["sub_issue_ids"] = _.map(_resource["sub_issues"], function(u){ return u.id} )
-      _resource["sub_lesson_ids"] = _.map(_resource["sub_lessons"], function(u){ return u.id} )
+      _resource["sub_risks"] = _.map(_resource["sub_risks"], function(u){ return u.id} )
 
       _resource["task_type_id"] = parseInt(_resource['task_type_id'])
       _resource["notes"] = []

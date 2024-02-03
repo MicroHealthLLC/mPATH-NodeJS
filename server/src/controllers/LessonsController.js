@@ -82,13 +82,14 @@ const update = async (req, res) => {
     // }
 
     let lesson = await db.Lesson.findOne({where: {id: req.params.id } })
+    let user = await db.User.findOne({where: {email: 'admin@example.com'}})
 
     lesson.set(lessonParams)
     await lesson.save()
 
     await lesson.manageNotes(lessonParams)
 
-    await lesson.addLessonDetail(lessonParams)
+    await lesson.addLessonDetail(lessonParams,user)
     console.log("lesson params", qs.parse(req.body))
 
     // lesson = await lesson.update(params)
