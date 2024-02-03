@@ -2,7 +2,9 @@
 const { 
         index,
         program_lessons,
-        show
+        show,
+        update,
+        create
       } = require("../controllers/LessonsController");
 
 // const router = Router();
@@ -17,5 +19,8 @@ async function routes (fastify, options) {
   fastify.get("/api/v1/programs/:program_id/lessons", program_lessons);
   fastify.get("/api/v1/programs/:program_id/projects/:project_id/lessons", index);
   fastify.get("/api/v1/programs/:program_id/projects/:project_id/lessons/:id.json", show);
+  fastify.post("/api/v1/programs/:program_id/projects/:project_id/lessons/:id", create);
+  fastify.patch("/api/v1/programs/:program_id/projects/:project_id/lessons/:id", update);
+
 }
 module.exports = routes

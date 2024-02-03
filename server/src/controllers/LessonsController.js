@@ -70,7 +70,6 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   try {
     var qs = require('qs');
-    console.log("lesson params", qs.parse(req.body))
     let params = qs.parse(req.body)
     let lessonParams = params.lesson
 
@@ -83,16 +82,17 @@ const update = async (req, res) => {
     // }
 
     let lesson = await db.Lesson.findOne({where: {id: req.params.id } })
-    lessonParams['lesson_approach'] = lesson.getLessonApproachValue(lessonParams['lesson_approach']) 
 
     lesson.set(lessonParams)
     await lesson.save()
 
-    await lesson.assignUsers(params)
     await lesson.manageNotes(lessonParams)
-    await lesson.manageChecklists(lessonParams)
+
+    await lesson.addLessonDetail(lessonParams)
+    console.log("lesson params", qs.parse(req.body))
+
     // lesson = await lesson.update(params)
-    console.log("after update", lesson)
+    // console.log("after update", lesson)
     const response = require('../../static_responses/projects_index.json');
 
     return({lesson: await lesson.toJSON(), msg: "Lesson updated successfully" });

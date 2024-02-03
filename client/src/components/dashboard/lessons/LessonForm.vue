@@ -543,6 +543,7 @@ export default {
     };
   },
   methods: {
+    ...mapGetters(['getCurrentUser','getToken','isLoggedIn']),
     ...mapActions(["addLesson", "fetchLesson", "fetchContractLesson", "updateLesson", "updateContractLesson", "addContractLesson", "fetchVehicleLesson", "updateVehicleLesson", "addVehicleLesson"]),
     ...mapMutations(["SET_LESSON", "SET_LESSON_STATUS", "SET_CONTRACT_LESSON", "SET_CONTRACT_LESSON_STATUS", "SET_VEHICLE_LESSON", "SET_VEHICLE_LESSON_STATUS"]),
     saveLesson() {
@@ -589,7 +590,7 @@ export default {
               ...this.$route.params,
             });
           } else {
-            lessonData.lesson.user_id = this.$currentUser.id;
+            lessonData.lesson.user_id = this.getCurrentUser().id;
             this.addLesson({
               ...lessonData,
               ...this.$route.params,
@@ -604,7 +605,7 @@ export default {
               ...this.$route.params,
             });
           } else {
-            lessonData.lesson.user_id = this.$currentUser.id;
+            lessonData.lesson.user_id = this.getCurrentUser().id;
             this.addContractLesson({
               ...lessonData,
               ...this.$route.params,
@@ -619,7 +620,7 @@ export default {
               ...this.$route.params,
             });
           } else {
-            lessonData.lesson.user_id = this.$currentUser.id;
+            lessonData.lesson.user_id = this.getCurrentUser().id;
             this.addVehicleLesson({
               ...lessonData,
               ...this.$route.params,

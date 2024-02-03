@@ -27,11 +27,212 @@ module.exports = (sequelize, DataTypes) => {
       // this.hasMany(models.LessonDetail);
       // this.hasMany(models.RelatedTask);
       // this.hasMany(models.RelatedIssue);
-      // this.hasMany(models.RelatedRisk);
+      // this.hasMany(models.RelatedLesson);
       // // this.belongsToMany(models.SubTask,{through: models.RelatedTask, foreignKey: '', otherKey: '' });
       // // this.belongsToMany(models.SubIssue,{through: models.RelatedIssue, foreignKey: '', otherKey: '' });
-      // // this.belongsToMany(models.SubRisk,{through: models.RelatedRisk, foreignKey: '', otherKey: '' })
+      // // this.belongsToMany(models.SubLesson,{through: models.RelatedLesson, foreignKey: '', otherKey: '' })
 
+    }
+
+    async createOrUpdateLesson(params, options) {
+      try {
+        const { db } = require("./index.js");
+        let user = options.user
+        let project_id = options.project_id
+        let facility_id = options.facility_id
+        const lessonParams = params.lesson;
+        const lesson = this;
+        const iParams = { ...lessonParams };
+        const user_ids = iParams.user_ids;
+        // const subTaskIds = iParams.subTaskIds;
+        // const subLessonIds = iParams.subLessonIds;
+        // const subLessonIds = iParams.subLessonIds;
+        // const notesAttributes = iParams.notesAttributes;
+      
+        let facility_project = await db.FacilityProject.findOne({where: {project_id: project_id, facility_id: facility_id}, raw: true})
+        iParams['facility_project_id'] = facility_project.id
+        console.log("**********iParams", iParams)
+
+        lesson.setAttributes(iParams);
+        
+        if (iParams.project_contract_id) {
+          lesson.project_contract_id = params.project_contract_id;
+        } else if (iParams.project_contract_vehicle_id) {
+          lesson.project_contract_vehicle_id = params.project_contract_vehicle_id;
+        }
+      
+        await lesson.save();
+
+        await lesson.manageNotes(iParams)
+        await lesson.addLessonDetail(iParams)
+        // if (subTaskIds && subTaskIds.length > 0) {
+        //   const relatedTaskObjs = subTaskIds.map((sid) => ({
+        //     relatableId: lesson.id,
+        //     relatableType: 'Lesson',
+        //     lessonId: sid,
+        //   }));
+        //   const relatedTaskObjs2 = subTaskIds.map((sid) => ({
+        //     relatableId: sid,
+        //     relatableType: 'Lesson',
+        //     lessonId: lesson.id,
+        //   }));
+        //   await RelatedTask.bulkCreate(relatedTaskObjs, { transaction: t });
+        //   await RelatedTask.bulkCreate(relatedTaskObjs2, { transaction: t });
+        // }
+  
+        // if (subLessonIds && subLessonIds.length > 0) {
+        //   const relatedLessonObjs = subLessonIds.map((sid) => ({
+        //     relatableId: lesson.id,
+        //     relatableType: 'Lesson',
+        //     lessonId: sid,
+        //   }));
+        //   const relatedTaskObjs2 = subLessonIds.map((sid) => ({
+        //     relatableId: sid,
+        //     relatableType: 'Lesson',
+        //     lessonId: lesson.id,
+        //   }));
+        //   await RelatedLesson.bulkCreate(relatedLessonObjs, { transaction: t });
+        //   await RelatedTask.bulkCreate(relatedTaskObjs2, { transaction: t });
+        // }
+  
+        // if (subLessonIds && subLessonIds.length > 0) {
+        //   const relatedLessonObjs = subLessonIds.map((sid) => ({
+        //     relatableId: lesson.id,
+        //     relatableType: 'Lesson',
+        //     lessonId: sid,
+        //   }));
+        //   const relatedTaskObjs2 = subLessonIds.map((sid) => ({
+        //     relatableId: sid,
+        //     relatableType: 'Lesson',
+        //     lessonId: lesson.id,
+        //   }));
+        //   await RelatedLesson.bulkCreate(relatedLessonObjs, { transaction: t });
+        //   await RelatedTask.bulkCreate(relatedTaskObjs2, { transaction: t });
+        // }
+  
+        // if (checklistsAttributes && Object.keys(checklistsAttributes).length > 0) {
+        //   const checklistObjs = Object.values(checklistsAttributes).map((value) => {
+        //     if (value.id) {
+        //       const c = allChecklists.find((cc) => cc.id === parseInt(value.id));
+        //       if (value._destroy && value._destroy === 'true') {
+        //         return c.destroy({ transaction: t });
+        //       } else {
+        //         c.setAttributes(value);
+        //         return c.save({ transaction: t });
+        //       }
+        //     } else {
+        //       delete value._destroy;
+        //       const c = Checklist.build({
+        //         ...value,
+        //         listableId: lesson.id,
+        //         listableType: 'Lesson',
+        //       });
+        //       c.progressLists.forEach((p) => {
+        //         p.userId = user.id;
+        //       });
+        //       return c.save({ transaction: t });
+        //     }
+        //   });
+        //   // NOTE: as currently we don't have a solution for nested attributes
+        //   // await Checklist.bulkCreate(checklistObjs, { transaction: t });
+        // }
+    
+        
+        // NOTE: This is not working inside the Transaction block.
+        // Reproduce: Create a new lesson with a file and link both, and it is giving an error
+        // lesson.addLinkAttachment(params);
+    
+        // await lesson.updateClosed();
+    
+        // await lesson.reload();
+        return lesson;
+      } catch (error) {
+        // Handle the error
+        console.error("Error in execution", error);
+      }
+    }
+
+
+    async manageNotes(params){
+      const { db } = require("./index.js");
+      if(params.notes_attributes){
+        var create_notes = []
+        var delete_note_ids = []
+        for(var note of params.notes_attributes){
+          note['noteable_id'] = this.id
+          note['noteable_type'] = "Lesson"
+          if(note['_destroy'] && note['_destroy'] == 'true' && note.id ){
+            delete_note_ids.push(note.id)
+          }else{
+            create_notes.push(note)
+          }            
+        }
+        if(create_notes.length > 0){
+          await db.Note.bulkCreate(create_notes, {updateOnDuplicate: ['id']})
+        }
+        if(delete_note_ids.length > 0){
+          await db.Note.destroy({ where: { id: delete_note_ids }})
+        }
+        console.log("*****delete_note_ids", delete_note_ids)
+      }
+    }
+
+    async addLessonDetail(params){
+      const { db } = require("./index.js");
+      var create_lesson_details = []
+      var delete_lesson_detail_ids = []
+      var successes = params['successes']
+      var failures = params['failures']
+      var best_practices = params['best_practices']
+      if(successes){
+        for(var success of successes){
+          success['detail_type'] = "success"
+          success['lesson_id'] = this.id
+          if(success['id'] && success['_destroy'] == 'true'){
+            delete_lesson_detail_ids.push(success['id'])
+          }else{
+            if(success['id'] == ''){
+              delete(success['id'])
+            } 
+            create_lesson_details.push(success)
+          }          
+        }
+      }
+      if(failures){
+        for(var failure of failures){
+          failure['detail_type'] = "failure"
+          failure['lesson_id'] = this.id
+          if(failure['id'] && failure['_destroy'] == 'true'){
+            delete_lesson_detail_ids.push(failure['id'])
+          }else{
+            if(failure['id'] == ''){
+              delete(failure['id'])
+            }   
+            create_lesson_details.push(failure)
+          } 
+        }
+      }
+      if(best_practices){
+        for(var best_practice of best_practices){
+          best_practice['detail_type'] = "best_practice"
+          best_practice['lesson_id'] = this.id
+          if(best_practice['id'] && best_practice['_destroy'] == 'true'){
+            delete_lesson_detail_ids.push(best_practice['id'])
+          }else{
+            if(best_practice['id'] == ''){
+              delete(best_practice['id'])
+            }            
+            create_lesson_details.push(best_practice)
+          } 
+        }
+      }
+      console.log("lesson details", create_lesson_details)
+      if(create_lesson_details.length> 0){
+        await db.LessonDetail.bulkCreate(create_lesson_details, {updateOnDuplicate: ['id']})
+      }
+      if(delete_lesson_detail_ids.length > 0){
+        await db.LessonDetail.destroy({ where: { id: delete_lesson_detail_ids }})
+      }
     }
 
     async toJSON(){
@@ -101,16 +302,16 @@ module.exports = (sequelize, DataTypes) => {
         id: user.id,
         full_name: user.getFullName()
       }
-      _resource["successes"] = [] //successes.map(&:to_json),
-      _resource["failures"] = [] //failures.map(&:to_json),
-      _resource["best_practices"] = [] ///best_practices.map(&:to_json)
+      _resource["successes"] = await db.LessonDetail.findAll({where: {lesson_id: this.id, detail_type: 'success'}, raw: true})
+      _resource["failures"] =await db.LessonDetail.findAll({where: {lesson_id: this.id, detail_type: 'failure'}, raw: true})
+      _resource["best_practices"] = await db.LessonDetail.findAll({where: {lesson_id: this.id, detail_type: 'best_practice'}, raw: true})
       _resource["attach_files"] = []
       _resource["sub_tasks"] = await db.RelatedTask.findAll({where: {relatable_type: 'Lesson', relatable_id: _resource.id}, raw: true })
       _resource["sub_issues"] = await db.RelatedIssue.findAll({where: {relatable_type: 'Lesson', relatable_id: _resource.id}, raw: true })
-      _resource["sub_risks"] = await db.RelatedRisk.findAll({where: {relatable_type: 'Lesson', relatable_id: _resource.id}, raw: true })
+      _resource["sub_lessons"] = await db.RelatedRisk.findAll({where: {relatable_type: 'Lesson', relatable_id: _resource.id}, raw: true })
       _resource["sub_task_ids"] =  _.map(_resource["sub_tasks"], function(u){ return u.id} )
       _resource["sub_issue_ids"] = _.map(_resource["sub_issues"], function(u){ return u.id} )
-      _resource["sub_risk_ids"] = _.map(_resource["sub_risks"], function(u){ return u.id} )
+      _resource["sub_lesson_ids"] = _.map(_resource["sub_lessons"], function(u){ return u.id} )
 
       _resource["task_type_id"] = parseInt(_resource['task_type_id'])
       _resource["notes"] = []
