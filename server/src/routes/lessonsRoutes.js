@@ -19,7 +19,7 @@ async function routes (fastify, options) {
   fastify.get("/api/v1/programs/:program_id/lessons", program_lessons);
   fastify.get("/api/v1/programs/:program_id/projects/:project_id/lessons", index);
   fastify.get("/api/v1/programs/:program_id/projects/:project_id/lessons/:id.json", show);
-  fastify.post("/api/v1/programs/:program_id/projects/:project_id/lessons/:id", create);
+  fastify.post("/api/v1/programs/:program_id/projects/:project_id/lessons", create);
   fastify.patch("/api/v1/programs/:program_id/projects/:project_id/lessons/:id", update);
 
 }

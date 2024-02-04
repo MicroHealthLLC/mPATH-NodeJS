@@ -17,16 +17,26 @@ const program_lessons = async (req, res) => {
 
 // Function for retrieving user details
 const index = async (req, res) => {
+  var qs = require('qs');
   try {
     // Fetch user profile using req.userId
-    // const allLessons = await db.Lesson.findAll();
-    const allLessons = require('../../static_responses/lessons_index.json');
+    let params = qs.parse(req.body)
 
-    return({ lessons: await allLessons });
+    let program_id = req.params.program_id
+    let facility_id = req.params.project_id
+    let facility_project = await db.FacilityProject.findOne({where: {project_id: program_id, facility_id: facility_id}, raw: true})
+
+    const allLessons = await db.Lesson.findAll({where: {facility_project_id: facility_project.id}});
+    // const allLessons = require('../../static_responses/lessons_index.json');
+    let res_lessons = []
+    for(var l of allLessons){
+      res_lessons.push(await(l.toJSON()))
+    }
+    return({ lessons: res_lessons });
 
   } catch (error) {
     res.code(500)
-    return({ error: "Error fetching lessons" });
+    return({ error: "Error fetching lessons "+error });
   }
 };
 

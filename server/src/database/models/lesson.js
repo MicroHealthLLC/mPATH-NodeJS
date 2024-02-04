@@ -184,6 +184,7 @@ module.exports = (sequelize, DataTypes) => {
       var successes = params['successes']
       var failures = params['failures']
       var best_practices = params['best_practices']
+      
       if(successes){
         for(var success of successes){
           success['detail_type'] = "success"
@@ -194,7 +195,7 @@ module.exports = (sequelize, DataTypes) => {
             if(success['id'] == ''){
               delete(success['id'])
             }
-            if(success['user_id'] == '' || success['user_id'] == 'null'){
+            if(!success['user_id'] || success['user_id'] == '' || success['user_id'] == 'null'){
               success['user_id'] = user.id
             } 
             create_lesson_details.push(success)
@@ -211,7 +212,7 @@ module.exports = (sequelize, DataTypes) => {
             if(failure['id'] == ''){
               delete(failure['id'])
             }
-            if(failure['user_id'] == '' || failure['user_id'] == 'null'){
+            if(!failure['user_id'] ||  failure['user_id'] == '' || failure['user_id'] == 'null'){
               failure['user_id'] = user.id
             } 
             create_lesson_details.push(failure)
@@ -228,7 +229,7 @@ module.exports = (sequelize, DataTypes) => {
             if(best_practice['id'] == ''){
               delete(best_practice['id'])
             }
-            if(best_practice['user_id'] == '' || best_practice['user_id'] == 'null'){
+            if(!best_practice['user_id'] || best_practice['user_id'] == '' || best_practice['user_id'] == 'null'){
               best_practice['user_id'] = user.id
             }           
             create_lesson_details.push(best_practice)
@@ -322,10 +323,14 @@ module.exports = (sequelize, DataTypes) => {
       }
 
       _resource["successes"] = []
+      console.log("***successes", successes)
+
       for(var success of successes){
         let user = _.find(users, function(u){ return u.id == success.user_id})
         if(user)
           success['user'] = {id: user.id, full_name: user.full_name}
+        else
+          success['user'] = {}
         _resource["successes"].push(success)
       }
       
@@ -333,7 +338,9 @@ module.exports = (sequelize, DataTypes) => {
       for(var failure of failures){
         let user = _.find(users, function(u){ return u.id == failure.user_id})
         if(user)
-          success['user'] = {id: user.id, full_name: user.full_name}
+          failure['user'] = {id: user.id, full_name: user.full_name}
+        else
+          failure['user'] = {}
         _resource["failures"].push(failure)
       }
       
@@ -341,7 +348,9 @@ module.exports = (sequelize, DataTypes) => {
       for(var best_practice of best_practices){
         let user = _.find(users, function(u){ return u.id == best_practice.user_id})
         if(user)
-          success['user'] = {id: user.id, full_name: user.full_name}
+          best_practice['user'] = {id: user.id, full_name: user.full_name}
+        else
+          best_practice['user'] = {}
         _resource["best_practices"].push(best_practice)
       }
 
