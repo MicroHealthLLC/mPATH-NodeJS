@@ -16,6 +16,20 @@ module.exports = (sequelize, DataTypes) => {
       // // this.hasMany(models.NoteFile)
 
     }
+    async toJSON(){
+      const { db } = require("./index.js");
+      
+      let _resource = this.get({ plain: true });
+      let user = await this.getUser()
+      _resource['attachFiles'] = []
+      if(user){
+        _resource['user'] = {id: user.id, full_name: user.getFullName()}
+      }else{
+        _resource['user'] = { }
+      }
+      
+      return _resource
+    }
   }
   Note.init({
     noteable_type: DataTypes.STRING,

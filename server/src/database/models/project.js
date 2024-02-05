@@ -80,6 +80,7 @@ module.exports = (sequelize, DataTypes) => {
       let all_tasks = []
       let all_issues = []
       let all_risks = []
+      let all_notes = []
 
       let user = options.user
       // let role_users = await db.RoleUser.findAll({where: {user_id: user.id}})
@@ -118,11 +119,11 @@ module.exports = (sequelize, DataTypes) => {
             type: QueryTypes.SELECT
           }
         );
-        facility_project_ids_with_project_tasks = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_TASKS }) )
-        facility_project_ids_with_project_issues = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_ISSUES }) )
-        facility_project_ids_with_project_risks = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_RISKS }) )
-        facility_project_ids_with_project_lessons = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_LESSONS }) )
-        facility_project_ids_with_project_notes = _.uniq(_.map(sql_result, function(s){return s.facility_project_id && s.role_type == db.RolePrivilege.PROJECT_NOTES }) )
+        facility_project_ids_with_project_tasks = _.uniq(_.compact(_.map(sql_result, function(s){if( s.role_type == db.RolePrivilege.PROJECT_TASKS){ return s.facility_project_id  } }) ) )
+        facility_project_ids_with_project_issues = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.PROJECT_ISSUES){ return s.facility_project_id } }) ))
+        facility_project_ids_with_project_risks = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.PROJECT_RISKS){ return s.facility_project_id } }) ) )
+        facility_project_ids_with_project_lessons = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.PROJECT_LESSONS){ return s.facility_project_id } }) ) )
+        facility_project_ids_with_project_notes = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.PROJECT_NOTES){ return s.facility_project_id } }) ) )
       }
 
       let project_contract_ids_with_contract_tasks = []
@@ -140,11 +141,11 @@ module.exports = (sequelize, DataTypes) => {
           }
         );
   
-        project_contract_ids_with_contract_tasks = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_TASKS }) )
-        project_contract_ids_with_contract_issues = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_ISSUES }) )
-        project_contract_ids_with_contract_risks = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_RISKS }) )
-        project_contract_ids_with_contract_lessons = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_LESSONS }) )
-        project_contract_ids_with_contract_notes = _.uniq(_.map(sql_result, function(s){return s.project_contract_id && s.role_type == db.RolePrivilege.CONTRACT_NOTES }) )
+        project_contract_ids_with_contract_tasks = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_TASKS){ return s.project_contract_id } }) ) )
+        project_contract_ids_with_contract_issues = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_ISSUES){ return s.project_contract_id } }) ) )
+        project_contract_ids_with_contract_risks = _.uniq(_.compact( _.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_RISKS){ return s.project_contract_id } }) ) )
+        project_contract_ids_with_contract_lessons = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_LESSONS){ return s.project_contract_id } }) ) )
+        project_contract_ids_with_contract_notes = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_NOTES){ return s.project_contract_id } }) ) )
       }
 
       let project_contract_vehicle_ids_with_contract_tasks = []
@@ -161,10 +162,10 @@ module.exports = (sequelize, DataTypes) => {
           }
         );
   
-        project_contract_vehicle_ids_with_contract_tasks = _.uniq(_.map(sql_result, function(s){return s.project_contract_vehicle_id && s.role_type == db.RolePrivilege.CONTRACT_TASKS }) )
-        project_contract_vehicle_ids_with_contract_issues = _.uniq(_.map(sql_result, function(s){return s.project_contract_vehicle_id && s.role_type ==db. RolePrivilege.CONTRACT_ISSUES }) )
-        project_contract_vehicle_ids_with_contract_risks = _.uniq(_.map(sql_result, function(s){return s.project_contract_vehicle_id && s.role_type == db.RolePrivilege.CONTRACT_RISKS }) )
-        project_contract_vehicle_ids_with_contract_notes = _.uniq(_.map(sql_result, function(s){return s.project_contract_vehicle_id && s.role_type == db.RolePrivilege.CONTRACT_NOTES }) )
+        project_contract_vehicle_ids_with_contract_tasks = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_TASKS){return s.project_contract_vehicle_id} }) ) )
+        project_contract_vehicle_ids_with_contract_issues = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type ==db. RolePrivilege.CONTRACT_ISSUES){ return s.project_contract_vehicle_id } }) ) )
+        project_contract_vehicle_ids_with_contract_risks = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_RISKS){ return s.project_contract_vehicle_id } }) ) )
+        project_contract_vehicle_ids_with_contract_notes = _.uniq(_.compact(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_NOTES){return s.project_contract_vehicle_id} }) ) ) )
   
       }
 
@@ -174,7 +175,9 @@ module.exports = (sequelize, DataTypes) => {
       let facility_project_ids = _.uniq(_.map(facility_projects, function(f){ return f.id } ))
       let facility_ids = _.uniq( _.map(facility_projects, function(f){ return f.facility_id } ))
       let facility_group_ids = _.uniq(_.map(facility_projects, function(f){ return f.facility_group_id } ))
-      
+          
+      all_notes = await db.Note.findAll({where: {noteable_id: facility_project_ids_with_project_notes, noteable_type: "FacilityProject"}})
+
       let all_facilities = await db.Facility.findAll({where: {id: facility_ids, status: 1}})
       let all_facility_groups = await db.FacilityGroup.findAll({where: {id: facility_group_ids}})
       let facility_projects_hash2 = {}
@@ -229,64 +232,6 @@ module.exports = (sequelize, DataTypes) => {
 
         for(var issue of issues){
           let _issue = await  issue.toJSON()
-
-          // _issue["responsible_users"] = []
-          // _issue["responsible_users_last_name"] = []
-          // _issue["responsible_users_first_name"] = []
-          // _issue["accountable_users"] = []
-          // _issue["accountable_users_last_name"] = []
-          // _issue["accountable_users_first_name"] = []
-          // _issue["consulted_users"] = []
-          // _issue["informed_users"] = []
-          // _issue["responsible_user_ids"] = []
-          // _issue["accountable_user_ids"] = []
-          // _issue["consulted_user_ids"] = []
-          // _issue["informed_user_ids"] = []
-          // _issue["notes"] = []
-          // _issue["notes_updated_at"] = null
-          // _issue["last_update"] = null
-          // _issue["facility_id"] = facility.id
-          // _issue["facility_name"] = facility.facility_name
-          // _issue["contract_nickname"] = ""
-          // _issue["vehicle_nickname"] = ""
-          // _issue["project_id"] = this.id
-          // _issue["sub_tasks"] = []
-          // _issue["sub_issues"] = []
-          // _issue["sub_task_ids"] = []
-          // _issue["sub_issue_ids"] = []
-          // _issue["sub_risk_ids"] = []
-          // _issue["users"] = []
-          // _issue["user_ids"] = []
-          // _issue["user_names"] = []
-          // _issue["due_date_duplicate"] = []
-          // _issue["progress_status"] = []
-          // _issue["attach_files"] = []
-          // _issue["notes"] = []
-          // _issue["class_name"] = "Issue"
-
-          // let _tchecklists = []
-          // for(var i = 0; i < checklists.length; i++ ){
-
-          //   if(checklists[i].listable_id == _issue.id){
-
-          //     let c = checklists[i].toJSON()
-          //     c.progress_lists = []
-          //     c.user = {id: c.user_id, full_name: ""}
-          //     for(var k = 0; k < progress_lists.length; k++ ){
-          //       if(progress_lists[k].checklist_id == c.id){
-          //         let p = progress_lists[k].toJSON()
-          //         p.user = {id: p.user_id, full_name: ""}
-          //         c.progress_lists.push(p)
-          //       }
-          //     }
-          //     _tchecklists.push(c)
-          //     // console.log("################# _tchecklists", _tchecklists)
-
-          //   }
-          // }   
-
-          // _issue.checklists = _tchecklists
-          // _task.checklists = await task.getListable({include: [db.ProgressList, db.User]})
           facility_hash.issues.push(_issue)
         }
 
@@ -303,69 +248,18 @@ module.exports = (sequelize, DataTypes) => {
 
         for(var risk of risks){
           let _risk = await risk.toJSON()
-
-          // _risk["task_type"] =  {}
-          // _risk["responsible_users"] = []
-          // _risk["responsible_users_last_name"] = []
-          // _risk["responsible_users_first_name"] = []
-          // _risk["accountable_users"] = []
-          // _risk["accountable_users_last_name"] = []
-          // _risk["accountable_users_first_name"] = []
-          // _risk["consulted_users"] = []
-          // _risk["informed_users"] = []
-          // _risk["responsible_user_ids"] = []
-          // _risk["accountable_user_ids"] = []
-          // _risk["consulted_user_ids"] = []
-          // _risk["informed_user_ids"] = []
-          // _risk["notes"] = []
-          // _risk["notes_updated_at"] = null
-          // _risk["last_update"] = null
-          // _risk["facility_id"] = facility.id
-          // _risk["facility_name"] = facility.facility_name
-          // _risk["contract_nickname"] = ""
-          // _risk["vehicle_nickname"] = ""
-          // _risk["project_id"] = this.id
-          // _risk["sub_tasks"] = []
-          // _risk["sub_issues"] = []
-          // _risk["sub_task_ids"] = []
-          // _risk["sub_issue_ids"] = []
-          // _risk["sub_risk_ids"] = []
-          // _risk["users"] = []
-          // _risk["user_ids"] = []
-          // _risk["user_names"] = []
-          // _risk["due_date_duplicate"] = []
-          // _risk["progress_status"] = []
-          // _risk["attach_files"] = []
-          // _risk["notes"] = []
-          // _risk["class_name"] = "Risk"
-
-          // let _tchecklists = []
-          // for(var i = 0; i < checklists.length; i++ ){
-
-          //   if(checklists[i].listable_id == _risk.id){
-
-          //     let c = checklists[i].toJSON()
-          //     c.progress_lists = []
-          //     c.user = {id: c.user_id, full_name: ""}
-          //     for(var k = 0; k < progress_lists.length; k++ ){
-          //       if(progress_lists[k].checklist_id == c.id){
-          //         let p = progress_lists[k].toJSON()
-          //         p.user = {id: p.user_id, full_name: ""}
-          //         c.progress_lists.push(p)
-          //       }
-          //     }
-          //     _tchecklists.push(c)
-          //     // console.log("################# _tchecklists", _tchecklists)
-
-          //   }
-          // }   
-
-          // _risk.checklists = _tchecklists
-          // _task.checklists = await task.getListable({include: [db.ProgressList, db.User]})
           facility_hash.risks.push(_risk)
         }
         
         // facility_hash.risks = await db.Risk.findAll({where: {facility_project_id: facility_project_ids} })
+
+        //Adding notes
+        facility_hash.notes = []
+        for(var note of all_notes){
+          if(note.noteable_id == facility_project.id && note.noteable_type == 'FacilityProject' ){
+            facility_hash.notes.push(await note.toJSON())
+          }
+        }
 
         response.facilities.push(facility_hash)
         facility_projects_hash2[facility_project.id] = facility_hash

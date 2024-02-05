@@ -22,7 +22,7 @@ const notesStore = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/project_contracts/${contractId}/notes.json`,
+        url: `${API_BASE_PATH}/project_contracts/${contractId}/notes`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -45,7 +45,7 @@ const notesStore = {
       // Retrieve lesson by id
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/project_contracts/${contractId}/notes/${id}.json`,
+        url: `${API_BASE_PATH}/project_contracts/${contractId}/notes/${id}`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -69,7 +69,7 @@ const notesStore = {
 
     axios({
         method: "POST",
-        url: `${API_BASE_PATH}/project_contracts/${contractId}/notes.json`,
+        url: `${API_BASE_PATH}/project_contracts/${contractId}/notes`,
         data: formData,
         headers: {
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
@@ -139,7 +139,7 @@ const notesStore = {
       // Send GET request for all lessons contained within a project
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/project_contract_vehicles/${vehicleId}/notes.json`,
+        url: `${API_BASE_PATH}/project_contract_vehicles/${vehicleId}/notes`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -162,7 +162,7 @@ const notesStore = {
       // Retrieve lesson by id
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/project_contract_vehicles/${vehicleId}/notes/${id}.json`,
+        url: `${API_BASE_PATH}/project_contract_vehicles/${vehicleId}/notes/${id}`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -186,7 +186,7 @@ const notesStore = {
 
     axios({
         method: "POST",
-        url: `${API_BASE_PATH}/project_contract_vehicles/${vehicleId}/notes.json`,
+        url: `${API_BASE_PATH}/project_contract_vehicles/${vehicleId}/notes`,
         data: formData,
         headers: {
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')

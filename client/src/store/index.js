@@ -549,6 +549,7 @@ export default new Vuex.Store({
       let facility_i = state.facilities.findIndex((f) => f.id == facilityId);
       if (facility_i > -1) {
         let facility = Object.assign({}, state.facilities[facility_i]);
+        console.log("updateNotesHash", facility)
         let note_i = facility.notes.findIndex((t) => t.id == note.id);
         if (action === "delete") {
           Vue.delete(facility.notes, note_i);

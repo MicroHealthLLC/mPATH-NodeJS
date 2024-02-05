@@ -128,6 +128,7 @@ export default {
       }
     },
     methods: {
+      ...mapGetters(['getCurrentUser']),
       ...mapMutations([
         'setTaskForManager',
         'updateNotesHash'
@@ -211,6 +212,7 @@ export default {
           var formData = new FormData()
           formData.append('facility_project_id', this.DV_note.facilityProjectId)
           formData.append('note[body]', this.DV_note.body)
+          formData.append('note[user_id]', this.getCurrentUser().id)
           formData.append('note[destroy_file_ids]', _.map(this.destroyedFiles, 'id'))
           for (var file of this.DV_note.noteFiles) {
             if (!file.id) {
@@ -218,12 +220,12 @@ export default {
             }
           }
 
-          var url = `${API_BASE_PATH}/programs/${this.currentProject.id}/projects/${this.$route.params.projectId}/notes.json`
+          var url = `${API_BASE_PATH}/programs/${this.currentProject.id}/projects/${this.$route.params.projectId}/notes`
           var method = "POST"
           var callback = "note-created"
 
           if (this.note && this.note.id) {
-            url = `${API_BASE_PATH}/programs/${this.currentProject.id}/projects/${this.$route.params.projectId}/notes/${this.note.id}.json`
+            url = `${API_BASE_PATH}/programs/${this.currentProject.id}/projects/${this.$route.params.projectId}/notes/${this.note.id}`
             method = "PUT"
             callback = "note-updated"
           }
