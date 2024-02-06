@@ -11,6 +11,7 @@ const programsRoute = require('./routes/programsRoutes');
 const lessonsRoutes = require('./routes/lessonsRoutes');
 const tasksRoutes = require('./routes/tasksRoutes');
 const issuesRoutes = require('./routes/issuesRoutes');
+const effortsRoutes = require('./routes/effortsRoutes');
 const risksRoutes = require('./routes/risksRoutes');
 const notesRoutes = require('./routes/notesRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
@@ -36,6 +37,7 @@ fastify.register(programsRoute)
 fastify.register(lessonsRoutes)
 fastify.register(tasksRoutes)
 fastify.register(issuesRoutes)
+fastify.register(effortsRoutes)
 fastify.register(risksRoutes)
 fastify.register(rolesRoutes)
 fastify.register(notesRoutes)
