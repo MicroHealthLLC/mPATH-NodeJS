@@ -17,7 +17,9 @@ const notesRoutes = require('./routes/notesRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
 const filterDataRoutes = require('./routes/filterDataRoutes');
 const queryRouters = require('./routes/queryRouters');
-const programSettingRoutes = require('./routes/programSettingRoutes');
+const programSettingUsersRoutes = require('./routes/programSettingUsersRoutes');
+const programSettingProjectsRoutes = require('./routes/programSettingProjectsRoutes');
+
 const formDataParser =  require("formzilla");
 
 const {db} = require('./database/models'); // import models
@@ -43,7 +45,8 @@ fastify.register(rolesRoutes)
 fastify.register(notesRoutes)
 fastify.register(filterDataRoutes)
 fastify.register(queryRouters)
-fastify.register(programSettingRoutes)
+fastify.register(programSettingUsersRoutes)
+fastify.register(programSettingProjectsRoutes)
 
 async function assertDatabaseConnectionOk() {
 	console.log(`Checking database connection...`);

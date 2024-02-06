@@ -218,6 +218,7 @@ module.exports = (sequelize, DataTypes) => {
         console.log("*****delete_note_ids", delete_note_ids)
       }
     }
+
     async toJSON(){
       const { db } = require("./index.js");
       

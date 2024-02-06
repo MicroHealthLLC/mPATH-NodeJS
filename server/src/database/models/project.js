@@ -75,7 +75,7 @@ module.exports = (sequelize, DataTypes) => {
     async build_json_response(options){
       const { db } = require("./index.js");
 
-      console.log("####### build_json_response")
+
       let response = this.toJSON()
       let all_tasks = []
       let all_issues = []
@@ -98,11 +98,30 @@ module.exports = (sequelize, DataTypes) => {
       // let authorized_facility_project_ids = _.uniq(_.map(role_users2, function(f){ return f.facility_project_id } ))
       // let authorized_project_contract_ids = _.uniq(_.map(role_users2, function(f){ return f.project_contract_id } ))
       // let authorized_project_contract_vehicle_ids = _.uniq(_.map(role_users2, function(f){ return f.project_contract_vehicle_id } ))
+      let authorized_data = []
+      let authorized_facility_project_ids = []
+      let authorized_project_contract_ids = []
+      let authorized_project_contract_vehicle_ids = []
+      options['response_for'] = options['response_for'] ? options['response_for'] : 'client_panel'
 
-      let authorized_data = await user.getAuthorizedData()
-      let authorized_facility_project_ids = authorized_data.authorized_facility_project_ids
-      let authorized_project_contract_ids = authorized_data.authorized_project_contract_ids
-      let authorized_project_contract_vehicle_ids = authorized_data.authorized_project_contract_vehicle_ids
+      if(options['response_for'] == 'program_settings'){
+        
+        var authorized_facility_projects = await db.FacilityProject.findAll({where: {project_id: this.id},raw: true})
+        authorized_facility_project_ids = []
+        for(var fp of authorized_facility_projects){
+          authorized_facility_project_ids.push(fp.id)
+        }
+
+        authorized_project_contract_ids = []
+        authorized_project_contract_vehicle_ids = []
+
+      }else if(options['response_for'] == 'client_panel'){
+        authorized_data = await user.getAuthorizedData()
+        authorized_facility_project_ids = authorized_data.authorized_facility_project_ids
+        authorized_project_contract_ids = authorized_data.authorized_project_contract_ids
+        authorized_project_contract_vehicle_ids = authorized_data.authorized_project_contract_vehicle_ids
+      }
+
       let sql_result = ''
 
       let facility_project_ids_with_project_tasks = []
