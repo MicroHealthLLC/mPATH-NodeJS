@@ -11,18 +11,41 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // // define association here
-      // this.belongsTo(models.ContractProjectDatum);
+      this.belongsTo(models.ContractProjectDatum);
       // this.belongsTo(models.Contract,{foreignKey: 'contract_id'});
       // this.belongsTo(models.Project);
       // // this.belongsTo(models.ContractProject);
       // // this.belongsTo(models.ContractFacilityGroup);
-      // this.belongsTo(models.FacilityGroup);
+      this.belongsTo(models.FacilityGroup);
       // this.hasMany(models.Task);
       // this.hasMany(models.Issue);
       // this.hasMany(models.Risk);
       // this.hasMany(models.Lesson);
       // this.hasMany(models.Note)
 
+    }
+    async toJSON(){
+      // let _response = this.get({plain: true}) 
+      let contractProjectData = await this.getContractProjectDatum({plain: true})
+      let _response = await contractProjectData.toJSON()
+      // var contractProjectDataResponse = await contractProjectData.toJSON()
+
+      // _response.contractProjectDataResponse = contractProjectDataResponse
+      _response.project_contract_id = this.id
+      _response.facility_group = await this.getFacilityGroup()
+      _response.facility_group_id = _response.facility_group.id
+      _response.contract_customer = await contractProjectData.getContractCustomer()
+      let contract_vehicle = await contractProjectData.getContractVehicle()
+      _response.contract_vehicle = await contract_vehicle.toJSON()
+      _response.contract_award_to = await contractProjectData.getContractAwardTo()
+      _response.contract_pop = await contractProjectData.getContractPop()
+      _response.contract_naic = await contractProjectData.getContractNaic()
+      _response.contract_award_type = await contractProjectData.getContractAwardType()
+      _response.contract_type = await contractProjectData.getContractType()
+      _response.contract_current_pop = await contractProjectData.getContractCurrentPop()
+      _response.contract_number = await contractProjectData.getContractNumber()
+      
+      return _response
     }
   }
   ProjectContract.init({

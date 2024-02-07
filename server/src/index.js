@@ -17,8 +17,15 @@ const notesRoutes = require('./routes/notesRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
 const filterDataRoutes = require('./routes/filterDataRoutes');
 const queryRouters = require('./routes/queryRouters');
-const programSettingUsersRoutes = require('./routes/programSettingUsersRoutes');
+const programSettingContractDataRoutes = require('./routes/programSettingContractDataRoutes');
+const programSettingContractsRoutes = require('./routes/programSettingContractsRoutes');
+const programSettingContractVehiclesRoutes = require('./routes/programSettingContractVehiclesRoutes');
+const programSettingFacilitiesRoutes = require('./routes/programSettingFacilitiesRoutes');
+const programSettingFacilityGroupsRoutes = require('./routes/programSettingFacilityGroupsRoutes');
 const programSettingProjectsRoutes = require('./routes/programSettingProjectsRoutes');
+const programSettingRolesRoutes = require('./routes/programSettingRolesRoutes');
+const programSettingUsersRoutes = require('./routes/programSettingUsersRoutes');
+
 
 const formDataParser =  require("formzilla");
 
@@ -45,8 +52,14 @@ fastify.register(rolesRoutes)
 fastify.register(notesRoutes)
 fastify.register(filterDataRoutes)
 fastify.register(queryRouters)
-fastify.register(programSettingUsersRoutes)
+// fastify.register(programSettingContractDataRoutes)
+fastify.register(programSettingContractsRoutes)
+// fastify.register(programSettingContractVehiclesRoutes)
+// fastify.register(programSettingFacilitiesRoutes)
+fastify.register(programSettingFacilityGroupsRoutes)
 fastify.register(programSettingProjectsRoutes)
+fastify.register(programSettingUsersRoutes)
+// fastify.register(programSettingRolesRoutes)
 
 async function assertDatabaseConnectionOk() {
 	console.log(`Checking database connection...`);

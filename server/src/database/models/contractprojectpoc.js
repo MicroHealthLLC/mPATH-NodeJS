@@ -4,6 +4,10 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class ContractProjectPoc extends Model {
+    static CONTRACT_OFFICE_POC_TYPE = 'contract_office'
+    static GOVERNMENT_POC_TYPE = 'government'
+    static PROGRAM_MANAGER_POC_TYPE = 'program_manager'
+  
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.

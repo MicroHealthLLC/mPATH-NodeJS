@@ -6,9 +6,9 @@ const show = async (req, res) => {
     // Fetch user profile using req.userId
     const project = await db.Project.findOne({where: {id: req.params.id}})
     let user = await db.User.findOne({where: {email: 'admin@example.com'}})
-    project.build_json_response({user: user, response_for: 'program_settings'})
+    let response = await project.build_json_response({user: user, response_for: 'program_settings'})
 
-    return({project: project});
+    return({project: response});
 
   } catch (error) {
     res.code(500)
