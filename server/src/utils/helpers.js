@@ -1,4 +1,6 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { db } = require("../database/models");
 
 const cryptPassword = (password, callback) => {
   var saltRounds = 10
@@ -34,7 +36,14 @@ const comparePassword = async(plainPass, hashword, callback) => {
       .catch(err => console.error(err.message))
 }
 
+const getCurrentUser = async(token) => {
+  var decoded = jwt.verify( token, process.env.JWT_SECRET_KEY);
+  let user = await db.User.findOne({where: {id: decoded.userId}})
+  return user
+}
+
 module.exports = {
   cryptPassword,
   comparePassword,
+  getCurrentUser
 }

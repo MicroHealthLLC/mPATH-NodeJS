@@ -31,7 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       let defaultRoles = await db.Role.findAll({
         where: { id: { [Op.notIn]: options.role_ids }, is_default: true }
       });
-      console.log("*****default roles", defaultRoles)
       return defaultRoles
     }
   }

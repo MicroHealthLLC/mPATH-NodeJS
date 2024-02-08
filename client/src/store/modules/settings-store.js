@@ -1384,7 +1384,7 @@ const settingsStore = {
           commit("TOGGLE_GROUPS_LOADED", true);
         });
     },
-    fetchPortfolioProjects({ commit }, id) {
+    fetchPortfolioProjects({ commit,getters }, id) {
       commit("TOGGLE_PORTFOLIO_PROJECTS_LOADED", false);
       axios({
         method: "GET",
@@ -1392,6 +1392,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {

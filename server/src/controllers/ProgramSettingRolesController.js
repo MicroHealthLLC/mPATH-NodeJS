@@ -53,7 +53,8 @@ async function index(req, res) {
     });
 
     for (const role of projectRoles) {
-      const h = role.toJSON();
+      const h = await role.toJSON();
+      h.role_users = await role.getRoleUsers()
       role_ids.push(role.id);
       responseHash.roles.push(h);
     }
