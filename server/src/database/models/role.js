@@ -1,7 +1,8 @@
 'use strict';
 const {
-  Model
+  Op, Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Role extends Model {
     /**
@@ -13,10 +14,25 @@ module.exports = (sequelize, DataTypes) => {
       // // define association here
       // this.belongsTo(models.User);
       // this.belongsTo(models.Project);
-      // this.hasMany(models.RoleUser);
+      this.hasMany(models.RoleUser);
       // this.belongsToMany(models.User,{through: models.RoleUser, foreignKey: '', otherKey: '' });
-      // this.hasMany(models.RolePrivilege)
+      this.hasMany(models.RolePrivilege)
 
+    }
+    async toJSON(options){
+      var _response = this.get({plain: true})
+      _response.role_privileges = await this.getRolePrivileges()
+      // _response.role_users = await this.getRoleUsers()
+      return _response
+    }
+    static async getDefaultRoles(options){
+      const { db } = require("./index.js");
+
+      let defaultRoles = await db.Role.findAll({
+        where: { id: { [Op.notIn]: options.role_ids }, is_default: true }
+      });
+      console.log("*****default roles", defaultRoles)
+      return defaultRoles
     }
   }
   Role.init({

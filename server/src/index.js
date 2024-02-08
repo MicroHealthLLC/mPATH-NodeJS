@@ -59,7 +59,7 @@ fastify.register(programSettingContractVehiclesRoutes)
 fastify.register(programSettingFacilityGroupsRoutes)
 fastify.register(programSettingProjectsRoutes)
 fastify.register(programSettingUsersRoutes)
-// fastify.register(programSettingRolesRoutes)
+fastify.register(programSettingRolesRoutes)
 
 async function assertDatabaseConnectionOk() {
 	console.log(`Checking database connection...`);

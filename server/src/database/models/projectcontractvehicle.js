@@ -11,17 +11,27 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // // define association here
-      // this.belongsTo(models.ContractVehicle);
-      // this.belongsTo(models.Project);
+      this.belongsTo(models.ContractVehicle);
+      this.belongsTo(models.Project);
       // // this.belongsTo(models.ContractVehicleProject);
       // // this.belongsTo(models.ContractVehicleFacilityGroup);
-      // this.belongsTo(models.FacilityGroup);
+      this.belongsTo(models.FacilityGroup);
       // this.hasMany(models.Task);
       // this.hasMany(models.Issue);
       // this.hasMany(models.Risk);
       // this.hasMany(models.Lesson);
       // this.hasMany(models.Note)
 
+    }
+    async toJSON(){
+      const _response = this.get({plain: true})
+      let contract_vehicle = await this.getContractVehicle()
+      _response.contract_vehicle = await contract_vehicle.toJSON()
+
+      let facility_group = await this.getFacilityGroup()
+      _response.facility_group = await facility_group.toJSON()
+      
+      return _response
     }
   }
   ProjectContractVehicle.init({
