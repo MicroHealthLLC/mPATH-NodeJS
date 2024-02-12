@@ -84,6 +84,7 @@
 <script>
 import { mapGetters, mapMutations,mapActions } from "vuex";
 import SettingsSidebar from "./SettingsSidebar.vue";
+
 export default {
   name: "SettingsView",
   components: {

@@ -1,6 +1,9 @@
 // const { Router } = require("express");
 const { 
-  get_user_privileges
+  get_user_privileges,
+  add_to_program,
+  remove_from_program,
+  index
 } = require("../controllers/ProgramSettingUsersController");
 
 // const router = Router();
@@ -20,5 +23,8 @@ const {
 
 async function routes (fastify, options) {
   fastify.get("/api/v1/program_settings/users/get_user_privileges", get_user_privileges);
+  fastify.get("/api/v1/program_settings/users", index);
+  fastify.post("/api/v1/program_settings/users/add_to_program",add_to_program)
+  fastify.delete("/api/v1/program_settings/users/remove_from_program" ,remove_from_program)
 }
 module.exports = routes

@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
       // this.belongsToMany(models.LessonStage,{through: models.ProjectLessonStage, foreignKey: 'project_id' })
       // this.hasMany(models.Contract)
       // this.hasMany(models.Role)
-      // this.hasMany(models.RoleUser)
+      this.hasMany(models.RoleUser)
       this.hasMany(models.ProjectContract)
       // this.belongsToMany(models.ContractProjectDatum,{through: models.ProjectContract, foreignKey: 'project_id' })
       this.hasMany(models.ProjectContractVehicle)
@@ -71,6 +71,23 @@ module.exports = (sequelize, DataTypes) => {
       return {
         0: 'inactive', 1: 'active'
       }[v]   
+    }
+    async getProgramAdmins(options={}){
+      const { db } = require("./index.js");
+
+      if(!options['role_id']){
+        var _r = await db.Role.programAdminUserRole()
+        options['role_id'] = _r.id
+      }
+      var roleUsers = await this.getRoleUsers()
+      console.log("***** roleUsers", roleUsers)
+      var user_ids = _.uniq(_.map(roleUsers, function(ru){return ru.user_id}))
+      var projectUsers = await this.getProjectUsers()
+      var puser_ids = _.uniq(_.map(projectUsers, function(ru){return ru.user_id}))
+      var admin_user_ids = _.compact(_.map(puser_ids, function(uid){if(user_ids.includes(puser_ids)){return uid}}))
+      var admin_users = await db.User.findAll({where: {id: admin_user_ids}})
+      return admin_users
+
     }
     async build_json_response(options){
       const { db } = require("./index.js");

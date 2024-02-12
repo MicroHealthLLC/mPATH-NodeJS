@@ -25,6 +25,12 @@ module.exports = (sequelize, DataTypes) => {
       // _response.role_users = await this.getRoleUsers()
       return _response
     }
+    static async programAdminUserRole(){
+      const { db } = require("./index.js");
+
+      return await db.Role.findOne({name: "program-admin"})
+    }
+
     static async getDefaultRoles(options){
       const { db } = require("./index.js");
 

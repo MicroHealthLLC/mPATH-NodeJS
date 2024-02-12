@@ -1003,7 +1003,7 @@ const settingsStore = {
       // Retrieve contract by id
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/program_settings/users.json?program_id=${id}`,
+        url: `${API_BASE_PATH}/program_settings/users?program_id=${id}`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
@@ -1057,9 +1057,9 @@ const settingsStore = {
       let formData = new FormData();
 
       formData.append("program_id", addedUsers.programId);
-
+      var arrayCount = 0
       addedUsers.userIds.forEach((ids) => {
-        formData.append("user_ids[]", ids);
+        formData.append("user_ids["+ arrayCount++ +"]", ids);
       });
 
       axios({
