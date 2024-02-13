@@ -34,7 +34,7 @@ const remove_from_program = async (req, res) => {
       res.status(406)
       return({msg: "There must be at least 1 program admin exists in program! Please retry."})
     }else{
-      await db.ProjectUser.destroy({where:{project_id: params.program_id, user_id: params.user_id}, truncate: true})
+      await db.ProjectUser.destroy({where:{project_id: params.program_id, user_id: params.user_id}})
       return({msg: "Users are removed from program successfully!"})
     }
 

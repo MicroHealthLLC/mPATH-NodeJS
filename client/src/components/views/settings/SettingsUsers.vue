@@ -1858,6 +1858,8 @@ export default {
     ]),
     portfolioUsersOnly() {
       //line 231
+      console.log("portfolioUsersOnly", this.getPortfolioUsers)
+      console.log("programUsers", this.programUsers)
       if (
         this.getPortfolioUsers &&
         this.programUsers &&
@@ -1867,7 +1869,14 @@ export default {
         return this.getPortfolioUsers.filter(
           (u) => !programUserIds.includes(u.id)
         );
+      }else if(
+        this.getPortfolioUsers &&
+        this.programUsers &&
+        this.programUsers.length < 1
+      ) {
+        return this.getPortfolioUsers
       }
+      
     },
     projectRoleNames: {
       get() {

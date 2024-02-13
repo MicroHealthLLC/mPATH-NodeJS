@@ -5,6 +5,27 @@ const {
   Op
 } = require('sequelize');
 
+async function add_users(req, res){
+  try{
+    let responseHash = {roles: []};
+
+    let params = qs.parse(req.body)
+    console.log("***** add users", params, req.params)
+    let role = await db.Role.findOne({where: {id: req.params.id}})
+  
+    let role_users = params["role_users"]
+    for(var role_user of role_users){
+      var _ru = db.RoleUser.build({role_id: role.id, user_id: role_user.user_id, project_id: role_user.project_id, facility_project_id: role_user.facility_project_id})
+      await _ru.save()
+    }
+    return({message: "User added to role successfully!!",role: await role.toJSON({page: 'user_tab_role_assign', include: ['all'] })})
+  
+  }catch (error) {
+    res.status(422)
+    return({ message: "Error fetching roles "+error });
+  }
+
+}
 async function index(req, res) {
   try {
     let responseHash = {roles: []};
@@ -67,5 +88,6 @@ async function index(req, res) {
 }
 
 module.exports = {
-  index
+  index,
+  add_users
 };

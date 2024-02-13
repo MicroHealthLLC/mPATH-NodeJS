@@ -22,7 +22,15 @@ module.exports = (sequelize, DataTypes) => {
     async toJSON(options){
       var _response = this.get({plain: true})
       _response.role_privileges = await this.getRolePrivileges()
-      // _response.role_users = await this.getRoleUsers()
+      if(options){
+        if(options['page'] == 'user_tab_role_assign'){
+          _response.facility_projects = []
+          _response.contracts = []
+        }
+        if(options['include'] == 'all'){
+          _response.role_users = await this.getRoleUsers()
+        }
+      }      
       return _response
     }
     static async programAdminUserRole(){
