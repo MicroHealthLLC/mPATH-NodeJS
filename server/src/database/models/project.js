@@ -80,14 +80,17 @@ module.exports = (sequelize, DataTypes) => {
         options['role_id'] = _r.id
       }
       var roleUsers = await this.getRoleUsers()
-      console.log("***** roleUsers", roleUsers)
-      var user_ids = _.uniq(_.map(roleUsers, function(ru){return ru.user_id}))
+      var user_ids = _.uniq(_.compact(_.map(roleUsers, function(ru){ if(ru.role_id == options['role_id']){return ru.user_id}})))
       var projectUsers = await this.getProjectUsers()
       var puser_ids = _.uniq(_.map(projectUsers, function(ru){return ru.user_id}))
-      var admin_user_ids = _.compact(_.map(puser_ids, function(uid){if(user_ids.includes(puser_ids)){return uid}}))
+      var admin_user_ids = _.compact(_.map(puser_ids, function(uid){if(user_ids.includes(uid)){return uid}}))
       var admin_users = await db.User.findAll({where: {id: admin_user_ids}})
       return admin_users
 
+    }
+    async getProgramAdminIds(){
+      let padmins = await this.getProgramAdmins()
+      return _.map(padmins, function(p){return p.id})
     }
     async build_json_response(options){
       const { db } = require("./index.js");

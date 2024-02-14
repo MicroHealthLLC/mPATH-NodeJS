@@ -27,8 +27,14 @@ module.exports = (sequelize, DataTypes) => {
           _response.facility_projects = []
           _response.contracts = []
         }
-        if(options['include'] == 'all'){
-          _response.role_users = await this.getRoleUsers()
+        if(options['include'] == 'all' || options['include'] == 'role_users'){
+          let role_users = await this.getRoleUsers()
+          _response.role_users = []
+          for(var rs of role_users){
+            var _v = rs.toJSON()
+            _v.role_name = this.name
+            _response.role_users.push(_v)
+          }
         }
       }      
       return _response

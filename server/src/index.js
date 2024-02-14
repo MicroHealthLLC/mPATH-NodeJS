@@ -3,6 +3,8 @@ dotenv.config();
 const fastify = require('fastify')({
   logger: true
 })
+const qs = require('qs');
+
 const cors = require('@fastify/cors');
 const authRoute = require('./routes/authRoutes');
 const profileRoute = require('./routes/profileRoute');
@@ -26,7 +28,17 @@ const programSettingProjectsRoutes = require('./routes/programSettingProjectsRou
 const programSettingRolesRoutes = require('./routes/programSettingRolesRoutes');
 const programSettingUsersRoutes = require('./routes/programSettingUsersRoutes');
 
+// fastify.addHook('onRequest', function(request, reply, done) {
+// 	let body = qs.parse(request.body)
+// 	let query = qs.parse(request.query)
+// 	let params = qs.parse(request.params)
 
+//   console.log('*****body', body);
+//   console.log('****query', query);
+//   console.log('****params', params);
+
+//   done();
+// })
 const formDataParser =  require("formzilla");
 
 const {db} = require('./database/models'); // import models

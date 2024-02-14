@@ -548,7 +548,7 @@
                                                                               -->
                   <span
                     v-if="projectUsers.data.map((t) => t.role_id == scope.row)"
-                  >
+                  > 
                     {{
                       projectUsers.data
                         .filter((t) => t.role_id == scope.row)

@@ -3,7 +3,9 @@ const {
   get_user_privileges,
   add_to_program,
   remove_from_program,
-  index
+  index,
+  update,
+  create
 } = require("../controllers/ProgramSettingUsersController");
 
 // const router = Router();
@@ -26,5 +28,7 @@ async function routes (fastify, options) {
   fastify.get("/api/v1/program_settings/users", index);
   fastify.post("/api/v1/program_settings/users/add_to_program",add_to_program)
   fastify.delete("/api/v1/program_settings/users/remove_from_program" ,remove_from_program)
+  fastify.patch("/api/v1/program_settings/users/:id", update)
+  fastify.post("/api/v1/program_settings/users", create)
 }
 module.exports = routes
