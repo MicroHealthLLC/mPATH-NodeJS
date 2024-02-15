@@ -6,7 +6,8 @@ const {
   remove_role,
   update,
   destroy,
-  create
+  create,
+  show
 } = require("../controllers/ProgramSettingRolesController");
 
 // const router = Router();
@@ -29,8 +30,9 @@ async function routes (fastify, options) {
   fastify.post("/api/v1/program_settings/roles/:id/add_users", add_users);
   fastify.post("/api/v1/program_settings/roles/update_role_users", update_role_users);
   fastify.post("/api/v1/program_settings/roles/remove_role", remove_role);
-  fastify.put("/api/v1/program_settings/roles", update);
-  fastify.delete("/api/v1/program_settings/roles", destroy);
+  fastify.put("/api/v1/program_settings/roles/:id", update);
+  fastify.get("/api/v1/program_settings/roles/:id", show);
+  fastify.delete("/api/v1/program_settings/roles/:id", destroy);
   fastify.post("/api/v1/program_settings/roles", create);
 }
 module.exports = routes

@@ -25,33 +25,40 @@ async function index(req, res) {
 
 async function create(req, res) {
   try {
-    const facilityGroup = await FacilityGroup.create({
-      ...req.body,
+    let body = qs.parse(req.body)
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
+    print_params(req)
+
+    const facilityGroup = await db.FacilityGroup.create({
+      ...body,
       status: 'active',
-      userId: req.user.id,
-      ownerId: req.params.project_id,
-      ownerType: 'Project'
+      user_id: body.user.id,
+      owner_id: body.project_id,
+      owner_type: 'Project'
     });
     
-    if (facilityGroup && req.params.project_id) {
-      const project = await Project.findByPk(req.params.project_id);
+    if (facilityGroup && params.project_id) {
+      const project = await db.Project.findByPk(req.params.project_id);
       await project.addProjectGroup(facilityGroup);
     }
     
-    res.json(facilityGroup);
+    return({facilityGroup});
   } catch (error) {
-    res.status(406).json({ errors: error.errors.map(err => err.message) });
+    res.status(406)
+    return({ errors: error.errors.map(err => err.message) });
   }
 }
 
-async function bulkProjectUpdate(req, res) {
+async function bulk_project_update(req, res) {
   try {
     const project = await Project.findByPk(req.params.project_id);
     const groups = await FacilityGroup.findAll({ where: { id: req.body.facility_group_ids } });
     await project.setProjectGroups(groups);
-    res.json(groups);
+    return({groups});
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500)
+    return({ error: error.message });
   }
 }
 
@@ -59,9 +66,11 @@ async function update(req, res) {
   try {
     const group = await FacilityGroup.findByPk(req.params.id);
     await group.update(req.body);
-    res.json(group);
+    return({groups});
+
   } catch (error) {
-    res.status(406).json({ errors: 'Error while updating groups' });
+    res.status(406)
+    return({ errors: 'Error while updating groups' });
   }
 }
 
@@ -71,7 +80,8 @@ async function destroy(req, res) {
     const program = await Project.findByPk(req.params.project_id);
     
     if (!program.projectGroups.includes(group)) {
-      return res.status(406).json({ errors: 'Group is not part of current program!' });
+      res.status(406)
+      return({ errors: 'Group is not part of current program!' });
     }
     
     const projectFacilityGroup = await program.getProjectFacilityGroup({ where: { facilityGroupId: group.id } });
@@ -79,23 +89,27 @@ async function destroy(req, res) {
     if (!group.isPortfolio && !group.isDefault) {
       await projectFacilityGroup.applyUnassignedToResource();
       await group.destroy();
-      res.status(200).json({ message: 'Group removed successfully' });
+      res.status(200)
+      return({ message: 'Group removed successfully' });
     } else if (group.isPortfolio && !group.isDefault) {
       await projectFacilityGroup.applyUnassignedToResource();
       await projectFacilityGroup.destroy();
-      res.status(200).json({ message: 'Group removed successfully' });
+      res.status(200)
+      return({ message: 'Group removed successfully' });
     } else {
-      res.status(406).json({ message: "Can't remove default group!" });
+      res.status(406)
+      return({ message: "Can't remove default group!" });
     }
   } catch (error) {
-    res.status(406).json({ errors: error.message });
+    res.status(406)
+    return({ errors: error.message });
   }
 }
 
 module.exports = {
   index,
   create,
-  bulkProjectUpdate,
+  bulk_project_update,
   update,
   destroy
 };

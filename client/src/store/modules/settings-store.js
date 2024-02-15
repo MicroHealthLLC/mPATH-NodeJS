@@ -140,7 +140,7 @@ const settingsStore = {
     associated_vehicles: [],
   }),
   actions: {
-    createContract({ commit }, { contract }) {
+    createContract({ commit,getters }, { contract }) {
       // Displays loader on front end
       commit("TOGGLE_CONTRACTS_LOADED", false);
       // Utilize utility function to prep Lesson form data
@@ -153,6 +153,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -166,7 +167,7 @@ const settingsStore = {
           commit("TOGGLE_CONTRACTS_LOADED", true);
         });
     },
-    createGroup({ commit }, { group }) {
+    createGroup({ commit,getters }, { group }) {
       commit("TOGGLE_GROUPS_LOADED", false);
       let formData = groupFormData(group);
      
@@ -178,6 +179,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -191,7 +193,7 @@ const settingsStore = {
           commit("TOGGLE_GROUPS_LOADED", true);
         });
     },
-    moveGroup({ commit }, { group }) {
+    moveGroup({ commit,getters }, { group }) {
 
       let formData = new FormData();
       
@@ -208,6 +210,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {   
@@ -233,7 +236,7 @@ const settingsStore = {
           commit("TOGGLE_GROUPS_LOADED", true);
         });
     },
-    duplicateGroup({ commit }, { group }) {
+    duplicateGroup({ commit,getters }, { group }) {
 
       let formData = new FormData();
       console.log(group);
@@ -249,6 +252,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -277,7 +281,7 @@ const settingsStore = {
           commit("TOGGLE_GROUPS_LOADED", true);
         });
     },
-    exportProject({ commit }, { project }) {
+    exportProject({ commit,getters }, { project }) {
       let formData = new FormData();
       console.log(project)
       commit("TOGGLE_GROUPS_LOADED", false);
@@ -294,6 +298,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -319,7 +324,7 @@ const settingsStore = {
           commit("TOGGLE_GROUPS_LOADED", true);
         });
     },
-    duplicateProject({ commit }, { project }) {
+    duplicateProject({ commit,getters }, { project }) {
       let formData = new FormData();
       console.log(project)
       commit("TOGGLE_GROUPS_LOADED", false);
@@ -334,6 +339,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -359,7 +365,7 @@ const settingsStore = {
           commit("TOGGLE_GROUPS_LOADED", true);
         });
     },
-    updateGroupName({ commit }, { id, newNameData, project_id }) {
+    updateGroupName({ commit,getters }, { id, newNameData, project_id }) {
       commit("TOGGLE_GROUPS_LOADED", false);
       let formData = new FormData();
       // console.log(newNameData.name)
@@ -372,6 +378,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -385,7 +392,7 @@ const settingsStore = {
           commit("TOGGLE_GROUPS_LOADED", true);
         });
     },
-    removeContract({ commit }, { g }) {
+    removeContract({ commit,getters }, { g }) {
       commit("TOGGLE_CONTRACT_LOADED", false);
       console.log(g);
       axios({
@@ -394,6 +401,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -407,7 +415,7 @@ const settingsStore = {
           commit("TOGGLE_CONTRACT_LOADED", true);
         });
     },
-    removeVehicle({ commit }, { g }) {
+    removeVehicle({ commit,getters }, { g }) {
       commit("TOGGLE_VEHICLE_LOADED", false);
       console.log(g);
       axios({
@@ -416,6 +424,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -430,7 +439,7 @@ const settingsStore = {
         });
     },
     //
-    removeOrDeleteGroup({ commit }, { g }) {
+    removeOrDeleteGroup({ commit,getters }, { g }) {
       commit("TOGGLE_GROUPS_LOADED", false);
       let formData = new FormData();
       formData.append("project_id", g.programId);
@@ -441,6 +450,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -454,7 +464,7 @@ const settingsStore = {
           commit("TOGGLE_GROUPS_LOADED", true);
         });
     },
-    removePortfolioProject({ commit }, { fpId, pId }) {
+    removePortfolioProject({ commit,getters }, { fpId, pId }) {
       commit("TOGGLE_PROGRAM_PROJECTS", false);
       axios({
         method: "DELETE",
@@ -463,6 +473,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -480,7 +491,7 @@ const settingsStore = {
     //*****************ROLES ACTIONS BELOW*******************
 
     //FETCH ROLES
-    fetchRoles({ commit }, id) {
+    fetchRoles({ commit,getters }, id) {
       commit("TOGGLE_ROLES_LOADED", false);
 
       axios({
@@ -489,6 +500,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -504,17 +516,19 @@ const settingsStore = {
     },
 
     //POST NEW ROLE
-    createRole({ commit }, { role }) {
+    createRole({ commit,getters }, { role }) {
       let formData = new FormData();
       // console.log(role)
       formData.append("role[name]", role.name); //Required
       formData.append("role[project_id]", role.pId);
       formData.append("role[type_of]", role.type);
       formData.append("role[user_id]", role.uId);
+      var arrayCounter = 0
       role.rp.forEach((p) => {
-        formData.append("role[role_privileges][][privilege]", p.privilege);
-        formData.append("role[role_privileges][][role_type]", p.role_type);
-        formData.append("role[role_privileges][][name]", p.name);
+        formData.append("role[role_privileges]["+(arrayCounter)+"][privilege]", p.privilege);
+        formData.append("role[role_privileges]["+(arrayCounter)+"][role_type]", p.role_type);
+        formData.append("role[role_privileges]["+(arrayCounter)+"][name]", p.name);
+        arrayCounter++
       });
 
       commit("TOGGLE_NEW_ROLE_LOADED", false);
@@ -525,6 +539,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -540,7 +555,7 @@ const settingsStore = {
         });
     },
     // UPDATE ROLE
-    updateRole({ commit }, { role }) {
+    updateRole({ commit,getters }, { role }) {
       let formData = new FormData();
       // console.log(role)
       formData.append("role[name]", role.name); //Required
@@ -548,11 +563,13 @@ const settingsStore = {
       formData.append("role[project_id]", role.pId);
       formData.append("role[type_of]", role.type);
       formData.append("role[user_id]", role.uId);
+      var arrayCounter = 0
       role.rp.forEach((p) => {
-        formData.append("role[role_privileges][][privilege]", p.privilege);
-        formData.append("role[role_privileges][][role_type]", p.role_type);
-        formData.append("role[role_privileges][][name]", p.name);
-        formData.append("role[role_privileges][][id]", p.id);
+        formData.append("role[role_privileges]["+(arrayCounter)+"][privilege]", p.privilege);
+        formData.append("role[role_privileges]["+(arrayCounter)+"][role_type]", p.role_type);
+        formData.append("role[role_privileges]["+(arrayCounter)+"][name]", p.name);
+        formData.append("role[role_privileges]["+(arrayCounter)+"][id]", p.id);
+        arrayCounter++
       });
       commit("TOGGLE_NEW_ROLE_LOADED", false);
       axios({
@@ -562,6 +579,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -587,69 +605,75 @@ const settingsStore = {
         });
     },
     //ADD USER TO ROLE
-    addUserToRole({ commit }, { userData }) {
+    addUserToRole({ commit,getters }, { userData }) {
       // let formData =  userRoleData(userData);
       //console.log(userData);
       let formData = new FormData();
+      var arrayCounter = 0
       if (userData.projectIds) {
         userData.projectIds.forEach((ids) => {
-          formData.append("role_users[][user_id]", userData.userId);
-          formData.append("role_users[][project_id]", userData.programId);
-          formData.append("role_users[][role_id]", userData.roleId);
-          formData.append("role_users[][facility_project_id]", ids);
+          formData.append("role_users["+(arrayCounter)+"][user_id]", userData.userId);
+          formData.append("role_users["+(arrayCounter)+"][project_id]", userData.programId);
+          formData.append("role_users["+(arrayCounter)+"][role_id]", userData.roleId);
+          formData.append("role_users["+(arrayCounter)+"][facility_project_id]", ids);
+          arrayCounter++
         });
       }
 
       if (userData.contractIds) {
         userData.contractIds.forEach((ids) => {
-          formData.append("role_users[][user_id]", userData.userId);
-          formData.append("role_users[][project_id]", userData.programId);
-          formData.append("role_users[][role_id]", userData.roleId);
-          formData.append("role_users[][project_contract_id]", ids);
+          formData.append("role_users["+(arrayCounter)+"][user_id]", userData.userId);
+          formData.append("role_users["+(arrayCounter)+"][project_id]", userData.programId);
+          formData.append("role_users["+(arrayCounter)+"][role_id]", userData.roleId);
+          formData.append("role_users["+(arrayCounter)+"][project_contract_id]", ids);
+          arrayCounter++
         });
       }
 
       if (userData.vehicleIds) {
         userData.vehicleIds.forEach((ids) => {
-          formData.append("role_users[][user_id]", userData.userId);
-          formData.append("role_users[][project_id]", userData.programId);
-          formData.append("role_users[][role_id]", userData.roleId);
-          formData.append("role_users[][project_contract_vehicle_id]", ids);
+          formData.append("role_users["+(arrayCounter)+"][user_id]", userData.userId);
+          formData.append("role_users["+(arrayCounter)+"][project_id]", userData.programId);
+          formData.append("role_users["+(arrayCounter)+"][role_id]", userData.roleId);
+          formData.append("role_users["+(arrayCounter)+"][project_contract_vehicle_id]", ids);
+          arrayCounter++
         });
       }
 
       if (userData.adminRole) {
-        formData.append("role_users[][user_id]", userData.userId);
-        formData.append("role_users[][project_id]", userData.programId);
-        formData.append("role_users[][role_id]", userData.roleId);
+        formData.append("role_users["+(arrayCounter)+"][user_id]", userData.userId);
+        formData.append("role_users["+(arrayCounter)+"][project_id]", userData.programId);
+        formData.append("role_users["+(arrayCounter)+"][role_id]", userData.roleId);
+        arrayCounter++
       }
 
       if (userData.userIds) {
         userData.userIds.forEach((ids) => {
-          formData.append("role_users[][user_id]", ids);
-          formData.append("role_users[][project_id]", userData.programId);
+          formData.append("role_users["+(arrayCounter)+"][user_id]", ids);
+          formData.append("role_users["+(arrayCounter)+"][project_id]", userData.programId);
           if (userData.roleId) {
-            formData.append("role_users[][role_id]", userData.roleId);
+            formData.append("role_users["+(arrayCounter)+"][role_id]", userData.roleId);
           }
           if (userData.projectId) {
             formData.append(
-              "role_users[][facility_project_id]",
+              "role_users["+(arrayCounter)+"][facility_project_id]",
               userData.projectId
             );
           }
           if (userData.contractId) {
             formData.append(
-              "role_users[][project_contract_id]",
+              "role_users["+(arrayCounter)+"][project_contract_id]",
               userData.contractId
             );
           }
           if (userData.vehicleId) {
             formData.append(
-              "role_users[][project_contract_vehicle_id]",
+              "role_users["+(arrayCounter)+"][project_contract_vehicle_id]",
               userData.vehicleId
             );
           }
         });
+        arrayCounter++
       }
       commit("TOGGLE_NEW_ROLE_LOADED", false);
       axios({
@@ -659,6 +683,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -676,11 +701,11 @@ const settingsStore = {
         });
     },
     //REMOVE USER FROM ROLE OR PROJECT OR CONTRACT
-    removeUserRole({ commit }, { userData }) {
+    removeUserRole({ commit,getters }, { userData }) {
       // let formData =  userRoleData(userData);
       let formData = new FormData();
       console.log(userData)
-
+      var arrayCounter = 0
       if (userData.removeRole) {
         formData.append("user_id", userData.userId);
         formData.append("project_id", userData.programId);
@@ -693,7 +718,8 @@ const settingsStore = {
           formData.append("user_id", userData.userId);
           formData.append("project_id", userData.programId);
           formData.append("role_id", userData.roleId);
-          formData.append("facility_project_id[]", ids);
+          formData.append("facility_project_id["+(arrayCounter)+"]", ids);
+          arrayCounter++
         });
       }
 
@@ -703,7 +729,8 @@ const settingsStore = {
           formData.append("user_id", userData.userId);
           formData.append("project_id", userData.programId);
           formData.append("role_id", userData.roleId);
-          formData.append("project_contract_id[]", ids);
+          formData.append("project_contract_id["+(arrayCounter)+"]", ids);
+          arrayCounter++
         });
       }
       if (userData.vehicleIds) {
@@ -712,12 +739,13 @@ const settingsStore = {
           formData.append("user_id", userData.userId);
           formData.append("project_id", userData.programId);
           formData.append("role_id", userData.roleId);
-          formData.append("project_contract_vehicle_id[]", ids);
+          formData.append("project_contract_vehicle_id["+(arrayCounter)+"]", ids);
+          arrayCounter++
         });
       }
       if (userData.adminRole || userData.adminRoleIndex) {
         formData.append("role_from_users", true);
-        formData.append("user_id[]", userData.userId);
+        formData.append("user_id["+(arrayCounter++)+"]", userData.userId);
         formData.append("project_id", userData.programId);
         formData.append("role_id", userData.roleId);
       }
@@ -725,7 +753,7 @@ const settingsStore = {
       if (userData.userIds) {
         // formData.append("role_from_users", true);
         userData.userIds.forEach((ids) => {
-          formData.append("user_id[]", ids);
+          formData.append("user_id["+(arrayCounter++)+"]", ids);
           // formData.append("project_id", userData.programId)
           if (userData.roleId) {
             formData.append("role_id", userData.roleId);
@@ -753,6 +781,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -797,18 +826,18 @@ const settingsStore = {
           commit("TOGGLE_ROLE_REMOVED", true);
         });
     },
-    bulkUpdateUserRoles({ commit }, { userData }) {
+    bulkUpdateUserRoles({ commit,getters }, { userData }) {
       // let formData =  userRoleData(userData);
 
       let formData = new FormData();
       userData.roleUserIds.forEach((id) => {
-        formData.append("role_user_ids[]", id);
+        formData.append("role_user_ids["+(arrayCounter++)+"]", id);
       });
       formData.append("project_id", userData.programId);
       formData.append("role_id", userData.roleId);
       formData.append("old_role_id", userData.oldRoleId);
       userData.userIds.forEach((id) => {
-        formData.append("user_ids[]", id);
+        formData.append("user_ids["+(arrayCounter++)+"]", id);
       });
       console.log(userData);
 
@@ -820,6 +849,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -838,7 +868,7 @@ const settingsStore = {
 
     //*****************ROLES ACTIONS ABOVE*******************
 
-    updateGroup({ commit }, { groupData }) {
+    updateGroup({ commit,getters }, { groupData }) {
       commit("TOGGLE_GROUPS_LOADED", false);
       // Utilize utility function to prep Lesson form data
       let formData = portfolioGroupData(groupData);
@@ -851,6 +881,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -864,7 +895,7 @@ const settingsStore = {
           commit("TOGGLE_GROUPS_LOADED", true);
         });
     },
-    updateProjects({ commit }, { groupData }) {
+    updateProjects({ commit,getters }, { groupData }) {
       commit("TOGGLE_PROGRAM_SETTINGS_PROJECTS_LOADED", false);
       // Utilize utility function to prep Lesson form data
       let formData = portfolioProjectsData(groupData);
@@ -875,6 +906,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -889,7 +921,7 @@ const settingsStore = {
           commit("TOGGLE_PROGRAM_SETTINGS_PROJECTS_LOADED", true);
         });
     },
-    fetchContract({ commit }, { id, programId }) {
+    fetchContract({ commit,getters }, { id, programId }) {
       console.log(id, programId);
       commit("TOGGLE_CONTRACT_LOADED", false);
       // Retrieve contract by id
@@ -899,6 +931,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -911,7 +944,7 @@ const settingsStore = {
           commit("TOGGLE_CONTRACT_LOADED", true);
         });
     },
-    fetchContracts({ commit }, id) {
+    fetchContracts({ commit,getters }, id) {
       commit("TOGGLE_CONTRACTS_LOADED", false);
       // Retrieve contract by id
       axios({
@@ -920,6 +953,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -933,7 +967,7 @@ const settingsStore = {
           commit("TOGGLE_CONTRACTS_LOADED", true);
         });
     },
-    fetchVehicle({ commit }, { id, programId }) {
+    fetchVehicle({ commit,getters }, { id, programId }) {
       console.log(id, programId);
       commit("TOGGLE_VEHICLE_LOADED", false);
       // Retrieve vehicle by id
@@ -943,6 +977,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -955,7 +990,7 @@ const settingsStore = {
           commit("TOGGLE_VEHICLE_LOADED", true);
         });
     },
-    fetchVehicles({ commit }, id) {
+    fetchVehicles({ commit,getters }, id) {
       commit("TOGGLE_VEHICLES_LOADED", false);
       // Retrieve vehicle by id
       axios({
@@ -964,6 +999,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -977,7 +1013,7 @@ const settingsStore = {
           commit("TOGGLE_VEHICLES_LOADED", true);
         });
     },
-    fetchPortfolioUsers({ commit }, id) {
+    fetchPortfolioUsers({ commit,getters }, id) {
       commit("TOGGLE_USERS_LOADED", false);
       // Retrieve contract by id
       axios({
@@ -986,6 +1022,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -998,7 +1035,7 @@ const settingsStore = {
           commit("TOGGLE_USERS_LOADED", true);
         });
     },
-    fetchProgramUsers({ commit }, id) {
+    fetchProgramUsers({ commit,getters }, id) {
       commit("TOGGLE_PROGRAM_USERS_LOADED", false);
       // Retrieve contract by id
       axios({
@@ -1007,6 +1044,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1019,7 +1057,7 @@ const settingsStore = {
           commit("TOGGLE_PROGRAM_USERS_LOADED", true);
         });
     },
-      updateUserData({ commit }, { userData, program_id }) {
+      updateUserData({ commit,getters }, { userData, program_id }) {
       commit("TOGGLE_PROGRAM_USERS_LOADED", false);
       let formData = new FormData();
       console.log(userData);
@@ -1038,6 +1076,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1051,7 +1090,7 @@ const settingsStore = {
           commit("TOGGLE_PROGRAM_USERS_LOADED", true);
         });
     },
-    addUsersToProgram({ commit }, { addedUsers }) {
+    addUsersToProgram({ commit,getters }, { addedUsers }) {
       commit("TOGGLE_ADDED_PROGRAM_USERS_LOADED", false);
       console.log(addedUsers);
       let formData = new FormData();
@@ -1069,6 +1108,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1082,7 +1122,7 @@ const settingsStore = {
           commit("TOGGLE_ADDED_PROGRAM_USERS_LOADED", true);
         });
     },
-    createNewUser({ commit }, { newUser }) {
+    createNewUser({ commit,getters }, { newUser }) {
       commit("TOGGLE_NEW_USER_LOADED", false);
       //  console.log(newUser.fName)
       let formData = new FormData();
@@ -1097,6 +1137,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1111,7 +1152,7 @@ const settingsStore = {
           commit("TOGGLE_NEW_USER_LOADED", true);
         });
     },
-    fetchContractGroupTypes({ commit }) {
+    fetchContractGroupTypes({ commit,getters }) {
       commit("TOGGLE_CONTRACTS_LOADED", false);
       // Retrieve contract by id
       axios({
@@ -1120,6 +1161,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1132,7 +1174,7 @@ const settingsStore = {
           commit("TOGGLE_CONTRACTS_LOADED", true);
         });
     },
-    fetchVehicleGroupTypes({ commit }) {
+    fetchVehicleGroupTypes({ commit,getters }) {
       commit("TOGGLE_VEHICLES_LOADED", false);
       // Retrieve vehicle by id
       axios({
@@ -1141,6 +1183,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1153,7 +1196,7 @@ const settingsStore = {
           commit("TOGGLE_VEHICLES_LOADED", true);
         });
     },
-    fetchClassificationTypes({ commit }) {
+    fetchClassificationTypes({ commit,getters }) {
       commit("TOGGLE_CONTRACTS_LOADED", false);
       // Retrieve contract by id
       axios({
@@ -1162,6 +1205,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1174,7 +1218,7 @@ const settingsStore = {
           commit("TOGGLE_CONTRACTS_LOADED", true);
         });
     },
-    fetchCustomerAgencies({ commit }) {
+    fetchCustomerAgencies({ commit,getters }) {
       commit("TOGGLE_CONTRACTS_LOADED", false);
       // Retrieve contract by id
       axios({
@@ -1183,6 +1227,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1195,7 +1240,7 @@ const settingsStore = {
           commit("TOGGLE_CONTRACTS_LOADED", true);
         });
     },
-    fetchCurrentPop({ commit }) {
+    fetchCurrentPop({ commit,getters }) {
       commit("TOGGLE_CONTRACTS_LOADED", false);
       // Retrieve contract by id
       axios({
@@ -1204,6 +1249,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1216,7 +1262,7 @@ const settingsStore = {
           commit("TOGGLE_CONTRACTS_LOADED", true);
         });
     },
-    fetchPrime({ commit }) {
+    fetchPrime({ commit,getters }) {
       commit("TOGGLE_CONTRACTS_LOADED", false);
       // Retrieve contract by id
       axios({
@@ -1225,6 +1271,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1237,7 +1284,7 @@ const settingsStore = {
           commit("TOGGLE_CONTRACTS_LOADED", true);
         });
     },
-    /* fetchVehicles({ commit }) {
+    /* fetchVehicles({ commit,getters }) {
       commit("TOGGLE_CONTRACTS_LOADED", false);
       // Retrieve contract by id
       axios({
@@ -1246,6 +1293,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1258,7 +1306,7 @@ const settingsStore = {
           commit("TOGGLE_CONTRACTS_LOADED", true);
         });
     }, */
-    fetchVehicleNumbers({ commit }) {
+    fetchVehicleNumbers({ commit,getters }) {
       commit("TOGGLE_CONTRACTS_LOADED", false);
       // Retrieve contract by id
       axios({
@@ -1267,6 +1315,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1279,7 +1328,7 @@ const settingsStore = {
           commit("TOGGLE_CONTRACTS_LOADED", true);
         });
     },
-    fetchClientTypes({ commit }) {
+    fetchClientTypes({ commit,getters }) {
       commit("TOGGLE_CONTRACTS_LOADED", false);
       // Retrieve contract by id
       axios({
@@ -1288,6 +1337,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1300,7 +1350,7 @@ const settingsStore = {
           commit("TOGGLE_CONTRACTS_LOADED", true);
         });
     },
-    fetchContractNumber({ commit }) {
+    fetchContractNumber({ commit,getters }) {
       commit("TOGGLE_CONTRACTS_LOADED", false);
       // Retrieve contract by id
       axios({
@@ -1309,6 +1359,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1321,7 +1372,7 @@ const settingsStore = {
           commit("TOGGLE_CONTRACTS_LOADED", true);
         });
     },
-    fetchSubcontractNumbers({ commit }) {
+    fetchSubcontractNumbers({ commit,getters }) {
       commit("TOGGLE_CONTRACTS_LOADED", false);
       // Retrieve contract by id
       axios({
@@ -1330,6 +1381,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1342,7 +1394,7 @@ const settingsStore = {
           commit("TOGGLE_CONTRACTS_LOADED", true);
         });
     },
-    fetchContractStatuses({ commit }) {
+    fetchContractStatuses({ commit,getters }) {
       commit("TOGGLE_CONTRACTS_LOADED", false);
       axios({
         method: "GET",
@@ -1350,6 +1402,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1363,7 +1416,7 @@ const settingsStore = {
           commit("TOGGLE_CONTRACTS_LOADED", true);
         });
     },
-    fetchGroups({ commit }, id) {
+    fetchGroups({ commit,getters }, id) {
       commit("TOGGLE_GROUPS_LOADED", false);
       axios({
         method: "GET",
@@ -1371,6 +1424,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1410,7 +1464,7 @@ const settingsStore = {
           commit("TOGGLE_PORTFOLIO_PROJECTS_LOADED", true);
         });
     },
-    fetchProgramSettingsProjects({ commit }, id) {
+    fetchProgramSettingsProjects({ commit,getters }, id) {
       commit("TOGGLE_PROGRAM_SETTINGS_PROJECTS_LOADED", false);
       axios({
         method: "GET",
@@ -1418,6 +1472,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1431,7 +1486,7 @@ const settingsStore = {
           commit("TOGGLE_PROGRAM_SETTINGS_PROJECTS_LOADED", true);
         });
     },
-    updateContract({ commit }, { contract, id }) {
+    updateContract({ commit,getters }, { contract, id }) {
       // Displays loader on front end
       commit("TOGGLE_CONTRACTS_LOADED", false);
       let formData = new FormData();
@@ -1449,6 +1504,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1463,7 +1519,7 @@ const settingsStore = {
           commit("TOGGLE_CONTRACTS_LOADED", true);
         });
     },
-    deleteContract({ commit }, id) {
+    deleteContract({ commit,getters }, id) {
       return new Promise((resolve, reject) => {
         http
           .delete(`${API_BASE_PATH}/program_settings/contracts/${id}`)
@@ -1479,7 +1535,7 @@ const settingsStore = {
           });
       });
     },
-    updateVehicle({ commit }, { vehicle, id }) {
+    updateVehicle({ commit,getters }, { vehicle, id }) {
       console.log("vehicles")
       // Displays loader on front end
       commit("TOGGLE_VEHICLES_LOADED", false);
@@ -1498,6 +1554,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1512,7 +1569,7 @@ const settingsStore = {
           commit("TOGGLE_VEHICLES_LOADED", true);
         });
     },
-    deleteVehicle({ commit }, id) {
+    deleteVehicle({ commit,getters }, id) {
       return new Promise((resolve, reject) => {
         http
           .delete(`${API_BASE_PATH}/program_settings/contract_vehicles/${id}`)
@@ -1528,7 +1585,7 @@ const settingsStore = {
           });
       });
     }, 
-    removeProgramUser({ commit }, { userData }) {
+    removeProgramUser({ commit,getters }, { userData }) {
       commit("TOGGLE_PROGRAM_USERS_LOADED", false);
       let formData = new FormData();
 
@@ -1542,6 +1599,7 @@ const settingsStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -1555,7 +1613,7 @@ const settingsStore = {
           commit("TOGGLE_PROGRAM_USERS_LOADED", true);
         });
     },
-    deleteProgramProject({ commit }, { programId, id }) {
+    deleteProgramProject({ commit,getters }, { programId, id }) {
       return new Promise((resolve, reject) => {
         http
           .delete(`${API_BASE_PATH}/program_settings/facilities/${id}?project_id=${programId}`)
@@ -2000,7 +2058,7 @@ const groupFormData = (group) => {
 const portfolioGroupData = (groupData) => {
   let formData = new FormData();
   groupData.ids.forEach((ids) => {
-    formData.append("facility_group_ids[]", ids);
+    formData.append("facility_group_ids["+(arrayCounter++)+"]", ids);
   });
   formData.append("project_id", groupData.programId);
   return formData;
@@ -2009,7 +2067,7 @@ const portfolioGroupData = (groupData) => {
 const portfolioProjectsData = (groupData) => {
   let formData = new FormData();
   groupData.ids.forEach((ids) => {
-    formData.append("facility_ids[]", ids);
+    formData.append("facility_ids["+(arrayCounter++)+"]", ids);
   });
   formData.append("project_id", groupData.programId);
   return formData;

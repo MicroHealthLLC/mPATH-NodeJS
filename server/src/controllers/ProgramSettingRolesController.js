@@ -1,4 +1,5 @@
 const { db } = require("../database/models");
+const { print_params, getCurrentUser } = require("../utils/helpers");
 const qs = require('qs');
 const {_} = require("lodash") 
 const {
@@ -89,7 +90,13 @@ async function index(req, res) {
     return({ message: "Error fetching roles "+error });
   }
 }
-
+async function show(req, res){
+  let body = qs.parse(req.body)
+  let params = qs.parse(req.params)
+  let query = qs.parse(req.query)
+  role = await db.Role.findByPk(params.id);
+  return({ role: await role.toJSON() });
+}
 async function update_role_users(req, res){
   try {
     let body = qs.parse(req.body)
@@ -109,7 +116,7 @@ async function update_role_users(req, res){
       res.status(406)
       return({ message: "User ids must be provided" });
     } else {
-      await db.RoleUser.update({ roleId: role.id }, { where: { id: body.role_user_ids } });
+      // await db.RoleUser.update({ roleId: role.id }, { where: { id: body.role_user_ids } });
       res.status(200)
       return({ message: "Successfully updated role users!!", role_users: roleUsers });
     }
@@ -123,40 +130,40 @@ async function remove_role(req, res){
     let body = qs.parse(req.body)
     let params = qs.parse(req.params)
     let query = qs.parse(req.query)
-
+    print_params(req)
     const project = await db.Project.findOne({
-      where: { id: params.project_id }
+      where: { id: query.project_id }
     });
 
     const roles = await db.Role.findAll({
-      where: { id: params.role_id }
+      where: { id: body.role_id }
     });
-    let role_ids = _.mao(roles, function(r){return r.id})
+    let role_ids = _.map(roles, function(r){return r.id})
     const conditions = {
       project_id: project.id,
       role_id: role_ids
     };
 
-    if (query.user_id) {
-      conditions.user_id = query.user_id;
+    if (body.user_id) {
+      conditions.user_id = body.user_id;
     }
 
-    if (query.facility_project_id) {
-      conditions.facility_project_id = query.facility_project_id;
+    if (body.facility_project_id) {
+      conditions.facility_project_id = body.facility_project_id;
     }
 
-    if (query.project_contract_id) {
-      conditions.project_contract_id = query.project_contract_id;
+    if (body.project_contract_id) {
+      conditions.project_contract_id = body.project_contract_id;
     }
 
-    if (query.project_contract_vehicle_id) {
-      conditions.project_contract_vehicle_id = query.project_contract_vehicle_id;
+    if (body.project_contract_vehicle_id) {
+      conditions.project_contract_vehicle_id = body.project_contract_vehicle_id;
     }
 
     if (!conditions.role_id || conditions.role_id.length < 1) {
       res.status(406).
       return({ message: "Invalid parameter: Role must be provided." });
-    } else if (!conditions.userId) {
+    } else if (!conditions.user_id) {
       res.status(406)
       return({ message: "Invalid parameter: User id must be provided." });
     }
@@ -190,7 +197,53 @@ async function remove_role(req, res){
 
 }
 async function update(req, res){
+  try {
+    let body = qs.parse(req.body)
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
 
+    print_params(req)
+    let user = await getCurrentUser(req.headers['x-token'])
+    let role;
+    if (params.id) {
+      role = await db.Role.findByPk(params.id);
+    } else {
+      role = db.Role.build();
+    }
+
+    role.name = body.role.name;
+    role.is_portfolio = false;
+    role.project_id = body.role.project_id;
+    role.user_id = user.id;
+    role.is_default = false;
+    role.type_of = body.role.type_of;
+    await role.save();
+    const paramsRolePrivileges = body.role.role_privileges || [];
+    let role_privileges = await role.getRolePrivileges()
+    console.log("**** rolePrivileges", paramsRolePrivileges)
+    if (paramsRolePrivileges.length > 0) {
+      let rps = []
+      for(var role_privilege of paramsRolePrivileges){
+        if(role_privilege.id){
+          let r = _.find(role_privileges, function(_rp){if(_rp.id == parseInt(role_privilege.id)){return _rp} })
+          if(r){
+            r.setAttributes(role_privilege)
+            await r.save()
+          }
+          
+        }
+      }
+      // if(rps.length > 0){
+      //   await db.RolePrivilege.bulkCreate(rps,{updateOnDuplicate: ['id']})
+      // }
+    }
+    
+    
+    return({ message: "Successfully created Role." });
+
+  } catch (error) {
+    throw new Error(`Error creating or updating role: ${error}`);
+  }
 }
 async function destroy(req, res){
 
@@ -200,7 +253,9 @@ async function create(req, res){
     let body = qs.parse(req.body)
     let params = qs.parse(req.params)
     let query = qs.parse(req.query)
-
+    console.log("**** headers", req.headers)
+    print_params({body, params, query})
+    let user = await getCurrentUser(req.headers['x-token'])
     let role;
     if (params.id) {
       role = await db.Role.findByPk(params.id);
@@ -208,19 +263,26 @@ async function create(req, res){
       role = db.Role.build();
     }
 
-    await role.transaction(async (t) => {
-      role.name = params.name;
-      role.is_portfolio = false;
-      role.projectId = params.project_id;
-      role.user_id = user.id;
-      role.is_default = false;
-      role.type_of = params.type_of;
-      const rolePrivileges = params.role_privileges || [];
-      if (rolePrivileges.length > 0) {
-        role.setRolePrivileges(rolePrivileges, { transaction: t });
+    role.name = body.role.name;
+    role.is_portfolio = false;
+    role.project_id = body.role.project_id;
+    role.user_id = user.id;
+    role.is_default = false;
+    role.type_of = body.role.type_of;
+    await role.save();
+    const rolePrivileges = body.role.role_privileges || [];
+    
+    if (rolePrivileges.length > 0) {
+      let rps = []
+      for(var rp of rolePrivileges){
+        rp.role_id = role.id
+        rps.push(rp)
       }
-      await role.save({ transaction: t });
-    });
+      if(rps.length > 0){
+        await db.RolePrivilege.bulkCreate(rps)
+      }
+    }
+    
     
     return({ message: "Successfully created Role." });
 
@@ -238,5 +300,6 @@ module.exports = {
   remove_role,
   update,
   destroy,
-  create
+  create,
+  show
 };

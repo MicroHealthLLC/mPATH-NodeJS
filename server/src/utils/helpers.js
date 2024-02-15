@@ -1,7 +1,18 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { db } = require("../database/models");
+const qs = require('qs');
 
+function print_params(req){
+
+  let body = qs.parse(req.body)
+  let params = qs.parse(req.params)
+  let query = qs.parse(req.query)
+
+  console.log("*****body", body)
+  console.log("*****params", params)
+  console.log("*****query", query)  
+}
 const cryptPassword = (password, callback) => {
   var saltRounds = 10
   return bcrypt
@@ -45,5 +56,6 @@ const getCurrentUser = async(token) => {
 module.exports = {
   cryptPassword,
   comparePassword,
-  getCurrentUser
+  getCurrentUser,
+  print_params
 }

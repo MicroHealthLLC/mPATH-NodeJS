@@ -2,6 +2,7 @@
 const {
   Op, Model
 } = require('sequelize');
+const {_} = require("lodash") 
 
 module.exports = (sequelize, DataTypes) => {
   class Role extends Model {
@@ -20,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
 
     }
     async toJSON(options){
+      const { db } = require("./index.js");
+
       var _response = this.get({plain: true})
       _response.role_privileges = await this.getRolePrivileges()
       if(options){
@@ -29,10 +32,14 @@ module.exports = (sequelize, DataTypes) => {
         }
         if(options['include'] == 'all' || options['include'] == 'role_users'){
           let role_users = await this.getRoleUsers()
+          let user_ids = _.map(role_users, function(rs){return rs.user_id})
+          let users = await db.User.findAll({where: {id: user_ids}})
           _response.role_users = []
           for(var rs of role_users){
             var _v = rs.toJSON()
             _v.role_name = this.name
+            var u = _.find(users, function(usr){return usr.id == rs.user_id })
+            _v.user_full_name = u.getFullName()
             _response.role_users.push(_v)
           }
         }
