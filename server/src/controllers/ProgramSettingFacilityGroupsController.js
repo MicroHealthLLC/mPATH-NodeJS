@@ -1,6 +1,7 @@
 const { db } = require("../database/models");
 const qs = require('qs');
 const {_} = require("lodash") 
+const { printParams, getCurrentUser } = require("../utils/helpers");
 
 async function index(req, res) {
   try {
@@ -25,48 +26,68 @@ async function index(req, res) {
 
 async function create(req, res) {
   try {
+    const { db } = require("../database/models");
+
     let body = qs.parse(req.body)
     let params = qs.parse(req.params)
     let query = qs.parse(req.query)
-    print_params(req)
+    printParams(req)
 
-    const facilityGroup = await db.FacilityGroup.create({
-      ...body,
-      status: 'active',
-      user_id: body.user.id,
-      owner_id: body.project_id,
-      owner_type: 'Project'
-    });
-    
-    if (facilityGroup && params.project_id) {
-      const project = await db.Project.findByPk(req.params.project_id);
-      await project.addProjectGroup(facilityGroup);
+    let user = await getCurrentUser(req.headers['x-token'])
+    const facilityGroup = db.FacilityGroup.build()
+    facilityGroup.name = body.facility_group.name 
+    facilityGroup.status = 1,
+    facilityGroup.user_id = user.id,
+    facilityGroup.owner_id = body.facility_group.project_id,
+    facilityGroup.owner_type = 'Project'
+
+    await facilityGroup.save()
+
+    if (body.facility_group.project_id) {
+      const project = await db.Project.findByPk(body.facility_group.project_id);
+      let project_group = db.ProjectFacilityGroup.build({project_id: project.id, facility_group_id: facilityGroup.id })
+      await project_group.save()
     }
     
     return({facilityGroup});
   } catch (error) {
     res.status(406)
-    return({ errors: error.errors.map(err => err.message) });
+    return({ error: "Error "+error });
   }
 }
 
 async function bulk_project_update(req, res) {
   try {
-    const project = await Project.findByPk(req.params.project_id);
-    const groups = await FacilityGroup.findAll({ where: { id: req.body.facility_group_ids } });
-    await project.setProjectGroups(groups);
+    let body = qs.parse(req.body)
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
+    printParams(req)
+
+    const project = await db.Project.findByPk(body.project_id);
+    const groups = await db.FacilityGroup.findAll({ where: { id: body.facility_group_ids } });
+    let createProjectFacilityGroups = []
+    for(var group of groups){
+      createProjectFacilityGroups.push({project_id: project.id, facility_group_id: group.id})
+    }
+    if(createProjectFacilityGroups.length > 0){
+      await db.ProjectFacilityGroup.bulkCreate(createProjectFacilityGroups);
+    }
     return({groups});
   } catch (error) {
     res.status(500)
-    return({ error: error.message });
+    return({ error: "Error "+error });
   }
 }
 
 async function update(req, res) {
   try {
-    const group = await FacilityGroup.findByPk(req.params.id);
-    await group.update(req.body);
-    return({groups});
+    let body = qs.parse(req.body)
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
+    printParams(req)
+    const group = await db.FacilityGroup.findByPk(params.id);
+    await group.update(body.facility_group);
+    return({group});
 
   } catch (error) {
     res.status(406)
@@ -76,24 +97,26 @@ async function update(req, res) {
 
 async function destroy(req, res) {
   try {
-    const group = await FacilityGroup.findByPk(req.params.id);
-    const program = await Project.findByPk(req.params.project_id);
+    const { db } = require("../database/models");
+
+    let body = qs.parse(req.body)
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
+    printParams(req)
+
+    const group = await db.FacilityGroup.findByPk(params.id);
+    const program = await db.Project.findByPk(body.project_id);
+        
+    const projectFacilityGroup = await db.ProjectFacilityGroup.findOne({ where: { project_id: program.id, facility_group_id: group.id } })
     
-    if (!program.projectGroups.includes(group)) {
-      res.status(406)
-      return({ errors: 'Group is not part of current program!' });
-    }
-    
-    const projectFacilityGroup = await program.getProjectFacilityGroup({ where: { facilityGroupId: group.id } });
-    
-    if (!group.isPortfolio && !group.isDefault) {
-      await projectFacilityGroup.applyUnassignedToResource();
+    if (!group.is_portfolio && !group.is_default) {
+      await projectFacilityGroup.applyUnassigedToResources();
       await group.destroy();
       res.status(200)
       return({ message: 'Group removed successfully' });
-    } else if (group.isPortfolio && !group.isDefault) {
-      await projectFacilityGroup.applyUnassignedToResource();
-      await projectFacilityGroup.destroy();
+    } else if (group.is_portfolio && !group.is_default) {
+      await projectFacilityGroup.applyUnassigedToResources();
+      await group.destroy();
       res.status(200)
       return({ message: 'Group removed successfully' });
     } else {
@@ -102,7 +125,7 @@ async function destroy(req, res) {
     }
   } catch (error) {
     res.status(406)
-    return({ errors: error.message });
+    return({ error: "Error "+error });
   }
 }
 

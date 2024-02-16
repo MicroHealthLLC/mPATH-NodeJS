@@ -1,5 +1,5 @@
 const { db } = require("../database/models");
-const { print_params, getCurrentUser } = require("../utils/helpers");
+const { printParams, getCurrentUser } = require("../utils/helpers");
 const qs = require('qs');
 const {_} = require("lodash") 
 const {
@@ -130,7 +130,7 @@ async function remove_role(req, res){
     let body = qs.parse(req.body)
     let params = qs.parse(req.params)
     let query = qs.parse(req.query)
-    print_params(req)
+    printParams(req)
     const project = await db.Project.findOne({
       where: { id: query.project_id }
     });
@@ -202,7 +202,7 @@ async function update(req, res){
     let params = qs.parse(req.params)
     let query = qs.parse(req.query)
 
-    print_params(req)
+    printParams(req)
     let user = await getCurrentUser(req.headers['x-token'])
     let role;
     if (params.id) {
@@ -254,7 +254,7 @@ async function create(req, res){
     let params = qs.parse(req.params)
     let query = qs.parse(req.query)
     console.log("**** headers", req.headers)
-    print_params({body, params, query})
+    printParams({body, params, query})
     let user = await getCurrentUser(req.headers['x-token'])
     let role;
     if (params.id) {

@@ -2,16 +2,22 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { db } = require("../database/models");
 const qs = require('qs');
+const {_} = require("lodash") 
 
-function print_params(req){
+function compactAndUniq(array){
+  return _.compact(_.uniq(array))
+}
+
+function printParams(req){
 
   let body = qs.parse(req.body)
   let params = qs.parse(req.params)
   let query = qs.parse(req.query)
-
+  
+  console.log("*****headers", req.headers) 
   console.log("*****body", body)
   console.log("*****params", params)
-  console.log("*****query", query)  
+  console.log("*****query", query)
 }
 const cryptPassword = (password, callback) => {
   var saltRounds = 10
@@ -48,6 +54,7 @@ const comparePassword = async(plainPass, hashword, callback) => {
 }
 
 const getCurrentUser = async(token) => {
+  const { db } = require("../database/models");
   var decoded = jwt.verify( token, process.env.JWT_SECRET_KEY);
   let user = await db.User.findOne({where: {id: decoded.userId}})
   return user
@@ -57,5 +64,6 @@ module.exports = {
   cryptPassword,
   comparePassword,
   getCurrentUser,
-  print_params
+  printParams,
+  compactAndUniq
 }

@@ -1,7 +1,7 @@
 const { db } = require("../database/models");
 const qs = require('qs');
 const {_} = require("lodash") 
-const {getCurrentUser} = require('../utils/helpers.js')
+const {getCurrentUser, printParams} = require('../utils/helpers.js')
 
 async function index(req, res) {
   try {
@@ -45,7 +45,58 @@ async function index(req, res) {
     return({ error: "Error fetching facility groups "+ error });
   }
 }
+async function create(req, res) {
+  try {
+    const { db } = require("../database/models");
+
+    let body = qs.parse(req.body)
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
+    printParams(req)
+
+    let user = await getCurrentUser(req.headers['x-token'])
+    let project = await db.Project.findOne({where: {id: query.project_id}})
+    let facility = db.Facility.build()
+    facility.setAttributes(body.facility)
+    facility.status = 1
+    facility.creator_id = user.id
+    facility.is_portfolio = false
+    await facility.save()
+    let facilityProject = db.FacilityProject.build({facility_id: facility.id, project_id: project.id })
+
+    if(body.facility.facility_group_id){
+      facilityProject.facility_group_id = body.facility.facility_group_id
+    }
+    await facilityProject.save()
+
+    return({facility});
+  } catch (error) {
+    res.status(406)
+    return({ error: "Error "+error });
+  }
+}
+async function show(req, res) {
+
+}
+async function bulkProjectsUpdate(req, res) {
+
+}
+async function removeFacilityProject(req, res) {
+
+}
+async function update(req, res) {
+
+}
+async function destroy(req, res) {
+
+}
 
 module.exports = {
-  index
+  index,
+  create,
+  show,
+  bulkProjectsUpdate,
+  removeFacilityProject,
+  update,
+  destroy
 };

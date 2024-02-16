@@ -830,6 +830,7 @@ const settingsStore = {
       // let formData =  userRoleData(userData);
 
       let formData = new FormData();
+      var arrayCounter = 0
       userData.roleUserIds.forEach((id) => {
         formData.append("role_user_ids["+(arrayCounter++)+"]", id);
       });
@@ -2057,6 +2058,7 @@ const groupFormData = (group) => {
 
 const portfolioGroupData = (groupData) => {
   let formData = new FormData();
+  var arrayCounter = 0 
   groupData.ids.forEach((ids) => {
     formData.append("facility_group_ids["+(arrayCounter++)+"]", ids);
   });
@@ -2066,6 +2068,7 @@ const portfolioGroupData = (groupData) => {
 
 const portfolioProjectsData = (groupData) => {
   let formData = new FormData();
+  var arrayCounter = 0
   groupData.ids.forEach((ids) => {
     formData.append("facility_ids["+(arrayCounter++)+"]", ids);
   });

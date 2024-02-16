@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       // this.hasMany(models.FacilityProject,{ foreignKey: 'facility_project_id' });
       // this.hasMany(models.ProjectContract);
       // this.hasMany(models.ProjectContractVehicle);
-      // this.hasMany(models.ProjectFacilityGroup);
+      this.hasMany(models.ProjectFacilityGroup);
       // this.belongsToMany(models.Project,{through: models.ProjectFacilityGroup, foreignKey: '', otherKey: '' });
       // this.hasMany(models.Contract)
 

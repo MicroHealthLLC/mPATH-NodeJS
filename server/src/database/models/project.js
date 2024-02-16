@@ -1,6 +1,7 @@
 'use strict';
 
 const {_} = require("lodash") 
+const { compactAndUniq } = require("../../utils/helpers");
 
 const {
   Op, Model, QueryTypes
@@ -21,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       // this.belongsToMany(models.Facility,{ through: models.FacilityProject })
       // this.belongsToMany(models.FacilityGroup,{ through: models.FacilityProject })
       
-      this.hasMany(models.ProjectFacilityGroup,{foreignKey: 'project_id' })
+      this.hasMany(models.ProjectFacilityGroup)
       
       // // this.belongsToMany(models.ProjectGroup,{through: models.ProjectFacilityGroup, foreignKey: 'project_id' })
       // // this.belongsToMany(models.Issue,{through: models.FacilityProject, foreignKey: 'project_id' })
@@ -54,6 +55,7 @@ module.exports = (sequelize, DataTypes) => {
       // this.belongsToMany(models.LessonStage,{through: models.ProjectLessonStage, foreignKey: 'project_id' })
       // this.hasMany(models.Contract)
       // this.hasMany(models.Role)
+      this.hasMany(models.ProjectFacilityGroup)
       this.hasMany(models.RoleUser)
       this.hasMany(models.ProjectContract)
       // this.belongsToMany(models.ContractProjectDatum,{through: models.ProjectContract, foreignKey: 'project_id' })
@@ -72,6 +74,51 @@ module.exports = (sequelize, DataTypes) => {
         0: 'inactive', 1: 'active'
       }[v]   
     }
+
+    async getDefaultFacilityGroup() {
+      try {
+        return await this.createDefaultFacilityGroup();
+      } catch (error) {
+        throw new Error(`Error getting default facility group: ${error}`);
+      }
+    }
+    
+    async listDefaultFacilityGroupIds() {
+      try {
+        const projectFacilityGroups = await this.getProjectFacilityGroups({ where: { is_default: true }});
+
+        return compactAndUniq(_.map(projectFacilityGroups, function(pfg){return pfg.facility_group_id}))
+      } catch (error) {
+        throw new Error(`Error listing default facility group ids: ${error}`);
+      }
+    }
+    
+    async createDefaultFacilityGroup() {
+      try {
+        const { db } = require("./index.js");
+        var project = this
+        let projectFacilityGroups = await project.getProjectFacilityGroups();
+        let facilityGroupIds = compactAndUniq(_.map(projectFacilityGroups, function(pfg){return pfg.facility_group_id }))
+        var facilityGroups = await db.FacilityGroup.findAll({where: {id: facilityGroupIds ,is_default: true}})
+
+        if (facilityGroups.length < 1) {
+          var group = await db.FacilityGroup.create({
+            name: 'Unassigned',
+            owner_id: project.id,
+            owner_type: 'Project',
+            is_default: true
+          });
+          await db.ProjectFacilityGroup.create({facility_group_id: group.id, project_id: project.id})
+          return group
+        }else{
+          return await facilityGroups[0]
+        }
+
+      } catch (error) {
+        throw new Error(`Error creating default facility group: ${error}`);
+      }
+    }   
+
     async getProgramAdmins(options={}){
       const { db } = require("./index.js");
 

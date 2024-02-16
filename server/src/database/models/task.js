@@ -232,9 +232,6 @@ module.exports = (sequelize, DataTypes) => {
       var checklist_ids = _.uniq(checklists.map(function(e){return e.id}))
       var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}, raw: true})
 
-      console.log("***progress lists", progress_lists)
-      console.log("***checklists lists", checklists)
-
       for(var checklist of checklists){
         checklist.user = {id: checklist.user_id, full_name: ""}
         checklist.progress_lists = progress_lists.filter(function(p){ p.checklist_id == checklist.id })

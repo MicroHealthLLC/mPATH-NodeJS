@@ -12,7 +12,7 @@ const show = async (req, res) => {
 
   } catch (error) {
     res.code(500)
-    return({ error: "Error fetching data" });
+    return({ error: "Error fetching data "+error });
   }
 };
 

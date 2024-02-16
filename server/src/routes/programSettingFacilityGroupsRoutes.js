@@ -25,7 +25,7 @@ const {
 async function routes (fastify, options) {
   fastify.get("/api/v1/program_settings/facility_groups", index);
   fastify.post("/api/v1/program_settings/facility_groups", create);
-  fastify.post("/api/v1/program_settings/facility_groups/bulk_project_update", bulk_project_update);
+  fastify.put("/api/v1/program_settings/facility_groups/bulk_project_update", bulk_project_update);
   fastify.put("/api/v1/program_settings/facility_groups/:id", update);
   fastify.delete("/api/v1/program_settings/facility_groups/:id", destroy);
 

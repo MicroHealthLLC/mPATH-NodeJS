@@ -722,6 +722,7 @@ export default {
   // this.fetchProgramSettingsProjects(this.$route.params.programId)
   },
   methods: {
+    ...mapGetters(['getToken']),
     ...mapActions([
       "fetchFacilities", 
       "fetchCurrentProject", 
@@ -1018,6 +1019,7 @@ removeProject(index, rows) {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': this.getToken()
         },
       }).then((response) => {
         if (response.status === 200) {
