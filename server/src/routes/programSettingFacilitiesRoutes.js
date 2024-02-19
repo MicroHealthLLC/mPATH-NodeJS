@@ -27,11 +27,11 @@ const {
 async function routes (fastify, options) {
   fastify.get("/api/v1/program_settings/facilities", index);
   fastify.post("/api/v1/program_settings/facilities", create);
-  // fastify.get("/api/v1/program_settings/facilities", show);
+  fastify.get("/api/v1/program_settings/facilities/:id", show);
   fastify.put("/api/v1/program_settings/facilities/bulk_projects_update", bulkProjectsUpdate);
   // fastify.post("/api/v1/program_settings/facilities", removeFacilityProject);
-  // fastify.put("/api/v1/program_settings/facilities", update);
-  // fastify.delete("/api/v1/program_settings/facilities", destroy);
+  fastify.put("/api/v1/program_settings/facilities/:id", update);
+  fastify.delete("/api/v1/program_settings/facilities/:id", destroy);
 
 }
 module.exports = routes

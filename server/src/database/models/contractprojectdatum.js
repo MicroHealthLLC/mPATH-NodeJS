@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, QueryTypes
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class ContractProjectDatum extends Model {
@@ -27,14 +27,32 @@ module.exports = (sequelize, DataTypes) => {
       // this.belongsToMany(models.ContractProjectPoc,{through: models.ContractProjectPocResource, foreignKey: '', otherKey: '' })
 
     }
+    static async getSQLResult(options={}){
+      const {_} = require("lodash") 
+
+      let user = options.user
+      let authorizedContractIds = options.authorizedContractIds
+
+      let sql_result = await sequelize.query(
+        "SELECT distinct(project_contract_id), role_type, role_users.id FROM `role_users` INNER JOIN `roles` ON `roles`.`id` = `role_users`.`role_id` INNER JOIN `role_privileges` ON `role_privileges`.`role_id` = `roles`.`id` WHERE `role_users`.`user_id` = :user_id AND (role_privileges.privilege REGEXP '^[RWD]' and role_users.project_contract_id in (:project_contract_ids))",
+        {
+          replacements: { user_id: user.id, project_contract_ids: authorizedContractIds },
+          type: QueryTypes.SELECT
+        }
+      );
+      return sql_result
+    }
     async toJSON(options = {}) {
       const { db } = require("./index.js");
+      const {compactAndUniq} = require('../../utils/helpers.js')
+      const {_} = require("lodash") 
+
       let _response = this.get({plain: true});
       
       if (options.authorized_project_ids) {
         const associatedProjects = [];
         const projectContracts = await this.getProjectContracts({plain: true});
-        var project_ids = _uniq(_.map(projectContracts, function(p){return p.project_id}))
+        var project_ids = compactAndUniq(_.map(projectContracts, function(p){return p.project_id}))
         var projects = await db.Project.findAll({where: {id: project_ids}, raw: true})
         for (const p of projects) {
           if (options.authorized_project_ids.includes(p.id)) {

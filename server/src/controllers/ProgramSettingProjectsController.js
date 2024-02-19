@@ -12,6 +12,7 @@ const show = async (req, res) => {
 
   } catch (error) {
     res.code(500)
+    console.log(error.stack)
     return({ error: "Error fetching data "+error });
   }
 };

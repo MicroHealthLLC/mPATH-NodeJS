@@ -2,6 +2,7 @@ import http from "./../../common/http";
 import axios from "axios";
 import { API_BASE_PATH } from "./../../mixins/utils";
 import AuthorizationService from "./../../services/authorization_service";
+import MessageDialogService from "./../../services/message_dialog_service.js";
 
 const settingsStore = {
   state: () => ({

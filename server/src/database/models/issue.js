@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       // this.belongsTo(models.IssueStage);
       // this.belongsTo(models.TaskType);
       // this.belongsTo(models.IssueSeverity);
-      this.hasMany(models.IssueUser);
+      this.hasMany(models.IssueUser,{onDelete: 'CASCADE', hooks: true });
       // this.belongsToMany(models.User,{through: models.IssueUser, foreignKey: '', otherKey: '' });
       // // this.hasMany(models.IssueFile);
       // this.hasMany(models.Note);

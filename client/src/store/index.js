@@ -18,6 +18,7 @@ import effortStore from './modules/effort-store'
 import portfolioModule from "./modules/portfolio-store";
 import { API_BASE_PATH } from "./../mixins/utils";
 import AuthorizationService from '../services/authorization_service.js'
+import MessageDialogService from "../services/message_dialog_service.js";
 
 // utility function
 const getSimpleDate = (date) => {

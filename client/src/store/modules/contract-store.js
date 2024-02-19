@@ -46,7 +46,7 @@ const contractStore = {
 
   actions: {
   // GET REQUESTS
-    fetchContractProjects({ commit }, id) {
+    fetchContractProjects({ commit,getters }, id) {
       commit("TOGGLE_CONTRACT_PROJECTS_LOADED", false);
       
       axios({
@@ -55,6 +55,7 @@ const contractStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -68,14 +69,15 @@ const contractStore = {
           commit("TOGGLE_CONTRACT_PROJECTS_LOADED", true);
         });
     },
-    fetchContractVehicles({ commit }, id) {
+    fetchContractVehicles({ commit,getters }, id) {
       commit("TOGGLE_CONTRACT_VEHICLES_LOADED", false);
       axios({
         method: "GET",
         url: `${API_BASE_PATH}/portfolio/contract_vehicles?project_id=${id}`,
         headers: {
-          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+"X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -88,14 +90,15 @@ const contractStore = {
           commit("TOGGLE_CONTRACT_VEHICLES_LOADED", true);
         });
     },
-    fetchContractDataOptions({ commit }) {
+    fetchContractDataOptions({ commit,getters }) {
       commit("TOGGLE_CONTRACT_DATA_OPTIONS_LOADED", false);   
       axios({
         method: "GET",
         url: `${API_BASE_PATH}/program_settings/contract_data/get_contract_data`,
         headers: {
-          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+"X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -108,14 +111,15 @@ const contractStore = {
           commit("TOGGLE_CONTRACT_DATA_OPTIONS_LOADED", true);
         });
     },
-    fetchContractPOCs({ commit } ) {
+    fetchContractPOCs({ commit,getters } ) {
       commit("TOGGLE_CONTRACT_POCS_LOADED", false);   
       axios({
         method: "GET",
         url: `${API_BASE_PATH}/portfolio/contract_project_pocs`,
         headers: {
-          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+"X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -130,7 +134,7 @@ const contractStore = {
         });
     },
   // POST REQUESTS
-    createContractProject({ commit }, { cProjectData }) {
+    createContractProject({ commit,getters }, { cProjectData }) {
     commit("TOGGLE_CONTRACT_PROJECT_LOADED", false);
     let formData = new FormData();
     console.log(cProjectData)
@@ -181,7 +185,7 @@ const contractStore = {
         commit("TOGGLE_CONTRACT_PROJECT_LOADED", true);
       });
     },
-    createContractVehicle({ commit }, { cVehicleData }) {
+    createContractVehicle({ commit,getters }, { cVehicleData }) {
       commit("TOGGLE_CONTRACT_VECHILE_LOADED", false);
       let formData = new FormData();
       console.log(cVehicleData)
@@ -215,8 +219,9 @@ const contractStore = {
         url: `${API_BASE_PATH}/portfolio/contract_vehicles`,
         data: formData,
         headers: {
-          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+"X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -230,7 +235,7 @@ const contractStore = {
           commit("TOGGLE_CONTRACT_VEHICLE_LOADED", true);
         });
     },
-    createContractPOC({ commit }, { cPOCsData }) {
+    createContractPOC({ commit,getters }, { cPOCsData }) {
       commit("TOGGLE_CONTRACT_POCS_LOADED", false);
       let formData = new FormData();
       console.log(cPOCsData)
@@ -257,8 +262,9 @@ const contractStore = {
         url: `${API_BASE_PATH}/portfolio/contract_project_pocs`,
         data: formData,
         headers: {
-          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+"X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -272,7 +278,7 @@ const contractStore = {
           commit("TOGGLE_CONTRACT_POCS_LOADED", true);
         });
     },
-    associateContractToProgram({ commit }, { contract } ) {
+    associateContractToProgram({ commit,getters }, { contract } ) {
       commit("TOGGLE_ASSOCIATED_CONTRACTS_LOADED", false);
   //  console.log(contract)
       axios({
@@ -280,8 +286,9 @@ const contractStore = {
         url: `${API_BASE_PATH}/program_settings/programs/add_contract`,
         data: {id: contract.programId, contract_id: contract.id},
         headers: {
-          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+"X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -296,7 +303,7 @@ const contractStore = {
           commit("TOGGLE_ASSOCIATED_CONTRACTS_LOADED", true);
         });
       },
-      associateVehicleToProgram({ commit }, { vehicle } ) {
+      associateVehicleToProgram({ commit,getters }, { vehicle } ) {
         commit("TOGGLE_ASSOCIATED_VEHICLES_LOADED", false);
         axios({
           method: "POST",
@@ -320,7 +327,7 @@ const contractStore = {
           });
         },
         // UPDATE REQUESTS
-  updateIgnoreExpired({ commit }, { cProjectData, id }) {
+  updateIgnoreExpired({ commit,getters }, { cProjectData, id }) {
     commit("TOGGLE_CONTRACT_PROJECT_LOADED", false);
     let formData = new FormData();
     console.log(cProjectData)
@@ -346,7 +353,7 @@ const contractStore = {
       });
   },
   // UPDATE REQUESTS
-  updateContractProject({ commit }, { cProjectData, id }) {
+  updateContractProject({ commit,getters }, { cProjectData, id }) {
     commit("TOGGLE_CONTRACT_PROJECT_LOADED", false);
     let formData = new FormData();
       formData.append("contract_project_data[id]", id);
@@ -432,8 +439,9 @@ const contractStore = {
         url: `${API_BASE_PATH}/portfolio/contract_project_data/${id}`,
         data: formData,
         headers: {
-          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+"X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
       .then((res) => {
@@ -447,7 +455,7 @@ const contractStore = {
         commit("TOGGLE_CONTRACT_PROJECT_LOADED", true);
       });
   },
-  updateContractVehicle({ commit }, { cVehicleData, id } ) {    
+  updateContractVehicle({ commit,getters }, { cVehicleData, id } ) {    
     commit("TOGGLE_CONTRACT_VEHICLE_LOADED", false);   
     console.log(id)
     let formData = new FormData();
@@ -520,7 +528,7 @@ const contractStore = {
         commit("TOGGLE_CONTRACT_VEHICLE_LOADED", true);
       });
   },
-  updateContractPOC({ commit }, { cPOCsData, id }) {
+  updateContractPOC({ commit,getters }, { cPOCsData, id }) {
   commit("TOGGLE_CONTRACT_POCS_LOADED", false);
   let formData = new FormData();
   console.log(cPOCsData)
@@ -554,7 +562,7 @@ const contractStore = {
     });
   },
     // DELETE REQUESTS
-    deleteContractProject({ commit }, id) {
+    deleteContractProject({ commit,getters }, id) {
     commit("TOGGLE_CONTRACT_PROJECT_LOADED", false);
     axios({
       method: "DELETE",
@@ -575,7 +583,7 @@ const contractStore = {
         commit("TOGGLE_CONTRACT_PROJECT_LOADED", true);
       });
     },
-    deleteContractVehicle({ commit }, id ) {
+    deleteContractVehicle({ commit,getters }, id ) {
         commit("TOGGLE_CONTRACT_VEHICLE_LOADED", false);
       
         axios({
@@ -597,15 +605,16 @@ const contractStore = {
             commit("TOGGLE_CONTRACT_VEHICLE_LOADED", true);
           });
     },
-    deleteContractPOC({ commit }, id ) {
+    deleteContractPOC({ commit,getters }, id ) {
       commit("TOGGLE_CONTRACT_POCS_LOADED", false);
     
       axios({
         method: "DELETE",
         url: `${API_BASE_PATH}/portfolio/contract_project_pocs/${id}`,
         headers: {
-          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+"X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {

@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.User);
       this.belongsTo(models.TaskType);
       this.belongsTo(models.LessonStage);
-      this.hasMany(models.LessonUser);
+      this.hasMany(models.LessonUser,{onDelete: 'CASCADE', hooks: true });
       // this.belongsToMany(models.User,{through: models.LessonUser, foreignKey: '', otherKey: '' });
       // // this.belongsTo(models.FacilityProject,{ foreignKey: '' , as: 'LessonFacilityProject' });
       this.belongsTo(models.FacilityProject);

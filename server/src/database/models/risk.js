@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // // define association here
       // this.belongsTo(models.User);
-      this.hasMany(models.RiskUser);
+      this.hasMany(models.RiskUser,{onDelete: 'CASCADE', hooks: true });
       // this.belongsTo(models.RiskStage);
       // this.belongsToMany(models.User,{through: models.RiskUser, foreignKey: '', otherKey: '' });
       // this.belongsTo(models.TaskType);

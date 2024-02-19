@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       // // define association here
       // this.belongsTo(models.TaskType);
       // this.belongsTo(models.TaskStage);
-      this.hasMany(models.TaskUser);
+      this.hasMany(models.TaskUser,{onDelete: 'CASCADE', hooks: true });
       // this.belongsToMany(models.User,{through: models.TaskUser, foreignKey: '', otherKey: '' });
       // // this.hasMany(models.TaskFile);
       // this.hasMany(models.Note);
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       // this.belongsTo(models.Contract);
       // this.belongsTo(models.ProjectContract);
       // this.belongsTo(models.ProjectContractVehicle);
-      this.hasMany(models.Checklist, {as: 'listable', foreignKey: 'listable_id'});
+      this.hasMany(models.Checklist, {as: 'listable', foreignKey: 'listable_id',onDelete: 'CASCADE', hooks: true });
       // this.hasMany(models.RelatedTask);
       // this.hasMany(models.RelatedIssue);
       // this.hasMany(models.RelatedRisk);

@@ -15,6 +15,16 @@ module.exports = (sequelize, DataTypes) => {
 // this.belongsToMany(models.Project,{through: models.ProjectStatus, foreignKey: '', otherKey: '' })
 
     }
+    static async notStarted(){
+      const { db } = require("./index.js");
+      const [status, created] = await db.Status.findOrCreate({
+        where: {name: 'Not Started'},
+        defaults: {
+          color: "#000000"
+        }
+      });
+      return status
+    }
   }
   Status.init({
     name: DataTypes.STRING,

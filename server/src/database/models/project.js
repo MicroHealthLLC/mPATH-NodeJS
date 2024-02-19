@@ -277,7 +277,7 @@ module.exports = (sequelize, DataTypes) => {
         facility_hash['facility_project_id'] = facility_project.id
         facility_hash['class'] = "FacilityProject"
         let facility_status = await facility_project.getStatus({attributes: ['name']})
-        facility_hash['project_status'] = facility_status.name//"Behind Schedule"
+        facility_hash['project_status'] = facility_status.name
         facility_hash['facility_name'] = facility.facility_name
         facility_hash['facility'] = facility.toJSON()
         let fg_hash = facility_group.toJSON()

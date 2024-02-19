@@ -19,6 +19,7 @@ const notesRoutes = require('./routes/notesRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
 const filterDataRoutes = require('./routes/filterDataRoutes');
 const queryRouters = require('./routes/queryRouters');
+
 const programSettingContractDataRoutes = require('./routes/programSettingContractDataRoutes');
 const programSettingContractsRoutes = require('./routes/programSettingContractsRoutes');
 const programSettingContractVehiclesRoutes = require('./routes/programSettingContractVehiclesRoutes');
@@ -27,6 +28,9 @@ const programSettingFacilityGroupsRoutes = require('./routes/programSettingFacil
 const programSettingProjectsRoutes = require('./routes/programSettingProjectsRoutes');
 const programSettingRolesRoutes = require('./routes/programSettingRolesRoutes');
 const programSettingUsersRoutes = require('./routes/programSettingUsersRoutes');
+
+const portfolioContractDataRoutes = require('./routes/portfolioContractDataRoutes');
+const portfolioContractVehicleRoutes = require('./routes/portfolioContractVehicleRoutes');
 
 // fastify.addHook('onRequest', function(request, reply, done) {
 // 	let body = qs.parse(request.body)
@@ -64,6 +68,7 @@ fastify.register(rolesRoutes)
 fastify.register(notesRoutes)
 fastify.register(filterDataRoutes)
 fastify.register(queryRouters)
+
 // fastify.register(programSettingContractDataRoutes)
 fastify.register(programSettingContractsRoutes)
 fastify.register(programSettingContractVehiclesRoutes)
@@ -72,6 +77,9 @@ fastify.register(programSettingFacilityGroupsRoutes)
 fastify.register(programSettingProjectsRoutes)
 fastify.register(programSettingUsersRoutes)
 fastify.register(programSettingRolesRoutes)
+
+fastify.register(portfolioContractDataRoutes)
+fastify.register(portfolioContractVehicleRoutes)
 
 async function assertDatabaseConnectionOk() {
 	console.log(`Checking database connection...`);

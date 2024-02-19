@@ -1024,7 +1024,7 @@ removeProject(index, rows) {
       }).then((response) => {
         if (response.status === 200) {
           MessageDialogService.showDialog({
-            message: `New Project ${this.newProjectName} has been saved successfully.`,
+            message: `New Project ${this.newProjectNameText} has been saved successfully.`,
             
             
           });
