@@ -3,6 +3,10 @@ dotenv.config();
 const fastify = require('fastify')({
   logger: true
 })
+
+//To add middlewares
+fastify.register(require('@fastify/middie'))
+
 const qs = require('qs');
 
 const cors = require('@fastify/cors');

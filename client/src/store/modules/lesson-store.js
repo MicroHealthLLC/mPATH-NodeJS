@@ -21,7 +21,7 @@ const lessonModule = {
     vehicle_lesson_status: 0,
   }),
   actions: {
-    fetchProgramLessons({ commit }, { programId } ) {
+    fetchProgramLessons({ commit,getters }, { programId } ) {
       commit("TOGGLE_PROGRAM_LESSONS_LOADED", false);
       // Send GET request for all lessons contained within a program
       axios({
@@ -30,6 +30,8 @@ const lessonModule = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
+            
         },
       })
         .then((res) => {        
@@ -45,15 +47,16 @@ const lessonModule = {
           commit("TOGGLE_PROGRAM_LESSONS_LOADED", true);
         });
     },
-    fetchProgramLessonCounts({ commit }, { programId } ) {
+    fetchProgramLessonCounts({ commit,getters }, { programId } ) {
       commit("TOGGLE_PROGRAM_LESSONS_LOADED", false);
       // Send GET request for all lessons contained within a program
       axios({
         method: "GET",
-        url: `/api/v1/programs/${programId}/lessons/count.json`,
+        url: `${API_BASE_PATH}/programs/${programId}/lessons/count`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {      
@@ -69,7 +72,7 @@ const lessonModule = {
           commit("TOGGLE_PROGRAM_LESSONS_LOADED", true);
         });
     },
-    fetchProjectLessons({ commit }, { programId, projectId }) {
+    fetchProjectLessons({ commit,getters }, { programId, projectId }) {
       commit("TOGGLE_LESSONS_LOADED", false);
       // Send GET request for all lessons contained within a project
       axios({
@@ -78,6 +81,7 @@ const lessonModule = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -92,7 +96,7 @@ const lessonModule = {
           commit("TOGGLE_LESSONS_LOADED", true);
         });
     },
-    fetchContractLessons({ commit }, { contractId }) {
+    fetchContractLessons({ commit,getters }, { contractId }) {
       commit("TOGGLE_CONTRACT_LESSONS_LOADED", false);
       // Send GET request for all lessons contained within a project
       axios({
@@ -101,6 +105,7 @@ const lessonModule = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -115,7 +120,7 @@ const lessonModule = {
           commit("TOGGLE_CONTRACT_LESSONS_LOADED", true);
         });
     },
-    fetchVehicleLessons({ commit }, { vehicleId }) {
+    fetchVehicleLessons({ commit,getters }, { vehicleId }) {
       commit("TOGGLE_VEHICLE_LESSONS_LOADED", false);
       // Send GET request for all lessons contained within a project
       axios({
@@ -124,6 +129,7 @@ const lessonModule = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -138,15 +144,16 @@ const lessonModule = {
           commit("TOGGLE_VEHICLE_LESSONS_LOADED", true);
         });
     },
-    fetchLesson({ commit }, { id, programId, projectId}) {
+    fetchLesson({ commit,getters }, { id, programId, projectId}) {
       commit("TOGGLE_LESSONS_LOADED", false);
       // Retrieve lesson by id
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/programs/${programId}/projects/${projectId}/lessons/${id}.json`,
+        url: `${API_BASE_PATH}/programs/${programId}/projects/${projectId}/lessons/${id}`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -159,15 +166,16 @@ const lessonModule = {
           commit("TOGGLE_LESSONS_LOADED", true);
         });
     },
-    fetchContractLesson({ commit }, { id, contractId}) {
+    fetchContractLesson({ commit,getters }, { id, contractId}) {
       commit("TOGGLE_CONTRACT_LESSONS_LOADED", false);
       // Retrieve lesson by id
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/project_contracts/${contractId}/lessons/${id}.json`,
+        url: `${API_BASE_PATH}/project_contracts/${contractId}/lessons/${id}`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -180,15 +188,16 @@ const lessonModule = {
           commit("TOGGLE_CONTRACT_LESSONS_LOADED", true);
         });
     },
-    fetchVehicleLesson({ commit }, { id, vehicleId}) {
+    fetchVehicleLesson({ commit,getters }, { id, vehicleId}) {
       commit("TOGGLE_VEHICLE_LESSONS_LOADED", false);
       // Retrieve lesson by id
       axios({
         method: "GET",
-        url: `${API_BASE_PATH}/project_contract_vehicles/${vehicleId}/lessons/${id}.json`,
+        url: `${API_BASE_PATH}/project_contract_vehicles/${vehicleId}/lessons/${id}`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -201,7 +210,7 @@ const lessonModule = {
           commit("TOGGLE_VEHICLE_LESSONS_LOADED", true);
         });
     },
-    addLesson({ commit }, { lesson, programId, projectId }) {
+    addLesson({ commit,getters }, { lesson, programId, projectId }) {
       // Displays loader on front end
       commit("TOGGLE_LESSONS_LOADED", false);
       // Utilize utility function to prep Lesson form data
@@ -214,6 +223,7 @@ const lessonModule = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {       
@@ -227,7 +237,7 @@ const lessonModule = {
           commit("TOGGLE_LESSONS_LOADED", true);
         });
     },
-    addContractLesson({ commit }, { lesson, contractId }) {
+    addContractLesson({ commit,getters }, { lesson, contractId }) {
  // Displays loader on front end
     commit("TOGGLE_CONTRACT_LESSONS_LOADED", false);
   // Utilize utility function to prep Lesson form data
@@ -240,6 +250,7 @@ const lessonModule = {
     headers: {
       "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
         .attributes["content"].value,
+        'x-token': getters.getToken
     },
   })
     .then((res) => {
@@ -254,7 +265,7 @@ const lessonModule = {
       commit("TOGGLE_CONTRACT_LESSONS_LOADED", true);
     });
 },
-addVehicleLesson({ commit }, { lesson, vehicleId }) {
+addVehicleLesson({ commit,getters }, { lesson, vehicleId }) {
   // Displays loader on front end
      commit("TOGGLE_VEHICLE_LESSONS_LOADED", false);
    // Utilize utility function to prep Lesson form data
@@ -267,6 +278,7 @@ addVehicleLesson({ commit }, { lesson, vehicleId }) {
      headers: {
        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
          .attributes["content"].value,
+         'x-token': getters.getToken
      },
    })
      .then((res) => {
@@ -281,7 +293,7 @@ addVehicleLesson({ commit }, { lesson, vehicleId }) {
        commit("TOGGLE_VEHICLE_LESSONS_LOADED", true);
      });
  },
-    updateLesson({ commit }, { lesson, programId, projectId, lessonId }) {
+    updateLesson({ commit,getters }, { lesson, programId, projectId, lessonId }) {
       // Displays loader on front end
       commit("TOGGLE_LESSONS_LOADED", false);
       // Utilize utility function to prep Lesson form data
@@ -294,6 +306,7 @@ addVehicleLesson({ commit }, { lesson, vehicleId }) {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -307,7 +320,7 @@ addVehicleLesson({ commit }, { lesson, vehicleId }) {
           commit("TOGGLE_LESSONS_LOADED", true);
         });
     },
-    updateContractLesson({ commit }, { lesson, contractId, lessonId }) {
+    updateContractLesson({ commit,getters }, { lesson, contractId, lessonId }) {
       // Displays loader on front end
       commit("TOGGLE_CONTRACT_LESSONS_LOADED", false);
       // Utilize utility function to prep Lesson form data
@@ -315,11 +328,12 @@ addVehicleLesson({ commit }, { lesson, vehicleId }) {
 
       axios({
         method: "PATCH",
-        url: `${API_BASE_PATH}/project_contracts/${contractId}/lessons/${lessonId}.json`,
+        url: `${API_BASE_PATH}/project_contracts/${contractId}/lessons/${lessonId}`,
         data: formData,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -333,7 +347,7 @@ addVehicleLesson({ commit }, { lesson, vehicleId }) {
           commit("TOGGLE_CONTRACT_LESSONS_LOADED", true);
         });
     },
-    updateVehicleLesson({ commit }, { lesson, vehicleId, lessonId }) {
+    updateVehicleLesson({ commit,getters }, { lesson, vehicleId, lessonId }) {
       // Displays loader on front end
       commit("TOGGLE_VEHICLE_LESSONS_LOADED", false);
       // Utilize utility function to prep Lesson form data
@@ -341,11 +355,12 @@ addVehicleLesson({ commit }, { lesson, vehicleId }) {
 
       axios({
         method: "PATCH",
-        url: `${API_BASE_PATH}/project_contract_vehicles/${vehicleId}/lessons/${lessonId}.json`,
+        url: `${API_BASE_PATH}/project_contract_vehicles/${vehicleId}/lessons/${lessonId}`,
         data: formData,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -359,14 +374,15 @@ addVehicleLesson({ commit }, { lesson, vehicleId }) {
           commit("TOGGLE_VEHICLE_LESSONS_LOADED", true);
         });
     },
-    deleteLesson({ commit }, { id, programId, projectId }) {
+    deleteLesson({ commit,getters }, { id, programId, projectId }) {
       // Delete a single lesson
       axios({
         method: "DELETE",
-        url: `${API_BASE_PATH}/programs/${programId}/projects/${projectId}/lessons/${id}.json`,
+        url: `${API_BASE_PATH}/programs/${programId}/projects/${projectId}/lessons/${id}`,
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -377,7 +393,7 @@ addVehicleLesson({ commit }, { lesson, vehicleId }) {
         })
         .finally(() => {});
     },
-    deleteContractLesson({ commit }, { id, contractId }) {
+    deleteContractLesson({ commit,getters }, { id, contractId }) {
       // Delete a single lesson
       axios({
         method: "DELETE",
@@ -385,6 +401,7 @@ addVehicleLesson({ commit }, { lesson, vehicleId }) {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -395,7 +412,7 @@ addVehicleLesson({ commit }, { lesson, vehicleId }) {
         })
         .finally(() => {});
     },
-    deleteVehicleLesson({ commit }, { id, vehicleId }) {
+    deleteVehicleLesson({ commit,getters }, { id, vehicleId }) {
       // Delete a single lesson
       axios({
         method: "DELETE",
@@ -403,6 +420,7 @@ addVehicleLesson({ commit }, { lesson, vehicleId }) {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
