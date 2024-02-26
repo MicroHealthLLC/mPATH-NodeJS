@@ -35,6 +35,7 @@ const effortStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -62,6 +63,7 @@ const effortStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -89,6 +91,7 @@ const effortStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -121,6 +124,7 @@ const effortStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+          'x-token': getters.getToken
         },
       })
         .then((res) => {

@@ -75,9 +75,9 @@ const contractStore = {
         method: "GET",
         url: `${API_BASE_PATH}/portfolio/contract_vehicles?project_id=${id}`,
         headers: {
-"X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
-            'x-token': getters.getToken
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -96,9 +96,9 @@ const contractStore = {
         method: "GET",
         url: `${API_BASE_PATH}/program_settings/contract_data/get_contract_data`,
         headers: {
-"X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
-            'x-token': getters.getToken
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -117,9 +117,9 @@ const contractStore = {
         method: "GET",
         url: `${API_BASE_PATH}/portfolio/contract_project_pocs`,
         headers: {
-"X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
-            'x-token': getters.getToken
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -172,6 +172,7 @@ const contractStore = {
       headers: {
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
           .attributes["content"].value,
+        'x-token': getters.getToken
       },
     })
       .then((res) => {
@@ -219,9 +220,9 @@ const contractStore = {
         url: `${API_BASE_PATH}/portfolio/contract_vehicles`,
         data: formData,
         headers: {
-"X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
-            'x-token': getters.getToken
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -262,9 +263,9 @@ const contractStore = {
         url: `${API_BASE_PATH}/portfolio/contract_project_pocs`,
         data: formData,
         headers: {
-"X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
-            'x-token': getters.getToken
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -286,9 +287,9 @@ const contractStore = {
         url: `${API_BASE_PATH}/program_settings/programs/add_contract`,
         data: {id: contract.programId, contract_id: contract.id},
         headers: {
-"X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
-            'x-token': getters.getToken
+          'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -312,6 +313,7 @@ const contractStore = {
           headers: {
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
               .attributes["content"].value,
+            'x-token': getters.getToken
           },
         })
           .then((res) => {
@@ -339,6 +341,7 @@ const contractStore = {
       headers: {
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
           .attributes["content"].value,
+        'x-token': getters.getToken
       },
     })
       .then((res) => {
@@ -439,9 +442,9 @@ const contractStore = {
         url: `${API_BASE_PATH}/portfolio/contract_project_data/${id}`,
         data: formData,
         headers: {
-"X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
-            'x-token': getters.getToken
+          'x-token': getters.getToken
         },
       })
       .then((res) => {
@@ -515,6 +518,7 @@ const contractStore = {
       headers: {
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
           .attributes["content"].value,
+        'x-token': getters.getToken
       },
     })
       .then((res) => {
@@ -548,6 +552,7 @@ const contractStore = {
     headers: {
       "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
         .attributes["content"].value,
+      'x-token': getters.getToken
     },
   })
     .then((res) => {
@@ -570,6 +575,7 @@ const contractStore = {
       headers: {
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
           .attributes["content"].value,
+        'x-token': getters.getToken
       },
     })
       .then((res) => {
@@ -592,6 +598,7 @@ const contractStore = {
           headers: {
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
               .attributes["content"].value,
+            'x-token': getters.getToken
           },
         })
           .then((res) => {
@@ -612,9 +619,9 @@ const contractStore = {
         method: "DELETE",
         url: `${API_BASE_PATH}/portfolio/contract_project_pocs/${id}`,
         headers: {
-"X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
-            'x-token': getters.getToken
+          'x-token': getters.getToken
         },
       })
         .then((res) => {

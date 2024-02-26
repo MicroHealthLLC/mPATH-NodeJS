@@ -1,6 +1,7 @@
 'use strict';
 const {_} = require("lodash") 
-
+const validUrl = require('valid-url');
+const { Readable } = require('stream');
 
 const {
   Model
@@ -36,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       
 
     }
+    // static URL_FILENAME_LENGTH = 252
 
     async createOrUpdateTask(params, options) {
       try {
@@ -61,12 +63,10 @@ module.exports = (sequelize, DataTypes) => {
         }
         let facility_project = await db.FacilityProject.findOne({where: {project_id: project_id, facility_id: facility_id}, raw: true})
         tParams['facility_project_id'] = facility_project.id
-        console.log("**********tParams", tParams)
+        // console.log("**********tParams", tParams)
         
         task.setAttributes(tParams);
         
-        console.log("***task.planned_effort", task.planned_effort)
-
         if (tParams.project_contract_id) {
           task.project_contract_id = params.project_contract_id;
         } else if (tParams.project_contract_vehicle_id) {
@@ -155,7 +155,7 @@ module.exports = (sequelize, DataTypes) => {
         
         // NOTE: This is not working inside the Transaction block.
         // Reproduce: Create a new task with a file and link both, and it is giving an error
-        // task.addLinkAttachment(params);
+        task.addLinkAttachment(params);
     
         // await task.updateClosed();
     
@@ -166,6 +166,105 @@ module.exports = (sequelize, DataTypes) => {
         console.error("Error in execution", error);
       }
     }
+
+    async addLinkAttachment(params) {
+      const { db } = require("./index.js");
+      var  linkFiles = params.file_links
+      // if (linkFiles && linkFiles.length > 0) {
+
+      //   for(var f of linkFiles){
+      //     if (f && validUrl.isUri(f)) {
+      //       let filename = f;
+      //       if (f.length > 252) {
+      //           filename = f.substring(0, 252) + '...';
+      //       }
+      //       // `key`, `filename`, `content_type`, `metadata`, `byte_size`, `checksum`, `created_at`, `service_name`
+      //       var blob = await db.ActiveStorageBlob.create({
+      //           // Assuming taskFiles is a Sequelize attachment association
+      //           // data: Buffer.from(f),
+      //           key: 'task_files',
+      //           filename: filename,
+      //           content_type: 'text/plain',
+      //           service_name: 'local',
+      //           metadata: '',
+      //           byte_size: filename.length,
+      //           checksum: ''
+      //       });
+      //       await db.ActiveStorageAttachment.create({
+      //         name: 'task_files',
+      //         blob_id: blob.id,
+      //         record_type: 'Task',
+      //         record_id: this.id,
+      //         service: 'local'
+      //       })
+      //     }          
+      //   }
+
+      // }
+      const multer = require("multer");
+      var storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, "uploads");
+        },
+        filename: function (req, file, cb) {
+          cb(null, Date.now() + '-' + file.originalname);
+        },
+      });     
+
+      var upload = multer({
+        storage: storage,
+        fileFilter: function (req, file, cb) {
+          var filetypes = /jpeg|jpg|png/;
+          var mimetype = filetypes.test(file.mimetype);
+    
+          var extname = filetypes.test(
+              path.extname(file.originalname).toLowerCase()
+          );
+    
+          if (mimetype && extname) {
+              return cb(null, true);
+          }
+    
+          cb("Error: File upload only supports the following filetypes - " + filetypes);
+        },
+     
+      })
+      console.log("***** upload", upload)
+      var taskFiles = params.task.task_files
+      upload.array('task_files')
+      if(taskFiles && taskFiles.length > 0){
+
+        for(var t of taskFiles){
+          
+          
+        }
+
+        // for(var t of taskFiles){
+        //   // `key`, `filename`, `content_type`, `metadata`, `byte_size`, `checksum`, `created_at`, `service_name`
+        //   var blob = await db.ActiveStorageBlob.create({
+        //     // Assuming taskFiles is a Sequelize attachment association
+        //     // data: Buffer.from(f),
+        //     key: 'task_files',
+        //     filename: filename,
+        //     content_type: 'text/plain',
+        //     service_name: 'local',
+        //     metadata: '',
+        //     byte_size: filename.length,
+        //     checksum: ''
+        //   });
+        //   await db.ActiveStorageAttachment.create({
+        //     name: 'task_files',
+        //     blob_id: blob.id,
+        //     record_type: 'Task',
+        //     record_id: this.id,
+        //     service: 'local'
+        //   })         
+        // }
+
+      }
+
+    }
+
     async manageChecklists(params){
       const { db } = require("./index.js");
       if(params.checklists_attributes){
@@ -215,10 +314,20 @@ module.exports = (sequelize, DataTypes) => {
         if(delete_note_ids.length > 0){
           await db.Note.destroy({ where: { id: delete_note_ids }})
         }
-        console.log("*****delete_note_ids", delete_note_ids)
+        // console.log("*****delete_note_ids", delete_note_ids)
       }
     }
 
+    validUrl(url) {
+      const { URL } = require('url');
+
+      try {
+        const parsedUrl = new URL(url);
+        return (parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:') && parsedUrl.hostname !== null;
+      } catch (error) {
+        return false;
+      }
+    }
     async toJSON(){
       const { db } = require("./index.js");
       
@@ -308,6 +417,54 @@ module.exports = (sequelize, DataTypes) => {
       _resource["attach_files"] = []
       _resource["notes"] = []
       
+      let attachFiles = await db.ActiveStorageAttachment.findAll({where: {record_type: 'Task', record_id: this.id}})
+      // _resource["attach_files"] = _.map(attachFiles, function(a){ return a.id })
+      let blobIds = _.map(attachFiles, function(a){ return a.blob_id })
+      let blobs = await db.ActiveStorageBlob.findAll({where: {id: blobIds}})
+      // console.log("******attachFiles", blobs)
+
+      let files  = true
+      // Assuming files variable is a boolean indicating whether to fetch files
+
+      for(var afile of attachFiles){
+        let file = _.find(blobs, function(b){return b.id == afile.blob_id})
+        // console.log("******blob", file)
+        if (file.filename) { // Check if filename exists
+          try {
+            if (file.content_type === "text/plain" && this.validUrl(file.filename)) {
+              // If content type is text/plain and filename is a valid URL
+              _resource["attach_files"].push({
+                id: afile.id,
+                key: file.key,
+                name: file.filename,
+                uri: file.filename,
+                link: true
+              });
+            } else {
+              // If content type is not text/plain or filename is not a valid URL
+              _resource["attach_files"].push({
+                id: afile.id,
+                key: file.key,
+                name: file.filename,
+                uri: `/files/${file.id}`, // Assuming files are served from /files route
+                link: false
+              });
+            }
+          } catch (error) {
+            console.error("There is an exception:", error);
+          }
+        }
+      }
+      attachFiles = attachFiles.filter((file, index, self) =>
+        index === self.findIndex((t) => (
+          t.id === file.id && t.name === file.name && t.uri === file.uri
+        )) // Remove duplicates
+      );
+
+
+
+
+
       for(var note of notes){
         let n = note
         let user = _.find(users, function(u){ return u.id == n.user_id})
@@ -427,8 +584,6 @@ module.exports = (sequelize, DataTypes) => {
         ...consultedResourceUsers,
         ...informedResourceUsers,
       ];
-      console.log("***recordsToImport", recordsToImport)
-      console.log("***recordsToImport", usersToDelete)
       if (usersToDelete.length > 0) {
         resourceUsers
           .filter((ru) => usersToDelete.includes(ru.user_id))

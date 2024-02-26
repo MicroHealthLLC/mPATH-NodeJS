@@ -1,5 +1,6 @@
 const { db } = require("../database/models");
 const {_} = require("lodash") 
+const {getCurrentUser, printParams, compactAndUniq} = require('../utils/helpers.js')
 
 
 const show = async(req, res) => {
@@ -29,7 +30,7 @@ const create = async (req, res) => {
     //   console.log(data.filename); // access file name
     // }
     let task = db.Task.build();
-    let user = await db.User.findOne({where: {email: 'admin@example.com'}})
+    let user = await getCurrentUser(req.headers['x-token']) //await db.User.findOne({where: {email: 'admin@example.com'}})
     await task.createOrUpdateTask(params,{user: user, project_id: req.params.program_id, facility_id: req.params.project_id})
 
 
@@ -61,9 +62,22 @@ const update = async (req, res) => {
     await task.assignUsers(params)
     await task.manageNotes(taskParams)
     await task.manageChecklists(taskParams)
+    await task.addLinkAttachment(params)
+    const {formidable} = require('formidable')
+    const form = formidable({uploadDir: "./uploads"});
+    let fields;
+    let files;
+    try {
+      [fields, files] = await form.parse(req);
+      console.log("******formidable", files, fields)
+    } catch (err) {
+      console.log("******formidable Error", ""+err)
+
+    }
+
+
     // task = await task.update(params)
-    console.log("after update", task)
-    const response = require('../../static_responses/projects_index.json');
+    // console.log("after update", task)
 
     return({task: await task.toJSON(), msg: "Task updated successfully" });
   } catch (error) {
