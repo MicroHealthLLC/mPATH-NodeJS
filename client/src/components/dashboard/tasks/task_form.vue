@@ -1963,7 +1963,7 @@ export default {
           headers: {
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
               .attributes["content"].value,
-            "X-authToken": 'Bearer '+this.getToken(),
+            "X-token": this.getToken(),
             'Content-Type': 'multipart/form-data; boundary=Asrf456BGe4h'
           },
         })

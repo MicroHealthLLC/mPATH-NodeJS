@@ -54,7 +54,7 @@ const update = async (req, res) => {
     //   console.log("*******File being access**********");
     //   console.log(data.filename); // access file name
     // }
-    console.log("******task params", taskParams)
+    console.log("******req.body", req.body)
     let task = await db.Task.findOne({where: {id: req.params.id } })
     task.set(taskParams)
     await task.save()
@@ -63,16 +63,37 @@ const update = async (req, res) => {
     await task.manageNotes(taskParams)
     await task.manageChecklists(taskParams)
     await task.addLinkAttachment(params)
-    const {formidable} = require('formidable')
-    const form = formidable({uploadDir: "./uploads"});
-    let fields;
-    let files;
-    try {
-      [fields, files] = await form.parse(req);
-      console.log("******formidable", files, fields)
-    } catch (err) {
-      console.log("******formidable Error", ""+err)
 
+    const fs  = require('fs')
+    const util  = require('util')
+    const { pipeline } = require('stream')
+    const pump = util.promisify(pipeline)
+    const taskFiles = params.task.task_files
+    console.log("**** taskFiles", taskFiles)
+    console.log("******Current directory:", __dirname);
+    for await (const file of taskFiles) {
+
+      const passThroughStream = file.stream;
+
+      // upload and save the file
+      // var writerStream = fs.createWriteStream(`./uploads/${part.originalName}`);
+      const writeStream = fs.createWriteStream(`${file.originalName}`)
+      passThroughStream.pipe(writeStream);
+      writeStream.on('error', (err) => {
+        console.error('Error writing file:', err);
+      });
+      writeStream.on('finish', () => {
+        console.log('File saved successfully');
+      });
+      passThroughStream.on('end', () => {
+        console.log('PassThrough stream ended');
+      });
+      passThroughStream.on('error', (err) => {
+        console.error('PassThrough stream error:', err);
+      });
+      // strm.pipe(process.stdout)    
+      // strm.on('data', console.log)  
+      // await pump(part.stream, fs.createWriteStream(`./uploads/${part.originalName}`))
     }
 
 
