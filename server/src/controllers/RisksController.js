@@ -46,14 +46,6 @@ const update = async (req, res) => {
     let params = qs.parse(req.body)
     let riskParams = params.risk
 
-    // const parts = await req.files();
-    // console.log("************Files ", parts)
-
-    // for await (const data of parts) {
-    //   console.log("*******File being access**********");
-    //   console.log(data.filename); // access file name
-    // }
-
     let risk = await db.Risk.findOne({where: {id: req.params.id } })
     riskParams['risk_approach'] = risk.getRiskApproachValue(riskParams['risk_approach']) 
 
@@ -63,9 +55,7 @@ const update = async (req, res) => {
     await risk.assignUsers(params)
     await risk.manageNotes(riskParams)
     await risk.manageChecklists(riskParams)
-    // risk = await risk.update(params)
-    console.log("after update", risk)
-    const response = require('../../static_responses/projects_index.json');
+    await risk.addLinkAttachment(params)
 
     return({risk: await risk.toJSON(), msg: "Risk updated successfully" });
   } catch (error) {

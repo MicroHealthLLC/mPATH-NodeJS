@@ -1,4 +1,5 @@
 const dotenv = require('dotenv');
+const path = require('path')
 dotenv.config();
 const fastify = require('fastify')({
   logger: true
@@ -23,6 +24,7 @@ const notesRoutes = require('./routes/notesRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
 const filterDataRoutes = require('./routes/filterDataRoutes');
 const queryRouters = require('./routes/queryRouters');
+const downloadResourceFileRoutes = require('./routes/downloadResourceFileRoutes');
 
 const programSettingContractDataRoutes = require('./routes/programSettingContractDataRoutes');
 const programSettingContractsRoutes = require('./routes/programSettingContractsRoutes');
@@ -55,7 +57,11 @@ const PORT = 3000;
 fastify.register(cors, { 
   // put your options here
 })
-
+fastify.register(require('@fastify/static'), {
+  root: path.join(__dirname,"..", 'uploads'),
+  prefix: '/public/',
+  // constraints: { host: 'example.com' } // optional: default {}
+})
 // fastify.register(require('@fastify/multipart'), {addToBody: true})
 // fastify.register(require('@fastify/formbody'))
 fastify.register(formDataParser);
@@ -72,6 +78,7 @@ fastify.register(rolesRoutes)
 fastify.register(notesRoutes)
 fastify.register(filterDataRoutes)
 fastify.register(queryRouters)
+fastify.register(downloadResourceFileRoutes)
 
 // fastify.register(programSettingContractDataRoutes)
 fastify.register(programSettingContractsRoutes)

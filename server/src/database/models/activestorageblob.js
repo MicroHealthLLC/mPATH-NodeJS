@@ -12,8 +12,34 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+    
+    static generateRandomAlphaNumericString() {
+      const alphaNumericChars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      let result = '';
+      let length = 28;
+      for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * alphaNumericChars.length);
+        result += alphaNumericChars.charAt(randomIndex);
+      }
+    
+      return result;
+    }
+    getFolderPath(){
+      const inputString = this.key;
+      const result = [];
+
+      for (let i = 0; i < inputString.length; i += 2) {
+        const substring = inputString.substr(i, 2);
+        result.push(substring);
+      }
+
+      return [result[0], result[1]].join("/")
+    }
   }
   ActiveStorageBlob.init({
+    record_id: DataTypes.BIGINT,
+    record_type: DataTypes.STRING,
+    name: DataTypes.STRING,
     key: DataTypes.STRING,
     filename: DataTypes.STRING,
     content_type: DataTypes.STRING,

@@ -46,14 +46,6 @@ const update = async (req, res) => {
     let params = qs.parse(req.body)
     let issueParams = params.issue
 
-    // const parts = await req.files();
-    // console.log("************Files ", parts)
-
-    // for await (const data of parts) {
-    //   console.log("*******File being access**********");
-    //   console.log(data.filename); // access file name
-    // }
-
     let issue = await db.Issue.findOne({where: {id: req.params.id } })
     issue.set(issueParams)
     await issue.save()
@@ -61,8 +53,7 @@ const update = async (req, res) => {
     await issue.assignUsers(params)
     await issue.manageNotes(issueParams)
     await issue.manageChecklists(issueParams)
-    console.log("after update", issue)
-    const response = require('../../static_responses/projects_index.json');
+    await issue.addLinkAttachment(params)
 
     return({issue: await issue.toJSON(), msg: "Issue updated successfully" });
   } catch (error) {

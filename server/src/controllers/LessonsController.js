@@ -85,14 +85,6 @@ const update = async (req, res) => {
     let params = qs.parse(req.body)
     let lessonParams = params.lesson
 
-    // const parts = await req.files();
-    // console.log("************Files ", parts)
-
-    // for await (const data of parts) {
-    //   console.log("*******File being access**********");
-    //   console.log(data.filename); // access file name
-    // }
-
     let lesson = await db.Lesson.findOne({where: {id: req.params.id } })
     let user = await db.User.findOne({where: {email: 'admin@example.com'}})
 
@@ -100,13 +92,8 @@ const update = async (req, res) => {
     await lesson.save()
 
     await lesson.manageNotes(lessonParams)
-
     await lesson.addLessonDetail(lessonParams,user)
-    console.log("lesson params", qs.parse(req.body))
-
-    // lesson = await lesson.update(params)
-    // console.log("after update", lesson)
-    const response = require('../../static_responses/projects_index.json');
+    await lesson.addResourceAttachment(params)
 
     return({lesson: await lesson.toJSON(), msg: "Lesson updated successfully" });
   } catch (error) {

@@ -140,7 +140,7 @@ module.exports = (sequelize, DataTypes) => {
         
         // NOTE: This is not working inside the Transaction block.
         // Reproduce: Create a new lesson with a file and link both, and it is giving an error
-        // lesson.addLinkAttachment(params);
+        lesson.addResourceAttachment(params);
     
         // await lesson.updateClosed();
     
@@ -360,6 +360,42 @@ module.exports = (sequelize, DataTypes) => {
       _resource["sub_risks"] = _.map(_resource["sub_risks"], function(u){ return u.id} )
 
       _resource["task_type_id"] = parseInt(_resource['task_type_id'])
+      _resource["attach_files"] = []
+      let blobs = await db.ActiveStorageBlob.findAll({where: {record_type: 'Lesson', record_id: this.id}})
+      blobs = blobs.filter((file, index, self) =>
+        index === self.findIndex((t) => (
+          t.id === file.id && t.name === file.name && t.uri === file.uri
+        )) // Remove duplicates
+      );
+      for(var blob of blobs){
+        // console.log("******blob", file)
+        if (blob.filename) { // Check if filename exists
+          try {
+            if (blob.content_type === "text/plain" && this.validUrl(blob.filename)) {
+              // If content type is text/plain and filename is a valid URL
+              _resource["attach_files"].push({
+                id: blob.id,
+                key: blob.key,
+                name: blob.filename,
+                uri: blob.filename,
+                link: true
+              });
+            } else {
+              // If content type is not text/plain or filename is not a valid URL
+              _resource["attach_files"].push({
+                id: blob.id,
+                key: blob.key,
+                name: blob.filename,
+                uri: `/download/${blob.id}`, // Assuming files are served from /files route
+                link: false
+              });
+            }
+          } catch (error) {
+            console.error("There is an exception:", error);
+          }
+        }
+      }
+
       _resource["notes"] = []
       
       for(var note of notes){
@@ -376,7 +412,10 @@ module.exports = (sequelize, DataTypes) => {
 
       return _resource
     }
-
+    async addResourceAttachment(params) {
+      const { addAttachment } = require("../../utils/helpers");
+      addAttachment(params, this)
+    }
 
   }
   Lesson.init({

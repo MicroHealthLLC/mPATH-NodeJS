@@ -1161,7 +1161,8 @@ export default {
         .catch(() => {});
     },
     downloadFile(file) {
-      let url = window.location.origin + file.uri;
+      // let url = window.location.origin + file.uri;
+      let url = `${API_BASE_PATH}${file.uri}`
       window.open(url, "_blank");
     },
     changeStage(stage) {

@@ -1900,7 +1900,8 @@ export default {
         : `${this.$currentUser.full_name} at (Now)`;
     },
     downloadFile(file) {
-      let url = window.location.origin + file.uri;
+      // let url = window.location.origin + file.uri;
+      let url = `${API_BASE_PATH}${file.uri}`
       window.open(url, "_blank");
     },
     destroyProgressList(check, progress_list, index) {

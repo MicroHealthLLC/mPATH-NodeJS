@@ -153,7 +153,7 @@ module.exports = (sequelize, DataTypes) => {
         
         // NOTE: This is not working inside the Transaction block.
         // Reproduce: Create a new risk with a file and link both, and it is giving an error
-        // risk.addLinkAttachment(params);
+        risk.addResourceAttachment(params);
     
         // await risk.updateClosed();
     
@@ -434,8 +434,43 @@ module.exports = (sequelize, DataTypes) => {
       _resource["risk_stage_id"] = parseInt(_resource['risk_stage_id'])
       _resource["due_date_duplicate"] = []
       _resource["attach_files"] = []
-      _resource["notes"] = []
       
+      let blobs = await db.ActiveStorageBlob.findAll({where: {record_type: 'Risk', record_id: this.id}})
+      blobs = blobs.filter((file, index, self) =>
+        index === self.findIndex((t) => (
+          t.id === file.id && t.name === file.name && t.uri === file.uri
+        )) // Remove duplicates
+      );
+      for(var blob of blobs){
+        // console.log("******blob", file)
+        if (blob.filename) { // Check if filename exists
+          try {
+            if (blob.content_type === "text/plain" && this.validUrl(blob.filename)) {
+              // If content type is text/plain and filename is a valid URL
+              _resource["attach_files"].push({
+                id: blob.id,
+                key: blob.key,
+                name: blob.filename,
+                uri: blob.filename,
+                link: true
+              });
+            } else {
+              // If content type is not text/plain or filename is not a valid URL
+              _resource["attach_files"].push({
+                id: blob.id,
+                key: blob.key,
+                name: blob.filename,
+                uri: `/download/${blob.id}`, // Assuming files are served from /files route
+                link: false
+              });
+            }
+          } catch (error) {
+            console.error("There is an exception:", error);
+          }
+        }
+      }
+
+      _resource["notes"] = []
       for(var note of notes){
         let n = note
         let user = _.find(users, function(u){ return u.id == n.user_id})
@@ -450,7 +485,98 @@ module.exports = (sequelize, DataTypes) => {
 
       return _resource
     }
+    async addResourceAttachment(params) {
+      const { addAttachment } = require("../../utils/helpers");
+      addAttachment(params, this)
+      const { db } = require("./index.js");
 
+      var  linkFiles = params.file_links
+      const attachmentFiles = params.risk.risk_files
+
+      if (linkFiles && linkFiles.length > 0) {
+
+        for(var f of linkFiles){
+          if (f && validUrl.isUri(f)) {
+            let filename = f;
+            if (f.length > 252) {
+                filename = f.substring(0, 252) + '...';
+            }
+            // `key`, `filename`, `content_type`, `metadata`, `byte_size`, `checksum`, `created_at`, `service_name`
+            var blob = await db.ActiveStorageBlob.create({
+                // Assuming taskFiles is a Sequelize attachment association
+                key: db.ActiveStorageBlob.generateRandomAlphaNumericString(),
+                name: 'risk_files',
+                record_type: 'Risk',
+                record_id: this.id,
+                filename: filename,
+                content_type: 'text/plain',
+                service_name: 'local',
+                metadata: '',
+                byte_size: filename.length,
+                checksum: ''
+            });
+          }          
+        }
+
+      }
+      
+      if(attachmentFiles && attachmentFiles.length > 0){
+        // Using Stream in nodejs
+        const fs  = require('fs')
+        const path = require('path');
+
+        console.log("**** taskFiles", attachmentFiles)
+        const rootDir = path.resolve(__dirname, '..','..','..','uploads');
+
+        console.log("******Current directory:", rootDir);
+        
+        for await (const file of attachmentFiles) {
+    
+          const passThroughStream = file.stream;
+    
+          // upload and save the file
+          // var writerStream = fs.createWriteStream(`./uploads/${part.originalName}`);
+          var file_key = db.ActiveStorageBlob.generateRandomAlphaNumericString()
+
+          var blob = await db.ActiveStorageBlob.build({
+            name: 'risk_files',
+            key: file_key,
+            record_id: this.id,
+            record_type: 'Risk',
+            filename: file.originalName,
+            content_type: file.mimeType,
+            service_name: 'local',
+            metadata: '',
+            byte_size: file_key.length,
+            checksum: ''
+          });
+
+          var dir = `${rootDir}/${blob.getFolderPath()}`;
+          
+          if (!fs.existsSync(dir)){
+              fs.mkdirSync(dir, { recursive: true });
+          }
+          const writeStream = fs.createWriteStream(`${dir}/${file.originalName}`)
+
+          writeStream.on('error', (err) => {
+            console.log('*******Error writing file:', err);
+          });
+          writeStream.on('finish', async () => {
+            console.log('********File saved successfully', this, file);
+            await blob.save()
+          });
+          passThroughStream.on('end', () => {
+            console.log('********PassThrough stream ended');
+          });
+          passThroughStream.on('error', (err) => {
+            console.log('********PassThrough stream error:', err);
+          });
+          await passThroughStream.pipe(writeStream);
+          passThroughStream.end()
+        }
+      }
+
+    }
     getPriorityLevelName(priority_level){
       var n = 'Very Low'
       if([1].includes(priority_level)){

@@ -5,6 +5,7 @@ const {getCurrentUser, printParams, compactAndUniq} = require('../utils/helpers.
 
 const show = async(req, res) => {
   try {
+    console.log("**** show")
     let task = await db.Task.findOne({where: {id: req.params.id } })
 
     return({task: await task.toJSON()});
@@ -22,17 +23,10 @@ const create = async (req, res) => {
     console.log("task params", req.params)
     let params = qs.parse(req.body)
     let taskParams = params.task
-    // const parts = await req.files();
-    // console.log("************Files ", parts)
 
-    // for await (const data of parts) {
-    //   console.log("*******File being access**********");
-    //   console.log(data.filename); // access file name
-    // }
     let task = db.Task.build();
     let user = await getCurrentUser(req.headers['x-token']) //await db.User.findOne({where: {email: 'admin@example.com'}})
     await task.createOrUpdateTask(params,{user: user, project_id: req.params.program_id, facility_id: req.params.project_id})
-
 
     return({task: await task.toJSON(), msg: "Task created successfully" });
   } catch (error) {
@@ -47,14 +41,7 @@ const update = async (req, res) => {
     console.log("task params", qs.parse(req.body))
     let params = qs.parse(req.body)
     let taskParams = params.task
-    // const parts = await req.files();
-    // console.log("************Files ", parts)
 
-    // for await (const data of parts) {
-    //   console.log("*******File being access**********");
-    //   console.log(data.filename); // access file name
-    // }
-    console.log("******req.body", req.body)
     let task = await db.Task.findOne({where: {id: req.params.id } })
     task.set(taskParams)
     await task.save()
@@ -62,40 +49,7 @@ const update = async (req, res) => {
     await task.assignUsers(params)
     await task.manageNotes(taskParams)
     await task.manageChecklists(taskParams)
-    await task.addLinkAttachment(params)
-
-    const fs  = require('fs')
-    const util  = require('util')
-    const { pipeline } = require('stream')
-    const pump = util.promisify(pipeline)
-    const taskFiles = params.task.task_files
-    console.log("**** taskFiles", taskFiles)
-    console.log("******Current directory:", __dirname);
-    for await (const file of taskFiles) {
-
-      const passThroughStream = file.stream;
-
-      // upload and save the file
-      // var writerStream = fs.createWriteStream(`./uploads/${part.originalName}`);
-      const writeStream = fs.createWriteStream(`${file.originalName}`)
-      passThroughStream.pipe(writeStream);
-      writeStream.on('error', (err) => {
-        console.error('Error writing file:', err);
-      });
-      writeStream.on('finish', () => {
-        console.log('File saved successfully');
-      });
-      passThroughStream.on('end', () => {
-        console.log('PassThrough stream ended');
-      });
-      passThroughStream.on('error', (err) => {
-        console.error('PassThrough stream error:', err);
-      });
-      // strm.pipe(process.stdout)    
-      // strm.on('data', console.log)  
-      // await pump(part.stream, fs.createWriteStream(`./uploads/${part.originalName}`))
-    }
-
+    await task.addResourceAttachment(params)
 
     // task = await task.update(params)
     // console.log("after update", task)

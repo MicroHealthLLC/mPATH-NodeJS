@@ -60,10 +60,127 @@ const getCurrentUser = async(token) => {
   return user
 }
 
+function validUrl(url) {
+  const { URL } = require('url');
+
+  try {
+    const parsedUrl = new URL(url);
+    return (parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:') && parsedUrl.hostname !== null;
+  } catch (error) {
+    return false;
+  }
+}
+
+async function addAttachment(params, resource) {
+  const { db } = require("../database/models");
+
+  var recordType = resource.constructor.name
+  var  linkFiles = params.file_links
+  var blobName = ''
+  var attachmentFiles = []
+
+  if(recordType == 'Task'){
+    attachmentFiles = params.task.task_files
+    blobName = 'task_files'
+  }else if(recordType == 'Issue'){
+    attachmentFiles = params.issue.issue_files
+    blobName = 'issue_files'
+  }else if(recordType == 'Risk'){
+    attachmentFiles = params.risk.risk_files
+    blobName = 'risk_files'
+  }else if(recordType == 'Lesson'){
+    attachmentFiles = params.lesson.lesson_files
+    blobName = 'lesson_files'
+  }
+
+  if (linkFiles && linkFiles.length > 0) {
+
+    for(var f of linkFiles){
+      if (f && validUrl.isUri(f)) {
+        let filename = f;
+        if (f.length > 252) {
+            filename = f.substring(0, 252) + '...';
+        }
+        // `key`, `filename`, `content_type`, `metadata`, `byte_size`, `checksum`, `created_at`, `service_name`
+        var blob = await db.ActiveStorageBlob.create({
+            // Assuming taskFiles is a Sequelize attachment association
+            key: db.ActiveStorageBlob.generateRandomAlphaNumericString(),
+            name: blobName,
+            record_type: recordType,
+            record_id: resource.id,
+            filename: filename,
+            content_type: 'text/plain',
+            service_name: 'local',
+            metadata: '',
+            byte_size: filename.length,
+            checksum: ''
+        });
+      }          
+    }
+  }
+
+  if(attachmentFiles && attachmentFiles.length > 0){
+    // Using Stream in nodejs
+    const fs  = require('fs')
+    const path = require('path');
+
+    const rootDir = path.resolve(__dirname, '..','..','uploads');
+
+    console.log("******Current directory:", rootDir);
+    
+    for await (const file of attachmentFiles) {
+
+      const passThroughStream = file.stream;
+
+      // upload and save the file
+      // var writerStream = fs.createWriteStream(`./uploads/${part.originalName}`);
+      var file_key = db.ActiveStorageBlob.generateRandomAlphaNumericString()
+
+      var blob = await db.ActiveStorageBlob.build({
+        name: blobName,
+        key: file_key,
+        record_id: resource.id,
+        record_type: recordType,
+        filename: file.originalName,
+        content_type: file.mimeType,
+        service_name: 'local',
+        metadata: '',
+        byte_size: file_key.length,
+        checksum: ''
+      });
+
+      var dir = `${rootDir}/${blob.getFolderPath()}`;
+      
+      if (!fs.existsSync(dir)){
+          fs.mkdirSync(dir, { recursive: true });
+      }
+      const writeStream = fs.createWriteStream(`${dir}/${file.originalName}`)
+
+      writeStream.on('error', (err) => {
+        console.log('*******Error writing file:', err);
+      });
+      writeStream.on('finish', async () => {
+        console.log('********File saved successfully', this, file);
+        await blob.save()
+      });
+      passThroughStream.on('end', () => {
+        console.log('********PassThrough stream ended');
+      });
+      passThroughStream.on('error', (err) => {
+        console.log('********PassThrough stream error:', err);
+      });
+      await passThroughStream.pipe(writeStream);
+      passThroughStream.end()
+    }
+  }
+
+}
+
 module.exports = {
   cryptPassword,
   comparePassword,
   getCurrentUser,
   printParams,
-  compactAndUniq
+  compactAndUniq,
+  addAttachment
 }
