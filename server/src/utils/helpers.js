@@ -62,7 +62,7 @@ const getCurrentUser = async(token) => {
 
 function validUrl(url) {
   const { URL } = require('url');
-
+  console.log("****** validUrl")
   try {
     const parsedUrl = new URL(url);
     return (parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:') && parsedUrl.hostname !== null;
@@ -73,6 +73,7 @@ function validUrl(url) {
 
 async function addAttachment(params, resource) {
   const { db } = require("../database/models");
+  const { validUrl } = require("./helpers");
 
   var recordType = resource.constructor.name
   var  linkFiles = params.file_links
@@ -182,5 +183,6 @@ module.exports = {
   getCurrentUser,
   printParams,
   compactAndUniq,
-  addAttachment
+  addAttachment,
+  validUrl
 }
