@@ -185,7 +185,7 @@ module.exports = (sequelize, DataTypes) => {
         var pcs = await db.ProjectContract.findAll({where: {id: authorized_project_contract_ids, project_id: options.project_ids }})
         authorized_project_contract_ids = compactAndUniq(_.map(pcs, function(f){ return f.id } ))
 
-        var pcvs = await db.ProjectContract.findAll({where: {id: authorized_project_contract_vehicle_ids, project_id: options.project_ids }})
+        var pcvs = await db.ProjectContractVehicle.findAll({where: {id: authorized_project_contract_vehicle_ids, project_id: options.project_ids }})
         authorized_project_contract_vehicle_ids = compactAndUniq(_.map(pcvs, function(f){ return f.id } ))
 
       }

@@ -16,7 +16,7 @@ async function add_users(req, res){
   
     let role_users = params["role_users"]
     for(var role_user of role_users){
-      var _ru = db.RoleUser.build({role_id: role.id, user_id: role_user.user_id, project_id: role_user.project_id, facility_project_id: role_user.facility_project_id})
+      var _ru = db.RoleUser.build({role_id: role.id, user_id: role_user.user_id, project_id: role_user.project_id, facility_project_id: role_user.facility_project_id, project_contract_id: role_user.project_contract_id, project_contract_vehicle_id: role_user.project_contract_vehicle_id})
       await _ru.save()
     }
     return({message: "User added to role successfully!!",role: await role.toJSON({page: 'user_tab_role_assign', include: ['all'] })})

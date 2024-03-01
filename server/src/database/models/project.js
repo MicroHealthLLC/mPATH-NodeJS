@@ -141,6 +141,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     async build_json_response(options){
       const { db } = require("./index.js");
+      const {getCurrentUser, printParams, compactAndUniq} = require('../../utils/helpers.js')
 
 
       let response = this.toJSON()
@@ -178,9 +179,11 @@ module.exports = (sequelize, DataTypes) => {
         for(var fp of authorized_facility_projects){
           authorized_facility_project_ids.push(fp.id)
         }
-
-        authorized_project_contract_ids = []
-        authorized_project_contract_vehicle_ids = []
+  
+        var authorized_project_contracts = await db.ProjectContract.findAll({where: {project_id: this.id} })
+        authorized_project_contract_ids = compactAndUniq(_.map(authorized_project_contracts, function(pc){return pc.id }))
+        var authorized_project_contract_vehicles = await db.ProjectContractVehicle.findAll({where: {project_id: this.id}})
+        authorized_project_contract_vehicle_ids = compactAndUniq(_.map(authorized_project_contract_vehicles, function(pcv){return pcv.id }))
 
       }else if(options['response_for'] == 'client_panel'){
         authorized_data = await user.getAuthorizedData()
@@ -205,11 +208,11 @@ module.exports = (sequelize, DataTypes) => {
             type: QueryTypes.SELECT
           }
         );
-        facility_project_ids_with_project_tasks = _.uniq(_.compact(_.map(sql_result, function(s){if( s.role_type == db.RolePrivilege.PROJECT_TASKS){ return s.facility_project_id  } }) ) )
-        facility_project_ids_with_project_issues = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.PROJECT_ISSUES){ return s.facility_project_id } }) ))
-        facility_project_ids_with_project_risks = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.PROJECT_RISKS){ return s.facility_project_id } }) ) )
-        facility_project_ids_with_project_lessons = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.PROJECT_LESSONS){ return s.facility_project_id } }) ) )
-        facility_project_ids_with_project_notes = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.PROJECT_NOTES){ return s.facility_project_id } }) ) )
+        facility_project_ids_with_project_tasks = compactAndUniq(_.map(sql_result, function(s){if( s.role_type == db.RolePrivilege.PROJECT_TASKS){ return s.facility_project_id  } }) ) 
+        facility_project_ids_with_project_issues = compactAndUniq(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.PROJECT_ISSUES){ return s.facility_project_id } }) )
+        facility_project_ids_with_project_risks = compactAndUniq(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.PROJECT_RISKS){ return s.facility_project_id } }) ) 
+        facility_project_ids_with_project_lessons = compactAndUniq(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.PROJECT_LESSONS){ return s.facility_project_id } }) ) 
+        facility_project_ids_with_project_notes = compactAndUniq(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.PROJECT_NOTES){ return s.facility_project_id } }) ) 
       }
 
       let project_contract_ids_with_contract_tasks = []
@@ -227,11 +230,11 @@ module.exports = (sequelize, DataTypes) => {
           }
         );
   
-        project_contract_ids_with_contract_tasks = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_TASKS){ return s.project_contract_id } }) ) )
-        project_contract_ids_with_contract_issues = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_ISSUES){ return s.project_contract_id } }) ) )
-        project_contract_ids_with_contract_risks = _.uniq(_.compact( _.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_RISKS){ return s.project_contract_id } }) ) )
-        project_contract_ids_with_contract_lessons = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_LESSONS){ return s.project_contract_id } }) ) )
-        project_contract_ids_with_contract_notes = _.uniq(_.compact(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_NOTES){ return s.project_contract_id } }) ) )
+        project_contract_ids_with_contract_tasks = compactAndUniq(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_TASKS){ return s.project_contract_id } }) ) 
+        project_contract_ids_with_contract_issues = compactAndUniq(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_ISSUES){ return s.project_contract_id } }) ) 
+        project_contract_ids_with_contract_risks = compactAndUniq( _.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_RISKS){ return s.project_contract_id } }) ) 
+        project_contract_ids_with_contract_lessons = compactAndUniq(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_LESSONS){ return s.project_contract_id } }) ) 
+        project_contract_ids_with_contract_notes = compactAndUniq(_.map(sql_result, function(s){ if(s.role_type == db.RolePrivilege.CONTRACT_NOTES){ return s.project_contract_id } }) )
       }
 
       let project_contract_vehicle_ids_with_contract_tasks = []
@@ -371,18 +374,65 @@ module.exports = (sequelize, DataTypes) => {
       response.project_users = await  this.getProjectUsers()
 
       // Contracts
-      let project_contracts = await db.ProjectContract.findAll({where: {project_id: this.id, id: authorized_project_contract_ids}})//await this.getProjectContracts()
-      let project_contract_ids = _.uniq(_.map(project_contracts, function(pc){ return pc.id} ))
+      let project_contracts = await db.ProjectContract.findAll({where: {project_id: this.id, id: authorized_project_contract_ids}})
+      let project_contract_ids = authorized_project_contract_ids
       let contract_project_datum_ids = _.uniq(_.map(project_contracts, function(pc){ return pc.contract_project_datum_id} ))
       let all_contract_project_data = await db.ContractProjectDatum.findAll({where: {id: contract_project_datum_ids} })
+      
       response.contracts = []
 
+      var contract_hash = []
+      var project_contract_hash2 = {}
       for(var project_contract of project_contracts){
         let c = _.find(all_contract_project_data, function(cpd) {return (cpd.id == project_contract.contract_project_datum_id )})
-        let c_hash = c.toJSON()
-        c_hash['tasks'] = []
-        c_hash['issues'] = []
-        c_hash['risks'] = []
+        let c_hash = await c.toJSON({project_contract: project_contract})
+
+        //Adding tasks
+        c_hash.tasks = []
+        var tasks = await db.Task.findAll({where: {project_contract_id: project_contract.id} })
+        all_tasks = all_tasks.concat(tasks)
+        var task_ids = _.uniq(tasks.map(function(e){return e.id}))
+        var checklists = await db.Checklist.findAll({where: {listable_id: task_ids, listable_type: 'Task'}})
+        var checklist_ids = _.uniq(checklists.map(function(e){return e.id}))
+        var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}})
+
+        for(var task of tasks){
+          let _task = await task.toJSON()
+          c_hash.tasks.push(_task)
+        }
+
+        // Adding issues data
+        c_hash.issues = []
+
+        var issues = await db.Issue.findAll({where: {project_contract_id: project_contract.id} })
+        all_issues = all_issues.concat(issues)
+        var issue_ids = issues.map(function(e){return e.id})
+        var checklists = await db.Checklist.findAll({where: {listable_id: issue_ids, listable_type: 'Issue'}})
+        var checklist_ids = checklists.map(function(e){return e.id})
+        var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}})
+
+        for(var issue of issues){
+          let _issue = await  issue.toJSON()
+          c_hash.issues.push(_issue)
+        }
+
+        // Adding risk data
+        c_hash.risks = []
+
+        var risks = await db.Risk.findAll({where: {project_contract_id: project_contract.id} })
+        all_risks = all_risks.concat(risks)
+        var risk_ids = risks.map(function(e){return e.id})
+        var checklists = await db.Checklist.findAll({where: {listable_id: risk_ids, listable_type: 'Risk'}})
+        var checklist_ids = checklists.map(function(e){return e.id})
+        var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}})
+
+        for(var risk of risks){
+          let _risk = await risk.toJSON()
+          c_hash.risks.push(_risk)
+        }
+        
+        project_contract_hash2[project_contract.id] = c_hash
+
         response.contracts.push(c_hash)
       }
 
@@ -390,13 +440,58 @@ module.exports = (sequelize, DataTypes) => {
       let all_project_contract_vehicles = await db.ProjectContractVehicle.findAll({where: {project_id: this.id, id: authorized_project_contract_vehicle_ids}}) //await this.getProjectContractVehicles()
       let contract_vehicle_ids = _.uniq(_.map(all_project_contract_vehicles, function(pc){ return pc.contract_vehicle_id} ) )
       let all_contract_vehicles = await db.ContractVehicle.findAll({where: {id: contract_vehicle_ids} })
+      
       response.contract_vehicles = []
+      var contract_vehicle_hash = []
+      var project_contract_vehicle_hash2 = {}
       for(var project_contract_vehicle of all_project_contract_vehicles){
         var c = _.find(all_contract_vehicles, function(cpd) {return (cpd.id == project_contract_vehicle.contract_vehicle_id )})
         let c_hash = c.toJSON()
-        c_hash['tasks'] = []
-        c_hash['issues'] = []
-        c_hash['risks'] = []
+
+        //Adding tasks
+        c_hash.tasks = []
+        var tasks = await db.Task.findAll({where: {project_contract_vehicle_id: project_contract_vehicle.id} })
+        all_tasks = all_tasks.concat(tasks)
+        var task_ids = _.uniq(tasks.map(function(e){return e.id}))
+        var checklists = await db.Checklist.findAll({where: {listable_id: task_ids, listable_type: 'Task'}})
+        var checklist_ids = _.uniq(checklists.map(function(e){return e.id}))
+        var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}})
+
+        for(var task of tasks){
+          let _task = await task.toJSON()
+          c_hash.tasks.push(_task)
+        }
+
+        // Adding issues data
+        c_hash.issues = []
+
+        var issues = await db.Issue.findAll({where: {project_contract_vehicle_id: project_contract_vehicle.id} })
+        all_issues = all_issues.concat(issues)
+        var issue_ids = issues.map(function(e){return e.id})
+        var checklists = await db.Checklist.findAll({where: {listable_id: issue_ids, listable_type: 'Issue'}})
+        var checklist_ids = checklists.map(function(e){return e.id})
+        var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}})
+
+        for(var issue of issues){
+          let _issue = await  issue.toJSON()
+          c_hash.issues.push(_issue)
+        }
+
+        // Adding risk data
+        c_hash.risks = []
+
+        var risks = await db.Risk.findAll({where: {project_contract_vehicle_id: project_contract_vehicle.id} })
+        all_risks = all_risks.concat(risks)
+        var risk_ids = risks.map(function(e){return e.id})
+        var checklists = await db.Checklist.findAll({where: {listable_id: risk_ids, listable_type: 'Risk'}})
+        var checklist_ids = checklists.map(function(e){return e.id})
+        var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}})
+
+        for(var risk of risks){
+          let _risk = await risk.toJSON()
+          c_hash.risks.push(_risk)
+        }
+        project_contract_vehicle[project_contract_vehicle.id] = c_hash
         response.contract_vehicles.push(c_hash)
       }
 
@@ -411,21 +506,39 @@ module.exports = (sequelize, DataTypes) => {
 
       for(var facility_group of facility_groups){
 
-        let fg_facility_projects = _.filter(facility_projects, function(e){ return e.facility_group_id == facility_group.id })
         let facility_group_hash = facility_group.toJSON()
-        facility_group_hash['contracts'] = []
+
         facility_group_hash['facilities'] = []
+        let fg_facility_projects = _.filter(facility_projects, function(e){ return e.facility_group_id == facility_group.id })
         for(var fg_fp of fg_facility_projects){
           if(facility_projects_hash2[fg_fp.id]){
             facility_group_hash['facilities'].push(facility_projects_hash2[fg_fp.id])
           }
         }
       
-        facility_group_hash['project_ids'] = [this.id]//_.uniq(_.map(fg_facility_projects, function(e){return e.project_id}))
+        facility_group_hash['contracts'] = []
         facility_group_hash['contract_project_ids'] = []
+        let fg_projects_contracts = _.filter(project_contracts, function(e){ return e.facility_group_id == facility_group.id })
+        for(var fg_pc of fg_projects_contracts){
+          if(project_contract_hash2[fg_pc.id]){
+            facility_group_hash['contracts'].push(project_contract_hash2[fg_pc.id])
+          }
+          facility_group_hash['contract_project_ids'].push(fg_pc.project_id)
+        }
+        facility_group_hash['project_ids'] = [this.id]//_.uniq(_.map(fg_facility_projects, function(e){return e.project_id}))
+
+
         facility_group_hash['contract_vehicles'] = []
         facility_group_hash['contract_vehicle_ids'] = []
-        
+
+        let fg_projects_contract_vehicles = _.filter(all_project_contract_vehicles, function(e){ return e.facility_group_id == facility_group.id })
+        for(var fg_pcv of fg_projects_contract_vehicles){
+          if(project_contract_vehicle_hash2[fg_pcv.id]){
+            facility_group_hash['contract_vehicles'].push(project_contract_vehicle_hash2[fg_pcv.id])
+          }
+          facility_group_hash['contract_vehicle_ids'].push(fg_pcv.project_id)
+        }
+
         response.facility_groups.push(facility_group_hash)
       }
 

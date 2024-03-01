@@ -67,7 +67,7 @@ module.exports = (sequelize, DataTypes) => {
       
       if (options.project_contract) {
         _response.project_contract_id = options.project_contract.id;
-        _response.facility_group = options.project_contract.facility_group.toJSON();
+        _response.facility_group = await options.project_contract.getFacilityGroup();
         _response.facility_group_id = options.project_contract.facility_group_id;
       }
       

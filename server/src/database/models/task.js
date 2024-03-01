@@ -25,8 +25,8 @@ module.exports = (sequelize, DataTypes) => {
 
       this.belongsTo(models.FacilityProject);
       // this.belongsTo(models.Contract);
-      // this.belongsTo(models.ProjectContract);
-      // this.belongsTo(models.ProjectContractVehicle);
+      this.belongsTo(models.ProjectContract);
+      this.belongsTo(models.ProjectContractVehicle);
       this.hasMany(models.Checklist, {as: 'listable', foreignKey: 'listable_id',onDelete: 'CASCADE', hooks: true });
       // this.hasMany(models.RelatedTask);
       // this.hasMany(models.RelatedIssue);
@@ -245,8 +245,36 @@ module.exports = (sequelize, DataTypes) => {
         _resource.checklists.push(checklist)
       }
 
-      let facility_project = await this.getFacilityProject()
-      let facility = await db.Facility.findOne({where: {id: facility_project.facility_id}})
+      if(this.project_contract_id){
+        var projectContract = await this.getProjectContract()
+        var contractProjectData = await projectContract.getContractProjectDatum()
+        
+        _resource["facility_id"] = null
+        _resource["facility_name"] =  null
+        _resource["contract_nickname"] =  contractProjectData.name
+        _resource["vehicle_nickname"] =  null
+        _resource["project_id"] = projectContract.project_id
+      }else if(this.project_contract_vehicle_id){
+        var projectContractVehicle = await this.getProjectContractVehicle()
+        var contractVehicle = await projectContractVehicle.getContractVehicle()
+
+        _resource["facility_id"] = null
+        _resource["facility_name"] =  null
+        _resource["contract_nickname"] =  null
+        _resource["vehicle_nickname"] =  contractVehicle.name
+        _resource["project_id"] = projectContractVehicle.project_id
+      }else{
+
+        let facility_project = await this.getFacilityProject()
+        let facility = await db.Facility.findOne({where: {id: facility_project.facility_id}})
+  
+        _resource["facility_id"] = facility.id
+        _resource["facility_name"] =  facility.facility_name
+        _resource["contract_nickname"] =  null
+        _resource["vehicle_nickname"] =  null
+        _resource["project_id"] = facility_project.project_id
+      }
+
       let task_users = await this.getTaskUsers()
       let notes = await db.Note.findAll({where: {noteable_type: 'Task', noteable_id: this.id},order: [['created_at', 'DESC']], raw: true})
       let all_user_ids = _.compact(_.uniq(_.map(task_users, function(n){return n.user_id})))
@@ -303,11 +331,6 @@ module.exports = (sequelize, DataTypes) => {
       _resource["accountable_user_ids"] = accountableUserIds
       _resource["consulted_user_ids"] =  consultedUserIds
       _resource["informed_user_ids"] =  informedUserIds
-      _resource["facility_id"] = facility.id
-      _resource["facility_name"] =  facility.facility_name
-      _resource["contract_nickname"] =  null
-      _resource["vehicle_nickname"] =  null
-      _resource["project_id"] = facility_project.project_id
       _resource["progress_status"] = _resource.progress >= 100 ? "completed" : "active"
       _resource["task_type_id"] = parseInt(_resource['task_type_id'])
       _resource["task_stage_id"] = parseInt(_resource['task_stage_id'])

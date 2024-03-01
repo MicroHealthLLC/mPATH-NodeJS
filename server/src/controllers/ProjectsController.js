@@ -15,7 +15,7 @@ const index = async (req, res) => {
 
 const show = async (req, res) => {
   try {
-    programId = req.params.id;
+    var programId = req.params.id;
     // console.log(req.params)
     // console.log(db)
     // authorized facility_ids
@@ -40,7 +40,7 @@ const show = async (req, res) => {
     // console.log("Program: ", program);
   } catch (error) {
     res.code(500)
-    return({ error: "Error fetching program " + error });
+    return({ error: "Error fetching program " + error.stack });
   }
 };
 
