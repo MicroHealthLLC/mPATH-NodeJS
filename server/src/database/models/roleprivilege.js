@@ -40,6 +40,11 @@ module.exports = (sequelize, DataTypes) => {
     static PROGRAM_SETTING_USERS_ROLES="program_setting_users_roles"
     static PROGRAM_SETTING_PROJECTS="program_setting_projects"
     static PROGRAM_SETTING_CONTRACTS="program_setting_contracts"
+
+    static PROGRAM_SETTINGS_ROLE_TYPES = [this.PROGRAM_SETTING_GROUPS, this.PROGRAM_SETTING_USERS_ROLES, this.PROGRAM_SETTING_PROJECTS, this.PROGRAM_SETTING_CONTRACTS ]
+
+    static ALL_ROLE_TYPES = this.PROJECT_PRIVILEGES_ROLE_TYPES.concat(this.CONTRACT_PRIVILEGES_ROLE_TYPES).concat(this.PROGRAM_SETTINGS_ROLE_TYPES)
+
   }
   RolePrivilege.init({
     role_id: DataTypes.INTEGER,

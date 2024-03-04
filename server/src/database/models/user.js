@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Op, Model, QueryTypes
+  fn, Op, Model, QueryTypes
 } = require('sequelize');
 
 const {_} = require("lodash") 
@@ -53,108 +53,215 @@ module.exports = (sequelize, DataTypes) => {
         0: 'inactive', 1: 'active'
       }[v]   
     }
-  async authorizedProgramIds(options={}){
-    const { db } = require("./index.js");
-    var projectUsers = []
-    if(options.project_ids){
-      projectUsers = await db.ProjectUser.findAll({where: {user_id: this.id,project_id: options.project_ids}})
-    }else{
-      projectUsers = await db.ProjectUser.findAll({where: {user_id: this.id}})
-    }
-    var projectIds = _.map(projectUsers, function(pu){return pu.project_id })
-    var projects = await db.Project.findAll({where: {id: projectIds, status: 1}})
-    return _.map(projects, 'id')
-  }
-  
-  async hasPermissionByRole(options={}) {
-    try {
+    async authorizedProgramIds(options={}){
       const { db } = require("./index.js");
-      const {compactAndUniq} = require('../../utils/helpers.js')
-
-      let program = options.program
-      let project = options.project
-      let action = options.action
-      let projectContract = options.projectContract
-      let projectContractVehicle = options.projectContractVehicle
-      let resource = options.resource
-      let user = this
-      const actionCodeHash = { "read": "R", "write": "W", "delete": "D" };
-
-      let roleType;
-      let roleUsers = await db.RoleUser.findAll({where: {user_id: user.id}, raw: true})
-      let _roleIds = compactAndUniq(_.map(roleUsers, function(f){ return f.role_id } ))
-      let _rolePrivileges = await db.RolePrivilege.findAll({
-        where: { 
-          role_id: _roleIds, 
-          privilege: { 
-            [Op.regexp]: "^[RWD]" 
-          }
-        },raw: true
-      });
-      let roleIds = []
-
-      if (projectContract) {
-          projectContract = await (projectContract instanceof db.ProjectContract ? projectContract : await(db.ProjectContract.findByPk(projectContract.toString())) );
-
-          const programId = projectContract.project_id.toString();
-          
-
-          roleIds = _.chain(roleUsers)
-              .filter(ru => ru.project_id === parseInt(programId) && ru.project_contract_id === projectContract.id)
-              .map('role_id')
-              .compact()
-              .uniq()
-              .value();
-
-          roleType = db.RolePrivilege.CONTRACT_PRIVILEGES_ROLE_TYPES.find(rt => rt.includes(resource));
-      } else if (projectContractVehicle) {
-          projectContractVehicle = await (projectContractVehicle instanceof db.ProjectContractVehicle ? projectContractVehicle : await(db.ProjectContractVehicle.findByPk(projectContractVehicle.toString())));
-
-          const programId = projectContractVehicle.project_id.toString();
-
-          roleIds = _.chain(roleUsers)
-              .filter(ru => ru.project_id === parseInt(programId) && ru.project_contract_vehicle_id === projectContractVehicle.id)
-              .map('role_id')
-              .compact()
-              .uniq()
-              .value();
-
-          roleType = db.RolePrivilege.CONTRACT_PRIVILEGES_ROLE_TYPES.find(rt => rt.includes(resource));
-      } else {
-        const programId = program instanceof db.Project ? program.id.toString() : program.toString();
-        const projectId = project instanceof db.Facility ? project.id.toString() : project.toString();
-        let facilityProject = await db.FacilityProject.findOne({where: {project_id: programId, facility_id: projectId}})
-
-        roleIds = _.chain(roleUsers)
-            .filter(ru => ru.facility_project_id === facilityProject.id)
-            .map('role_id')
-            .compact()
-            .uniq()
-            .value();
-
-        roleType = db.RolePrivilege.PROJECT_PRIVILEGES_ROLE_TYPES.find(rt => rt.includes(resource));
+      var projectUsers = []
+      if(options.project_ids){
+        projectUsers = await db.ProjectUser.findAll({where: {user_id: this.id,project_id: options.project_ids}})
+      }else{
+        projectUsers = await db.ProjectUser.findAll({where: {user_id: this.id}})
       }
-
-      let rolePrivileges = _.filter(_rolePrivileges, function(rp) {return roleIds.includes(rp.role_id) && rp.role_type === roleType})
-      rolePrivileges = compactAndUniq(_.map(rolePrivileges, 'privilege').join('').split(''))
-
-      let result = false;
-      const shortActionCode = actionCodeHash[action];
-
-      console.log("****** rolePrivileges", rolePrivileges)
-
-      if (shortActionCode === "R") {
-        result = rolePrivileges.includes("R") || rolePrivileges.includes("W") || rolePrivileges.includes("D");
-      } else {
-        result = rolePrivileges.includes(shortActionCode);
-      }
-
-      return result;
-    } catch (error) {
-        console.error(`Exception in hasPermissionByRole: ${error.message}`);
-        return false;
+      var projectIds = _.map(projectUsers, function(pu){return pu.project_id })
+      var projects = await db.Project.findAll({where: {id: projectIds, status: 1}})
+      return _.map(projects, 'id')
     }
-  }   
+  
+    async hasPermissionByRole(options={}) {
+      try {
+        const { db } = require("./index.js");
+        const {compactAndUniq} = require('../../utils/helpers.js')
+
+        let program = options.program
+        let project = options.project
+        let action = options.action
+        let projectContract = options.projectContract
+        let projectContractVehicle = options.projectContractVehicle
+        let resource = options.resource
+        let user = this
+        const actionCodeHash = { "read": "R", "write": "W", "delete": "D" };
+
+        let roleType;
+        let roleUsers = await db.RoleUser.findAll({where: {user_id: user.id}, raw: true})
+        let _roleIds = compactAndUniq(_.map(roleUsers, function(f){ return f.role_id } ))
+        let _rolePrivileges = await db.RolePrivilege.findAll({
+          where: { 
+            role_id: _roleIds, 
+            privilege: { 
+              [Op.regexp]: "^[RWD]" 
+            }
+          },raw: true
+        });
+        let roleIds = []
+
+        if (projectContract) {
+            projectContract = await (projectContract instanceof db.ProjectContract ? projectContract : await(db.ProjectContract.findByPk(projectContract.toString())) );
+
+            const programId = projectContract.project_id.toString();
+            
+
+            roleIds = _.chain(roleUsers)
+                .filter(ru => ru.project_id === parseInt(programId) && ru.project_contract_id === projectContract.id)
+                .map('role_id')
+                .compact()
+                .uniq()
+                .value();
+
+            roleType = db.RolePrivilege.CONTRACT_PRIVILEGES_ROLE_TYPES.find(rt => rt.includes(resource));
+        } else if (projectContractVehicle) {
+            projectContractVehicle = await (projectContractVehicle instanceof db.ProjectContractVehicle ? projectContractVehicle : await(db.ProjectContractVehicle.findByPk(projectContractVehicle.toString())));
+
+            const programId = projectContractVehicle.project_id.toString();
+
+            roleIds = _.chain(roleUsers)
+                .filter(ru => ru.project_id === parseInt(programId) && ru.project_contract_vehicle_id === projectContractVehicle.id)
+                .map('role_id')
+                .compact()
+                .uniq()
+                .value();
+
+            roleType = db.RolePrivilege.CONTRACT_PRIVILEGES_ROLE_TYPES.find(rt => rt.includes(resource));
+        } else {
+          const programId = program instanceof db.Project ? program.id.toString() : program.toString();
+          const projectId = project instanceof db.Facility ? project.id.toString() : project.toString();
+          let facilityProject = await db.FacilityProject.findOne({where: {project_id: programId, facility_id: projectId}})
+
+          roleIds = _.chain(roleUsers)
+              .filter(ru => ru.facility_project_id === facilityProject.id)
+              .map('role_id')
+              .compact()
+              .uniq()
+              .value();
+
+          roleType = db.RolePrivilege.PROJECT_PRIVILEGES_ROLE_TYPES.find(rt => rt.includes(resource));
+        }
+
+        let rolePrivileges = _.filter(_rolePrivileges, function(rp) {return roleIds.includes(rp.role_id) && rp.role_type === roleType})
+        rolePrivileges = compactAndUniq(_.map(rolePrivileges, 'privilege').join('').split(''))
+
+        let result = false;
+        const shortActionCode = actionCodeHash[action];
+
+        console.log("****** rolePrivileges", rolePrivileges)
+
+        if (shortActionCode === "R") {
+          result = rolePrivileges.includes("R") || rolePrivileges.includes("W") || rolePrivileges.includes("D");
+        } else {
+          result = rolePrivileges.includes(shortActionCode);
+        }
+
+        return result;
+      } catch (error) {
+          console.error(`Exception in hasPermissionByRole: ${error.message}`);
+          return false;
+      }
+    }
+
+    async projectPrivilegesHashByRole(programIds=[]) {
+      try {
+        const { db } = require("./index.js");
+        const {getCurrentUser, printParams, compactAndUniq} = require('../../utils/helpers.js')
+
+        const user = this;
+        if(programIds.length < 1){
+          var projectUsers = await db.ProjectUser.findAll({where: {user_id: this.id}})
+          programIds = _.map(projectUsers, 'project_id')
+        }
+        var roleUsers = await db.RoleUser.findAll({
+          where: { project_id: programIds },
+          attributes: ['role_id'],
+          raw: true
+        })
+        const roleIds = compactAndUniq(_.map(roleUsers, 'role_id'))
+    
+        const rolePrivileges = await db.RolePrivilege.findAll({
+          where: {
+            role_id: roleIds,
+            role_type: db.RolePrivilege.PROGRAM_SETTINGS_ROLE_TYPES
+          },
+          attributes: ['name', 'privilege', 'role_type'],
+          raw: true
+        });
+    
+        return rolePrivileges;
+      } catch (error) {
+        console.error("Error fetching project privileges:", error.stack);
+        throw error;
+      }
+    }
+    
+    async privilegesHashByRole(options={}) {
+      try {
+        const {getCurrentUser, printParams, compactAndUniq} = require('../../utils/helpers.js')
+        const { db } = require("./index.js");
+
+        const user = this;
+        console.log("****** privilegesHashByRole", options)
+        var programIds = options['programIds'] || []
+        var resourceType = options['resourceType'] || 'contract'
+
+        if(programIds.length < 1){
+          var projectUsers = await db.ProjectUser.findAll({where: {user_id: this.id}})
+          programIds = _.map(projectUsers, 'project_id')
+        }
+
+        const resourceHash = {};
+    
+        let roleUsers;
+        if (resourceType === 'contract') {
+          roleUsers = await db.RoleUser.findAll({
+            where: {
+              project_id: programIds,
+              project_contract_id: { [Op.not]: null }
+            },
+            distinct: true
+          });
+        } else if (resourceType === 'contract_vehicle') {
+          roleUsers = await db.RoleUser.findAll({
+            where: {
+              project_id: programIds,
+              project_contract_vehicle_id: { [Op.not]: null }
+            },
+            distinct: true
+          });
+        }
+    
+        const contractRolePrivileges = await db.RolePrivilege.findAll({
+          where: {
+            role_type: db.RolePrivilege.CONTRACT_PRIVILEGES_ROLE_TYPES,
+            role_id: compactAndUniq( roleUsers.map(roleUser => roleUser.role_id) )
+          }
+        });
+    
+        if (resourceType === 'contract') {
+          roleUsers.forEach(roleUser => {
+            const rolePrivileges = contractRolePrivileges.filter(rp => rp.role_id === roleUser.role_id);
+            if (roleUser.project_contract_id && rolePrivileges.length > 0) {
+              const privilegesObj = {};
+              rolePrivileges.forEach(rp => {
+                privilegesObj[rp.role_type] = rp.privilege.split('');
+              });
+              resourceHash[roleUser.project_contract_id] = privilegesObj;
+            }
+          });
+        } else if (resourceType === 'contract_vehicle') {
+          roleUsers.forEach(roleUser => {
+            const rolePrivileges = contractRolePrivileges.filter(rp => rp.role_id === roleUser.role_id);
+            if (roleUser.project_contract_vehicle_id && rolePrivileges.length > 0) {
+              const privilegesObj = {};
+              rolePrivileges.forEach(rp => {
+                privilegesObj[rp.role_type] = rp.privilege.split('');
+              });
+              resourceHash[roleUser.project_contract_vehicle_id] = privilegesObj;
+            }
+          });
+        }
+    
+        return resourceHash;
+      } catch (error) {
+        console.error("Error fetching privileges by role:", error);
+        throw error;
+      }
+    }    
 
 
     async getAuthorizedData(options={}){
@@ -197,7 +304,90 @@ module.exports = (sequelize, DataTypes) => {
       }
       return authorized_data_hash;
     }
+    async facilityPrivilegesHashByRole(options={}) {
+      try {
+        const { db } = require("./index.js");
+        const {compactAndUniq} = require('../../utils/helpers.js')
 
+        const user = this;
+        console.log("****** privilegesHashByRole", options)
+        var programIds = options['programIds'] || []
+
+        if(programIds.length < 1){
+          var projectUsers = await db.ProjectUser.findAll({where: {user_id: this.id}})
+          programIds = _.map(projectUsers, 'project_id')
+        }
+        const projectHash = {};
+    
+        const roleUsers = await db.RoleUser.findAll({
+          where: { facility_project_id: { [Op.not]: null } }
+        });
+    
+        let projectRolePrivileges = await db.RolePrivilege.findAll({
+          where: {
+            role_type: db.RolePrivilege.PROJECT_PRIVILEGES_ROLE_TYPES,
+            role_id: [...new Set(roleUsers.map(roleUser => roleUser.role_id))]
+          }
+        });
+        let groupProjectRolePrivileges = _.groupBy(projectRolePrivileges, 'role_id')
+    
+        roleUsers.forEach(roleUser => {
+          const facilityProjectId = roleUser.facility_project_id;
+          if (facilityProjectId && groupProjectRolePrivileges[roleUser.role_id.toString()]) {
+            const rolePrivileges = groupProjectRolePrivileges[roleUser.role_id.toString()];
+            const privilegesObj = {};
+            rolePrivileges.forEach(rp => {
+              privilegesObj[rp.role_type] = rp.privilege ? rp.privilege.split('') : [];
+            });
+            projectHash[facilityProjectId] = privilegesObj;
+          }
+        });
+    
+        return projectHash;
+      } catch (error) {
+        console.error("Error fetching facility privileges by role:", error);
+        throw error;
+      }
+    }
+    
+    async programSettingsPrivilegesHashByRole({ options = {} }) {
+      try {
+
+        const { db } = require("./index.js");
+        const {compactAndUniq} = require('../../utils/helpers.js')
+
+        const user = this;
+        var programIds = options['programIds'] || []
+
+        if(programIds.length < 1){
+          var projectUsers = await db.ProjectUser.findAll({where: {user_id: this.id}})
+          programIds = _.map(projectUsers, 'project_id')
+        }
+        var roleUsers = await db.RoleUser.findAll({
+          where: { project_id: programIds },
+          attributes: [[sequelize.fn('DISTINCT', sequelize.col('role_id')), 'role_id']]
+        })
+        const roleIds = roleUsers.map(roleUser => roleUser.role_id);
+    
+        const rolePrivileges = await db.RolePrivilege.findAll({
+          where: {
+            role_id: roleIds,
+            role_type: db.RolePrivilege.PROGRAM_SETTINGS_ROLE_TYPES
+          }
+        });
+    
+        const hash = {};
+        rolePrivileges.forEach(rp => {
+          hash[rp.role_type] = rp.privilege ? rp.privilege.split('') : [];
+        });
+    
+        return hash;
+      } catch (error) {
+        console.error("Error fetching program settings privileges by role:", error);
+        throw error;
+      }
+    }
+    
     async programsWithProgramAdminRole(){
       const { db } = require("./index.js");
       const {compactAndUniq} = require('../../utils/helpers.js')

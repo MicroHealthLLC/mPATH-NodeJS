@@ -6,14 +6,58 @@ const { cryptPassword } = require("../utils/helpers");
 // Function for retrieving user details
 const get_user_privileges = async (req, res) => {
   try {
-    // Fetch user profile using req.userId
-    const get_user_privileges = require('../../static_responses/get_user_privileges.json');
+    const { db }  = require("../database/models/");
 
-    return(get_user_privileges);
+
+    // project = Project.find_by(id: params[:program_id])
+    // response_hash = {}
+
+    // if !project
+    //   render json: {message: "No program found!!"}, status: 404
+    // else
+    //   response_hash = {
+    //     program_admin_role: Role.program_admin_user_role.to_json,
+    //     program_privilegs_roles: current_user.project_privileges_hash_by_role(program_ids: [project.id]),
+    //     contract_privilegs_roles: current_user.privileges_hash_by_role(program_ids: [project.id], resource_type: 'contract'),
+    //     contract_vehicle_privileges_roles: current_user.privileges_hash_by_role(program_ids: [project.id], resource_type: 'contract_vehicle'),
+    //     project_privilegs_roles: current_user.facility_privileges_hash_by_role(program_ids: [project.id]),
+    //     program_settings_privileges_roles: current_user.program_settings_privileges_hash_by_role(program_ids: [project.id])
+    //   }
+    //   render json: response_hash, status: 200
+    // end
+
+    let query = qs.parse(req.query)
+    let params = qs.parse(req.params)
+    let body = qs.parse(req.body)
+    console.log("****body", qs.parse(req.body))
+    console.log("****params", params)
+    var user = await db.User.findOne({where: {email: 'admin@example.com'}})
+    var programId = query.program_id
+    var adminRole = await db.Role.programAdminUserRole()
+    console.log("*** Admin role", adminRole)
+
+    var projectPrivilegesHashByRole = await user.projectPrivilegesHashByRole()
+    var contractPrivilegesHashByRole = await user.privilegesHashByRole({programIds: [programId], resourceType: 'contract'})
+    var contractVehiclePrivilegesHashByRole = await user.privilegesHashByRole({programIds: [programId], resourceType: 'contract_vehicle'})
+    var facilityPrivilegesHashByRole = await user.facilityPrivilegesHashByRole({programIds: [programId]})
+    var programSettingsPrivilegesHashByRole = await user.programSettingsPrivilegesHashByRole({programIds: [programId]})
+    var responseHash = {
+      program_admin_role: await adminRole.toJSON(),
+      program_privilegs_roles: projectPrivilegesHashByRole, //await db.User.projectPrivilegesHashByRole({program_ids: [query.project_id.id]}),
+      contract_privilegs_roles: contractPrivilegesHashByRole,
+      contract_vehicle_privileges_roles: contractVehiclePrivilegesHashByRole,
+      project_privilegs_roles: facilityPrivilegesHashByRole,
+      program_settings_privileges_roles: programSettingsPrivilegesHashByRole
+    }
+
+    // Fetch user profile using req.userId
+    // const get_user_privileges = require('../../static_responses/get_user_privileges.json');
+
+    return(responseHash);
 
   } catch (error) {
     res.code(500)
-    return({ error: "Error fetching data" });
+    return({ error: "Error fetching data"+ error.stack });
   }
 };
 async function create(req, res){
