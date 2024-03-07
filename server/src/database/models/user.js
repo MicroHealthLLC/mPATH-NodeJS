@@ -35,9 +35,6 @@ module.exports = (sequelize, DataTypes) => {
       h['status'] = this.getStatus(h['status']) 
       return h;
     }
-    hasPermissionByRole(options={}){
-      console.log("***** hasPermissionByRole called")
-    }
     getFullName(){
       let n = ''
       if(this.first_name){
@@ -74,8 +71,8 @@ module.exports = (sequelize, DataTypes) => {
         let program = options.program
         let project = options.project
         let action = options.action
-        let projectContract = options.projectContract
-        let projectContractVehicle = options.projectContractVehicle
+        let projectContract = options.project_contract
+        let projectContractVehicle = options.project_contract_vehicle
         let resource = options.resource
         let user = this
         const actionCodeHash = { "read": "R", "write": "W", "delete": "D" };
@@ -92,6 +89,8 @@ module.exports = (sequelize, DataTypes) => {
           },raw: true
         });
         let roleIds = []
+        
+        console.log("****** hasPermissionByRole", options)
 
         if (projectContract) {
             projectContract = await (projectContract instanceof db.ProjectContract ? projectContract : await(db.ProjectContract.findByPk(projectContract.toString())) );
@@ -141,8 +140,6 @@ module.exports = (sequelize, DataTypes) => {
         let result = false;
         const shortActionCode = actionCodeHash[action];
 
-        console.log("****** rolePrivileges", rolePrivileges)
-
         if (shortActionCode === "R") {
           result = rolePrivileges.includes("R") || rolePrivileges.includes("W") || rolePrivileges.includes("D");
         } else {
@@ -151,7 +148,7 @@ module.exports = (sequelize, DataTypes) => {
 
         return result;
       } catch (error) {
-          console.error(`Exception in hasPermissionByRole: ${error.message}`);
+          console.error(`Exception in hasPermissionByRole: ${error.stack}`);
           return false;
       }
     }

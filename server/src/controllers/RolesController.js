@@ -9,7 +9,8 @@ const program_setting_role = async (req, res) => {
     return({ program_setting_role: program_setting_role });
 
   } catch (error) {
-    res.code(500).json({ error: "Error fetching data" });
+    res.code(500)
+    return({ error: "Error fetching data" });
   }
 };
 

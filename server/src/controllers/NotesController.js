@@ -1,6 +1,42 @@
 const { db } = require("../database/models");
 const {_} = require("lodash") 
 
+// Function for retrieving user details
+const index = async (req, res) => {
+  var qs = require('qs');
+  try {
+    // Fetch user profile using req.userId
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
+    let body = qs.parse(req.body)
+    let allNotes = []
+
+    if(params.program_id && params.project_id){
+      let program_id = params.program_id
+      let facility_id = params.project_id
+      let facility_project = await db.FacilityProject.findOne({where: {project_id: program_id, facility_id: facility_id}, raw: true})
+      allNotes = await db.Note.findAll({where: {noteable_id: facility_project.id, noteable_type: 'FacilityProject'}});
+    
+    }else if(params.project_contract_id){
+      let project_contract = await db.ProjectContract.findOne({where: {id: params.project_contract_id}, raw: true})
+      allNotes = await db.Note.findAll({where: {noteable_id: project_contract.id, noteable_type: 'ProjectContract'}});
+    
+    }else if(params.project_contract_vehicle_id){
+      let project_contract_vehicle = await db.ProjectContractVehicle.findOne({where: {id: params.project_contract_vehicle_id}, raw: true})
+      allNotes = await db.Note.findAll({where: {projecnoteable_idt_contract_vehicle_id: project_contract_vehicle.id, noteable_type: 'ProjectContractVehicle'}});
+    }
+
+    let res_notes = []
+    for(var l of allNotes){
+      res_notes.push(await(l.toJSON()))
+    }
+    return({ notes: res_notes });
+
+  } catch (error) {
+    res.code(500)
+    return({ error: "Error fetching lessons "+error });
+  }
+};
 
 const show = async(req, res) => {
   try {
@@ -66,9 +102,6 @@ const update = async (req, res) => {
     await note.assignUsers(params)
     await note.manageNotes(noteParams)
     await note.manageChecklists(noteParams)
-    // note = await note.update(params)
-    console.log("after update", note)
-    const response = require('../../static_responses/projects_index.json');
 
     return({note: await note.toJSON(), msg: "Note updated successfully" });
   } catch (error) {
@@ -80,5 +113,6 @@ const update = async (req, res) => {
 module.exports = {
   update,
   show,
-  create
+  create,
+  index
 };

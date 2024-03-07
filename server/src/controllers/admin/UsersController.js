@@ -8,7 +8,8 @@ const users = async (req, res) => {
 
     res.json(users);
   } catch (error) {
-    res.code(500).json({ error: "Error fetching users" });
+    res.code(500)
+    return({ error: "Error fetching users" });
   }
 };
 

@@ -57,6 +57,9 @@ async function routes (fastify, options) {
   // fastify.addHook('preHandler', checkLessonPermission)
   fastify.get("/api/v1/programs/:program_id/lessons", program_lessons);
   fastify.get("/api/v1/programs/:program_id/projects/:project_id/lessons", index);
+  fastify.get("/api/v1/project_contracts/:project_contract_id/lessons", index);
+  fastify.get("/api/v1/project_contract_vehicles/:project_contract_vehicle_id/lessons", index);
+
   fastify.get("/api/v1/programs/:program_id/projects/:project_id/lessons/:id", {preHandler: checkLessonPermission}, show);
   fastify.post("/api/v1/programs/:program_id/projects/:project_id/lessons", create);
   fastify.patch("/api/v1/programs/:program_id/projects/:project_id/lessons/:id", update);

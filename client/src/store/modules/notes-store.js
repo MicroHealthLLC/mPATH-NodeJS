@@ -17,7 +17,7 @@ const notesStore = {
     contract_vehicle_lesson_status: 0,
   }),
   actions: {
-    fetchContractNotes({ commit }, { contractId }) {
+    fetchContractNotes({ commit,getters }, { contractId }) {
       commit("TOGGLE_NOTES_LOADED", false);
       // Send GET request for all lessons contained within a project
       axios({
@@ -26,6 +26,7 @@ const notesStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -40,7 +41,7 @@ const notesStore = {
           commit("TOGGLE_NOTES_LOADED", true);
         });
     },
-    fetchContractNote({ commit }, { id, contractId}) {
+    fetchContractNote({ commit,getters }, { id, contractId}) {
       commit("TOGGLE_NOTES_LOADED", false);
       // Retrieve lesson by id
       axios({
@@ -49,6 +50,7 @@ const notesStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -61,7 +63,7 @@ const notesStore = {
           commit("TOGGLE_NOTES_LOADED", true);
         });
     },
-    addContractNote({ commit }, { note, contractId }) {
+    addContractNote({ commit,getters }, { note, contractId }) {
  // Displays loader on front end
     commit("TOGGLE_NOTES_LOADED", false);
   // Utilize utility function to prep Lesson form data
@@ -74,6 +76,7 @@ const notesStore = {
         headers: {
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
     })
         .then((res) => {
@@ -89,7 +92,7 @@ const notesStore = {
         commit("TOGGLE_NOTES_LOADED", true);
         });
 },
-    updateContractNote({ commit }, { note, contractId, noteId }) {
+    updateContractNote({ commit,getters }, { note, contractId, noteId }) {
       // Displays loader on front end
       commit("TOGGLE_NOTES_LOADED", false);
       // Utilize utility function to prep Lesson form data
@@ -102,6 +105,7 @@ const notesStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -115,7 +119,7 @@ const notesStore = {
           commit("TOGGLE_NOTES_LOADED", true);
         });
     },
-    deleteContractNote({ commit }, { id, contractId }) {
+    deleteContractNote({ commit,getters }, { id, contractId }) {
       // Delete a single lesson
       axios({
         method: "DELETE",
@@ -123,6 +127,7 @@ const notesStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -134,7 +139,7 @@ const notesStore = {
         .finally(() => {});
     },
 // Vehicles
-    fetchVehicleNotes({ commit }, { vehicleId }) {
+    fetchVehicleNotes({ commit,getters }, { vehicleId }) {
       commit("TOGGLE_NOTES_LOADED", false);
       // Send GET request for all lessons contained within a project
       axios({
@@ -143,6 +148,7 @@ const notesStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -157,7 +163,7 @@ const notesStore = {
           commit("TOGGLE_NOTES_LOADED", true);
         });
     },
-    fetchVehicleNote({ commit }, { id, vehicleId}) {
+    fetchVehicleNote({ commit,getters }, { id, vehicleId}) {
       commit("TOGGLE_NOTES_LOADED", false);
       // Retrieve lesson by id
       axios({
@@ -166,6 +172,7 @@ const notesStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -178,7 +185,7 @@ const notesStore = {
           commit("TOGGLE_NOTES_LOADED", true);
         });
     },
-    addVehicleNote({ commit }, { note, vehicleId }) {
+    addVehicleNote({ commit,getters }, { note, vehicleId }) {
  // Displays loader on front end
     commit("TOGGLE_NOTES_LOADED", false);
   // Utilize utility function to prep Lesson form data
@@ -191,6 +198,7 @@ const notesStore = {
         headers: {
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
     })
         .then((res) => {
@@ -206,7 +214,7 @@ const notesStore = {
         commit("TOGGLE_NOTES_LOADED", true);
         });
 },
-    updateVehicleNote({ commit }, { note, vehicleId, noteId }) {
+    updateVehicleNote({ commit,getters }, { note, vehicleId, noteId }) {
       // Displays loader on front end
       commit("TOGGLE_NOTES_LOADED", false);
       // Utilize utility function to prep Lesson form data
@@ -219,6 +227,7 @@ const notesStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {
@@ -232,7 +241,7 @@ const notesStore = {
           commit("TOGGLE_NOTES_LOADED", true);
         });
     },
-    deleteVehicleNote({ commit }, { id, vehicleId }) {
+    deleteVehicleNote({ commit,getters }, { id, vehicleId }) {
       // Delete a single lesson
       axios({
         method: "DELETE",
@@ -240,6 +249,7 @@ const notesStore = {
         headers: {
           "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
             .attributes["content"].value,
+            'x-token': getters.getToken
         },
       })
         .then((res) => {

@@ -6,14 +6,27 @@ const qs = require('qs');
 // Function for retrieving user details
 const program_lessons = async (req, res) => {
   try {
-    // Fetch user profile using req.userId
-    // const allLessons = await db.Lesson.findAll();
-    const lessons = require('../../static_responses/lessons_index.json');
+    const { db } = require("../database/models");
+    const {getCurrentUser, printParams, compactAndUniq} = require('../utils/helpers.js')
 
-    return({ lessons: lessons });
+    var qs = require('qs');
+    let query = qs.parse(req.query)
+    let params = qs.parse(req.params)
+    let noteParams = params.note
+
+    var facilityProjects = await db.FacilityProject.findAll({where: {project_id: params.program_id}})
+    var facilityProjectIds = compactAndUniq(_.map(facilityProjects, 'id'))
+    var lessons = await db.Lesson.findAll({where: {facility_project_id: facilityProjectIds }})
+    var response = []
+    for(var l of lessons){
+      var _l = await l.toJSON()
+      response.push(_l)
+    }
+    return({ lessons: response });
 
   } catch (error) {
-    res.code(500).json({ error: "Error fetching lessons" });
+    res.code(500)
+    return({ error: "Error fetching lessons"+ error.stack });
   }
 };
 
@@ -22,14 +35,24 @@ const index = async (req, res) => {
   var qs = require('qs');
   try {
     // Fetch user profile using req.userId
-    let params = qs.parse(req.body)
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
+    let body = qs.parse(req.body)
+    let allLessons = []
 
-    let program_id = req.params.program_id
-    let facility_id = req.params.project_id
-    let facility_project = await db.FacilityProject.findOne({where: {project_id: program_id, facility_id: facility_id}, raw: true})
+    if(params.program_id && params.project_id){
+      let program_id = params.program_id
+      let facility_id = params.project_id
+      let facility_project = await db.FacilityProject.findOne({where: {project_id: program_id, facility_id: facility_id}, raw: true})
+      allLessons = await db.Lesson.findAll({where: {facility_project_id: facility_project.id}});
+    }else if(params.project_contract_id){
+      let project_contract = await db.ProjectContract.findOne({where: {id: params.project_contract_id}, raw: true})
+      allLessons = await db.Lesson.findAll({where: {project_contract_id: project_contract.id}});
+    }else if(params.project_contract_vehicle_id){
+      let project_contract_vehicle = await db.ProjectContractVehicle.findOne({where: {id: params.project_contract_vehicle_id}, raw: true})
+      allLessons = await db.Lesson.findAll({where: {project_contract_vehicle_id: project_contract_vehicle.id}});
+    }
 
-    const allLessons = await db.Lesson.findAll({where: {facility_project_id: facility_project.id}});
-    // const allLessons = require('../../static_responses/lessons_index.json');
     let res_lessons = []
     for(var l of allLessons){
       res_lessons.push(await(l.toJSON()))

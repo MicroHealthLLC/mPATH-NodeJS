@@ -8,7 +8,8 @@ const programs = async (req, res) => {
     res.json(allPrograms);
     // console.log("All (Backend) Programs: ", allPrograms);
   } catch (error) {
-    res.code(500).json({ error: "Error fetching programs" });
+    res.code(500)
+    return({ error: "Error fetching programs" });
   }
 };
 
@@ -23,7 +24,8 @@ const findProgram = async (req, res) => {
     res.json(program);
     // console.log("Program: ", program);
   } catch (error) {
-    res.code(500).json({ error: "Error fetching program"+error });
+    res.code(500)
+    return({ error: "Error fetching program"+error });
   }
 };
 
@@ -34,7 +36,8 @@ const createProgram = async (req, res) => {
     return({ program: newProgram });
     // console.log("Newly created program: ", newProgram);
   } catch (error) {
-    res.code(500).json({ error: "Error creating program" });
+    res.code(500)
+    return({ error: "Error creating program" });
   }
 };
 
@@ -50,7 +53,8 @@ const deleteProgram = async (req, res) => {
     return({ message: "Program deleted successfully" });
     // console.log("Deleted program ID: ", programId);
   } catch (error) {
-    res.code(500).json({ error: "Error deleting program" });
+    res.code(500)
+    return({ error: "Error deleting program" });
   }
 };
 
@@ -60,7 +64,8 @@ const deleteAllPrograms = async (req, res) => {
     return({ message: "All programs deleted successfully" });
     // console.log("Deleted programs count: ", deletedPrograms);
   } catch (error) {
-    res.code(500).json({ error: "Error deleting programs" });
+    res.code(500)
+    return({ error: "Error deleting programs" });
   }
 };
 

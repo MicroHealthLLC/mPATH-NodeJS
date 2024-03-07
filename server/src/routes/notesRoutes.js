@@ -2,7 +2,8 @@
 const { 
   update,
   show,
-  create
+  create,
+  index
 } = require("../controllers/NotesController");
 
 async function checkNotePermission(req, res) {
@@ -27,7 +28,6 @@ async function checkNotePermission(req, res) {
   } else if (["destroy"].includes(controllerAction)) {
       action = "delete";
   }
-
   let user = await getCurrentUser(req.headers['x-token'])
   let _authParams = {}
   if (params.project_contract_id) {
@@ -50,6 +50,9 @@ async function checkNotePermission(req, res) {
 
 async function routes (fastify, options) {
   fastify.addHook('preHandler', checkNotePermission)
+  fastify.get("/api/v1/programs/:program_id/projects/:project_id/notes",index);
+  fastify.get("/api/v1/project_contracts/:project_contract_id/notes", index);
+  fastify.get("/api/v1/project_contract_vehicles/:project_contract_vehicle_id/notes", index);
   fastify.post("/api/v1/programs/:program_id/projects/:project_id/notes",create);
   fastify.put("/api/v1/programs/:program_id/projects/:project_id/notes/:id",update);
   fastify.get("/api/v1/programs/:program_id/projects/:project_id/notes/:id",show);

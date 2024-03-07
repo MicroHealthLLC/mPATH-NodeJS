@@ -247,22 +247,9 @@ module.exports = (sequelize, DataTypes) => {
 
     async toJSON(){
       const { db } = require("./index.js");
-      
-      let _resource = this.get({ plain: true });
-      //Replace this code with eager loading
-      // response.checklists = await this.getListable({include: [db.ProgressList]})
+      const {getCurrentUser, printParams, compactAndUniq, validUrl} = require('../../utils/helpers.js')
 
-      // // Add checklists
-      // _resource.checklists = []
-      // let checklists = await db.Checklist.findAll({where: {listable_id: _resource.id, listable_type: 'Issue'}, raw: true })
-      // var checklist_ids = _.uniq(checklists.map(function(e){return e.id}))
-      // var progress_lists = await db.ProgressList.findAll({where: {checklist_id: checklist_ids}, raw: true})
-      
-      // for(var checklist of checklists){
-      //   checklist.user = {id: checklist.user_id, full_name: ""}
-      //   checklist.progress_lists = progress_lists.filter(function(p){ p.checklist_id == checklist.id })
-      //   _resource.checklists.push(checklist)
-      // }
+      let _resource = this.get({ plain: true });
 
       let facility_project = await this.getFacilityProject()
       let facility = await db.Facility.findOne({where: {id: facility_project.facility_id}})
@@ -320,7 +307,6 @@ module.exports = (sequelize, DataTypes) => {
       }
 
       _resource["successes"] = []
-      console.log("***successes", successes)
 
       for(var success of successes){
         let user = _.find(users, function(u){ return u.id == success.user_id})
@@ -371,7 +357,7 @@ module.exports = (sequelize, DataTypes) => {
         // console.log("******blob", file)
         if (blob.filename) { // Check if filename exists
           try {
-            if (blob.content_type === "text/plain" && this.validUrl(blob.filename)) {
+            if (blob.content_type === "text/plain" && validUrl(blob.filename)) {
               // If content type is text/plain and filename is a valid URL
               _resource["attach_files"].push({
                 id: blob.id,

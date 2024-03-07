@@ -11,7 +11,8 @@ const index = async (req, res) => {
       return({ username: user_db.username, email: user_db.email });
     }
   } catch (error) {
-    res.code(500).json({ error: "Error fetching profile" });
+    res.code(500)
+    return({ error: "Error fetching profile" });
   }
 };
 

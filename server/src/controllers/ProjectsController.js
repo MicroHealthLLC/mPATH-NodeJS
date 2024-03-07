@@ -1,5 +1,7 @@
 const { db } = require("../database/models");
 const {_} = require("lodash") 
+const qs = require('qs');
+
 // Function for retrieving user details
 const index = async (req, res) => {
   try {
@@ -9,33 +11,35 @@ const index = async (req, res) => {
 
     return({ projects: response });
   } catch (error) {
-    res.code(500).json({ error: "Error fetching lessons" });
+    res.code(500)
+    return({ error: "Error fetching lessons" });
   }
 };
 
 const show = async (req, res) => {
   try {
-    var programId = req.params.id;
+    const {getCurrentUser, printParams, compactAndUniq} = require('../utils/helpers.js')
+    let body = qs.parse(req.body)
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
+    printParams(req)
+
+    var programId = params.id;
     // console.log(req.params)
     // console.log(db)
     // authorized facility_ids
-    let user = await db.User.findOne({where: {email: 'admin@example.com'}})
+    let user = await getCurrentUser(req.headers['x-token'])
+
     // Fetch all users from the database
-    const program = await db.Project.findOne(
-      
-      // { raw: true },
-      {  
-        where: { id: programId }
-      }
-    );
+    const program = await db.Project.findOne({where: { id: programId }  });
     
     let response = await program.build_json_response({user: user})
 
     //As response contains all data, we will add data in steps.
     // For now returning static response. and then will override 
     // the data with real data
-    // response = require('../../static_responses/project_show.json');
-    res.type('application/json').code(200)
+
+    res.code(200)
     return({ project: response });
     // console.log("Program: ", program);
   } catch (error) {
