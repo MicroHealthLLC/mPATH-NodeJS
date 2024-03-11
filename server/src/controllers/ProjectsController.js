@@ -5,11 +5,26 @@ const qs = require('qs');
 // Function for retrieving user details
 const index = async (req, res) => {
   try {
+    const {getCurrentUser, printParams, compactAndUniq} = require('../utils/helpers.js')
+    let body = qs.parse(req.body)
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
+    printParams(req)
+
+    let user = await getCurrentUser(req.headers['x-token'])
+    let projectUsers = await db.ProjectUser.findAll({where: {user_id: user.id}})
+    let projectIds = compactAndUniq(_.map(projectUsers, 'project_id'))
+    let projects = await db.Project.findAll({where: {id: projectIds}})
+    let responseHash = []
+    for(var project of projects){
+      var p = await project.toJSON()
+      responseHash.push(p)
+    }
     // Fetch user profile using req.userId
     // const allProjects = await db.Project.findAll();
-    const response = require('../../static_responses/projects_index.json');
+    // const response = require('../../static_responses/projects_index.json');
 
-    return({ projects: response });
+    return({ projects: responseHash });
   } catch (error) {
     res.code(500)
     return({ error: "Error fetching lessons" });

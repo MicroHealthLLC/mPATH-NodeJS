@@ -66,8 +66,6 @@
 
       var privilege = "{&quot;map_view&quot;:&quot;R&quot;,&quot;gantt_view&quot;:&quot;R&quot;,&quot;members&quot;:&quot;R&quot;,&quot;settings_view&quot;:&quot;R&quot;,&quot;sheets_view&quot;:&quot;R&quot;,&quot;kanban_view&quot;:&quot;R&quot;,&quot;calendar_view&quot;:&quot;R&quot;,&quot;contract_data&quot;:&quot;RW&quot;}";
 
-      // var program_admin_role = "{&quot;id&quot;:7,&quot;name&quot;:&quot;program-admin&quot;,&quot;project_id&quot;:null,&quot;user_id&quot;:null,&quot;is_portfolio&quot;:true,&quot;is_default&quot;:true,&quot;type_of&quot;:&quot;admin&quot;,&quot;created_at&quot;:&quot;2022-06-11 10:36:55 -0400&quot;,&quot;updated_at&quot;:&quot;2022-06-11 10:36:55 -0400&quot;,&quot;role_privileges&quot;:[],&quot;role_users&quot;:[]}";
-
       var google_api_key = "APIKEY";
       
       AuthorizationService.privilege = JSON.parse(privilege.replace(/&quot;/g, '"'))

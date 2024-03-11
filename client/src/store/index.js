@@ -194,6 +194,7 @@ export default new Vuex.Store({
       state.token = '';
       state.programAdminRole = {};
       state.projectFacilityHash = {};
+      localStorage.removeItem('token')
     },
     setCurrentUser(state, user) {
       state.currentUser = user;

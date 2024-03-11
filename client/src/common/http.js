@@ -17,5 +17,10 @@ const http = axios.create({
     ...axios.defaults.transformRequest
   ]
 })
-
+// Set the AUTH token for any request
+http.interceptors.request.use(function (config) {
+  const token = localStorage.getItem('token');
+  config.headers['x-token'] =  token ? `${token}` : '';
+  return config;
+});
 export default http;

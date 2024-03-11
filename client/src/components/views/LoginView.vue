@@ -132,6 +132,7 @@
 import axios from "axios";
 import { mapGetters, mapMutations } from "vuex";
 import AuthorizationService from '../../services/authorization_service.js'
+import { API_BASE_PATH } from '../../mixins/utils'
 
 export default {
   name: 'LoginView',
@@ -157,20 +158,10 @@ export default {
     ...mapMutations(["setContentLoaded","setUser", "setToken", "setPreferences", "setProgramAdminRole", "setProjectFacilityHash"]),
     async login(e) {
       e.preventDefault();
-      // const response = await fetch("http://localhost:3000/users/sign_in", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     username: this.username,
-      //     password: this.password,
-      //   }),
-      // });      
 
         axios({
           method: "POST",
-          url:  "http://localhost:3000/api/v1/auth/users/sign_in",
+          url:  `${API_BASE_PATH}/auth/users/sign_in`,
           data: {
             email: this.username,
             password: this.password,
@@ -182,14 +173,9 @@ export default {
         })
         .then((response) => {
           console.log("AuthResponse", response)
-
-            // const { user, token } = await response.json();
-            // var current_user = "{&quot;id&quot;:11,&quot;email&quot;:&quot;admin@example.com&quot;,&quot;created_at&quot;:&quot;2020-10-28T08:36:45.000-04:00&quot;,&quot;updated_at&quot;:&quot;2023-09-12T09:11:41.000-04:00&quot;,&quot;first_name&quot;:&quot;admin@example.com&quot;,&quot;last_name&quot;:&quot;admin@example.com&quot;,&quot;title&quot;:&quot;Mr.&quot;,&quot;phone_number&quot;:&quot;&quot;,&quot;address&quot;:&quot;&quot;,&quot;role&quot;:&quot;superadmin&quot;,&quot;provider&quot;:null,&quot;uid&quot;:null,&quot;login&quot;:null,&quot;status&quot;:&quot;active&quot;,&quot;lat&quot;:&quot;&quot;,&quot;lng&quot;:&quot;&quot;,&quot;country_code&quot;:&quot;&quot;,&quot;color&quot;:null,&quot;organization_id&quot;:4,&quot;full_name&quot;:&quot;admin@example.com admin@example.com&quot;,&quot;organization&quot;:&quot;Test Org&quot;}";
-
-            // {"id":11,"email":"admin@example.com","created_at":"2020-10-28T08:36:45.000-04:00","updated_at":"2023-09-12T09:11:41.000-04:00","first_name":"admin@example.com","last_name":"admin@example.com","title":"Mr.","phone_number":"","address":"","role":"superadmin","provider":null,"uid":null,"login":null,"status":"active","lat":"","lng":"","country_code":"","color":null,"organization_id":4,"full_name":"admin@example.com admin@example.com","organization":"Test Org"}            
-
             AuthorizationService.current_user = response.data.current_user //JSON.parse(current_user.replace(/&quot;/g, '"'))
             AuthorizationService.token = response.data.token
+            localStorage.setItem('token', response.data.token);
             AuthorizationService.refreshToken = response.data.refreshToken
             this.setUser( AuthorizationService.current_user);
             this.setToken(AuthorizationService.token);

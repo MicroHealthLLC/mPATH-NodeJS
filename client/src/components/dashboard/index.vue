@@ -48,7 +48,6 @@ export default {
   computed: {
     ...mapGetters(["isLoggedIn","contentLoaded", "facilities", "getUnfilteredFacilities"]),
       isProgramView() {
-      console.log("index.vue", this.$route)
       return this.$route.name && (
              this.$route.name.includes("ProgramView") ||
              this.$route.name.includes("ProgramTaskForm") ||
