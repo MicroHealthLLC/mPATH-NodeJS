@@ -12,17 +12,13 @@ const index = async (req, res) => {
     printParams(req)
 
     let user = await getCurrentUser(req.headers['x-token'])
-    let projectUsers = await db.ProjectUser.findAll({where: {user_id: user.id}})
-    let projectIds = compactAndUniq(_.map(projectUsers, 'project_id'))
-    let projects = await db.Project.findAll({where: {id: projectIds}})
+    let projectIds = await user.authorizedProgramIds()
+    let projects = await db.Project.findAll({where: {id: projectIds, status: '1'}})
     let responseHash = []
     for(var project of projects){
       var p = await project.toJSON()
       responseHash.push(p)
     }
-    // Fetch user profile using req.userId
-    // const allProjects = await db.Project.findAll();
-    // const response = require('../../static_responses/projects_index.json');
 
     return({ projects: responseHash });
   } catch (error) {
@@ -65,13 +61,28 @@ const show = async (req, res) => {
 
 const project_facility_hash = async (req, res) => {
   try {
+    const { db } = require("../database/models");
 
-    //As response contains all data, we will add data in steps.
-    // For now returning static response. and then will override 
-    // the data with real data
-    response = require('../../static_responses/project_facility_hash.json');
-    res.type('application/json').code(200)
-    return( response );
+    const {getCurrentUser, printParams, compactAndUniq} = require('../utils/helpers.js')
+    let body = qs.parse(req.body)
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
+    printParams(req)
+
+    let user = await getCurrentUser(req.headers['x-token'])
+
+    // Fetch all users from the database
+    let projectIds = await user.authorizedProgramIds()
+    let projects = await db.Project.findAll({where: {id: projectIds, status: '1'}})
+    let facilityProjects = await db.FacilityProject.findAll({where: {project_id: projectIds}})
+    let gFacilityProjects = _.groupBy(facilityProjects, 'project_id')
+    Object.keys(gFacilityProjects).forEach(function (key) { 
+      var values = gFacilityProjects[key]
+      gFacilityProjects[key] = _.map(values, function(fp){return {facility_id: fp.facility_id, facility_project_id: fp.id}})
+    })
+
+    res.code(200)
+    return( {facility_projects: gFacilityProjects} );
     // console.log("Program: ", program);
   } catch (error) {
     res.code(500)
