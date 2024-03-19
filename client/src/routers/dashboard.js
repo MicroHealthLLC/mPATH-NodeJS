@@ -114,6 +114,7 @@ import CalendarRisks from "./../components/views/calendar/CalendarRisks.vue";
 import CalendarRiskForm from "./../components/views/calendar/CalendarRiskForm.vue";
 import LoginView from "./../components/views/LoginView.vue";
 import ProgramListView from "./../components/views/ProgramListView.vue";
+import Profile from './../components/users/profile'
 
 import store from "./../store/index.js"
 
@@ -139,6 +140,12 @@ const router = new VueRouter({
     //     }
     //   }
     // },
+    {
+      name: 'Profile',
+      path: '/profile',
+      component: Profile,
+      meta: { requiresAuth: false }
+    },
     {
       name: "HomeView",
       path: "/",

@@ -3,28 +3,30 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Setting extends Model {
+  class UserPreference extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+
     }
   }
-  Setting.init({
-    var: DataTypes.TEXT,
-    value: DataTypes.TEXT,
-    target_type: DataTypes.TEXT,
-    target_id: DataTypes.TEXT
+  UserPreference.init({
+    navigation_menu: DataTypes.STRING,
+    sub_navigation_menu: DataTypes.STRING,
+    program_id: DataTypes.INTEGER,
+    project_id: DataTypes.INTEGER,
+    project_group_id: DataTypes.INTEGER,
+    user_id: DataTypes.INTEGER
   }, {
     sequelize,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
-    tableName: 'rails_settings',
-    modelName: 'Setting',
+    tableName: 'user_preferences',
+    modelName: 'UserPreference',
     underscored: true
   });
-  return Setting;
+  return UserPreference;
 };

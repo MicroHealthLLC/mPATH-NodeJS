@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       // this.belongsTo(models.Project)
 
     }
+    static PRIVILEGE_MODULE = {admin: "admin", overview: "analytics", tasks: "tasks", issues: "issues", risks: "risks", notes: "notes", lessons: "lessons" } 
   }
   FacilityPrivilege.init({
     overview: DataTypes.STRING,

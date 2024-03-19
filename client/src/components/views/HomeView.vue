@@ -35,7 +35,8 @@
             </li>
             <li class="nav-item">
               <div v-if="this.getCurrentUser">
-              <a class="nav-link" href="/profile">Welcome,{{this.getCurrentUser.email}}</a></div>
+                <router-link :to="`/profile`">Welcome,{{this.getCurrentUser.email}}</router-link>
+              </div>
             </li>
             <li class="nav-item">
               <a
@@ -115,7 +116,10 @@ export default {
           this.$route.name.includes('ProgramRiskForm') ||
           this.$route.name.includes('ProgramIssueForm') ||
           this.$route.name.includes('ProgramContractLessonForm') ||
-          this.$route.name.includes('ProgramLessonForm'))
+          this.$route.name.includes('ProgramLessonForm') ||
+          this.$route.name.includes('Profile')
+          )
+
       )
     }
   }

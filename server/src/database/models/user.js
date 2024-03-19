@@ -35,6 +35,158 @@ module.exports = (sequelize, DataTypes) => {
       h['status'] = this.getStatus(h['status']) 
       return h;
     }
+
+    topNavigationHash() {
+      return {     
+        "sheets_view": "sheet",
+        "settings_view": "settings",
+        "map_view": "map",
+        "gantt_view": "gantt_chart",
+        "kanban_view": "kanban",
+        "calendar_view": "calendar",
+        "members": "members"
+      }
+    }
+    
+    async buildNavigationTabsForProfile() {
+      const allowedTabs = await this.allowedNavigationTabs();
+      const navigationArray = [];
+      allowedTabs.forEach(tab => {
+        let name = tab === "sheets_view" ? "sheet" : "";
+        if (tab === "map_view") name = "map";
+        if (tab === "gantt_view") name = "gantt_chart";
+        if (tab === "kanban_view") name = "kanban";
+        if (tab === "calendar_view") name = "calendar";
+        if (tab === "members") name = "members";
+        if (name) {
+          navigationArray.push({ id: name.toLowerCase(), name: name, value: name.toLowerCase() });
+        }
+      });
+      return navigationArray;
+    }
+    
+    allowedSubNavigationTabs(right = 'R') {
+      const facilityPrivileges = this.facilityPrivilegesHash;
+      const subNavigationTabs = {};
+      for (const facilityId in facilityPrivileges) {
+        subNavigationTabs[facilityId] = [];
+        for (const moduleId in facilityPrivileges[facilityId]) {
+          const modulePrivileges = facilityPrivileges[facilityId][moduleId];
+          modulePrivileges.forEach(privilege => {
+            if (!["facility_id", "contracts"].includes(privilege.id) && (privilege.value.includes(right) || privilege.value === right)) {
+              subNavigationTabs[facilityId].push({ id: privilege.id, name: privilege.name, value: privilege.value });
+            }
+          });
+        }
+      }
+      return subNavigationTabs;
+    }
+    
+    buildSubNavigationTabsForProfile() {
+      return this.allowedSubNavigationTabs();
+    }
+    
+    buildSubNavigationForProgramSettingsTabs(right = "R") {
+      const programSettingsPrivileges = this.programSettingsPrivilegesHash;
+      const navigationHash = {};
+      for (const projectId in programSettingsPrivileges) {
+        const privileges = programSettingsPrivileges[projectId];
+        for (const moduleType in privileges) {
+          const modulePrivileges = privileges[moduleType];
+          modulePrivileges.forEach(privilege => {
+            if (privilege.value.includes(right) || privilege.value === right) {
+              if (!navigationHash[projectId]) navigationHash[projectId] = [];
+              navigationHash[projectId].push({ id: privilege.id, name: privilege.name, value: privilege.value });
+            }
+          });
+        }
+      }
+      return navigationHash;
+    }
+
+    async allowedNavigationTabs(right = 'R') {
+      const { db } = require("./index.js");
+
+      const navigationTabs = ["sheets_view", "map_view", "gantt_view", "kanban_view", "calendar_view", "members"];
+      var privilege = await db.Privilege.findOne({where: {user_id: this.id}})
+      var allowedTabs = []
+      if(privilege){
+        var privilegeHash = privilege.toJSON()
+        allowedTabs = Object.keys(privilegeHash).filter(key => {
+          const value = privilegeHash[key];
+          return typeof value === 'string' && value.includes(right) && navigationTabs.includes(key);
+        })
+      }       
+      return allowedTabs;
+    }
+    async preferenceUrl() {
+      const { db } = require("./index.js");
+
+      const preferences = await this.getPreferences();
+      const topNavigations = await this.allowedNavigationTabs();
+      let topNavigationHash = this.topNavigationHash()
+      let currentTopNavigationMenu = null;
+      let url = "/";
+      const navigationMenu = preferences.navigation_menu;
+      let subNavigationMenu = preferences.sub_navigation_menu;
+      if (subNavigationMenu) {
+        subNavigationMenu = db.FacilityPrivilege.PRIVILEGE_MODULE[subNavigationMenu];
+      }
+      
+      if (preferences.program_id) {
+        url = `/programs/${preferences.program_id}/sheet`;
+
+        if (navigationMenu) {
+
+          let navigationPresent = false;
+          if (topNavigations.includes(topNavigationHash[navigationMenu])) {
+            url = `/programs/${preferences.program_id}/${navigationMenu}`;
+            currentTopNavigationMenu = navigationMenu;
+            navigationPresent = true;
+            if (["gantt_view", "members"].includes(navigationMenu)) {
+              return url;
+            }
+          } else if (topNavigations.length > 0) {
+            url = `/programs/${preferences.program_id}/${topNavigationHash[topNavigations[0]]}`;
+            currentTopNavigationMenu = topNavigations[0];
+            navigationPresent = true;
+            if (["gantt_view", "members"].includes(topNavigations[0])) {
+              return url;
+            }
+          } else {
+            url = "/";
+          }
+
+          if (navigationPresent && preferences.project_id) {
+
+            if (subNavigationMenu) {
+
+              const subNavigationPrivileges = this.facilityPrivilegesHash[preferences.program_id][preferences.project_id] || {};
+              subNavigationPrivileges["analytics"] = subNavigationPrivileges["overview"] || [];
+              const subNavigationAllowed = subNavigationPrivileges[subNavigationMenu] && subNavigationPrivileges[subNavigationMenu].length > 0;
+              const allowedSubNavigationValues = Object.keys(subNavigationPrivileges).filter(key => Array.isArray(subNavigationPrivileges[key]) && subNavigationPrivileges[key].length > 0);
+              if (subNavigationAllowed) {
+                if (currentTopNavigationMenu === 'calendar_view' && ["tasks", "issues", "risks"].includes(subNavigationMenu)) {
+                  url = `${url}/projects/${preferences.project_id}/${subNavigationMenu}`;
+                } else {
+                  url = `${url}/projects/${preferences.project_id}/${subNavigationMenu}`;
+                }
+              } else if (allowedSubNavigationValues.length > 0) {
+                if (currentTopNavigationMenu === 'calendar_view' && ["tasks", "issues", "risks"].includes(allowedSubNavigationValues[0])) {
+                  url = `${url}/projects/${preferences.project_id}/${allowedSubNavigationValues[0]}`;
+                } else {
+                  url = `${url}/projects/${preferences.project_id}/${allowedSubNavigationValues[0]}`;
+                }
+              }
+            } else {
+              url = `${url}/projects/${preferences.project_id}`;
+            }
+          }
+        }
+      }
+      return url;
+    }
+
     getFullName(){
       let n = ''
       if(this.first_name){
@@ -49,6 +201,14 @@ module.exports = (sequelize, DataTypes) => {
       return {
         0: 'inactive', 1: 'active'
       }[v]   
+    }
+    async getPreferences(){
+      const { db } = require("./index.js");
+
+      var userPreference = await db.UserPreference.findOne({where: {user_id: this.id} })
+      
+      return userPreference.toJSON()
+
     }
     async authorizedProgramIds(options={}){
       const { db } = require("./index.js");

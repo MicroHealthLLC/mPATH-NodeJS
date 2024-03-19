@@ -1,6 +1,9 @@
-const { verifyToken } = require("../controllers/AuthController");
-// const { Router } = require("express");
-const { index } = require("../controllers/ProfilesController");
+
+const { 
+  index,
+  currentProfile,
+  update
+} = require("../controllers/ProfilesController");
 
 // const router = Router();
 
@@ -14,5 +17,7 @@ const { index } = require("../controllers/ProfilesController");
 
 async function routes (fastify, options) {
   fastify.get("/api/v1/profile", index);
+  fastify.get("/api/v1/current_profile", currentProfile);
+  fastify.post("/api/v1/profile", update);
 }
 module.exports = routes

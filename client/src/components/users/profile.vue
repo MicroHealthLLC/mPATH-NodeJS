@@ -100,9 +100,9 @@
         </div>
       </div>
 
-      <h5 class="my-3 bg-secondary text-light px-2">Preferences</h5>
+      <!-- <h5 class="my-3 bg-secondary text-light px-2">Preferences</h5> -->
 
-      <div class="form-group row">
+      <div class="form-group row" v-if='false'>
         <label class="col-sm-2 col-form-label">Program</label>
         <div class="col-sm-10">
              <el-select
@@ -128,7 +128,7 @@
       </div>
 
 
-      <div class="form-group row">
+      <div class="form-group row"  v-if='false'>
         <label class="col-sm-2 col-form-label">Group</label>
         <div class="col-sm-10">
             <el-select
@@ -152,7 +152,7 @@
         </div>
       </div>
 
-      <div class="form-group row">
+      <div class="form-group row"  v-if='false'>
         <label class="col-sm-2 col-form-label">Project</label>
         <div class="col-sm-10">
            <el-select
@@ -176,9 +176,9 @@
         </div>
       </div>
 
-      <h5 class="my-3 bg-secondary text-light px-2">Start On</h5>
+      <!-- <h5 class="my-3 bg-secondary text-light px-2">Start On</h5> -->
 
-      <div class="form-group row">
+      <div class="form-group row"  v-if='false'>
         <label class="col-sm-2 col-form-label">Navigation</label>
         <div class="col-sm-10">
             <el-select
@@ -203,7 +203,7 @@
         </div>
       </div>
 
-      <div class="form-group row">
+      <div class="form-group row"  v-if='false'>
         <label class="col-sm-2 col-form-label">Sub Navigation</label>
         <div class="col-sm-10">
             <el-select
@@ -286,8 +286,8 @@
     },
     mounted() {
       this.fetchProfile()
-      this.navigationOptions = allowed_navigation_tabs
-      this.subNavigationOptions = allowed_sub_navigation_tabs
+      this.navigationOptions = [] //allowed_navigation_tabs
+      this.subNavigationOptions = [] //allowed_sub_navigation_tabs
     },
     methods: {
       navigationSelectChange(value){
@@ -301,7 +301,7 @@
         }
       },
       fetchProfile() {
-        http.get(`${API_BASE_PATH}/current_user.json`)
+        http.get(`${API_BASE_PATH}/current_profile`)
           .then((res) => {
 
             this.profile = {...this.profile, ...res.data.currentUser}
@@ -423,7 +423,7 @@
           delete(data["preferences"])
 
           http
-            .post(`${API_BASE_PATH}/profile.json`, {profile: data, preferences: preferences})
+            .post(`${API_BASE_PATH}/profile`, {profile: data, preferences: preferences})
             .then((res) => {
               console.log("profile-updated")
               var pref = res.data.preferences

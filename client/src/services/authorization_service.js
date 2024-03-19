@@ -25,6 +25,9 @@ const AuthorizationService = {
   privilege: {},
   current_user: {},
   preferences: {},
+  allowedNavigationTabs: {},
+  allowedSubNavigationTabs: {},
+  allowedSubNavigationForProgramSettingsTab: {},
   topNavigationPermissions: () => {
     var permissionHash = {};
     for (var key in AuthorizationService.privilege) {
@@ -39,7 +42,28 @@ const AuthorizationService = {
     return permissionHash;
   },
 
-
+  getUserPreferences: () => {
+    axios({
+      method: "GET",
+      url: `${API_BASE_PATH}/users/user_preferences`,
+      headers: {
+        "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+          .attributes["content"].value,
+      },
+    })
+      .then((res) => {
+        AuthorizationService.allowedNavigationTabs =
+          res.data.allowed_navigation_tabs;
+        AuthorizationService.allowedSubNavigationTabs =
+          res.data.allowed_sub_navigation_tabs;
+        AuthorizationService.allowedSubNavigationForProgramSettingsTab =
+          res.data.allowed_sub_navigation_for_program_settings_tabs;
+      })
+      .catch((err) => {
+        console.log("Error",err);
+      })
+      .finally(() => {});
+  },
   getRolePrivileges: (project_id) => {
     let portfolioProgramID = project_id
     if(!portfolioProgramID){
