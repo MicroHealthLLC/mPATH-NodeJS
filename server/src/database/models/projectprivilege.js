@@ -15,6 +15,9 @@ module.exports = (sequelize, DataTypes) => {
 // this.belongsTo(models.Project)
 
     }
+    
+    static PRIVILEGE_MODULE = {admin: "admin", overview: "Project analytics", tasks: "Project tasks", issues: "Project issues", risks: "Project risks", notes: "Project notes", lessons: "Project lessons", cn_overview: "Contract analytics", cn_tasks: "Contract tasks", cn_issues: "Contract issues", cn_risks: "Contract risks", cn_notes: "Contract notes", cn_lessons: "Contract lessons", admin_groups: "Program setting groups", admin_facilities: "Program Setting Projects", admin_contracts: "Program Setting Contracts" }
+
   }
   ProjectPrivilege.init({
     overview: DataTypes.STRING,

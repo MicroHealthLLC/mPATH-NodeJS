@@ -8,6 +8,18 @@ function compactAndUniq(array){
   return _.compact(_.uniq(array))
 }
 
+// This function is to read the data stored in YAML 
+// format through RoR application
+// convert YAML data to  plain text
+function serializeData(data){
+  const yaml = require('js-yaml');
+  return yaml.load(data)
+}
+//convert plain data to  YAML
+function deserializeData(data){
+  const yaml = require('js-yaml');
+  return yaml.dump(data)
+}
 function printParams(req){
 
   let body = qs.parse(req.body)
@@ -184,5 +196,6 @@ module.exports = {
   printParams,
   compactAndUniq,
   addAttachment,
-  validUrl
+  validUrl,
+  serializeData
 }

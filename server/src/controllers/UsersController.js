@@ -1,17 +1,38 @@
 const { db } = require("../database/models");
-const jwt = require("jsonwebtoken");
-
+const {_} = require("lodash") 
+const qs = require('qs');
 // Function for retrieving user details
 const preferences = async (req, res) => {
   try {
-    // Fetch user profile using req.userId
-    const preferences = require('../../static_responses/preferences.json');
+    const {getCurrentUser, printParams, compactAndUniq} = require('../utils/helpers.js')
+    let body = qs.parse(req.body)
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
+    printParams(req)
+
+    let user = await db.User.findOne({email: "admin@example.com"})//await getCurrentUser(req.headers['x-token'])
+
+    var pref = await user.getPreferences()
+    var allowedNavigationTabs = await user.allowedNavigationTabs();
+    var allowedSubNavigationTabs =  await user.allowedSubNavigationTabs();
+    var allowedSubNavigationForProgramSettingsTabs =  await user.buildSubNavigationForProgramSettingsTabs()
+
+    const preferences = {
+      "navigation_menu": "map",
+      "sub_navigation_menu": null,
+      "program_id": pref.program_id,
+      "project_id": pref.project_id,
+      "project_group_id": pref.project_group_id,
+      allowed_navigation_tabs: allowedNavigationTabs,
+      allowed_sub_navigation_tabs: allowedSubNavigationTabs,
+      allowed_sub_navigation_for_program_settings_tabs: allowedSubNavigationForProgramSettingsTabs
+    }
 
     return({ preferences: preferences });
 
   } catch (error) {
     res.code(500)
-    return({ error: "Error fetching data" });
+    return({ error: "Error fetching data"+error.stack });
   }
 };
 

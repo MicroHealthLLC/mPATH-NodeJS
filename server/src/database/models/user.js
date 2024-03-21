@@ -65,6 +65,143 @@ module.exports = (sequelize, DataTypes) => {
       return navigationArray;
     }
     
+    async projectPrivilegesHash() {
+      // Return an empty object if needed
+      // return {};
+    
+      const user = this;
+      const projectPrivileges = user.projectPrivileges;
+      const projectIdsWithPrivileges = [];
+      const projectPrivilegesHash = {};
+    
+      projectPrivileges.forEach(privilege => {
+        const { projectIds, ...permissions } = privilege.attributes;
+        const formattedPermissions = {};
+        Object.keys(permissions).forEach(key => {
+          formattedPermissions[key] = permissions[key].filter(Boolean);
+        });
+    
+        projectIds.map(id => id.toString()).forEach(pid => {
+          projectIdsWithPrivileges.push(pid);
+          projectPrivilegesHash[pid] = formattedPermissions;
+        });
+      });
+    
+      const projectIdsWithPrivilegesUnique = Array.from(
+        new Set(projectIdsWithPrivileges)
+      );
+      const userProjectIds = user.projectIds.map(id => id.toString());
+      const remainingProjectIds = userProjectIds.filter(
+        id => !projectIdsWithPrivilegesUnique.includes(id)
+      );
+    
+      // Uncomment the following block if needed
+      // if (remainingProjectIds.length > 0) {
+      //   const userPrivilegeAttributes = { ...user.privilege.attributes };
+      //   delete userPrivilegeAttributes.id;
+      //   delete userPrivilegeAttributes.created_at;
+      //   delete userPrivilegeAttributes.updated_at;
+      //   delete userPrivilegeAttributes.user_id;
+      //   delete userPrivilegeAttributes.project_id;
+      //   delete userPrivilegeAttributes.group_number;
+      //   delete userPrivilegeAttributes.facility_manager_view;
+      //   Object.keys(userPrivilegeAttributes).forEach(key => {
+      //     if (userPrivilegeAttributes[key] === null) {
+      //       delete userPrivilegeAttributes[key];
+      //     } else {
+      //       userPrivilegeAttributes[key] = userPrivilegeAttributes[key]
+      //         .filter(Boolean)
+      //         .join("")
+      //         .split("");
+      //     }
+      //   });
+    
+      //   remainingProjectIds.forEach(pid => {
+      //     projectPrivilegesHash[pid] = { ...userPrivilegeAttributes };
+      //   });
+      // }
+    
+      return projectPrivilegesHash;
+    }
+    
+
+    async facilityPrivilegesHash() {
+      // Return an empty object if needed
+      // return {};
+    
+      const user = this;
+      const facilityPrivileges = user.facilityPrivileges;
+      const projectIds = user.projectIds.map(id => id.toString());
+      const facilityPrivilegesHash = {};
+      const facilityPrivilegesProjectIds = {};
+      const projectPrivilegesHash = await user.projectPrivilegesHash();
+    
+      facilityPrivileges.forEach(privilege => {
+        const { facilityProjectIds, ...permissions } = privilege.attributes;
+        const formattedPermissions = {};
+        Object.keys(permissions).forEach(key => {
+          formattedPermissions[key] = permissions[key].filter(Boolean);
+        });
+    
+        facilityProjectIds.forEach(facilityProjectId => {
+          const projectId = privilege.projectId.toString();
+          const facilityId = facilityProjectId.toString();
+          if (!facilityPrivilegesHash[projectId]) {
+            facilityPrivilegesHash[projectId] = {};
+          }
+          facilityPrivilegesHash[projectId][facilityId] = {
+            ...formattedPermissions,
+            facilityId
+          };
+    
+          if (!facilityPrivilegesProjectIds[projectId]) {
+            facilityPrivilegesProjectIds[projectId] = [];
+          }
+          facilityPrivilegesProjectIds[projectId].push(facilityId);
+        });
+      });
+    
+      const facilityProjectHash = await FacilityProject.findAll({
+        where: { projectId: projectIds }
+      }).then(projects => {
+        const hash = {};
+        projects.forEach(project => {
+          const pid = project.projectId.toString();
+          if (!hash[pid]) {
+            hash[pid] = [];
+          }
+          hash[pid].push(project.facilityId.toString());
+        });
+        return hash;
+      });
+    
+      Object.entries(facilityProjectHash).forEach(([projectId, facilityIds]) => {
+        const unusedFacilityIds = facilityIds.filter(
+          id => !(facilityPrivilegesProjectIds[projectId] || []).includes(id)
+        );
+        unusedFacilityIds.forEach(facilityId => {
+          const projectPrivilege = projectPrivilegesHash[projectId] || {};
+          const filteredPrivileges = {};
+          Object.keys(projectPrivilege).forEach(key => {
+            if (![
+              "map_view", "gantt_view", "watch_view", "documents", "members",
+              "sheets_view", "settings_view", "kanban_view", "calendar_view", 
+              "portfolio_view"
+            ].includes(key)) {
+              filteredPrivileges[key] = projectPrivilege[key];
+            }
+          });
+          facilityPrivilegesHash[projectId][facilityId] = {
+            ...filteredPrivileges,
+            facilityId
+          };
+        });
+      });
+    
+      return facilityPrivilegesHash;
+    }
+    
+
     allowedSubNavigationTabs(right = 'R') {
       const facilityPrivileges = this.facilityPrivilegesHash;
       const subNavigationTabs = {};
@@ -84,6 +221,33 @@ module.exports = (sequelize, DataTypes) => {
     
     buildSubNavigationTabsForProfile() {
       return this.allowedSubNavigationTabs();
+    }
+   async programSettingsPrivilegesHash() {
+      // Return an empty object if needed
+      // return {};
+    
+      const user = this;
+      const projectPrivileges = await db.ProjectPrivileges.findAll({where: {user_id: this.id}});
+      const privilegesHash = {};
+      let projectIdsWithPrivileges = [];
+    
+      projectPrivileges.forEach(privilege => {
+        const projectIds = privilege.project_ids.map(id => id.toString());
+        projectIdsWithPrivileges = projectIdsWithPrivileges.concat(projectIds);
+        const modulePermissions = {};
+        Object.keys(privilege.attributes).forEach(key => {
+          modulePermissions[key] = privilege.attributes[key].filter(Boolean);
+        });
+        projectIds.forEach(projectId => {
+          privilegesHash[projectId] = modulePermissions;
+        });
+      });
+    
+      projectIdsWithPrivileges = [...new Set(projectIdsWithPrivileges)];
+      const userProjectIds = user.projectIds.map(id => id.toString());
+      const remainingProjectIds = userProjectIds.filter(id => !projectIdsWithPrivileges.includes(id));
+    
+      return privilegesHash;
     }
     
     buildSubNavigationForProgramSettingsTabs(right = "R") {

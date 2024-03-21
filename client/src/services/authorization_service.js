@@ -45,7 +45,7 @@ const AuthorizationService = {
   getUserPreferences: () => {
     axios({
       method: "GET",
-      url: `${API_BASE_PATH}/users/user_preferences`,
+      url: `${API_BASE_PATH}/users/preferences`,
       headers: {
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
           .attributes["content"].value,

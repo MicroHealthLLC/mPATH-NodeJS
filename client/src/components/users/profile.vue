@@ -239,6 +239,7 @@
 <script>
   import http from './../../common/http'
   import { API_BASE_PATH } from '../../mixins/utils';
+  import AuthorizationService from "../../services/authorization_service";
 
   export default {
     data() {
@@ -286,16 +287,16 @@
     },
     mounted() {
       this.fetchProfile()
-      this.navigationOptions = [] //allowed_navigation_tabs
-      this.subNavigationOptions = [] //allowed_sub_navigation_tabs
+      this.navigationOptions = AuthorizationService.allowedNavigationTabs
+      this.subNavigationOptions = AuthorizationService.allowedSubNavigationTabs
     },
     methods: {
       navigationSelectChange(value){
         this.selectedSubNavigation = ''
         if(value.id == "kanban" || value.id == "calendar"){
-          this.subNavigationOptions = _.filter(allowed_sub_navigation_tabs[this.selectedProgram.id][this.selectedProject.id], h => ["tasks", "issues", "risks"].includes(h.id))
+          this.subNavigationOptions = _.filter(AuthorizationService.allowedSubNavigationTabs[this.selectedProgram.id][this.selectedProject.id], h => ["tasks", "issues", "risks"].includes(h.id))
         }else if(value.id == "map" || value.id == "sheet"){
-          this.subNavigationOptions = allowed_sub_navigation_tabs[this.selectedProgram.id][this.selectedProject.id]
+          this.subNavigationOptions = AuthorizationService.allowedSubNavigationTabs[this.selectedProgram.id][this.selectedProject.id]
         }else if(['gantt_chart', 'members', 'settings'].includes(value.id) ){
           this.subNavigationOptions = []
         }
@@ -333,8 +334,8 @@
             }
 
             // this.selectedSubNavigation = this.subNavigationOptions.find((t) => t.id === this.preferences.subNavigationMenu );
-            if(program_id && project_id && allowed_sub_navigation_tabs[program_id] && allowed_sub_navigation_tabs[program_id][project_id]){
-              let subNavigationMenu = allowed_sub_navigation_tabs[program_id][project_id]
+            if(program_id && project_id && AuthorizationService.allowedSubNavigationTabs[program_id] && AuthorizationService.allowedSubNavigationTabs[program_id][project_id]){
+              let subNavigationMenu = AuthorizationService.allowedSubNavigationTabs[program_id][project_id]
               if(subNavigationMenu){
                 this.selectedSubNavigation = subNavigationMenu.find((t) => t.id === this.preferences.subNavigationMenu );
               }
@@ -349,11 +350,11 @@
             // }
             if(this.selectedNavigation){
               if(['kanban', 'calendar'].includes(this.selectedNavigation.id)){
-                // this.subNavigationOptions = _.filter(allowed_sub_navigation_tabs, h => !["overview", "notes"].includes(h.id))
-                this.subNavigationOptions = _.filter(allowed_sub_navigation_tabs[program_id][project_id], h => !["overview", "notes"].includes(h.id))
+                // this.subNavigationOptions = _.filter(AuthorizationService.allowedSubNavigationTabs, h => !["overview", "notes"].includes(h.id))
+                this.subNavigationOptions = _.filter(AuthorizationService.allowedSubNavigationTabs[program_id][project_id], h => !["overview", "notes"].includes(h.id))
               }else if(this.selectedNavigation.id == "map" || this.selectedNavigation.id == "sheet"){
-                if(program_id && project_id && allowed_sub_navigation_tabs[program_id][project_id]){
-                  this.subNavigationOptions = allowed_sub_navigation_tabs[program_id][project_id]
+                if(program_id && project_id && AuthorizationService.allowedSubNavigationTabs[program_id][project_id]){
+                  this.subNavigationOptions = AuthorizationService.allowedSubNavigationTabs[program_id][project_id]
                 }else{
                   this.subNavigationOptions = []
                 }                
