@@ -68,29 +68,41 @@ module.exports = (sequelize, DataTypes) => {
     async projectPrivilegesHash() {
       // Return an empty object if needed
       // return {};
-    
+      const {getCurrentUser, printParams, compactAndUniq, serializeData, deserializeData} = require('../../utils/helpers.js')
+      const { db } = require("./index.js");
+
       const user = this;
-      const projectPrivileges = user.projectPrivileges;
+      const projectPrivileges = await db.ProjectPrivilege.findAll({where: {user_id: this.id }})
+
       const projectIdsWithPrivileges = [];
       const projectPrivilegesHash = {};
     
-      projectPrivileges.forEach(privilege => {
-        const { projectIds, ...permissions } = privilege.attributes;
+      for(var privilege of projectPrivileges){
+        let projectIds = deserializeData(privilege.project_ids)
+        let permissions = privilege.dataValues;
+
         const formattedPermissions = {};
         Object.keys(permissions).forEach(key => {
-          formattedPermissions[key] = permissions[key].filter(Boolean);
+          if(!["id", "created_at", "updated_at", "user_id", "project_id", "project_ids"].includes(key)){
+            var arr = deserializeData(permissions[key])
+            let result = Array.isArray(arr);
+            if(result)
+              formattedPermissions[key] = arr.filter(Boolean);
+          }
         });
     
         projectIds.map(id => id.toString()).forEach(pid => {
           projectIdsWithPrivileges.push(pid);
           projectPrivilegesHash[pid] = formattedPermissions;
         });
-      });
-    
+      }
+
       const projectIdsWithPrivilegesUnique = Array.from(
         new Set(projectIdsWithPrivileges)
       );
-      const userProjectIds = user.projectIds.map(id => id.toString());
+      let projectUsers = await db.ProjectUser.findAll({where: {user_id: this.id }})
+      const projectIds = compactAndUniq( _.map(projectUsers, 'project_id') )
+      const userProjectIds = projectIds.map(id => id.toString());
       const remainingProjectIds = userProjectIds.filter(
         id => !projectIdsWithPrivilegesUnique.includes(id)
       );
@@ -126,32 +138,42 @@ module.exports = (sequelize, DataTypes) => {
     
 
     async facilityPrivilegesHash() {
-      // Return an empty object if needed
-      // return {};
-    
+      const {getCurrentUser, printParams, compactAndUniq, serializeData, deserializeData} = require('../../utils/helpers.js')
+      const { db } = require("./index.js");
+
       const user = this;
-      const facilityPrivileges = user.facilityPrivileges;
-      const projectIds = user.projectIds.map(id => id.toString());
+      const facilityPrivileges = await db.FacilityPrivilege.findAll({where: {user_id: user.id}})
+      let projectUsers = await db.ProjectUser.findAll({where: {user_id: this.id }})
+      const projectIds = compactAndUniq( _.map(projectUsers, 'project_id') )
       const facilityPrivilegesHash = {};
       const facilityPrivilegesProjectIds = {};
       const projectPrivilegesHash = await user.projectPrivilegesHash();
-    
-      facilityPrivileges.forEach(privilege => {
-        const { facilityProjectIds, ...permissions } = privilege.attributes;
+
+      for(var privilege of facilityPrivileges){
+        let facilityProjectIds = deserializeData(privilege.facility_project_ids)
+        let permissions = privilege.dataValues;
         const formattedPermissions = {};
         Object.keys(permissions).forEach(key => {
-          formattedPermissions[key] = permissions[key].filter(Boolean);
+          if(!["id", "created_at", "updated_at", "user_id", "project_id", "group_number", "facility_project_ids", "facility_project_id", "facility_id"].includes(key)){
+            var arr = deserializeData(permissions[key])
+            let result = Array.isArray(arr);
+            if(result)
+              formattedPermissions[key] = arr.filter(Boolean);
+          }
         });
-    
+
         facilityProjectIds.forEach(facilityProjectId => {
-          const projectId = privilege.projectId.toString();
+          const projectId = privilege.project_id.toString();
           const facilityId = facilityProjectId.toString();
           if (!facilityPrivilegesHash[projectId]) {
             facilityPrivilegesHash[projectId] = {};
           }
+          if(!facilityPrivilegesHash[projectId][facilityId]){
+            facilityPrivilegesHash[projectId][facilityId] = {}
+          }
           facilityPrivilegesHash[projectId][facilityId] = {
             ...formattedPermissions,
-            facilityId
+            facility_id: facilityId
           };
     
           if (!facilityPrivilegesProjectIds[projectId]) {
@@ -159,26 +181,28 @@ module.exports = (sequelize, DataTypes) => {
           }
           facilityPrivilegesProjectIds[projectId].push(facilityId);
         });
-      });
-    
-      const facilityProjectHash = await FacilityProject.findAll({
-        where: { projectId: projectIds }
+      }
+
+      const facilityProjectHash = await db.FacilityProject.findAll({
+        where: { project_id: projectIds }
       }).then(projects => {
         const hash = {};
         projects.forEach(project => {
-          const pid = project.projectId.toString();
+          const pid = project.project_id.toString();
           if (!hash[pid]) {
             hash[pid] = [];
           }
-          hash[pid].push(project.facilityId.toString());
+          hash[pid].push(project.facility_id.toString());
         });
         return hash;
       });
-    
+
+
       Object.entries(facilityProjectHash).forEach(([projectId, facilityIds]) => {
         const unusedFacilityIds = facilityIds.filter(
           id => !(facilityPrivilegesProjectIds[projectId] || []).includes(id)
         );
+
         unusedFacilityIds.forEach(facilityId => {
           const projectPrivilege = projectPrivilegesHash[projectId] || {};
           const filteredPrivileges = {};
@@ -191,41 +215,54 @@ module.exports = (sequelize, DataTypes) => {
               filteredPrivileges[key] = projectPrivilege[key];
             }
           });
+          if(!facilityPrivilegesHash[projectId]){
+            facilityPrivilegesHash[projectId] = {}
+          }
+          if(!facilityPrivilegesHash[projectId][facilityId]){
+            facilityPrivilegesHash[projectId][facilityId] = {}
+          }
           facilityPrivilegesHash[projectId][facilityId] = {
             ...filteredPrivileges,
-            facilityId
+            facility_id: facilityId
           };
         });
       });
-    
+
       return facilityPrivilegesHash;
     }
     
 
-    allowedSubNavigationTabs(right = 'R') {
-      const facilityPrivileges = this.facilityPrivilegesHash;
+    async allowedSubNavigationTabs(right = 'R') {
+      const { db } = require("./index.js");
+
+      const facilityPrivileges = await this.facilityPrivilegesHash();
       const subNavigationTabs = {};
-      for (const facilityId in facilityPrivileges) {
-        subNavigationTabs[facilityId] = [];
-        for (const moduleId in facilityPrivileges[facilityId]) {
-          const modulePrivileges = facilityPrivileges[facilityId][moduleId];
-          modulePrivileges.forEach(privilege => {
-            if (!["facility_id", "contracts"].includes(privilege.id) && (privilege.value.includes(right) || privilege.value === right)) {
-              subNavigationTabs[facilityId].push({ id: privilege.id, name: privilege.name, value: privilege.value });
+      var result = []
+      Object.keys(facilityPrivileges).forEach(key => {
+        var fHash = facilityPrivileges[key]
+        Object.keys(fHash).forEach(key1 => {
+          var f2Hash = fHash[key1]
+          Object.keys(f2Hash).forEach(key3 => {
+            var f3Hash = f2Hash[key3]
+            var v2 = f2Hash[key3]
+            if( !["facility_id", "contracts"].includes(key3) &&  (v2 && v2.length > 0) && db.FacilityPrivilege.PRIVILEGE_MODULE[key3] ){
+              result.push({id: key3.toLowerCase(), name: db.FacilityPrivilege.PRIVILEGE_MODULE[key3], value: key3.toLowerCase() })
             }
-          });
-        }
-      }
-      return subNavigationTabs;
+          })
+        })
+
+      })
+      return result;
     }
     
     buildSubNavigationTabsForProfile() {
       return this.allowedSubNavigationTabs();
     }
    async programSettingsPrivilegesHash() {
-      // Return an empty object if needed
-      // return {};
     
+    const {getCurrentUser, printParams, compactAndUniq, serializeData, deserializeData} = require('../../utils/helpers.js')
+    const { db } = require("./index.js");
+
       const user = this;
       const projectPrivileges = await db.ProjectPrivileges.findAll({where: {user_id: this.id}});
       const privilegesHash = {};

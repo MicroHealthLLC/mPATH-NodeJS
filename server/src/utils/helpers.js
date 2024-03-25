@@ -13,12 +13,12 @@ function compactAndUniq(array){
 // convert YAML data to  plain text
 function serializeData(data){
   const yaml = require('js-yaml');
-  return yaml.load(data)
+  return yaml.dump(data)
 }
 //convert plain data to  YAML
 function deserializeData(data){
   const yaml = require('js-yaml');
-  return yaml.dump(data)
+  return yaml.load(data)
 }
 function printParams(req){
 
@@ -197,5 +197,6 @@ module.exports = {
   compactAndUniq,
   addAttachment,
   validUrl,
-  serializeData
+  serializeData,
+  deserializeData
 }
