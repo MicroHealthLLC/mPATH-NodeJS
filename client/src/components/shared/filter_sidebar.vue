@@ -486,6 +486,9 @@
 <script>
 import axios from 'axios'
 import humps from 'humps'
+import http from './../../common/http'
+import MessageDialogService from "../../services/message_dialog_service.js";
+
 import { mapGetters, mapMutations } from 'vuex'
 import * as XLSX from "xlsx/xlsx";
 import {API_BASE_PATH} from './../../mixins/utils'
@@ -1012,14 +1015,7 @@ export default {
       var url = `${API_BASE_PATH}/programs/${this.currentProject.id}/query_filters`
       var method = "GET"
 
-      axios({
-        method: method,
-        url: url,
-        headers: {
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').attributes['content'].value
-        }
-      })
-      .then((response) => {
+      http.get(`${url}`).then((response) => {
         var res = response.data
         this.favoriteFilterOptions = res
       })
@@ -1029,8 +1025,6 @@ export default {
       .finally(() => {
         // this.loading = false
       })
-
-
     },
     saveFavoriteFilters(){
       let formData = new FormData()
@@ -1240,16 +1234,8 @@ export default {
       var method = "POST"
       var callback = "filter-created"
 
-      axios({
-        method: method,
-        url: url,
-        data: formData,
-        headers: {
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').attributes['content'].value
-        }
-      })
-      .then((response) => {
-        var favorite_filter =  response.data.favorite_filter
+      http.post(`${url}`, formData).then((response) => {
+                var favorite_filter =  response.data.favorite_filter
         this.favoriteFilterData = favorite_filter
         let i = this.favoriteFilterOptions.findIndex(n => n.id === favorite_filter.id)
 
@@ -1264,14 +1250,13 @@ export default {
         MessageDialogService.showDialog({
           message: `Favorite Filter is saved successfully.`
         });
-      })
-      .catch((err) => {
+      }).catch((err) => {
         // var errors = err.response.data.errors
         console.log(err)
       })
       .finally(() => {
         // this.loading = false
-      })
+      })   
 
     },
     resetFilters(){
@@ -1353,7 +1338,7 @@ export default {
         if(!this.favoriteFilterData.id)
           return
 
-        var url = `${API_BASE_PATH}/programs/${this.currentProject.id}/query_filters/reset.json`
+        var url = `${API_BASE_PATH}/programs/${this.currentProject.id}/query_filters/reset`
         var method = "DELETE"
         var callback = "filter-destroyed"
 
@@ -1361,15 +1346,7 @@ export default {
 
         formData.append('favorite_filter[id]', this.favoriteFilterData.id)
 
-        axios({
-          method: method,
-          url: url,
-          data: formData,
-          headers: {
-            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').attributes['content'].value
-          }
-        })
-        .then((response) => {
+        http.post(`${url}`, formData).then((response) => {
           var id = parseInt(response.data.id)
           this.favoriteFilterOptions = _.filter(this.favoriteFilterOptions, function(currentObject) {
             return currentObject.id != id;
@@ -1396,6 +1373,7 @@ export default {
         .finally(() => {
           // this.loading = false
         })
+        
       });
     },
     exportData() {

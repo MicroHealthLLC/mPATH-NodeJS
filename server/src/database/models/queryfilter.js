@@ -16,6 +16,16 @@ module.exports = (sequelize, DataTypes) => {
 // this.belongsTo(models.FavoriteFilter)
 
     }
+    toJSON(){
+      const {getCurrentUser, printParams, compactAndUniq, serializeData, deserializeData} = require('../../utils/helpers.js')
+      const { db } = require("./index.js");
+
+      let h = {...super.toJSON()}
+      if(h['filter_value']){
+        h['filter_value'] = JSON.parse(deserializeData(h['filter_value']))
+      }
+      return h
+    }
   }
   QueryFilter.init({
     name: DataTypes.STRING,

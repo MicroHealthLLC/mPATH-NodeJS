@@ -16,6 +16,23 @@ module.exports = (sequelize, DataTypes) => {
       // this.hasMany(models.QueryFilter)
 
     }
+
+    async toJSON(options={}){
+      const {getCurrentUser, printParams, compactAndUniq, serializeData, deserializeData} = require('../../utils/helpers.js')
+      const { db } = require("./index.js");
+      let h = {...super.toJSON()}
+
+      var queryFilters = await db.QueryFilter.findAll({where: {favorite_filter_id: this.id}})
+      for(var queryFilter of queryFilters){
+        if(h['query_filters']){
+          h['query_filters'].push(queryFilter.toJSON())
+        }else{
+          h['query_filters'] = []
+        }
+      }
+      return h
+    }
+
   }
   FavoriteFilter.init({
     name: DataTypes.STRING,

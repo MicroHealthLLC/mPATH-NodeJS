@@ -10,7 +10,7 @@ const preferences = async (req, res) => {
     let query = qs.parse(req.query)
     printParams(req)
 
-    let user = await db.User.findOne({email: "admin@example.com"})//await getCurrentUser(req.headers['x-token'])
+    let user = await getCurrentUser(req.headers['x-token'])
 
     var pref = await user.getPreferences()
     var allowedNavigationTabs = await user.allowedNavigationTabs();

@@ -494,6 +494,9 @@
 </template>
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
+import http from './../../common/http'
+import MessageDialogService from "../../services/message_dialog_service.js";
+
 import * as XLSX from "xlsx/xlsx";
 import 'vue2-datepicker/index.css'
  Vue.component('v2-date-picker', DatePicker)
@@ -1133,17 +1136,9 @@ export default {
       }
     },
     fetchFilters(){
-      var url = `/projects/${this.currentProject.id}/query_filters`
-      var method = "GET"
-
-      axios({
-        method: method,
-        url: url,
-        headers: {
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').attributes['content'].value
-        }
-      })
-      .then((response) => {
+      var url = `${API_BASE_PATH}/projects/${this.currentProject.id}/query_filters`
+      // var method = "GET"
+      http.get(`${url}`).then((response) => {
         var res = response.data
         this.favoriteFilterOptions = res
         MessageDialogService.showDialog({
@@ -1157,8 +1152,6 @@ export default {
       .finally(() => {
         // this.loading = false
       })
-
-
     },
     saveFavoriteFilters(){
       let formData = new FormData()
@@ -1364,19 +1357,10 @@ export default {
         formData.append('query_filters[][filter_value]', dates )        
       }
 
-      var url = `/projects/${this.currentProject.id}/query_filters`
+      var url = `${API_BASE_PATH}/projects/${this.currentProject.id}/query_filters`
       var method = "POST"
       var callback = "filter-created"
-
-      axios({
-        method: method,
-        url: url,
-        data: formData,
-        headers: {
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').attributes['content'].value
-        }
-      })
-      .then((response) => {
+      http.post(`${url}`, formData).then((response) => {
         var favorite_filter =  response.data.favorite_filter
         this.favoriteFilterData = favorite_filter
         let i = this.favoriteFilterOptions.findIndex(n => n.id === favorite_filter.id)
@@ -1400,6 +1384,38 @@ export default {
       .finally(() => {
         // this.loading = false
       })
+      // axios({
+      //   method: method,
+      //   url: url,
+      //   data: formData,
+      //   headers: {
+      //     'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').attributes['content'].value
+      //   }
+      // })
+      // .then((response) => {
+      //   var favorite_filter =  response.data.favorite_filter
+      //   this.favoriteFilterData = favorite_filter
+      //   let i = this.favoriteFilterOptions.findIndex(n => n.id === favorite_filter.id)
+
+      //   if(i == -1){
+      //     this.favoriteFilterOptions.unshift(favorite_filter) 
+      //   }else{
+      //     Vue.set(this.favoriteFilterOptions, i, favorite_filter)
+      //   }
+      //   _.remove(this.favoriteFilterOptions, (t) => t.id === null)
+      //   this.favoriteFilterOptions.unshift({id: null, name: "New Filter", shared: false }) 
+        
+      //   MessageDialogService.showDialog({
+      //     response: response
+      //   });
+      // })
+      // .catch((err) => {
+      //   // var errors = err.response.data.errors
+      //   console.log(err)
+      // })
+      // .finally(() => {
+      //   // this.loading = false
+      // })
 
     },
     resetFilters(){
@@ -1502,7 +1518,7 @@ export default {
         if(!this.favoriteFilterData.id)
           return
 
-        var url = `/projects/${this.currentProject.id}/query_filters/reset.json`
+        var url = `${API_BASE_PATH}/projects/${this.currentProject.id}/query_filters/reset`
         var method = "DELETE"
         var callback = "filter-destroyed"
 
@@ -1510,15 +1526,7 @@ export default {
 
         formData.append('favorite_filter[id]', this.favoriteFilterData.id)
 
-        axios({
-          method: method,
-          url: url,
-          data: formData,
-          headers: {
-            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').attributes['content'].value
-          }
-        })
-        .then((response) => {
+        http.delete(`${url}`, formData).then((response) => {
           var id = parseInt(response.data.id)
           this.favoriteFilterOptions = _.filter(this.favoriteFilterOptions, function(currentObject) {
             return currentObject.id != id;
@@ -1543,6 +1551,7 @@ export default {
         .finally(() => {
           // this.loading = false
         })
+        
       });
     },
     exportData() {

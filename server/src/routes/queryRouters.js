@@ -1,6 +1,7 @@
 // const { Router } = require("express");
 const { 
-    query_filters
+  index,
+  reset
       } = require("../controllers/QueryFiltersController");
 
 // const router = Router();
@@ -18,6 +19,7 @@ const {
 // module.exports = router;
 
 async function routes (fastify, options) {
-  fastify.get("/api/v1/programs/:id/query_filters", query_filters);
+  fastify.get("/api/v1/programs/:id/query_filters", index);
+  fastify.post("/api/v1/programs/:id/query_filters/reset", reset);
 }
 module.exports = routes
