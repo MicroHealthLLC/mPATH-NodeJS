@@ -1,6 +1,5 @@
 'use strict';
 const {_} = require("lodash") 
-const validUrl = require('valid-url');
 const { Readable } = require('stream');
 
 const {
@@ -228,7 +227,8 @@ module.exports = (sequelize, DataTypes) => {
 
     async toJSON(){
       const { db } = require("./index.js");
-      
+      const {validUrl} = require('../../utils/helpers.js')
+
       let _resource = this.get({ plain: true });
       //Replace this code with eager loading
       // response.checklists = await this.getListable({include: [db.ProgressList]})
@@ -347,7 +347,7 @@ module.exports = (sequelize, DataTypes) => {
         // console.log("******blob", file)
         if (blob.filename) { // Check if filename exists
           try {
-            if (blob.content_type === "text/plain" && this.validUrl(blob.filename)) {
+            if (blob.content_type === "text/plain" && validUrl(blob.filename)) {
               // If content type is text/plain and filename is a valid URL
               _resource["attach_files"].push({
                 id: blob.id,

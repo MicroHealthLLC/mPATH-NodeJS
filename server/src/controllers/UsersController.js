@@ -1,6 +1,8 @@
 const { db } = require("../database/models");
 const {_} = require("lodash") 
 const qs = require('qs');
+const jwt = require("jsonwebtoken");
+
 // Function for retrieving user details
 const preferences = async (req, res) => {
   try {

@@ -39,6 +39,7 @@ const show = async (req, res) => {
     // console.log(req.params)
     // console.log(db)
     // authorized facility_ids
+    console.log("****requiest", typeof(req))
     let user = await getCurrentUser(req.headers['x-token'])
 
     // Fetch all users from the database
@@ -82,7 +83,7 @@ const project_facility_hash = async (req, res) => {
     })
 
     res.code(200)
-    return( {facility_projects: gFacilityProjects} );
+    return(  gFacilityProjects );
     // console.log("Program: ", program);
   } catch (error) {
     res.code(500)

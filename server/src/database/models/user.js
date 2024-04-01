@@ -638,7 +638,7 @@ module.exports = (sequelize, DataTypes) => {
       let authorized_facility_project_ids = compactAndUniq(_.map(role_users2, function(f){ return f.facility_project_id } ))
       let authorized_project_contract_ids = compactAndUniq(_.map(role_users2, function(f){ return f.project_contract_id } ))
       let authorized_project_contract_vehicle_ids = compactAndUniq(_.map(role_users2, function(f){ return f.project_contract_vehicle_id } ))
-
+      console.log("***** authorized_project_contract_vehicle_ids", authorized_project_contract_vehicle_ids)
       if(options.project_ids){
         var fps = await db.FacilityProject.findAll({where: {id: authorized_facility_project_ids, project_id: options.project_ids }})
         authorized_facility_project_ids = compactAndUniq(_.map(fps, function(f){ return f.id } ))

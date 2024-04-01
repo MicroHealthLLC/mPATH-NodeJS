@@ -191,7 +191,7 @@ module.exports = (sequelize, DataTypes) => {
         authorized_project_contract_ids = authorized_data.authorized_project_contract_ids
         authorized_project_contract_vehicle_ids = authorized_data.authorized_project_contract_vehicle_ids
       }
-
+      response['1authorized_project_contract_vehicle_ids'] = authorized_project_contract_vehicle_ids
       let sql_result = ''
 
       let facility_project_ids_with_project_tasks = []
@@ -491,7 +491,7 @@ module.exports = (sequelize, DataTypes) => {
           let _risk = await risk.toJSON()
           c_hash.risks.push(_risk)
         }
-        project_contract_vehicle[project_contract_vehicle.id] = c_hash
+        project_contract_vehicle_hash2[project_contract_vehicle.id] = c_hash
         response.contract_vehicles.push(c_hash)
       }
 

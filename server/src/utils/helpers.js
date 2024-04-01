@@ -47,16 +47,6 @@ const cryptPassword = (password, callback) => {
 }
 
 const comparePassword = async(plainPass, hashword, callback) => {
-  // bcrypt.compare(plainPass, hashword, function(err, isPasswordMatch) {
-  //   return err == null ?
-  //       callback(null, isPasswordMatch) :
-  //       callback(err);
-  // });
-  
-  // console.log("plainPass", plainPass)
-  // console.log("cpassword", cpassword)
-  // console.log("hashword", hashword)
-
   return bcrypt
       .compare(plainPass, hashword)
       .then(res => {
@@ -67,6 +57,10 @@ const comparePassword = async(plainPass, hashword, callback) => {
 
 const getCurrentUser = async(token) => {
   const { db } = require("../database/models");
+
+  if(!token){
+    throw new Error("Token is not provided");
+  }
   var decoded = jwt.verify( token, process.env.JWT_SECRET_KEY);
   let user = await db.User.findOne({where: {id: decoded.userId}})
   return user

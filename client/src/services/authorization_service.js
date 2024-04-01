@@ -11,15 +11,6 @@ const AuthorizationService = {
   contractVehiclePrivilegesRoles: {},
   programSettingPrivilegesRoles: {},
   token: null,
-  // projectFacilityHash: JSON.parse(
-  //   window.project_facility_hash.replace(/&quot;/g, '"')
-  // ),
-  // program_admin_role: JSON.parse(
-  //   window.program_admin_role.replace(/&quot;/g, '"')
-  // ),
-  // privilege: JSON.parse(window.privilege.replace(/&quot;/g, '"')),
-  // current_user: JSON.parse(window.current_user.replace(/&quot;/g, '"')),
-  // preferences: JSON.parse(window.preferences.replace(/&quot;/g, '"')),
   projectFacilityHash: {},
   program_admin_role: {},
   privilege: {},
@@ -693,7 +684,6 @@ const AuthorizationService = {
     return false;
   },
   findFacilityProjectId: (programId, projectId) => {
-    // console.log("findFacilityProjectId", AuthorizationService.projectFacilityHash, programId)
     let arr = AuthorizationService.projectFacilityHash[programId];
     let facilityProjectId = "";
     for (var i = 0; i < arr.length; i++) {
