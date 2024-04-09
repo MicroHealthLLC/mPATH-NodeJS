@@ -573,7 +573,8 @@ export default {
           })
         }).catch(() => {
           MessageDialogService.showDialog({
-            type: MessageDialogService.msgTypes.INFO,            message: 'Delete canceled',
+            type: MessageDialogService.msgTypes.INFO,            
+            message: 'Delete canceled',
             showClose: true
           });          
         });

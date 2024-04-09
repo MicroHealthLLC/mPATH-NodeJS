@@ -88,7 +88,9 @@ import Vue from "vue";
 import { mapGetters, mapActions, mapMutations } from "vuex";
 import axios from "axios";
 import humps from "humps";
+import http from './../../common/http'
 import {API_BASE_PATH} from './../../mixins/utils'
+import MessageDialogService from "../../services/message_dialog_service.js";
 
 export default {
   name: "ContextMenu",
@@ -352,19 +354,19 @@ export default {
       var facilities = this.getUnfilteredFacilities;
 
       var facilityIndex = facilities.findIndex(
-        (item) => item.facilityProjectId === task.facilityProjectId
+        (item) => item.facilityProjectId === parseInt(task.facilityProjectId)
       );
-
+      console.log("***** updateFacilityTask", facilities)
       facilities[facilityIndex].tasks.push(task);
     },
     createDuplicate() {
       let url;
       if (this.$route.params.contractId) {
-          url =  `${API_BASE_PATH}/contracts/${this.$route.params.contractId}/tasks/${this.task.id}/create_duplicate.json`;
+          url =  `${API_BASE_PATH}/contracts/${this.$route.params.contractId}/tasks/${this.task.id}/create_duplicate`;
       } if (this.$route.params.vehicleId) {
-          url =  `${API_BASE_PATH}/vehicles/${this.$route.params.vehicleId}/tasks/${this.task.id}/create_duplicate.json`;
+          url =  `${API_BASE_PATH}/vehicles/${this.$route.params.vehicleId}/tasks/${this.task.id}/create_duplicate`;
       } else {
-          url = `${API_BASE_PATH}/programs/${this.currentProject.id}/projects/${this.task.facilityId}/tasks/${this.task.id}/create_duplicate.json`;
+          url = `${API_BASE_PATH}/programs/${this.currentProject.id}/projects/${this.task.facilityId}/tasks/${this.task.id}/create_duplicate`;
       }
       let method = "POST";
       let callback = "task-created";
@@ -372,15 +374,7 @@ export default {
       let formData = new FormData();
       formData.append("id", this.task.id);
 
-      axios({
-        method: method,
-        url: url,
-        data: formData,
-        headers: {
-          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
-            .attributes["content"].value,
-        },
-      })
+      http.post(url,formData)
         .then((response) => {
           let responseTask = humps.camelizeKeys(response.data.task);
           this.$emit(callback, humps.camelizeKeys(response.data.task));
@@ -446,21 +440,22 @@ export default {
      
       let method = "POST";
       let callback = "task-created";
-
+      var counter = 0;
       ids.forEach((id, index) => {
         if (index === 0 && this.$route.params.projectId) {
-          url += `facility_project_ids[]=${id}`;
+          url += `facility_project_ids[${counter}]=${id}`;
         } else if (index !== 0 && this.$route.params.projectId)  {
-          url += `&facility_project_ids[]=${id}`;
+          url += `&facility_project_ids[${counter}]=${id}`;
         } if (index === 0 && this.$route.params.contractId) {
-          url += `contract_ids[]=${id}`;
+          url += `contract_ids[${counter}]=${id}`;
         } else if (index !== 0 && this.$route.params.contractId)  {
-          url += `&contract_ids[]=${id}`;
+          url += `&contract_ids[${counter}]=${id}`;
         } if (index === 0 && this.$route.params.vehicleId) {
-          url += `vehicle_ids[]=${id}`;
+          url += `vehicle_ids[${counter}]=${id}`;
         } else if (index !== 0 && this.$route.params.vehicleId)  {
-          url += `&vehicle_ids[]=${id}`;
+          url += `&vehicle_ids[${counter}]=${id}`;
         }
+        counter++
       });
 
       let formData = new FormData();
@@ -474,15 +469,16 @@ export default {
       } 
 
   // debugger
-      axios({
-        method: method,
-        url: url,
-        data: formData,
-        headers: {
-          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
-            .attributes["content"].value,
-        },
-      })
+      // axios({
+      //   method: method,
+      //   url: url,
+      //   data: formData,
+      //   headers: {
+      //     "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
+      //       .attributes["content"].value,
+      //   },
+      // })
+      http.post(url, formData)
         .then((response) => {
           // let responseTask ;
           this.$emit(callback, humps.camelizeKeys(response.data.task) );
@@ -536,18 +532,11 @@ export default {
           cancelButtonText: 'Cancel',
           type: MessageDialogService.msgTypes.WARNING
         }).then(() => {
-          this.taskDeleted({task, programId}).then((value) => {
-            if (value === 'Success') {
-              MessageDialogService.showDialog({
-                message: `${this.task.text} was deleted successfully.`,
-                
-                
-              });
-            }
-          });
+          this.taskDeleted({task, programId})
         }).catch(() => {
           MessageDialogService.showDialog({
-            type: MessageDialogService.msgTypes.INFO,            message: 'Delete canceled',
+            type: MessageDialogService.msgTypes.INFO,
+            message: 'Delete canceled',
             showClose: true
           });          
         });

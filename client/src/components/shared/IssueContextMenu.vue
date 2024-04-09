@@ -346,11 +346,11 @@ export default {
     createDuplicate() {
       let url;
       if (this.$route.params.contractId) {
-          url =  `${API_BASE_PATH}/contracts/${this.$route.params.contractId}/issues/${this.issue.id}/create_duplicate.json`;
+          url =  `${API_BASE_PATH}/contracts/${this.$route.params.contractId}/issues/${this.issue.id}/create_duplicate`;
       } else if (this.$route.params.vehicleId) {
-          url =  `${API_BASE_PATH}/vehicles/${this.$route.params.vehicleId}/issues/${this.issue.id}/create_duplicate.json`;
+          url =  `${API_BASE_PATH}/vehicles/${this.$route.params.vehicleId}/issues/${this.issue.id}/create_duplicate`;
       } else {
-          url =`${API_BASE_PATH}/programs/${this.currentProject.id}/projects/${this.issue.facilityId}/issues/${this.issue.id}/create_duplicate.json`;
+          url =`${API_BASE_PATH}/programs/${this.currentProject.id}/projects/${this.issue.facilityId}/issues/${this.issue.id}/create_duplicate`;
       }
       
       let method = "POST";

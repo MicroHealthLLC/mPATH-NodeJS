@@ -3876,6 +3876,7 @@ export default new Vuex.Store({
               vehicles.push({ ...v, ...v });
             }
             commit("setFacilities", facilities);
+            commit("setUnfilteredFacilities", facilities);
             commit("setContracts", contracts);
             commit("setVehicles", vehicles);
             commit("setCurrentProject", res.data.project);

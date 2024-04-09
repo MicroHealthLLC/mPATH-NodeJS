@@ -338,11 +338,11 @@ export default {
     createDuplicate() {
       let url;
       if (this.$route.params.contractId) {
-          url =  `${API_BASE_PATH}/project_contracts/${this.$route.params.contractId}/risks/${this.risk.id}/create_duplicate.json`;
+          url =  `${API_BASE_PATH}/project_contracts/${this.$route.params.contractId}/risks/${this.risk.id}/create_duplicate`;
       } else if (this.$route.params.vehicleId) {
-          url =  `${API_BASE_PATH}/project_contract_vehicles/${this.$route.params.vehicleId}/risks/${this.risk.id}/create_duplicate.json`;
+          url =  `${API_BASE_PATH}/project_contract_vehicles/${this.$route.params.vehicleId}/risks/${this.risk.id}/create_duplicate`;
       } else {
-          url = `${API_BASE_PATH}/programs/${this.currentProject.id}/projects/${this.risk.facilityId}/risks/${this.risk.id}/create_duplicate.json`;
+          url = `${API_BASE_PATH}/programs/${this.currentProject.id}/projects/${this.risk.facilityId}/risks/${this.risk.id}/create_duplicate`;
       }
       let method = "POST";
       let callback = "risk-created";

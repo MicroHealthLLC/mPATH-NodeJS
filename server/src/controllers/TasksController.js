@@ -61,8 +61,94 @@ const update = async (req, res) => {
   }
 };
 
+const createDuplicate= async (req, res) => {
+  try {
+    const {getCurrentUser, printParams, compactAndUniq} = require('../utils/helpers.js')
+    var qs = require('qs');
+    let body = qs.parse(req.body)
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
+    printParams(req)
+
+    let task = await db.Task.findOne({where: {id: req.params.id }})
+    let newTask = await task.createCopy()
+
+    return({task: await newTask.toJSON(), msg: "Duplicate task created successfully" });
+
+  }catch (error) {
+    res.code(500)
+    return({ error: "Error fetching task " + error });
+  }
+}
+
+const createBulkDuplicate = async (req, res) => {
+  try {
+    const {getCurrentUser, printParams, compactAndUniq} = require('../utils/helpers.js')
+    var qs = require('qs');
+    let body = qs.parse(req.body)
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
+    printParams(req)
+
+    let task = await db.Task.findOne({where: {id: req.params.id }})
+    let allResources = []
+    let qfacilityProjectIds = query.facility_project_ids
+    let qprojectContractIds = query.project_contract_ids
+    let qprojectContractVehicleIds = query.project_contract_vehicle_ids
+    
+    var newResource 
+
+    for(var qfp of qfacilityProjectIds){
+      newResource = await task.createCopy({facilityProjectId: qfp})
+      allResources.push(await newResource.toJSON())
+    }
+
+    for(var qfp of qprojectContractIds){
+      newResource = await task.createCopy({projectContractId: qfp})
+      allResources.push(await newResource.toJSON())
+    }
+
+    for(var qfp of qprojectContractVehicleIds){
+      newResource = await task.createCopy({projectContractVehicleId: qfp})
+      allResources.push(await newResource.toJSON())
+    }
+
+    return({tasks: allResources, msg: 'Bulk duplicate task created successfully'});
+
+  }catch (error) {
+    res.code(500)
+    return({ error: "Error fetching task " + error });
+  }
+}
+
+
+const destroy = async (req, res) => {
+  try {
+    const {getCurrentUser, printParams, compactAndUniq} = require('../utils/helpers.js')
+    var qs = require('qs');
+    let body = qs.parse(req.body)
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
+    printParams(req)
+
+    let task = await db.Task.findOne({where: {id: req.params.id }})
+    var resJSON = await task.toJSON()
+    await task.destroy()
+
+    return({task: resJSON, msg: "Task destroy successfully" });
+
+  }catch (error) {
+    res.code(500)
+    return({ error: "Error fetching task " + error });
+  }
+}
+
+
 module.exports = {
   update,
   show,
-  create
+  create,
+  createDuplicate,
+  destroy,
+  createBulkDuplicate
 };

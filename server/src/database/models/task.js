@@ -37,7 +37,55 @@ module.exports = (sequelize, DataTypes) => {
 
     }
     // static URL_FILENAME_LENGTH = 252
+    async createCopy(options={}){
+      try{
+        const { db } = require("./index.js");
+        const r = this.get({row: true});
+        var resource = r.clone
+        let checklists = await db.Checklist.findAll({where: {listable_id: resource.id, listable_type: 'Task'}})
+        let resourceUsers = await db.TaskUser.findAll({where: {task_id: resource.id}})
 
+        delete resource.id
+
+        resource.text = `${resource.text} - Copy`
+        
+        if(options.facilityProjectId){
+          delete resource.facility_project_id
+          delete resource.FacilityProjectId
+          resource.facility_project_id = options.facilityProjectId
+        }else if(options.projectContractId){
+          delete resource.project_contract_id
+          delete resource.ProjectContractId
+          resource.project_contract_id = options.projectContractId
+        }else if(options.projectContractVehicleId){
+          delete resource.project_contract_vehicle_id
+          delete resource.ProjectContractVehicleId
+          resource.project_contract_vehicle_id = options.projectContractVehicleId
+        }
+
+        let newResource = await db.Task.create(resource)
+        
+        for(var c of checklists){
+          let cAttributes = c.get({row: true})
+          cAttributes.listable_id = newResource.id
+          delete cAttributes.id
+          await db.Checklist.create(cAttributes)
+        }
+        for(var tu of resourceUsers){
+          let ruAttributes = tu.get({row: true})
+          ruAttributes.task_id = newResource.id
+          ruAttributes.TaskId = newResource.id
+          console.log("***** ruAttributes", ruAttributes)
+          delete ruAttributes.id
+          await db.TaskUser.create(ruAttributes)
+        }
+        return newResource
+
+      } catch (error) {
+        // Handle the error
+        console.error("Error in execution", error);
+      }
+    }
     async createOrUpdateTask(params, options) {
       try {
         const { db } = require("./index.js");

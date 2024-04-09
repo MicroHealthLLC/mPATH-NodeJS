@@ -2,7 +2,10 @@
 const { 
   update,
   show,
-  create
+  create,
+  createDuplicate,
+  destroy,
+  createBulkDuplicate
 } = require("../controllers/TasksController");
 
 async function checkTaskPermission(req, res) {
@@ -22,7 +25,7 @@ async function checkTaskPermission(req, res) {
 
   if (["index", "show"].includes(controllerAction)) {
       action = "read";
-  } else if (["create", "update", "create_duplicate", "create_bulk_duplicate", "batch_update"].includes(controllerAction)) {
+  } else if (["create", "update", "createDuplicate", "createBulkDuplicate", "batch_update"].includes(controllerAction)) {
       action = "write";
   } else if (["destroy"].includes(controllerAction)) {
       action = "delete";
@@ -57,7 +60,11 @@ async function checkTaskPermission(req, res) {
 async function routes (fastify, options) {
   fastify.addHook('preHandler', checkTaskPermission)
   fastify.post("/api/v1/programs/:program_id/projects/:project_id/tasks",create);
+  fastify.post("/api/v1/programs/:program_id/projects/:project_id/tasks/:id/create_duplicate",createDuplicate);
+  fastify.post("/api/v1/programs/:program_id/projects/:project_id/tasks/:id/create_bulk_duplicate",createBulkDuplicate);
   fastify.put("/api/v1/programs/:program_id/projects/:project_id/tasks/:id",update);
   fastify.get("/api/v1/programs/:program_id/projects/:project_id/tasks/:id",show);
+  fastify.delete("/api/v1/programs/:program_id/projects/:project_id/tasks/:id",destroy);
+  
 }
 module.exports = routes

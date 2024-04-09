@@ -7,7 +7,7 @@
           <h3 class="heading-desc text-center">
             <a class="navbar-brand" href="/"
               ><img
-                src="/assets/microhealthllc-5dbc49259f70f9791a123dfaf542ef9fa9ef5da6ebaca103cd4ea680a441dabc.png"
+                src="/assets/microhealthllc.png"
             /></a>
           </h3>
           <div class="social-box pb-5 p-4">
