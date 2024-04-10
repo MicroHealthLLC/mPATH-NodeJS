@@ -40,8 +40,8 @@ module.exports = (sequelize, DataTypes) => {
     async createCopy(options={}){
       try{
         const { db } = require("./index.js");
-        const r = this.get({row: true});
-        var resource = r.clone
+        const r = this.get({raw: true});
+        var resource = Object.assign({}, r);
         let checklists = await db.Checklist.findAll({where: {listable_id: resource.id, listable_type: 'Task'}})
         let resourceUsers = await db.TaskUser.findAll({where: {task_id: resource.id}})
 

@@ -92,25 +92,31 @@ const createBulkDuplicate = async (req, res) => {
 
     let task = await db.Task.findOne({where: {id: req.params.id }})
     let allResources = []
-    let qfacilityProjectIds = query.facility_project_ids
-    let qprojectContractIds = query.project_contract_ids
-    let qprojectContractVehicleIds = query.project_contract_vehicle_ids
+    let qFacilityProjectIds = query.facility_project_ids
+    let qProjectContractIds = query.project_contract_ids
+    let qProjectContractVehicleIds = query.project_contract_vehicle_ids
     
     var newResource 
 
-    for(var qfp of qfacilityProjectIds){
-      newResource = await task.createCopy({facilityProjectId: qfp})
-      allResources.push(await newResource.toJSON())
+    if(qFacilityProjectIds){
+      for(var qfp of qFacilityProjectIds){
+        newResource = await task.createCopy({facilityProjectId: qfp})
+        allResources.push(await newResource.toJSON())
+      } 
     }
 
-    for(var qfp of qprojectContractIds){
-      newResource = await task.createCopy({projectContractId: qfp})
-      allResources.push(await newResource.toJSON())
+    if(qProjectContractIds){
+      for(var qfp of qProjectContractIds){
+        newResource = await task.createCopy({projectContractId: qfp})
+        allResources.push(await newResource.toJSON())
+      }
     }
 
-    for(var qfp of qprojectContractVehicleIds){
-      newResource = await task.createCopy({projectContractVehicleId: qfp})
-      allResources.push(await newResource.toJSON())
+    if(qProjectContractVehicleIds){
+      for(var qfp of qProjectContractVehicleIds){
+        newResource = await task.createCopy({projectContractVehicleId: qfp})
+        allResources.push(await newResource.toJSON())
+      }
     }
 
     return({tasks: allResources, msg: 'Bulk duplicate task created successfully'});

@@ -289,15 +289,7 @@ export default {
          }
          let callback = "task-updated";
 
-        axios({
-          method: method,
-          url: url,
-          data: formData,
-          headers: {
-            "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
-              .attributes["content"].value,
-          },
-        })
+        http.put(url, formData)
           .then((response) => {
             let responseTask = humps.camelizeKeys(response.data.task);
             this.$emit(callback, responseTask);
