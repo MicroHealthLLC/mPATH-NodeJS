@@ -1,5 +1,7 @@
 const dotenv = require('dotenv');
 const path = require('path')
+const oauthPlugin = require('@fastify/oauth2')
+
 dotenv.config();
 const fastify = require('fastify')({
   logger: true
@@ -91,6 +93,39 @@ fastify.register(programSettingRolesRoutes)
 
 fastify.register(portfolioContractDataRoutes)
 fastify.register(portfolioContractVehicleRoutes)
+
+fastify.register(oauthPlugin, {
+  name: 'googleOAuth2',
+  scope: ['profile', 'email'],
+  credentials: {
+    client: {
+      id: process.env.GOOGLE_CLIENT_ID,//CLIENT ID
+      secret: process.env.GOOGLE_CLIENT_SECRET//CLIENT SECRET
+    },
+    auth: oauthPlugin.GOOGLE_CONFIGURATION
+  },
+  startRedirectPath: '/users/auth/google_oauth2',
+  callbackUri:  process.env.GOOGLE_CALLBACK_URI 
+})
+
+fastify.register(oauthPlugin, {
+  name: 'office365OAuth2',
+  scope: ["openid", "profile", "email" ,"https://outlook.office.com/mail.read"],
+  credentials: {
+    client: {
+      id: process.env.OFFICE365_KEY,//CLIENT ID
+      secret: process.env.OFFICE365_SECRET//CLIENT SECRET
+    },
+    auth: {
+      authorizeHost: 'https://login.microsoftonline.com',
+      authorizePath: '/common/oauth2/v2.0/authorize',
+      tokenHost: 'https://login.microsoftonline.com',
+      tokenPath: '/common/oauth2/v2.0/token'
+    }
+  },
+  startRedirectPath: '/users/auth/office365_oauth2',
+  callbackUri:  process.env.OFFICE365_CALLBACK_URI 
+})
 
 async function assertDatabaseConnectionOk() {
 	console.log(`Checking database connection...`);

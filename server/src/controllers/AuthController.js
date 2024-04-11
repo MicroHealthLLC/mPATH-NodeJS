@@ -40,8 +40,8 @@ const register = async (req, res) => {
     } else if (!password) {
       return res.code(400).json({ error: "Password field is required" });
     } else {
-      const user_db = await db.user.findOne({ where: { email } });
-      if (user_db) {
+      const user = await db.user.findOne({ where: { email } });
+      if (user) {
         return res.code(400).json({ error: "Email already exists" });
       } else {
         // Hash the password
@@ -67,6 +67,159 @@ const register = async (req, res) => {
     return({ error: "Registration failed" });
   }
 };
+
+function office365OauthCallback(callbackReq, callbackReply) {
+  try {
+
+    let simpleGet = require('simple-get')
+
+    this.office365OAuth2.getAccessTokenFromAuthorizationCodeFlow(callbackReq, async (oauthError, oauthResult) => {
+
+      if (oauthError) {
+        callbackReply.send(oauthError)
+        return
+      }
+
+      const userinfo = await this.googleOAuth2.userinfo(oauthResult.access_token)
+
+      console.log("***** result", userinfo) 
+      // simpleGet.concat({
+      //   url: 'https://www.googleapis.com/oauth2/v2/userinfo',
+      //   method: 'GET',
+      //   headers: {
+      //     Authorization: 'Bearer ' + oauthResult.access_token
+      //   },
+      //   json: true
+      // }, async function (userinfoError, userinfoRes, userinfoData) {
+      //   // console.log("******* data", userinfoData)
+
+      //   if (userinfoError) {
+      //     callbackReply.send(userinfoError.stack)
+      //     return
+      //   }
+      //   var email = userinfoData.email;
+      //   // // Find the user by email
+      //   var user = await  db.User.findOne({ where: { email: email } });
+      //   if (!user) {
+      //     user = await db.User.create({
+      //       email: userinfoData.email,
+      //       first_name: userinfoData.name, 
+      //       last_name: userinfoData.given_name,
+      //       provider: 'google_oauth2'
+      //     })
+      //   }
+        
+      //   // // Generate JWT token
+      //   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY,{ expiresIn: "1d" });
+      //   user_hash = {
+      //     id: user.id,
+      //     email: user.email,
+      //     first_name: user.first_name,
+      //     last_name: user.last_name,
+      //     title: user.title ,
+      //     phone_number: user.phone_number,
+      //     address: user.address,
+      //     role: user.role,
+      //     provider: user.provider,
+      //     uid:null,
+      //     login:null,
+      //     status:"active",
+      //     lat:"",
+      //     lng:"",
+      //     country_code:"",
+      //     color:null,
+      //     organization_id:4,
+      //     full_name: user.getFullName(),
+      //     organization:"Test Org"
+      //   }
+
+      //   responseHash = { message: "Login successful", token: token, current_user: user_hash }
+      //   // callbackReply.send(responseHash)
+      //   callbackReply.redirect('http://localhost:9000/')
+      // })
+    })
+
+  } catch (error) {
+    callbackReply.code(500)
+    callbackReply.send({ error: "Login failed", message: error.stack });
+  }
+}
+
+function googleOauthCallback(callbackReq, callbackReply) {
+  
+  try {
+
+    let simpleGet = require('simple-get')
+
+    this.googleOAuth2.getAccessTokenFromAuthorizationCodeFlow(callbackReq, (oauthError, oauthResult) => {
+
+      if (oauthError) {
+        callbackReply.send(oauthError)
+        return
+      }
+      // console.log("***** result", oauthResult) 
+      simpleGet.concat({
+        url: 'https://www.googleapis.com/oauth2/v2/userinfo',
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + oauthResult.access_token
+        },
+        json: true
+      }, async function (userinfoError, userinfoRes, userinfoData) {
+        // console.log("******* data", userinfoData)
+
+        if (userinfoError) {
+          callbackReply.send(userinfoError.stack)
+          return
+        }
+        var email = userinfoData.email;
+        // // Find the user by email
+        var user = await  db.User.findOne({ where: { email: email } });
+        if (!user) {
+          user = await db.User.create({
+            email: userinfoData.email,
+            first_name: userinfoData.name, 
+            last_name: userinfoData.given_name,
+            provider: 'google_oauth2'
+          })
+        }
+        
+        // // Generate JWT token
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY,{ expiresIn: "1d" });
+        user_hash = {
+          id: user.id,
+          email: user.email,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          title: user.title ,
+          phone_number: user.phone_number,
+          address: user.address,
+          role: user.role,
+          provider: user.provider,
+          uid:null,
+          login:null,
+          status:"active",
+          lat:"",
+          lng:"",
+          country_code:"",
+          color:null,
+          organization_id:4,
+          full_name: user.getFullName(),
+          organization:"Test Org"
+        }
+
+        responseHash = { message: "Login successful", token: token, current_user: user_hash }
+        // callbackReply.send(responseHash)
+        callbackReply.redirect('http://localhost:9000/')
+      })
+    })
+
+  } catch (error) {
+    callbackReply.code(500)
+    callbackReply.send({ error: "Login failed", message: error.stack });
+  }
+}
+
 // User login function
 const login = async (req, res) => {
   try {
@@ -80,32 +233,32 @@ const login = async (req, res) => {
     } else {
       
       // Find the user by email
-      const user_db = await db.User.findOne({ where: { email } });
+      const user = await db.User.findOne({ where: { email } });
       
-      // console.log("user", user_db)
+      // console.log("user", user)
 
-      if (!user_db) {
+      if (!user) {
         res.code(404)
         return({ error: "User not found" });
       } else {
         // Compare the provided password with the hashed password
-        const passwordMatch = await comparePassword(password, user_db.encrypted_password);
+        const passwordMatch = await comparePassword(password, user.encrypted_password);
         if (!passwordMatch) {
           res.code(401) 
           return({ error: "Invalid password" });
         } else {
           // Generate JWT token
-          const token = jwt.sign({ userId: user_db.id }, process.env.JWT_SECRET_KEY,{ expiresIn: "1d" });
+          const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY,{ expiresIn: "1d" });
           user_hash = {
-            id: user_db.id,
-            email: user_db.email,
-            first_name: user_db.first_name,
-            last_name: user_db.last_name,
-            title: user_db.title ,
-            phone_number: user_db.phone_number,
-            address: user_db.address,
-            role: user_db.role,
-            provider: user_db.provider,
+            id: user.id,
+            email: user.email,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            title: user.title ,
+            phone_number: user.phone_number,
+            address: user.address,
+            role: user.role,
+            provider: user.provider,
             uid:null,
             login:null,
             status:"active",
@@ -114,7 +267,7 @@ const login = async (req, res) => {
             country_code:"",
             color:null,
             organization_id:4,
-            full_name:"admin@example.com admin@example.com",
+            full_name: user.getFullName(),
             organization:"Test Org"
           }
           res.send({ message: "Login successful", token: token, current_user: user_hash });
@@ -131,4 +284,6 @@ module.exports = {
   verifyToken,
   register,
   login,
+  googleOauthCallback,
+  office365OauthCallback
 };
