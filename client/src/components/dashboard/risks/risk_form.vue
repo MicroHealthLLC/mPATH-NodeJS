@@ -2575,26 +2575,28 @@ export default {
           _.map(this.destroyedFiles, "id")
         );
         // Responsible User id
+        let arrayCount = 0
         if (
           this.DV_risk.responsibleUserIds &&
           this.DV_risk.responsibleUserIds.length
         ) {
           for (let u_id of this.DV_risk.responsibleUserIds) {
-            formData.append("responsible_user_ids[]", u_id);
+            formData.append("responsible_user_ids["+(arrayCount++)+"]", u_id);
           }
         } else {
-          formData.append("responsible_user_ids[]", []);
+          formData.append("responsible_user_ids["+(arrayCount++)+"]", []);
         }
         // Accountable UserId
         if (
           this.DV_risk.accountableUserIds &&
           this.DV_risk.accountableUserIds.length
         ) {
+          arrayCount = 0
           for (let u_id of this.DV_risk.accountableUserIds) {
-            formData.append("accountable_user_ids[]", u_id);
+            formData.append("accountable_user_ids["+(arrayCount++)+"]", u_id);
           }
         } else {
-          formData.append("accountable_user_ids[]", []);
+          formData.append("accountable_user_ids["+(arrayCount++)+"]", []);
         }
         // Consulted UserId
 
@@ -2602,11 +2604,12 @@ export default {
           this.DV_risk.consultedUserIds &&
           this.DV_risk.consultedUserIds.length
         ) {
+          arrayCount = 0
           for (let u_id of this.DV_risk.consultedUserIds) {
-            formData.append("consulted_user_ids[]", u_id);
+            formData.append("consulted_user_ids["+(arrayCount++)+"]", u_id);
           }
         } else {
-          formData.append("consulted_user_ids[]", []);
+          formData.append("consulted_user_ids["+(arrayCount++)+"]", []);
         }
         // Informed UserId
 
@@ -2614,33 +2617,37 @@ export default {
           this.DV_risk.informedUserIds &&
           this.DV_risk.informedUserIds.length
         ) {
+          arrayCount = 0
           for (let u_id of this.DV_risk.informedUserIds) {
-            formData.append("informed_user_ids[]", u_id);
+            formData.append("informed_user_ids["+(arrayCount++)+"]", u_id);
           }
         } else {
-          formData.append("informed_user_ids[]", []);
+          formData.append("informed_user_ids["+(arrayCount++)+"]", []);
         }
 
         if (this.DV_risk.subTaskIds.length) {
+          arrayCount = 0
           for (let u_id of this.DV_risk.subTaskIds) {
-            formData.append("risk[sub_task_ids][]", u_id);
+            formData.append("risk[sub_task_ids]["+(arrayCount++)+"]", u_id);
           }
         } else {
-          formData.append("risk[sub_task_ids][]", []);
+          formData.append("risk[sub_task_ids]["+(arrayCount++)+"]", []);
         }
         if (this.DV_risk.subIssueIds.length) {
+          arrayCount = 0
           for (let u_id of this.DV_risk.subIssueIds) {
-            formData.append("risk[sub_issue_ids][]", u_id);
+            formData.append("risk[sub_issue_ids]["+(arrayCount++)+"]", u_id);
           }
         } else {
-          formData.append("risk[sub_issue_ids][]", []);
+          formData.append("risk[sub_issue_ids]["+(arrayCount++)+"]", []);
         }
         if (this.DV_risk.subRiskIds.length) {
+          arrayCount = 0
           for (let u_id of this.DV_risk.subRiskIds) {
-            formData.append("risk[sub_risk_ids][]", u_id);
+            formData.append("risk[sub_risk_ids]["+(arrayCount++)+"]", u_id);
           }
         } else {
-          formData.append("risk[sub_risk_ids][]", []);
+          formData.append("risk[sub_risk_ids]["+(arrayCount++)+"]", []);
         }
         for (let i in this.DV_risk.checklists) {
           let check = this.DV_risk.checklists[i];
@@ -2699,12 +2706,13 @@ export default {
             formData.append(`risk[notes_attributes][${i}][${key}]`, value);
           }
         }
+        arrayCount = 0
         for (let file of this.DV_risk.riskFiles) {
           if (file.id) continue;
           if (!file.link) {
-            formData.append("risk[risk_files][]", file);
+            formData.append("risk[risk_files]["+(arrayCount++)+"]", file);
           } else if (file.link) {
-            formData.append("file_links[]", file.name);
+            formData.append("file_links["+(arrayCount++)+"]", file.name);
           }
         }
 
@@ -2741,6 +2749,8 @@ export default {
           headers: {
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
               .attributes["content"].value,
+            "X-token": this.getToken(),
+            'Content-Type': 'multipart/form-data; boundary=Asrf456BGe4h'
           },
         })
           .then((response) => {

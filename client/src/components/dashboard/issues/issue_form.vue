@@ -1696,17 +1696,17 @@ export default {
         formData.append("issue[on_hold]", this.DV_issue.onHold);
         formData.append("issue[draft]", this.DV_issue.draft);
         formData.append("issue[destroy_file_ids]",_.map(this.destroyedFiles, "id") );
-
+        let arrayCount = 0
      //Responsible USer Id
         if (this.DV_issue.responsibleUserIds && this.DV_issue.responsibleUserIds.length) {
           // console.log("this.DV_issue.responsibleUserIds.length")
           // console.log(this.DV_issue.responsibleUserIds.length)
           // console.log(this.DV_issue.responsibleUserIds)
           for (let u_id of this.DV_issue.responsibleUserIds) {
-            formData.append("responsible_user_ids[]", u_id);
+            formData.append("responsible_user_ids["+(arrayCount++)+"]", u_id);
           }
         } else {
-          formData.append("responsible_user_ids[]", []);
+          formData.append("responsible_user_ids["+(arrayCount++)+"]", []);
         }
 
         // Accountable UserId
@@ -1715,64 +1715,70 @@ export default {
           this.DV_issue.accountableUserIds &&
           this.DV_issue.accountableUserIds.length
         ) {
+          arrayCount = 0
           // console.log("this.DV_issue.responsibleUserIds.length")
           // console.log(this.DV_issue.accountableUserIds.length)
           // console.log(this.DV_issue.accountableUserIds)
           for (let u_id of this.DV_issue.accountableUserIds) {
-            formData.append("accountable_user_ids[]", u_id);
+            formData.append("accountable_user_ids["+(arrayCount++)+"]", u_id);
           }
         } else {
-          formData.append("accountable_user_ids[]", []);
+          formData.append("accountable_user_ids["+(arrayCount++)+"]", []);
         }
 
         // Consulted UserId
 
         if (this.DV_issue.consultedUserIds.length) {
+          arrayCount = 0
           // console.log("this.DV_issue.responsibleUserIds.length")
           // console.log(this.DV_issue.consultedUserIds.length)
           // console.log(this.DV_issue.consultedUserIds)
           for (let u_id of this.DV_issue.consultedUserIds) {
-            formData.append("consulted_user_ids[]", u_id);
+            formData.append("consulted_user_ids["+(arrayCount++)+"]", u_id);
           }
         } else {
-          formData.append("consulted_user_ids[]", []);
+          formData.append("consulted_user_ids["+(arrayCount++)+"]", []);
         }
 
         // Informed UserId
 
         if (this.DV_issue.informedUserIds.length) {
+          arrayCount = 0
           // console.log("this.DV_issue.responsibleUserIds.length")
           // console.log(this.DV_issue.informedUserIds.length)
           // console.log(this.DV_issue.informedUserIds)
           for (let u_id of this.DV_issue.informedUserIds) {
-            formData.append("informed_user_ids[]", u_id);
+            formData.append("informed_user_ids["+(arrayCount++)+"]", u_id);
           }
         } else {
-          formData.append("informed_user_ids[]", []);
+          formData.append("informed_user_ids["+(arrayCount++)+"]", []);
         }
 
         if (this.DV_issue.subTaskIds.length) {
+          arrayCount = 0
           for (let u_id of this.DV_issue.subTaskIds) {
-            formData.append("issue[sub_task_ids][]", u_id);
+            formData.append("issue[sub_task_ids]["+(arrayCount++)+"]", u_id);
           }
         } else {
-          formData.append("issue[sub_task_ids][]", []);
+          formData.append("issue[sub_task_ids]["+(arrayCount++)+"]", []);
         }
 
         if (this.DV_issue.subRiskIds.length) {
+          arrayCount = 0
           for (let u_id of this.DV_issue.subRiskIds) {
-            formData.append("issue[sub_risk_ids][]", u_id);
+            formData.append("issue[sub_risk_ids]["+(arrayCount++)+"]", u_id);
           }
         } else {
-          formData.append("issue[sub_risk_ids][]", []);
+          formData.append("issue[sub_risk_ids]["+(arrayCount++)+"]", []);
         }
 
         if (this.DV_issue.subIssueIds.length) {
+          arrayCount = 0
           for (let u_id of this.DV_issue.subIssueIds) {
-            formData.append("issue[sub_issue_ids][]", u_id);
+            formData.append("issue[sub_issue_ids]["+(arrayCount++)+"]", u_id);
           }
         } else {
-          formData.append("issue[sub_issue_ids][]", []);
+          formData.append("issue[sub_issue_ids]["+(arrayCount++)+"]", []);
         }
 
         for (let i in this.DV_issue.checklists) {
@@ -1835,13 +1841,13 @@ export default {
             formData.append(`issue[notes_attributes][${i}][${key}]`, value);
           }
         }
-
+        arrayCount = 0
         for (let file of this.DV_issue.issueFiles) {
           if (file.id) continue;
           if (!file.link) {
-            formData.append("issue[issue_files][]", file);
+            formData.append("issue[issue_files]["+(arrayCount++)+"]", file);
           } else if (file.link) {
-            formData.append("file_links[]", file.name);
+            formData.append("file_links["+(arrayCount++)+"]", file.name);
           }
         }
 
@@ -1877,6 +1883,8 @@ export default {
           headers: {
             "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
               .attributes["content"].value,
+            "X-token": this.getToken(),
+            'Content-Type': 'multipart/form-data; boundary=Asrf456BGe4h'
           },
         })
           .then((response) => {

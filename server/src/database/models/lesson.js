@@ -159,17 +159,25 @@ module.exports = (sequelize, DataTypes) => {
         var create_notes = []
         var delete_note_ids = []
         for(var note of params.notes_attributes){
-          note['noteable_id'] = this.id
-          note['noteable_type'] = "Lesson"
           if(note['_destroy'] && note['_destroy'] == 'true' && note.id ){
             delete_note_ids.push(note.id)
           }else{
-            create_notes.push(note)
+            var n = {noteable_id: this.id, noteable_type: 'Lesson'}
+            if(note.id){
+              n.id = note.id
+            }
+            if(note.body){
+              n.body = note.body
+            }
+            create_notes.push(n)
           }            
         }
+        console.log("**** note", create_notes)
+
         if(create_notes.length > 0){
           await db.Note.bulkCreate(create_notes, {updateOnDuplicate: ['id']})
         }
+
         if(delete_note_ids.length > 0){
           await db.Note.destroy({ where: { id: delete_note_ids }})
         }
@@ -197,7 +205,10 @@ module.exports = (sequelize, DataTypes) => {
             }
             if(!success['user_id'] || success['user_id'] == '' || success['user_id'] == 'null'){
               success['user_id'] = user.id
-            } 
+            }
+            delete(success['user'])
+            delete(success['UserId'])
+            delete(success['LessonId'])
             create_lesson_details.push(success)
           }          
         }
@@ -214,7 +225,10 @@ module.exports = (sequelize, DataTypes) => {
             }
             if(!failure['user_id'] ||  failure['user_id'] == '' || failure['user_id'] == 'null'){
               failure['user_id'] = user.id
-            } 
+            }
+            delete(failure['user'])
+            delete(failure['UserId'])
+            delete(failure['LessonId'])
             create_lesson_details.push(failure)
           } 
         }
@@ -231,7 +245,10 @@ module.exports = (sequelize, DataTypes) => {
             }
             if(!best_practice['user_id'] || best_practice['user_id'] == '' || best_practice['user_id'] == 'null'){
               best_practice['user_id'] = user.id
-            }           
+            }    
+            delete(best_practice['user'])
+            delete(best_practice['UserId'])
+            delete(best_practice['LessonId'])       
             create_lesson_details.push(best_practice)
           } 
         }
@@ -387,7 +404,11 @@ module.exports = (sequelize, DataTypes) => {
       for(var note of notes){
         let n = note
         let user = _.find(users, function(u){ return u.id == n.user_id})
-        n['user'] = {id: user.id, full_name: user.full_name}
+        n['user'] = {}
+        if(user){
+          n['user'] = {id: user.id, full_name: user.full_name}
+        }
+        
 
         _resource['notes'].push(n)
         

@@ -403,7 +403,9 @@ module.exports = (sequelize, DataTypes) => {
       const { db } = require("./index.js");
 
       var userPreference = await db.UserPreference.findOne({where: {user_id: this.id} })
-      
+      if(!userPreference){
+        userPreference = db.UserPreference.build()
+      }
       return userPreference.toJSON()
 
     }

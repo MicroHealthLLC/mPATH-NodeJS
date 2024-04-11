@@ -220,7 +220,7 @@ async function categories(req, res) {
     let query = qs.parse(req.query)
     printParams(req)
 
-    let user = await db.User.findOne({where: {email: 'admin@example.com'}}) //await getCurrentUser(req.headers['x-token'])
+    let user = await getCurrentUser(req.headers['x-token'])
 
     let responseJson = []
     let projectIds = params.program_id ? [params.program_id] : await(user.authorizedProgramIds())
@@ -244,7 +244,7 @@ async function stages(req, res) {
     let params = qs.parse(req.params)
     let query = qs.parse(req.query)
     printParams(req)
-    let user = await db.User.findOne({where: {email: 'admin@example.com'}}) //await getCurrentUser(req.headers['x-token'])
+    let user = await getCurrentUser(req.headers['x-token'])
 
     let resourceName = params.resource || "task"
     let projectResourceStages = []

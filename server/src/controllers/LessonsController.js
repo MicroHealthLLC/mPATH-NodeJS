@@ -61,7 +61,7 @@ const index = async (req, res) => {
 
   } catch (error) {
     res.code(500)
-    return({ error: "Error fetching lessons "+error });
+    return({ error: "Error fetching lessons "+error.stack });
   }
 };
 
@@ -72,7 +72,7 @@ const show = async(req, res) => {
     return({lesson: await lesson.toJSON()});
   } catch (error) {
     res.code(500)
-    return({ error: "Error fetching lesson " + error });
+    return({ error: "Error fetching lesson " + error.stack });
   }
 };
 
@@ -80,48 +80,51 @@ const show = async(req, res) => {
 const create = async (req, res) => {
   try {
     var qs = require('qs');
-    console.log("lesson body", req.body)
-    console.log("lesson params", req.params)
-    let params = qs.parse(req.body)
-    // const parts = await req.files();
-    // console.log("************Files ", parts)
+    const {getCurrentUser, printParams, compactAndUniq, serializeData, deserializeData} = require('../utils/helpers.js')
 
-    // for await (const data of parts) {
-    //   console.log("*******File being access**********");
-    //   console.log(data.filename); // access file name
-    // }
+    let body = qs.parse(req.body)
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
+    printParams(req)
+
     let lesson = db.Lesson.build();
-    let user = await db.User.findOne({where: {email: 'admin@example.com'}})
-    await lesson.createOrUpdateLesson(params,{user: user, project_id: req.params.program_id, facility_id: req.params.project_id})
-
+    
+    let user = await getCurrentUser(req.headers['x-token'])
+    await lesson.createOrUpdateLesson(body,{user: user, project_id: req.params.program_id, facility_id: req.params.project_id})
 
     return({lesson: await lesson.toJSON(), msg: "Lesson created successfully" });
   } catch (error) {
     res.code(500)
-    return({ error: "Error fetching lesson " + error });
+    return({ error: "Error fetching lesson " + error.stack });
   }
 };
 // Function for retrieving user details
 const update = async (req, res) => {
   try {
     var qs = require('qs');
-    let params = qs.parse(req.body)
-    let lessonParams = params.lesson
+    const {getCurrentUser, printParams, compactAndUniq, serializeData, deserializeData} = require('../utils/helpers.js')
+    let body = qs.parse(req.body)
+    let params = qs.parse(req.params)
+    let query = qs.parse(req.query)
+    printParams(req)
 
+    let lessonParams = body.lesson
+
+    let user = await getCurrentUser(req.headers['x-token'])
     let lesson = await db.Lesson.findOne({where: {id: req.params.id } })
-    let user = await db.User.findOne({where: {email: 'admin@example.com'}})
 
     lesson.set(lessonParams)
     await lesson.save()
 
     await lesson.manageNotes(lessonParams)
     await lesson.addLessonDetail(lessonParams,user)
-    await lesson.addResourceAttachment(params)
+    await lesson.addResourceAttachment(body)
 
     return({lesson: await lesson.toJSON(), msg: "Lesson updated successfully" });
   } catch (error) {
     res.code(500)
-    return({ error: "Error fetching lessonParams " + error });
+    console.log(error.stack)
+    return({ error: "Error fetching lessonParams " + error.stack });
   }
 };
 

@@ -31,13 +31,7 @@ async function checkTaskPermission(req, res) {
       action = "delete";
   }
   let user = null
-  if(query.test == 'true'){
-    user = await db.User.findOne({where: {email: 'admin@example.com'}})
-
-  }else{
-    user = await getCurrentUser(req.headers['x-token'])
-
-  }
+  user = await getCurrentUser(req.headers['x-token'])
   let _authParams = {}
   if (params.project_contract_id) {
     _authParams = { action: action, resource: 'tasks', project_contract: params.project_contract_id }

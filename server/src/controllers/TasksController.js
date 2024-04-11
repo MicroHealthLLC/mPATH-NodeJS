@@ -25,7 +25,7 @@ const create = async (req, res) => {
     let taskParams = params.task
 
     let task = db.Task.build();
-    let user = await getCurrentUser(req.headers['x-token']) //await db.User.findOne({where: {email: 'admin@example.com'}})
+    let user = await getCurrentUser(req.headers['x-token'])
     await task.createOrUpdateTask(params,{user: user, project_id: req.params.program_id, facility_id: req.params.project_id})
 
     return({task: await task.toJSON(), msg: "Task created successfully" });

@@ -1,7 +1,7 @@
 const { db }  = require("../database/models/");
 const qs = require('qs');
 const {_} = require("lodash") 
-const { cryptPassword } = require("../utils/helpers");
+const { cryptPassword, getCurrentUser } = require("../utils/helpers");
 
 // Function for retrieving user details
 const get_user_privileges = async (req, res) => {
@@ -13,7 +13,7 @@ const get_user_privileges = async (req, res) => {
     let body = qs.parse(req.body)
     console.log("****body", qs.parse(req.body))
     console.log("****params", params)
-    var user = await db.User.findOne({where: {email: 'admin@example.com'}})
+    var user = await getCurrentUser(req.headers['x-token'])
     var programId = query.program_id
     var adminRole = await db.Role.programAdminUserRole()
 
