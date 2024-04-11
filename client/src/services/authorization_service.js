@@ -34,12 +34,14 @@ const AuthorizationService = {
   },
 
   getUserPreferences: () => {
+    const token = localStorage.getItem('token');
     axios({
       method: "GET",
       url: `${API_BASE_PATH}/users/preferences`,
       headers: {
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
           .attributes["content"].value,
+          'x-token': token
       },
     })
       .then((res) => {
@@ -62,6 +64,7 @@ const AuthorizationService = {
       let portfolioProgramID = ww[ww.length - 2] 
       console.log("getRolePrivileges",ww)  
     }
+    const token = localStorage.getItem('token');
 
     axios({
       method: "GET",
@@ -69,6 +72,7 @@ const AuthorizationService = {
       headers: {
         "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')
           .attributes["content"].value,
+        'x-token': token
       },
     })
       .then((res) => {

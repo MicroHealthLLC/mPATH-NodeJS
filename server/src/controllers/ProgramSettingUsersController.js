@@ -1,7 +1,7 @@
 const { db }  = require("../database/models/");
 const qs = require('qs');
 const {_} = require("lodash") 
-const { cryptPassword } = require("../utils/helpers");
+const { cryptPassword, getCurrentUser } = require("../utils/helpers");
 
 // Function for retrieving user details
 const get_user_privileges = async (req, res) => {

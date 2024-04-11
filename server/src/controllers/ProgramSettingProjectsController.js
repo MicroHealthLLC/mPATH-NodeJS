@@ -1,4 +1,5 @@
 const { db } = require("../database/models");
+const { cryptPassword, getCurrentUser } = require("../utils/helpers");
 
 // Function for retrieving user details
 const show = async (req, res) => {
