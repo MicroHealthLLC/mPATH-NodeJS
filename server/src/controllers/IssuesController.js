@@ -28,7 +28,7 @@ const create = async (req, res) => {
     //   console.log(data.filename); // access file name
     // }
     let issue = db.Issue.build();
-    let user = await db.User.findOne({where: {email: 'admin@example.com'}})
+    let user = await getCurrentUser(req.headers['x-token'])
     await issue.createOrUpdateIssue(params,{user: user, project_id: req.params.program_id, facility_id: req.params.project_id})
 
 
@@ -53,7 +53,7 @@ const update = async (req, res) => {
     await issue.assignUsers(params)
     await issue.manageNotes(issueParams)
     await issue.manageChecklists(issueParams)
-    await issue.addLinkAttachment(params)
+    await issue.addResourceAttachment(params)
 
     return({issue: await issue.toJSON(), msg: "Issue updated successfully" });
   } catch (error) {

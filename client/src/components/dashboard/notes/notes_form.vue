@@ -128,7 +128,7 @@ export default {
       }
     },
     methods: {
-      ...mapGetters(['getCurrentUser']),
+      ...mapGetters(['getCurrentUser','getToken','isLoggedIn']),
       ...mapMutations([
         'setTaskForManager',
         'updateNotesHash'
@@ -214,9 +214,10 @@ export default {
           formData.append('note[body]', this.DV_note.body)
           formData.append('note[user_id]', this.getCurrentUser().id)
           formData.append('note[destroy_file_ids]', _.map(this.destroyedFiles, 'id'))
+          var arrayCount = 0
           for (var file of this.DV_note.noteFiles) {
             if (!file.id) {
-              formData.append('note[note_files][]', file)
+              formData.append("note[note_files]["+(arrayCount++)+"]", file)
             }
           }
 
@@ -235,7 +236,9 @@ export default {
             url: url,
             data: formData,
             headers: {
-              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').attributes['content'].value
+              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').attributes['content'].value,
+            "X-token": this.getToken(),
+            'Content-Type': 'multipart/form-data; boundary=Asrf456BGe4h'
             }
           })
           .then((response) => {

@@ -65,7 +65,7 @@ const create = async (req, res) => {
     //   console.log(data.filename); // access file name
     // }
     let note = db.Note.build();
-    let user = await db.User.findOne({where: {email: 'admin@example.com'}})
+    let user = await getCurrentUser(req.headers['x-token'])
     let facilityProject = await db.FacilityProject.findOne({where: {project_id: req.params.program_id, facility_id: req.params.project_id }})
     noteParams['noteable_id'] = facilityProject.id
     noteParams['noteable_type'] = 'FacilityProject'

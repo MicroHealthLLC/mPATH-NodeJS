@@ -13,7 +13,7 @@ const get_user_privileges = async (req, res) => {
     let body = qs.parse(req.body)
     console.log("****body", qs.parse(req.body))
     console.log("****params", params)
-    var user = await db.User.findOne({where: {email: 'admin@example.com'}})
+    var user = await getCurrentUser(req.headers['x-token'])
     var programId = query.program_id
     var adminRole = await db.Role.programAdminUserRole()
 

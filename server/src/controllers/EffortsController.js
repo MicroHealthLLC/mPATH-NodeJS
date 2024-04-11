@@ -82,7 +82,7 @@ const create = async (req, res) => {
     //   console.log(data.filename); // access file name
     // }
     let effort = db.Effort.build();
-    let user = await db.User.findOne({where: {email: 'admin@example.com'}})
+    let user = await getCurrentUser(req.headers['x-token'])
 
     let facilityProject = await db.FacilityProject.findOne({where: {project_id: req.params.program_id, facility_id: req.params.project_id}})
     effortParams.facility_project_id = facilityProject.id
@@ -128,7 +128,7 @@ const update = async (req, res) => {
     //   console.log(data.filename); // access file name
     // }
     let effort = await db.Effort.findOne({where: {id: req.params.id}});
-    let user = await db.User.findOne({where: {email: 'admin@example.com'}})
+    let user = await getCurrentUser(req.headers['x-token'])
 
     let facilityProject = await db.FacilityProject.findOne({where: {project_id: req.params.program_id, facility_id: req.params.project_id}})
     effortParams.facility_project_id = facilityProject.id

@@ -13,7 +13,7 @@ const index = async (req, res) => {
     let query = qs.parse(req.query)
     printParams(req)
 
-    let user = await db.User.findOne({where: {email: "admin@example.com"}})//await getCurrentUser(req.headers['x-token'])
+    let user = await getCurrentUser(req.headers['x-token'])
     var project = await db.Project.findOne({where: {id: params.id}})
     var favoriteFilters = await db.FavoriteFilter.findAll({
       where: {
@@ -46,7 +46,7 @@ const reset = async (req, res) => {
     let query = qs.parse(req.query)
     printParams(req)
 
-    let user = await db.User.findOne({where: {email: "admin@example.com"}})//await getCurrentUser(req.headers['x-token'])
+    let user = await getCurrentUser(req.headers['x-token'])
     var project = await db.Project.findOne({where: {id: params.id}})
     var favoriteFilter = await db.FavoriteFilter.findOne({
       where: { project_id: project.id  }

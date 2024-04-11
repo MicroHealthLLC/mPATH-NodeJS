@@ -28,7 +28,7 @@ const create = async (req, res) => {
     //   console.log(data.filename); // access file name
     // }
     let risk = db.Risk.build();
-    let user = await db.User.findOne({where: {email: 'admin@example.com'}})
+    let user = await getCurrentUser(req.headers['x-token'])
     await risk.createOrUpdateRisk(params,{user: user, project_id: req.params.program_id, facility_id: req.params.project_id})
 
 
@@ -55,7 +55,7 @@ const update = async (req, res) => {
     await risk.assignUsers(params)
     await risk.manageNotes(riskParams)
     await risk.manageChecklists(riskParams)
-    await risk.addLinkAttachment(params)
+    await risk.addResourceAttachment(params)
 
     return({risk: await risk.toJSON(), msg: "Risk updated successfully" });
   } catch (error) {

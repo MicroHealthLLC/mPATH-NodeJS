@@ -27,7 +27,7 @@ const effortStore = {
     }),
     actions: {
     // Get  All Efforts
-    fetchEfforts({ commit }, { programId, projectId } ) {
+    fetchEfforts({ commit,getters }, { programId, projectId } ) {
       commit("TOGGLE_EFFORTS_LOADED", false);  
       axios({
         method: "GET",
@@ -50,7 +50,7 @@ const effortStore = {
           commit("TOGGLE_EFFORTS_LOADED", true);
         });
     },
-    fetchProgramEfforts({ commit },  {programId, date}) {
+    fetchProgramEfforts({ commit,getters },  {programId, date}) {
       commit("TOGGLE_PROGRAM_EFFORTS_LOADED", false);    
   //  console.log(programId)
       axios({
@@ -77,7 +77,7 @@ const effortStore = {
           commit("TOGGLE_PROGRAM_EFFORTS_LOADED", true);
         });
     },
-    fetchProgramEffortReport({ commit },  {programId, date}) {
+    fetchProgramEffortReport({ commit,getters },  {programId, date}) {
       commit("TOGGLE_PROGRAM_TASK_EFFORT_LOADED", false);    
   //  console.log(programId)
       axios({
@@ -108,7 +108,7 @@ const effortStore = {
 
 
       //Create Individual Effort
-    createEffort({ commit }, { effortData }) {
+    createEffort({ commit,getters }, { effortData }) {
       commit("TOGGLE_EFFORTS_LOADED", false);
       
       console.log(effortData)
@@ -143,7 +143,7 @@ const effortStore = {
         });
     },
        // Date of eek query oming from Program Level User Report
-       fetchDateOfWeekQuery({ commit }, { programId, date } ) {
+       fetchDateOfWeekQuery({ commit,getters }, { programId, date } ) {
         console.log(programId, date)
         commit("TOGGLE_EFFORTS_LOADED", false);      
         axios({
@@ -168,7 +168,7 @@ const effortStore = {
       },
 
     //Update Individual Effort
-    updateEffort({ commit }, {  effortData }) {
+    updateEffort({ commit,getters }, {  effortData }) {
       commit("TOGGLE_EFFORT_LOADED", false);
       formData.append("effort[hours]",  effortData.hours);
       formData.append("effort[date_of_week]",  effortData.week);

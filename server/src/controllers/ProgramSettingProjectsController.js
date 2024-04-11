@@ -5,7 +5,7 @@ const show = async (req, res) => {
   try {
     // Fetch user profile using req.userId
     const project = await db.Project.findOne({where: {id: req.params.id}})
-    let user = await db.User.findOne({where: {email: 'admin@example.com'}})
+    let user = await getCurrentUser(req.headers['x-token'])
     let response = await project.build_json_response({user: user, response_for: 'program_settings'})
 
     return({project: response});
