@@ -7,7 +7,7 @@ const contractStore = {
     associated_contracts: [],
     associated_contracts_status: 0,
     associated_contracts_loaded: true,
-
+    // privileges: {},
     associated_vehicles: [],
     associated_vehicles_status: 0,
     associated_vehicles_loaded: true,
@@ -698,7 +698,7 @@ const contractStore = {
 
     TOGGLE_CONTRACT_DATA_OPTIONS_LOADED: (state, loaded) =>
       (state.contract_data_options_loaded = loaded),
-
+    // SET_PRIVILEGES: (state, privileges) => (state.privileges = privileges),
     SET_CONTRACT_DATA_OPTIONS: (state, options) => (state.contract_data_options = options),
     //CONTRACT PROJECTS DATA
     SET_CONTRACT_PROJECTS: (state, value) => (state.contract_projects = value),
@@ -729,7 +729,7 @@ const contractStore = {
 
     associatedVehicles: (state) => state.associated_vehicles,
     associatedVehiclesStatus: (state) => state.associated_vehicles_status,
-
+    // privileges: (state) => state.privileges,
     //CONTRACT PROJECTS DATA
     contractProjects: (state) => state.contract_projects,
     contractProjectStatus: (state) => state.contract_project_status,

@@ -23,10 +23,12 @@ const AuthorizationService = {
     for (var key in AuthorizationService.privilege) {
       if (['id', 'created_at', 'updated_at', 'user_id'].includes(key)) continue
       var value = AuthorizationService.privilege[key]
-      permissionHash[key] = {
-        read: value.includes('R'),
-        write: value.includes('W'),
-        delete: value.includes('D')
+      if (value) {
+        permissionHash[key] = {
+          read: value.includes('R'),
+          write: value.includes('W'),
+          delete: value.includes('D')
+        }
       }
     }
     return permissionHash

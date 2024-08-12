@@ -19,7 +19,7 @@ import portfolioModule from './modules/portfolio-store'
 import { API_BASE_PATH } from './../mixins/utils'
 import AuthorizationService from '../services/authorization_service.js'
 import MessageDialogService from '../services/message_dialog_service.js'
-
+import axios from 'axios'
 // utility function
 const getSimpleDate = (date) => {
   let dt = [undefined, null, 'N/A'].includes(date) ? new Date() : new Date(date)
@@ -47,6 +47,7 @@ export default new Vuex.Store({
   state: {
     advancedFilter: [],
     myAssignmentsFilter: [],
+    privileges: {},
     contentLoaded: false,
     projectsLoaded: false,
     showProjectStats: 0,
@@ -184,6 +185,7 @@ export default new Vuex.Store({
   },
 
   mutations: {
+    setPrivileges: (state, privileges) => (state.privileges = privileges),
     nullifyLocalStorage: (state, value) => {
       console.log('Logging out...')
       state.currentUser = null
@@ -575,6 +577,7 @@ export default new Vuex.Store({
   },
 
   getters: {
+    getPrivileges: (state) => state.privileges,
     getCurrentUser: (state) => state.currentUser,
     getProjectFacilityHash: (state) => state.projectFacilityHash,
     isLoggedIn(state) {
@@ -3090,6 +3093,23 @@ export default new Vuex.Store({
           console.log('verification token error', err)
         })
     },
+    getUserPrivileges({ commit, getters }) {
+      axios({
+        method: 'GET',
+        url: `${API_BASE_PATH}/get_user_priveleges`,
+        headers: {
+          'X-CSRF-Token':
+            document.querySelector('meta[name="csrf-token"]').attributes['content'].value,
+          'x-token': getters.getToken
+        }
+      })
+        .then((res) => {
+          commit('setPrivileges', res.data.privileges)
+        })
+        .catch((err) => {
+          console.log('Error', err)
+        })
+    },
     fetchCurrentUser({ commit, getters }, payload) {
       return new Promise((resolve, reject) => {
         http
@@ -3242,7 +3262,6 @@ export default new Vuex.Store({
           url = `${API_BASE_PATH}/program_settings/programs/${id}.json`
         }
       }
-      debugger
       return new Promise((resolve, reject) => {
         http
           .get(url)

@@ -50,7 +50,20 @@ const current_user = async (req, res) => {
   }
 };
 
+const get_user_privileges = async (req, res) => {
+  try {
+    console.log("Hi----");
+    const { getCurrentUser, printParams, compactAndUniq } = require("../utils/helpers.js");
+    const user = await getCurrentUser(req.headers["x-token"]);
+    const privileges = await user.getPrivilege();
+    return { privileges: privileges.toJSON() };
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
 module.exports = {
   preferences,
   current_user,
+  get_user_privileges,
 };

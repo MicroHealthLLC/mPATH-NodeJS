@@ -24,10 +24,14 @@
           </svg>
         </span>
       </div>
-      <div class="container mb-2 pr-0 text-right d-inline-block">
-        <router-link :to="`/portfolio`" class="mr-2 portfolioViewerBtn">PORTFOLIO DATA
-          VIEWER</router-link>
-        <router-link :to="`/portfolio/contracts`" class="portfolioContractsBtn bg-light">CONTRACTS</router-link>
+      <div class="container pr-0 text-right d-flex justify-content-end">
+        <router-link :to="`/portfolio`">
+          <p class="mr-2 portfolioViewerBtn">PORTFOLIO DATA
+            VIEWER</p>
+        </router-link>
+        <router-link :to="`/portfolio/contracts`">
+          <p @click="setUserPrivilege" class="portfolioContractsBtn bg-light">CONTRACTS</p>
+        </router-link>
       </div>
       <div class="grid-container program-name">
         <router-link v-for="project in this.allProjects" :key="project.id" :to="`/programs/${project.id}/sheet`"
@@ -113,6 +117,8 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex";
 import AuthorizationService from '../../services/authorization_service.js'
+import axios from "axios";
+import { API_BASE_PATH } from '../../mixins/utils'
 
 export default {
   name: "ProgramListView",
@@ -127,6 +133,7 @@ export default {
     ...mapGetters([
       "contentLoaded",
       'getAllProjects',
+      "getPrivileges",
     ]),
     allProjects: {
       get() {
@@ -144,41 +151,34 @@ export default {
       'fetchAllPrograms',
       'fetchProjectFacilityHash',
       'fetchPreferences',
-      'fetchProgramAdminRole'
+      'fetchProgramAdminRole',
+      'getUserPrivileges'
     ]),
-    ...mapGetters([
-      'getProjectFacilityHash'
-    ]),
+    // ...mapGetters([
+    //   'getProjectFacilityHash'
+    // ]),
     fetchProgramRelatedData(project_id) {
       AuthorizationService.getRolePrivileges(project_id);
     },
+    setUserPrivilege() {
+      let privilege = this.getPrivileges
+      AuthorizationService.privilege = privilege
+    }
     // goToPortfolio() {
     //   console.log("Portfolio---")
     //   this.$router.push({ name: 'PortfolioView' })
     // }
-  },
-  beforeCreate() {
-    console.log("ProgramListView beforeCreate", this.allProjects)
   },
   mounted() {
     this.fetchAllPrograms()
     this.fetchProjectFacilityHash()
     this.fetchPreferences()
     this.fetchProgramAdminRole()
-    console.log("ProgramListView mounted", this.allProjects)
-
+    this.getUserPrivileges()
     const preferences = "{&quot;navigation_menu&quot;:&quot;map&quot;,&quot;sub_navigation_menu&quot;:null,&quot;program_id&quot;:null,&quot;project_id&quot;:null,&quot;project_group_id&quot;:null}";
-
     // var project_facility_hash = "{&quot;3&quot;:[{&quot;facility_id&quot;:1,&quot;facility_project_id&quot;:1},{&quot;facility_id&quot;:328,&quot;facility_project_id&quot;:2}]}";
-
-    var privilege = "{&quot;map_view&quot;:&quot;R&quot;,&quot;gantt_view&quot;:&quot;R&quot;,&quot;members&quot;:&quot;R&quot;,&quot;settings_view&quot;:&quot;R&quot;,&quot;sheets_view&quot;:&quot;R&quot;,&quot;kanban_view&quot;:&quot;R&quot;,&quot;calendar_view&quot;:&quot;R&quot;,&quot;contract_data&quot;:&quot;RWD&quot;}";
-
-    var google_api_key = "APIKEY";
-    AuthorizationService.privilege = JSON.parse(privilege.replace(/&quot;/g, '"'))
-
     Vue.prototype.$mpath_instance = window.mpath_instance
 
-    // AuthorizationService.getRolePrivileges();
     Vue.prototype.checkPrivileges = (page, salut, route, extraData) => {
       return AuthorizationService.checkPrivileges(page, salut, route, extraData);
     };
