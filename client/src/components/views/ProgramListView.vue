@@ -171,10 +171,9 @@ export default {
 
     // var project_facility_hash = "{&quot;3&quot;:[{&quot;facility_id&quot;:1,&quot;facility_project_id&quot;:1},{&quot;facility_id&quot;:328,&quot;facility_project_id&quot;:2}]}";
 
-    var privilege = "{&quot;map_view&quot;:&quot;R&quot;,&quot;gantt_view&quot;:&quot;R&quot;,&quot;members&quot;:&quot;R&quot;,&quot;settings_view&quot;:&quot;R&quot;,&quot;sheets_view&quot;:&quot;R&quot;,&quot;kanban_view&quot;:&quot;R&quot;,&quot;calendar_view&quot;:&quot;R&quot;,&quot;contract_data&quot;:&quot;RW&quot;}";
+    var privilege = "{&quot;map_view&quot;:&quot;R&quot;,&quot;gantt_view&quot;:&quot;R&quot;,&quot;members&quot;:&quot;R&quot;,&quot;settings_view&quot;:&quot;R&quot;,&quot;sheets_view&quot;:&quot;R&quot;,&quot;kanban_view&quot;:&quot;R&quot;,&quot;calendar_view&quot;:&quot;R&quot;,&quot;contract_data&quot;:&quot;RWD&quot;}";
 
     var google_api_key = "APIKEY";
-
     AuthorizationService.privilege = JSON.parse(privilege.replace(/&quot;/g, '"'))
 
     Vue.prototype.$mpath_instance = window.mpath_instance

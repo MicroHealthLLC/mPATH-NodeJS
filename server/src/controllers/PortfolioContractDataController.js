@@ -72,7 +72,19 @@ async function index(req, res) {
     return { error: "Error fetching contracts " + error };
   }
 }
+async function create(req, res) {
+  try {
+    body = qs.parse(req.body);
+    console.log("body---", body);
+    const user = await getCurrentUser(req.headers["x-token"]);
+    const contract_project_data = await db.ContractProjectDatum.createOrUpdateContractProjectData(body, user);
+    return { contract_project_data: contract_project_data };
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 module.exports = {
   index,
+  create,
 };

@@ -589,7 +589,7 @@ import PortfolioContractPOC from "./PortfolioContractPOC.vue";
 import PortfolioExpiredContracts from "./PortfolioExpiredContracts.vue";
 import logo from "../../../../assets/images/microhealthllc.png"
 import AuthorizationService from "../../../../services/authorization_service";
-
+import MessageDialogService from "../../../../services/message_dialog_service"
 
 Vue.filter('toCurrency', function (value) {
   if (isNaN(parseFloat(value))) {

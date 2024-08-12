@@ -132,62 +132,38 @@ const contractStore = {
     // POST REQUESTS
     createContractProject({ commit, getters }, { cProjectData }) {
       commit('TOGGLE_CONTRACT_PROJECT_LOADED', false)
-      let formData = new FormData()
-      console.log(cProjectData)
-      formData.append('contract_project_data[charge_code]', cProjectData.charge_code)
-      formData.append('contract_project_data[name]', cProjectData.name)
-      formData.append(
-        'contract_project_data[contract_customer_id]',
-        cProjectData.contract_customer_id
-      )
-      formData.append('contract_project_data[prime_or_sub]', cProjectData.prime_or_sub)
-      formData.append(
-        'contract_project_data[total_contract_value]',
-        cProjectData.total_contract_value
-      )
-      formData.append(
-        'contract_project_data[contract_start_date]',
-        cProjectData.contract_start_date
-      )
-      formData.append('contract_project_data[contract_end_date]', cProjectData.contract_end_date)
-      formData.append(
-        'contract_project_data[contract_current_pop_start_date]',
-        cProjectData.contract_current_pop_start_date
-      )
-      formData.append(
-        'contract_project_data[contract_current_pop_end_date]',
-        cProjectData.contract_current_pop_end_date
-      )
+      let formData = {
+        'contract_project_data[charge_code]': cProjectData.charge_code,
+        'contract_project_data[name]': cProjectData.name,
+        'contract_project_data[contract_customer_id]': cProjectData.contract_customer_id,
+        'contract_project_data[prime_or_sub]': cProjectData.prime_or_sub,
+        'contract_project_data[total_contract_value]': cProjectData.total_contract_value,
+        'contract_project_data[contract_start_date]': cProjectData.contract_start_date,
+        'contract_project_data[contract_end_date]': cProjectData.contract_end_date,
+        'contract_project_data[contract_current_pop_start_date]':
+          cProjectData.contract_current_pop_start_date,
+        'contract_project_data[contract_current_pop_end_date]':
+          cProjectData.contract_current_pop_end_date
+      }
       if (cProjectData.notes) {
-        formData.append('contract_project_data[notes]', cProjectData.notes)
+        formData['contract_project_data[notes]'] = cProjectData.notes
       }
       if (cProjectData.contract_vehicle_id) {
-        formData.append(
-          'contract_project_data[contract_vehicle_id]',
-          cProjectData.contract_vehicle_id
-        )
+        formData['contract_project_data[contract_vehicle_id]'] = cProjectData.contract_vehicle_id
       }
       if (cProjectData.contract_award_to_id) {
-        formData.append(
-          'contract_project_data[contract_award_to_id]',
-          cProjectData.contract_award_to_id
-        )
+        formData['contract_project_data[contract_award_to_id]'] = cProjectData.contract_award_to_id
       }
       if (cProjectData.number) {
-        formData.append('contract_project_data[contract_number_id]', cProjectData.number)
+        formData['contract_project_data[contract_number_id]'] = cProjectData.number
       }
-      formData.append('contract_project_data[contract_type_id]', cProjectData.contract_type_id)
-      formData.append(
-        'contract_project_data[contract_award_type_id]',
+      formData['contract_project_data[contract_type_id]'] = cProjectData.contract_type_id
+      formData['contract_project_data[contract_award_type_id]'] =
         cProjectData.contract_award_type_id
-      )
-      formData.append('contract_project_data[contract_pop_id]', cProjectData.contract_pop_id)
-      formData.append(
-        'contract_project_data[contract_current_pop_id]',
+      formData['contract_project_data[contract_pop_id]'] = cProjectData.contract_pop_id
+      formData['contract_project_data[contract_current_pop_id]'] =
         cProjectData.contract_current_pop_id
-      )
-      formData.append('contract_project_data[contract_naic_id]', cProjectData.contract_naic_id)
-
+      formData['contract_project_data[contract_naic_id]'] = cProjectData.contract_naic_id
       axios({
         method: 'POST',
         url: `${API_BASE_PATH}/portfolio/contract_project_data`,

@@ -72,20 +72,16 @@ module.exports = (sequelize, DataTypes) => {
     }
     static async createOrUpdateContractVehicle(body, user) {
       const { db } = require("./index.js");
-
       const contractParms = body;
       const cParams = { ...contractParms };
       let contractVehicle;
       if (cParams.contract_vehicle.id) {
-        console.log("contractVehicle-");
         contractVehicle = await this.findByPk(cParams.contract_vehicle.id);
-        console.log("contractVehicle-", contractVehicle);
       } else {
         contractVehicle = this.build();
       }
       let transaction = await sequelize.transaction();
       if (cParams.contract_vehicle.contract_number_id) {
-        console.log("---", cParams.contract_vehicle.contract_number_id);
         let contractNumber = await db.ContractNumber.findOne({ where: { name: cParams.contract_vehicle.contract_number_id }, transaction });
         if (!contractNumber) {
           contractNumber = await db.ContractNumber.create(
@@ -149,7 +145,6 @@ module.exports = (sequelize, DataTypes) => {
   async function addContractPocs(contractVehicle, contractPocIds = [], pocType, transaction) {
     const { db } = require("./index.js");
 
-    console.log("---hi", contractPocIds.length, contractPocIds);
     if (!contractPocIds.length) return;
 
     const newPocIds = contractPocIds.map((id) => parseInt(id, 10));

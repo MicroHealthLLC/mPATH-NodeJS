@@ -1,5 +1,5 @@
 // const { Router } = require("express");
-const { index, create, update } = require("../controllers/PortfolioContractVehicleController");
+const { index, create, update, destroy } = require("../controllers/PortfolioContractVehicleController");
 
 // const router = Router();
 // //Fetch all programs
@@ -20,5 +20,6 @@ async function routes(fastify, options) {
   fastify.get("/api/v1/portfolio/contract_vehicles", index);
   fastify.post("/api/v1/portfolio/contract_vehicles", create);
   fastify.put("/api/v1/portfolio/contract_vehicles/:id", update);
+  fastify.delete("/api/v1/portfolio/contract_vehicles/:id", destroy);
 }
 module.exports = routes;

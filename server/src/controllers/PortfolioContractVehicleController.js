@@ -116,8 +116,18 @@ async function update(req, res) {
     console.log(error);
   }
 }
+async function destroy(req, res) {
+  try {
+    const contract_vehicle = await db.ContractVehicle.findByPk(req.params.id);
+    await contract_vehicle.destroy();
+    return { contract_vehicle: contract_vehicle };
+  } catch (error) {
+    console.log(error);
+  }
+}
 module.exports = {
   index,
   create,
   update,
+  destroy,
 };
