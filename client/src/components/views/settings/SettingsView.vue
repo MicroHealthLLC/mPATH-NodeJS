@@ -12,14 +12,13 @@
           <ul class="grid-container">
             <!-- Move back into li attributes after finished with Users module   :class="{'d-none': !_isallowedProgramSettings(item, 'read') }" -->
             <li v-show="contentLoaded &&
-                (item == 'Groups' && _isallowedGroups('read')) ||
-                (item == 'Projects' && _isallowedProjects('read')) ||
-                ((item == 'Contracts' || item == 'Vehicles') && _isallowedContracts('read')) ||
-                (item == 'Users' && _isallowedUserRoles('read')) ||
-                (item == 'Roles' && _isallowedUserRoles('read'))
-                " class="m-2 cardWrapper list-group-item"
-              v-for="(item, index) of settingsCards" :key="index" style="width:350px"
-              @click.prevent="adminRoute(index)">
+                  (item == 'Groups' && _isallowedGroups('read')) ||
+                  (item == 'Projects' && _isallowedProjects('read')) ||
+                  ((item == 'Contracts' || item == 'Vehicles') && _isallowedContracts('read')) ||
+                  (item == 'Users' && _isallowedUserRoles('read')) ||
+                  (item == 'Roles' && _isallowedUserRoles('read'))
+                  " class="m-2 cardWrapper list-group-item" v-for="(item, index) of settingsCards" :key="index"
+              style="width:350px" @click.prevent="adminRoute(index)">
               <div>
                 <div class="p-2" style="font-size:3.5rem">
                   <span v-if="item == 'Groups'">
@@ -27,11 +26,11 @@
                   <span v-if="item == 'Projects'">
                     <i class="fas fa-clipboard-list mr-3 mh-green-text"></i></span>
                   <span v-if="item == 'Contracts'">
-                    <svg style="width: 36px;" xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                      <path fill="#dd9036"
+                    <!-- <svg style="width: 36px;" xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 384 512">!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                    <!-- <path fill="#dd9036"
                         d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zM64 72c0-4.4 3.6-8 8-8h80c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H72c-4.4 0-8-3.6-8-8V72zm0 64c0-4.4 3.6-8 8-8h80c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H72c-4.4 0-8-3.6-8-8v-16zm192.8 248H304c8.8 0 16 7.2 16 16s-7.2 16-16 16h-47.2c-16.5 0-31.3-9.1-38.6-23.9-3-5.9-8.1-6.5-10.2-6.5s-7.2 .6-10 6.2l-7.7 15.3a16 16 0 0 1 -14.3 8.8c-.4 0-.8 0-1.1-.1-6.5-.5-12-4.8-14-10.9L144 354.6l-10.6 31.9c-5.9 17.7-22.4 29.5-41 29.5H80c-8.8 0-16-7.2-16-16s7.2-16 16-16h12.4c4.8 0 9.1-3.1 10.6-7.7l18.2-54.6c3.3-9.8 12.4-16.4 22.8-16.4s19.5 6.6 22.8 16.4l13.9 41.6c19.8-16.2 54.1-9.7 66 14.2 2 4.1 6 6.5 10.2 6.5zM377 105L279.1 7c-4.5-4.5-10.6-7-17-7H256v128h128v-6.1c0-6.3-2.5-12.4-7-16.9z" />
-                    </svg>
+                    </svg> -->
                     <i class="fas fa-file-contract mr-3 mh-orange-text"></i>
                   </span>
                   <span v-if="item == 'Vehicles'">

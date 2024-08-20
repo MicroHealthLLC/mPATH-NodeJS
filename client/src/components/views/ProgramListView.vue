@@ -25,12 +25,12 @@
         </span>
       </div>
       <div class="container pr-0 text-right d-flex justify-content-end">
-        <router-link :to="`/portfolio`">
+        <router-link :to="`/portfolio`" class="no-underline">
           <p class="mr-2 portfolioViewerBtn">PORTFOLIO DATA
             VIEWER</p>
         </router-link>
-        <router-link :to="`/portfolio/contracts`">
-          <p @click="setUserPrivilege" class="portfolioContractsBtn bg-light">CONTRACTS</p>
+        <router-link :to="`/portfolio/contracts`" class="no-underline">
+          <p class="portfolioContractsBtn bg-light">CONTRACTS</p>
         </router-link>
       </div>
       <div class="grid-container program-name">
@@ -69,7 +69,7 @@
               <div class="col-4 py-0"><span class="text-dark mr-1">ISSUES</span></div>
               <div class="col-2 pl-0 py-0"><span
                   class="badge lt-yellow text-dark badge-secondary badge-pill font-weight-light text-left">{{
-          project.issues.length }}</span>
+                  project.issues.length }}</span>
               </div>
               <div class="col-6 py-0"><span><span class="w-100 progress pg-content progress-0">
                     <div class="text-dark font-weight-light ml-1 d-flex align-items-center">0.00 %</div>
@@ -79,7 +79,7 @@
               <div class="col-4 py-0"><span class="text-dark mr-1">RISKS</span></div>
               <div class="col-2 pl-0 py-0"><span
                   class="badge lt-red text-dark badge-secondary badge-pill font-weight-light text-left">{{
-          project.risks.length }}</span>
+                  project.risks.length }}</span>
               </div>
               <div class="col-6 py-0"><span></span><span class="w-100 progress pg-content progress-0">
                   <div class="text-dark font-weight-light ml-1 d-flex align-items-center">0.00 %</div>
@@ -89,7 +89,7 @@
               <div class="col-4 py-0"><span class="text-dark mr-1">LESSONS</span></div>
               <div class="col-2 pl-0 py-0"><span
                   class="badge bg-primary text-light badge-secondary badge-pill font-weight-light text-left">{{
-          project.lessons.length }}</span>
+                  project.lessons.length }}</span>
               </div>
               <div class="col-6 py-0"><span></span></div>
             </div>
@@ -105,11 +105,6 @@
           </li>
         </router-link>
       </div>
-      <!-- <router-view></router-view> -->
-      <!-- <h1>All Programs</h1>
-      <div v-for="project in this.allProjects" :key="project.id" >
-        <p><router-link :to="`/programs/${project.id}/sheet`"><span @click="fetchProgramRelatedData(project.id)">{{project.name}}</span></router-link></p>
-      </div> -->
     </div>
   </div>
 </template>
@@ -125,7 +120,8 @@ export default {
   props: ["facility"],
   data() {
     return {
-      mPathLogo: 'mpath.svg'
+      mPathLogo: 'mpath.svg',
+      loading: false
     }
   },
   components: {},
@@ -133,7 +129,7 @@ export default {
     ...mapGetters([
       "contentLoaded",
       'getAllProjects',
-      "getPrivileges",
+      'getToken'
     ]),
     allProjects: {
       get() {
@@ -152,7 +148,6 @@ export default {
       'fetchProjectFacilityHash',
       'fetchPreferences',
       'fetchProgramAdminRole',
-      'getUserPrivileges'
     ]),
     // ...mapGetters([
     //   'getProjectFacilityHash'
@@ -161,20 +156,36 @@ export default {
       AuthorizationService.getRolePrivileges(project_id);
     },
     setUserPrivilege() {
-      let privilege = this.getPrivileges
-      AuthorizationService.privilege = privilege
-    }
+      axios({
+        method: 'GET',
+        url: `${API_BASE_PATH}/get_user_priveleges`,
+        headers: {
+          'X-CSRF-Token':
+            document.querySelector('meta[name="csrf-token"]').attributes['content'].value,
+          'x-token': this.getToken
+        }
+      })
+        .then((res) => {
+          AuthorizationService.privilege = res.data.privileges
+        })
+        .catch((err) => {
+          console.log('Error', err)
+          reject(err)
+        }).finally(() => {
+          Vue.prototype.$topNavigationPermissions = AuthorizationService.topNavigationPermissions()
+        });
+    },
     // goToPortfolio() {
     //   console.log("Portfolio---")
     //   this.$router.push({ name: 'PortfolioView' })
     // }
   },
   mounted() {
+    this.setUserPrivilege()
     this.fetchAllPrograms()
     this.fetchProjectFacilityHash()
     this.fetchPreferences()
     this.fetchProgramAdminRole()
-    this.getUserPrivileges()
     const preferences = "{&quot;navigation_menu&quot;:&quot;map&quot;,&quot;sub_navigation_menu&quot;:null,&quot;program_id&quot;:null,&quot;project_id&quot;:null,&quot;project_group_id&quot;:null}";
     // var project_facility_hash = "{&quot;3&quot;:[{&quot;facility_id&quot;:1,&quot;facility_project_id&quot;:1},{&quot;facility_id&quot;:328,&quot;facility_project_id&quot;:2}]}";
     Vue.prototype.$mpath_instance = window.mpath_instance
@@ -183,7 +194,7 @@ export default {
       return AuthorizationService.checkPrivileges(page, salut, route, extraData);
     };
 
-    Vue.prototype.$topNavigationPermissions = AuthorizationService.topNavigationPermissions();
+    //Vue.prototype.$topNavigationPermissions = AuthorizationService.topNavigationPermissions();
 
 
     // this.setPreferences(AuthorizationService.preferences)

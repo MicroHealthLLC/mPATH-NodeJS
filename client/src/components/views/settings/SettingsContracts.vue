@@ -11,11 +11,13 @@
             </span>
           </el-breadcrumb-item>
           <h4 class="mt-4 ml-3">
-            <svg style="width: 21px;" class="svgAlignment" xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-              <path fill="#dd9036"
+            <!-- <svg style="width: 21px;" class="svgAlignment" xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 384 512">!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+            <!-- <path fill="#dd9036"
                 d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zM64 72c0-4.4 3.6-8 8-8h80c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H72c-4.4 0-8-3.6-8-8V72zm0 64c0-4.4 3.6-8 8-8h80c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H72c-4.4 0-8-3.6-8-8v-16zm192.8 248H304c8.8 0 16 7.2 16 16s-7.2 16-16 16h-47.2c-16.5 0-31.3-9.1-38.6-23.9-3-5.9-8.1-6.5-10.2-6.5s-7.2 .6-10 6.2l-7.7 15.3a16 16 0 0 1 -14.3 8.8c-.4 0-.8 0-1.1-.1-6.5-.5-12-4.8-14-10.9L144 354.6l-10.6 31.9c-5.9 17.7-22.4 29.5-41 29.5H80c-8.8 0-16-7.2-16-16s7.2-16 16-16h12.4c4.8 0 9.1-3.1 10.6-7.7l18.2-54.6c3.3-9.8 12.4-16.4 22.8-16.4s19.5 6.6 22.8 16.4l13.9 41.6c19.8-16.2 54.1-9.7 66 14.2 2 4.1 6 6.5 10.2 6.5zM377 105L279.1 7c-4.5-4.5-10.6-7-17-7H256v128h128v-6.1c0-6.3-2.5-12.4-7-16.9z" />
-            </svg> CONTRACTS
+            </svg> -->
+            <i class="fas fa-file-contract mh-orange-text"></i>
+            CONTRCTS
             <span v-if="tableData && tableData.length" class="ml-2 pb-1 badge badge-secondary badge-pill pill">{{
             tableData.length }}
             </span>
@@ -52,9 +54,9 @@
             .filter(
               (data) =>
                 !search ||
-                data.name.toLowerCase().includes(search.toLowerCase()) ||
-                data.contract_number.name.toLowerCase().includes(search.toLowerCase()) ||
-                data.contract_customer.name.toLowerCase().includes(search.toLowerCase())
+                (data.name.toLowerCase().includes(search.toLowerCase())) ||
+                (data.contract_name && data.contract_number.name.toLowerCase().includes(search.toLowerCase())) ||
+                (data.contract_customer && data.contract_customer.name.toLowerCase().includes(search.toLowerCase()))
             )
             .reverse()
             " style="width: 100%" highlight-current-row height="450" ref="table" :row-key="row => row.id"
@@ -141,67 +143,12 @@
           <h5> <i>Sorry, you don't have read-permissions for this page! Please contact your Program Administrator for
               access.</i></h5>
         </div>
-        <el-dialog :visible.sync="contractDialogVisible" append-to-body center class="contractForm addContract p-0">
-          <div class="row mb-3 mt-1">
-            <div class="col-7">
-              <span slot="title" class="text-left add-groups-header ">
-                <h5 class="text-dark"> <i class="far fa-plus-circle mr-1 mb-3"></i>Add Exisiting Contract </h5>
-              </span>
-            </div>
-            <div class="col-5 text-right">
-              <el-input type="search" placeholder="Search by Project Name, Customer or Contract #" aria-label="Search"
-                class="w-100" aria-describedby="search-addon" v-model="searchContractData" data-cy="">
-                <el-button slot="prepend" icon="el-icon-search"></el-button>
-              </el-input>
-            </div>
-          </div>
-          <template>
-            <div v-loading="!contractProjectsLoaded" element-loading-text="Fetching your data. Please wait..."
-              element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)"
-              class="addContractModal">
-              <el-table :data="allContracts" v-if="allContracts && allContracts.length > 0" style="width: 100%">
-                <el-table-column prop="name" label="Project Name" width="180">
-                </el-table-column>
-                <el-table-column label="Customer" width="200" prop="contract_customer_id">
-                  <template slot-scope="scope">
-                    <span v-if="(scope.row.contract_customer && scope.row.contract_customer.name !== null)">
-                      {{ scope.row.contract_customer.name }}
-                    </span>
-                  </template>
-                </el-table-column>
-                <el-table-column label="Contract Number" width="200" prop="contract_number_id">
-                  <template slot-scope="scope">
-                    <span v-if="scope.row.contract_number && scope.row.contract_number.name !== null">
-                      {{ scope.row.contract_number.name }}
-                    </span>
-                  </template>
-                </el-table-column>
-                <el-table-column label="Award/ TO Number" width="200" prop="contract_award_to_id">
-                  <template slot-scope="scope">
-                    <span v-if="scope.row.contract_award_to && scope.row.contract_award_to.name !== null">
-                      {{ scope.row.contract_award_to.name }}
-                    </span>
-                  </template>
-                </el-table-column>
-                <el-table-column label="Actions" align="right">
-                  <template slot-scope="scope">
-                    <el-button type="default" data-cy="add_contract_btn" v-tooltip="`Add Contract`"
-                      @click.prevent="addExistingContract(scope.$index, scope.row)"
-                      class="bg-primary text-light btn-sm">
-                      <i class="far fa-plus-circle"></i>
-                    </el-button>
-                  </template>
-                </el-table-column>
-              </el-table>
-              <span class="mt-3" v-else>
-                <h4><em>There are currently no contracts to display</em></h4>
-              </span>
-            </div>
-          </template>
-
-        </el-dialog>
+        <AddSettingsContractModal :contractDialogVisible="contractDialogVisible"
+          :searchContractData="searchContractData" :allContracts="allContracts"
+          :contractProjectsLoaded="contractProjectsLoaded" @addExistingContract="addExistingContract"
+          @closeAddSettingsContractModal="closeAddSettingsContractModal" @setSearchContract="setSearchContract">
+        </AddSettingsContractModal>
       </div>
-
       <el-dialog :visible.sync="openUserPrivilegesDialog" append-to-body center class="addUserRole p-0">
         <span slot="title" class="text-left add-groups-header ">
           <h5 style="color:#383838" v-if="contractData">
@@ -366,11 +313,14 @@ import { mapGetters, mapMutations, mapActions } from "vuex";
 import SettingsSidebar from "./SettingsSidebar.vue";
 // import { createUser, deleteUser, dbCollection } from "../../../packs/firebase";
 import MessageDialogService from "../../../services/message_dialog_service.js";
+import AddSettingsContractModal from "./modals/AddSettingsContractModal.vue"
+import AuthorizationService from "@/services/authorization_service";
 export default {
   name: "SettingsContracts",
   props: ["currentContract"],
   components: {
     SettingsSidebar,
+    AddSettingsContractModal
   },
   data() {
     return {
@@ -411,7 +361,6 @@ export default {
     if (Vue.prototype.$contractPrivilegesRoles) {
       console.log(Vue.prototype.$contractPrivilegesRoles)
     }
-
     this.fetchContracts(this.$route.params.programId)
     this.fetchRoles(this.$route.params.programId)
     if (this.groups && this.groups.length <= 0) {
@@ -456,7 +405,7 @@ export default {
       return this.checkPrivileges("SettingsContracts", salut, this.$route, { settingType: 'Contracts' })
     },
     _isallowedContracts(c, salut) {
-      console.log(c)
+      console.log("help needed", c)
       return this.checkPrivileges("ProjectSettingContractList", salut, this.$route, { method: "isallowedContracts", project_contract_id: c })
     },
     log(e) {
@@ -470,6 +419,9 @@ export default {
       this.isEditingRoles = true;
       // console.log(this.userids)
 
+    },
+    setSearchContract(val) {
+      this.searchContractData = val
     },
     saveRemoveUsers(index, rowData) {
       let user_ids = this.assignedContractUsers.map(t => t.id);
@@ -632,6 +584,9 @@ export default {
       this.associateContractToProgram({ ...contractData })
       this.contractDialogVisible = false
     },
+    closeAddSettingsContractModal() {
+      this.contractDialogVisible = false
+    },
     goToContract(index, rows) {
       console.log(rows)
       let programId = this.$route.params.programId
@@ -741,7 +696,7 @@ export default {
       this.hideSaveBtn = false;
     },
     addContract() {
-      this.contractDialogVisible = true;
+      this.contractDialogVisible = !this.contractDialogVisible;
       this.fetchContractProjects(this.$route.params.programId);
     },
     openUserPrivileges(index, rows) {
@@ -808,9 +763,9 @@ export default {
         let data = this.contractProjects.filter(t => {
           if (this.searchContractData !== '' && t) {
             return (
-              t.name.toLowerCase().match(this.searchContractData.toLowerCase()) ||
-              t.contract_number.name.toLowerCase().match(this.searchContractData.toLowerCase()) ||
-              t.contract_customer.name.toLowerCase().match(this.searchContractData.toLowerCase())
+              t?.name?.toLowerCase().match(this.searchContractData.toLowerCase()) ||
+              t?.contract_number?.name.toLowerCase().match(this.searchContractData.toLowerCase()) ||
+              t?.contract_customer?.name.toLowerCase().match(this.searchContractData.toLowerCase())
             )
           } else return true
         })
@@ -933,8 +888,6 @@ export default {
         if (this.contractStatus == 200) {
           MessageDialogService.showDialog({
             message: `Contract saved successfully.`,
-
-
           });
           this.newGroup = null;
           this.SET_CONTRACT_STATUS(0);

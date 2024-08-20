@@ -80,6 +80,7 @@ Vue.prototype.$mpath_instance = window.mpath_instance
 Vue.prototype.checkPrivileges = (page, salut, route, extraData) => {
   return AuthorizationService.checkPrivileges(page, salut, route, extraData)
 }
+
 Vue.prototype.$currentUser = AuthorizationService.current_user
 Vue.prototype.$topNavigationPermissions = AuthorizationService.topNavigationPermissions()
 Vue.prototype.$preferences = AuthorizationService.preferences

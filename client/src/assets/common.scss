@@ -2145,7 +2145,9 @@ td.col-issue_severity {
     background: #f4f4f4;
   }
 }
-
+.no-underline:hover {
+  text-decoration: none;
+}
 .grid-container {
   width: 100%;
   display: grid;

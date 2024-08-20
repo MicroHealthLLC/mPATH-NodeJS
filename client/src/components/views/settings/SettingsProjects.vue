@@ -138,252 +138,26 @@
           <h5> <i>Sorry, you don't have read-permissions for this page! Please contact your Program Administrator for
               access.</i></h5>
         </div>
-        <el-dialog :visible.sync="dialogVisible" append-to-body center class="contractForm p-0 addProjectDialog">
-          <span slot="title" class="text-left add-groups-header ">
-            <h5 class="text-dark"> <i class="far fa-plus-circle mr-1 mb-3"></i>Create Project </h5>
-          </span>
-          <form accept-charset="UTF-8">
-            <div class="form-group mx-4">
-              <label class="font-md">Project Name <span style="color: #dc3545">*</span></label>
-              <el-input v-model="newProjectNameText" placeholder="Enter New Project Name" rows="1"
-                name="Project Name" />
-            </div>
-            <div class="form-group mx-4">
-              <label class="font-md">Group</label>
-              <el-select class="w-100" v-model="C_projectGroupFilter" track-by="id" value-key="id" clearable filterable
-                name="Project Group" placeholder="Search and select Group">
-                <el-option v-for="item in groupList" :key="item.id" :label="item.name" :value="item">
-                </el-option>
-              </el-select>
-            </div>
-            <div class="right mr-2">
-              <button size="small" @click.prevent="saveNewProject" v-show="newProjectNameText"
-                v-tooltip="`Save Project`" :class="[hideSaveBtn ? 'd-none' : '']"
-                class="btn btn-md bg-primary text-light modalBtns"> <i class="far fa-save"></i></button>
-              <button size="small" @click.prevent="addAnotherProject" :class="[!hideSaveBtn ? 'd-none' : '']"
-                v-tooltip="`Add Another Project`" class="btn btn-md bg-primary text-light modalBtns">
-                <i class="far fa-plus-circle"></i>
-              </button>
-              <button size="small" @click.prevent="cancelCreateGroup"
-                class="btn btn-md bg-secondary text-light modalBtns" v-tooltip="`Cancel`">
-                <i class="fas fa-ban"></i>
-              </button>
-            </div>
-          </form>
-        </el-dialog>
-        <el-dialog :visible.sync="dialog2Visible" append-to-body center class="portfolioNames p-0"
-          v-if="portfolioProjects && portfolioProjects.length > 0">
-          <div>
-            <template>
-              <div class="sticky">
-                <div class="row mb-2">
-                  <div slot="title" class="col-8 pr-0 text-left">
-                    <h5 class="text-dark addGroupsHeader"> <i
-                        class="fas fa-clipboard-list mr-2 mh-green-text"></i>Select Portfolio Project(s) to Add </h5>
-                  </div>
-                  <div class="col-7 pt-0 text-left">
-                    <el-input type="search" placeholder="Search Projects" aria-label="Search" class="w-100"
-                      aria-describedby="search-addon" v-model="searchProjects" data-cy="">
-                      <el-button slot="prepend" icon="el-icon-search"></el-button>
-                    </el-input>
-                  </div>
-                  <div class="col text-right">
-
-                    <el-button class="confirm-save-group-names btn text-light bg-primary modalBtns"
-                      v-tooltip="`Save Project(s)`" @click.prevent="importProjectName"
-                      :disabled="programProjects && programProjects.length <= 0">
-                      <i class="far fa-save"></i>
-                    </el-button>
-                    <el-button @click.prevent="closeImportProjectBtn" v-tooltip="`Cancel`"
-                      class="btn bg-secondary ml-0 text-light modalBtns">
-                      <i class="fas fa-ban"></i>
-                    </el-button>
-                  </div>
-                </div>
-              </div>
-            </template>
-            <el-checkbox v-model="checkAllProjects" @change="checkAllChange" :indeterminate="isIndeterminate"><i>Check
-                all
-                Projects</i></el-checkbox>
-            <div style="margin: 15px 0;"></div>
-            <el-checkbox-group v-model="checkedPortfolioProjects">
-              <div class="row">
-                <div class="col-4" v-if="programProjects">
-                  <el-checkbox v-for="project in programProjects.filter(g => g.is_portfolio)" :label="project.id"
-                    class="d-flex" :key="project.id">{{ project.facility_name }}</el-checkbox>
-                </div>
-              </div>
-            </el-checkbox-group>
-          </div>
-        </el-dialog>
-
-        <el-dialog :visible.sync="rolesVisible" append-to-body center class="contractForm p-0 addUserRole">
-          <span slot="title" class="text-left add-groups-header ">
-            <h5 style="color:#383838" v-if="projectRowData">
-              <i class="fas fa-clipboard-list mr-1 mb-2 mh-green-text"></i> {{ projectRowData.facilityName }}
-            </h5>
-          </span>
-          <div class="container-fluid p-0">
-
-            <div class="pl-3 mt-0 row"
-              v-if="viableProjectUsers && viableProjectUsers.length > 0 && _isallowed('write')">
-              <div class="col-5 pt-0 pl-0">
-                <label class="font-md mb-0 d-flex">Add User(s) To Project </label>
-                <el-select v-model="projectRoleUsers" filterable class="w-100" clearable multiple track-by="id"
-                  value-key="id" placeholder="Search and select Project Users">
-                  <el-option v-for="item in viableProjectUsers" :value="item" :key="item.id" :label="item.fullName">
-                  </el-option>
-                </el-select>
-              </div>
-              <div class="col-5 pt-0">
-                <label class="font-md mb-0 d-flex">Select Role for User(s) </label>
-                <el-select v-model="projectRoleNames" filterable class="w-100" clearable track-by="id" value-key="id"
-                  placeholder="Search and select Project Users">
-                  <el-option
-                    v-for="item in getRoles.filter(t => t.type_of == 'project' && t.name !== 'crud-row-project-20220407')"
-                    :value="item" :key="item.id" :label="item.name">
-                  </el-option>
-                </el-select>
-
-
-              </div>
-              <div class="col-2 pt-0 text-right">
-                <label class="font-md mb-0 d-flex" style="visibility:hidden">|</label>
-
-                <el-button type="default" @click="saveProjectUserRole()" v-if="projectRoleNames && projectRoleUsers"
-                  v-tooltip="`Save`" class="bg-primary btn-sm text-light">
-                  <i class="far fa-save"></i>
-                </el-button>
-
-              </div>
-
-            </div>
-            <div class="pl-3 mt-0 row"
-              v-if="getRolesLoaded && contentLoaded && viableProjectUsers && viableProjectUsers.length <= 0">
-              There are currently no program users to assign to this project. You can either add new program users from
-              portfolio or remove desired user from current role in this project.
-            </div>
-
-            <div class="mt-4 row">
-              <div class="col-12 pt-0">
-                <el-table v-loading="!getRolesLoaded" element-loading-spinner="el-icon-loading"
-                  v-if="projectUsers && projectUsers.roleIds && projectUsers.roleIds.length > 0"
-                  :header-cell-style="{ background: '#EDEDED' }" :data="projectUsers.roleIds" height="375" width="100%">
-                  <el-table-column prop="role_name" width="200" sortable filterable label="Roles">
-                    <template slot-scope="scope">
-                      <span
-                        v-if="projectUsers.data.map(t => t.role_id == scope.row) && scope.$index !== rowIndex_1 || scope.$index == rowIndex_1 && isEditingRoles">
-                        {{ projectUsers.data.filter(t => t.role_id == scope.row).map(t => t.role_name)[0] }}
-                      </span>
-                      <span v-if="changeRoleMode && scope.$index == rowIndex_1">
-                        <el-select v-if="bulkChangeProjectRoleNames.id" v-model="bulkChangeProjectRoleNames" filterable
-                          class="w-100" track-by="id" value-key="id">
-                          <el-option
-                            v-for="item in getRoles.filter(t => t.type_of == 'project' && t.name !== 'crud-row-project-20220407')"
-                            :value="item" :key="item.id" :label="item.name">
-                          </el-option>
-                        </el-select>
-                        <el-select v-if="currentRoleName && !bulkChangeProjectRoleNames.id" v-model="currentRoleName"
-                          filterable class="w-100" track-by="id" value-key="id">
-                          <el-option
-                            v-for="item in getRoles.filter(t => t.type_of == 'project' && t.name !== 'crud-row-project-20220407')"
-                            :value="item" :key="item.id" :label="item.name">
-                          </el-option>
-                        </el-select>
-                        <!-- {{ scope.row}}   -->
-                      </span>
-                    </template>
-                  </el-table-column>
-                  <el-table-column width="675" sortable filterable label="Users">
-                    <template slot-scope="scope">
-                      <span v-if="scope.$index !== rowIndex_1 || changeRoleMode">
-                        <span v-for="(item, i) in projectUsers.data" :key="i">
-                          <span v-if="(item.user_id && programUsers.map(t => t.id == item.user_id)) && item.role_id == scope.row &&
-
-            programUsers.filter(t => item.user_id == t.id).map(t => t.fullName).length > 0" class="userNames">
-                            {{ programUsers.filter(t => item.user_id == t.id).map(t => t.fullName).join() }}
-                          </span>
-                        </span>
-
-                      </span>
-                      <span v-if="isEditingRoles && scope.$index == rowIndex_1">
-                        <el-select v-model="assignedProjectUsers"
-                          :disabled="assignedProjectUsers && assignedProjectUsers.length <= 0" filterable
-                          class="w-100 el-popper" :popper-append-to-body="false" popper-class="select-popper" clearable
-                          multiple track-by="id" value-key="id" placeholder="No Users Assigned to this Project">
-                          <el-option v-for="item in programUsers" :value="item" :key="item.id" :label="item.fullName">
-                          </el-option>
-                        </el-select>
-
-                      </span>
-                    </template>
-                  </el-table-column>
-                  <el-table-column fixed="right" align="center" width="140" class="px-0"
-                    v-if="(_isallowed('delete') || _isallowed('write'))">
-                    <!-- <template slot="header" slot-scope="scope">
-                <el-input
-                  v-model="searchRoleUsers"
-                  size="mini"
-                  placeholder="Enter User or Role Name"/>
-              </template> -->
-                    <template slot-scope="scope" class="px-0">
-                      <el-button type="default" size="mini" @click="bulkChangeRole(scope.$index, scope.row)"
-                        v-if="scope.$index !== rowIndex_1 && _isallowed('write')" v-tooltip="`Change Role`"
-                        class="bg-light px-2 mx-0">
-                        <i class="fa-solid fa-users-gear text-primary"></i>
-                      </el-button>
-                      <el-button size="mini" type="default" @click="saveBulkChangeRole(scope.$index, scope.row)" v-if="scope.$index == rowIndex_1 && changeRoleMode && (bulkChangeProjectRoleNames.id || currentRoleName.id) &&
-            (scope.row !== bulkChangeProjectRoleNames.id && scope.row !== currentRoleName.id)" v-tooltip="`Save`"
-                        class="bg-primary px-2 text-light">
-                        <i class="far fa-save"></i>
-                      </el-button>
-                      <el-button type="default" @click="saveRemoveUsers(scope.$index, scope.row)"
-                        v-if="isEditingRoles && scope.$index == rowIndex_1" v-tooltip="`Save`" size="mini"
-                        class="bg-primary text-light px-2">
-                        <i class="far fa-save"></i>
-                      </el-button>
-                      <el-button type="default" size="mini" v-if="scope.$index !== rowIndex_1 && (_isallowed('delete'))"
-                        v-tooltip="`Remove all users from this role`"
-                        @click.prevent="removeAllUsers(scope.$index, scope.row)" class="bg-danger mx-0 px-2">
-                        <i class="fa-solid fa-users-slash mr-1 text-light"></i>
-                      </el-button>
-                      <el-button type="default" size="mini" v-if="scope.$index !== rowIndex_1 && (_isallowed('delete'))"
-                        v-tooltip="`Remove user(s) from this role`" @click.prevent="editUsers(scope.$index, scope.row)"
-                        class="bg-danger mx-0 px-2">
-                        <i class="fa-solid fa-user-slash text-light"></i>
-                      </el-button>
-                      <el-button type="default" size="mini" v-if="isEditingRoles && scope.$index == rowIndex_1"
-                        v-tooltip="`Cancel`" @click.prevent="cancelEditRoles(scope.$index, scope.row)"
-                        class="bg-secondary text-light px-2">
-                        <i class="fas fa-ban"></i>
-                      </el-button>
-                      <el-button size="mini" type="default" v-if="changeRoleMode && scope.$index == rowIndex_1"
-                        v-tooltip="`Cancel`" @click.prevent="cancelBulkChangeRole(scope.$index, scope.row)"
-                        class="bg-secondary text-light px-2">
-                        <i class="fas fa-ban"></i>
-                      </el-button>
-
-                    </template>
-                  </el-table-column>
-
-                </el-table>
-                <span class="" v-else>
-                  No Users Assigned
-                </span>
-
-                <div class="right mt-3">
-                  <button @click.prevent="closeUserRoles" class="btn btn-md bg-secondary text-light modalBtns"
-                    v-tooltip="`Cancel`">
-                    <i class="fas fa-ban"></i>
-                  </button>
-                </div>
-                <!-- </el-collapse-item>
-        </el-collapse>  -->
-              </div>
-            </div>
-          </div>
-
-        </el-dialog>
+        <SettingsProjectModal :dialogVisible="dialogVisible" :C_projectGroupFilter="C_projectGroupFilter"
+          :newProjectNameText="newProjectNameText" :groupList="groupList" :hideSaveBtn="hideSaveBtn"
+          @saveNewProject="saveNewProject" @cancelCreateGroup="cancelCreateGroup"
+          @setProjectNameText="setProjectNameText">
+        </SettingsProjectModal>
+        <PortfolioProjectsModal :dialog2Visible="dialog2Visible" :searchProjects="searchProjects"
+          :programProjects="programProjects" :isIndeterminate="isIndeterminate"
+          :checkedPortfolioProjects="checkedPortfolioProjects" @importProjectName="importProjectName"
+          @setSearchProject="setSearchProject" @closeImportProjectBtn="closeImportProjectBtn"
+          @checkAllChange="checkAllChange">
+        </PortfolioProjectsModal>
+        <ManageUsersModal :rolesVisible="rolesVisible" :projectRowData="projectRowData" :projectUsers="projectUsers"
+          :viableProjectUsers="viableProjectUsers" :getRolesLoaded="getRolesLoaded" :contentLoaded="contentLoaded"
+          :isEditingRoles="isEditingRoles" :currentRoleName="currentRoleName"
+          :bulkChangeProjectRoleNames="bulkChangeProjectRoleNames" :changeRoleMode="changeRoleMode" :getRoles="getRoles"
+          :programUsers="programUsers" :assignedProjectUsers="assignedProjectUsers" @closeUserRoles="closeUserRoles"
+          @saveProjectUserRole="saveProjectUserRole" @cancelBulkChangeRole="cancelBulkChangeRole"
+          @bulkChangeRole="bulkChangeRole" @saveRemoveUsers="saveRemoveUsers" @saveBulkChangeRole="saveBulkChangeRole"
+          @removeAllUsers="removeAllUsers" @editUsers="editUsers" @cancelEditRoles="cancelEditRoles">
+        </ManageUsersModal>
       </div>
     </div>
   </div>
@@ -393,12 +167,18 @@
 import axios from "axios";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import SettingsSidebar from "./SettingsSidebar.vue";
+import SettingsProjectModal from "./modals/SettingsProjectModals.vue"
+import PortfolioProjectsModal from "./modals/PortfolioProjectsModal.vue";
+import ManageUsersModal from "./modals/ManageUsersModal.vue"
 import { API_BASE_PATH } from "./../../../mixins/utils";
 import MessageDialogService from "../../../services/message_dialog_service.js";
 export default {
   name: "SettingsProjects",
   components: {
-    SettingsSidebar
+    SettingsSidebar,
+    SettingsProjectModal,
+    PortfolioProjectsModal,
+    ManageUsersModal
   },
   props: ["currentFacility", "facility"],
   data() {
@@ -478,6 +258,12 @@ export default {
     log(e) {
       // console.log('tableData:', e)
     },
+    setSearchProject(val) {
+      this.searchProjects = val
+    },
+    setProjectNameText(val) {
+      this.newProjectNameText = val
+    },
     editUsers(index, rowData) {
       this.userids = this.projectUsers.data.filter(t => t.role_id == rowData)
       this.SET_ASSIGNED_PROJECT_USERS(this.assignedUsers)
@@ -524,7 +310,6 @@ export default {
         {
           confirmButtonText: "Delete",
           cancelButtonText: "Cancel",
-          type: MessageDialogService.msgTypes.WARNING,
         }
       ).then(() => {
         this.deleteProgramProject({ programId, id }).then((value) => {
@@ -532,8 +317,6 @@ export default {
             this.fetchCurrentProject(this.$route.params.programId);
             MessageDialogService.showDialog({
               message: `${rows.facilityName} was deleted successfully.`,
-
-
             });
           }
         });
@@ -676,10 +459,11 @@ export default {
       this.bulkChangeProjectRoleNames = {}
     },
     openProjectGroup() {
-      this.dialog2Visible = true;
+      this.dialog2Visible = !this.dialog2Visible;
     },
     cancelCreateGroup() {
       this.dialogVisible = false;
+      this.newProjectNameText = "";
     },
     closeUserRoles() {
       this.rolesVisible = false;
@@ -699,12 +483,12 @@ export default {
       this.expandRowKeys = this.projId === lastId ? [] : [this.projId];
     },
     addUserRole(index, rows) {
-      this.rolesVisible = true
+      this.rolesVisible = !this.rolesVisible
       this.projId = rows.facilityProjectId
       this.projectRowData = rows
     },
     addProject() {
-      this.dialogVisible = true;
+      this.dialogVisible = !this.dialogVisible;
       this.C_projectGroupFilter = null;
       this.newProjectNameText = "";
     },
@@ -725,8 +509,9 @@ export default {
       }
       return formData
     },
-    saveNewProject(e) {
-      e.preventDefault();
+    saveNewProject(localProjectName) {
+      // e.preventDefault();
+      // this.newProjectNameText = localProjectName
       let url = `${API_BASE_PATH}/program_settings/facilities?project_id=${this.$route.params.programId}`
       let method = "POST";
       axios({
@@ -1054,8 +839,6 @@ export default {
         if (this.addUserToRoleStatus == 204 || this.addUserToRoleStatus == 200) {
           MessageDialogService.showDialog({
             message: `Succesfully added user/role to project.`,
-
-
           });
           this.SET_ADD_USER_TO_ROLE_STATUS(0);
           this.fetchRoles(this.$route.params.programId)
@@ -1096,8 +879,6 @@ export default {
         if (this.bulkProjectAddStatus == 200) {
           MessageDialogService.showDialog({
             message: `Successfully added projects from program.`,
-
-
           });
           this.SET_PROGRAM_SETTINGS_PROJECTS_STATUS(0);
           this.fetchCurrentProject(this.$route.params.programId);
@@ -1142,8 +923,6 @@ export default {
         if (this.removeProjectRoleStatus == 204 || this.removeProjectRoleStatus == 200) {
           MessageDialogService.showDialog({
             message: `Succesfully removed user(s) from role.`,
-
-
           });
           this.fetchRoles(this.$route.params.programId)
           this.SET_REMOVE_PROJECT_ROLE_STATUS(0);

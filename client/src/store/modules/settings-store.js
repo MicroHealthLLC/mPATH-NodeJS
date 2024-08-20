@@ -1603,9 +1603,9 @@ const settingsStore = {
         http
           .delete(`${API_BASE_PATH}/program_settings/facilities/${id}?project_id=${programId}`)
           .then((res) => {
-            MessageDialogService.showDialog({
-              response: res
-            })
+            // MessageDialogService.showDialog({
+            //   response: res
+            // })
             resolve(res.status)
           })
           .catch((err) => {

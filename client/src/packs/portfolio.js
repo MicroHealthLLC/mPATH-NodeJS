@@ -77,7 +77,6 @@ Vue.prototype.checkPortfolioContractPrivileges = (page, salut, route, extraData)
 }
 
 Vue.prototype.$currentUser = AuthorizationService.current_user;
-Vue.prototype.$topNavigationPermissions = AuthorizationService.topNavigationPermissions();
 Vue.prototype.$preferences = AuthorizationService.preferences;
 
 // eslint-disable-next-line no-unused-vars

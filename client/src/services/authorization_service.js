@@ -20,14 +20,16 @@ const AuthorizationService = {
   allowedSubNavigationForProgramSettingsTab: {},
   topNavigationPermissions: () => {
     var permissionHash = {}
-    for (var key in AuthorizationService.privilege) {
-      if (['id', 'created_at', 'updated_at', 'user_id'].includes(key)) continue
-      var value = AuthorizationService.privilege[key]
-      if (value) {
-        permissionHash[key] = {
-          read: value.includes('R'),
-          write: value.includes('W'),
-          delete: value.includes('D')
+    if (AuthorizationService.privilege) {
+      for (var key in AuthorizationService.privilege) {
+        if (['id', 'created_at', 'updated_at', 'user_id'].includes(key)) continue
+        var value = AuthorizationService.privilege[key]
+        if (value) {
+          permissionHash[key] = {
+            read: value.includes('R'),
+            write: value.includes('W'),
+            delete: value.includes('D')
+          }
         }
       }
     }

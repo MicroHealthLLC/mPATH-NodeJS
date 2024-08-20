@@ -95,12 +95,6 @@ export default {
     settingsLanding() {
       return `/programs/${this.$route.params.programId}/settings`;
     },
-    backToSheetView() {
-      this.$router.push(
-        `/programs/${this.$route.params.programId}/sheet`
-      );
-    },
-
     adminProjectsView() {
       return `/programs/${this.$route.params.programId}/settings/projects`
     },
@@ -137,6 +131,11 @@ export default {
     },
     _isallowedUserRoles(salut) {
       return this.checkPrivileges("SettingsUsers", salut, this.$route, { settingType: "Users" })
+    },
+    backToSheetView() {
+      this.$router.push(
+        `/programs/${this.$route.params.programId}/sheet`
+      );
     },
     _isallowedProjects(salut) {
       return this.checkPrivileges("SettingsProjects", salut, this.$route, { settingType: "Projects" })

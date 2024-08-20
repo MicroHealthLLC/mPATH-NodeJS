@@ -47,7 +47,6 @@ export default new Vuex.Store({
   state: {
     advancedFilter: [],
     myAssignmentsFilter: [],
-    privileges: {},
     contentLoaded: false,
     projectsLoaded: false,
     showProjectStats: 0,
@@ -185,7 +184,6 @@ export default new Vuex.Store({
   },
 
   mutations: {
-    setPrivileges: (state, privileges) => (state.privileges = privileges),
     nullifyLocalStorage: (state, value) => {
       console.log('Logging out...')
       state.currentUser = null
@@ -577,7 +575,6 @@ export default new Vuex.Store({
   },
 
   getters: {
-    getPrivileges: (state) => state.privileges,
     getCurrentUser: (state) => state.currentUser,
     getProjectFacilityHash: (state) => state.projectFacilityHash,
     isLoggedIn(state) {
@@ -3091,23 +3088,6 @@ export default new Vuex.Store({
         .catch((err) => {
           commit('nullifyLocalStorage')
           console.log('verification token error', err)
-        })
-    },
-    getUserPrivileges({ commit, getters }) {
-      axios({
-        method: 'GET',
-        url: `${API_BASE_PATH}/get_user_priveleges`,
-        headers: {
-          'X-CSRF-Token':
-            document.querySelector('meta[name="csrf-token"]').attributes['content'].value,
-          'x-token': getters.getToken
-        }
-      })
-        .then((res) => {
-          commit('setPrivileges', res.data.privileges)
-        })
-        .catch((err) => {
-          console.log('Error', err)
         })
     },
     fetchCurrentUser({ commit, getters }, payload) {
