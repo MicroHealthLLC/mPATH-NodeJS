@@ -113,105 +113,15 @@
             </h5>
           </div>
         </div>
-        <el-dialog :visible.sync="newUserDialogVisible" append-to-body center class="p-0 users">
-          <span slot="title" class="text-left">
-            <h5 class="text-dark">
-              <i class="fas fa-user-plus mr-2"></i>Create User
-            </h5>
-          </span>
-          <form accept-charset="UTF-8">
-            <div class="container">
-              <div class="row">
-                <div class="col-12 pb-0">
-                  <label class="mb-0 pb-0 text-dark">First Name<span style="color: #dc3545">*</span>
-                  </label>
-                  <el-input class="mb-2 pl-1" v-model="firstName" placeholder="Enter First Name" rows="1" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12 pb-0">
-                  <label class="mb-0 pb-0 text-dark">Last Name <span style="color: #dc3545">*</span></label>
-                  <el-input v-model="lastName" class="mb-2 pl-1" placeholder="Enter Last Name" rows="1" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12 pb-0">
-                  <label class="mb-0 pb-0 text-dark">Email<span style="color: #dc3545">*</span></label>
-                  <el-input name="email" v-model="email" placeholder="Enter Email" v-validate="'email'"
-                    :class="{ error: errors.has('email') }" rows="1" class="mb-2 pl-1" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12 py-1 text-right" style="line-height:6">
-                  <button @click.prevent="createUser" v-show="email && lastName && firstName && !createAnotherUserBtn
-            " class="btn btn-md bg-primary text-light modalBtns" v-tooltip="`Save`">
-                    <i class="fas fa-save"></i>
-                  </button>
-                  <button type="default" v-tooltip="`Create another user`" @click.prevent="createAnotherUser" v-if="email && lastName && firstName && createAnotherUserBtn
-            " class="btn btn-md btn-primary text-light modalBtns">
-                    <i class="fas fa-plus-circle"></i>
-                  </button>
-                  <button @click.prevent="cancelAddNewUser" class="btn btn-md bg-secondary text-light ml-0 modalBtns"
-                    v-tooltip="`Cancel`">
-                    <i class="fas fa-ban"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </el-dialog>
-        <el-dialog :visible.sync="dialogVisible" append-to-body center class="p-0 users">
-          <span slot="title" class="text-left">
-            <h5 class="text-dark">
-              <i class="fas fa-users-medical mr-2"></i>Add User(s) To Program
-            </h5>
-          </span>
-          <div class="container">
-            <div class="row">
-              <div class="col-12" v-if="portfolioUsersOnly">
-                <label class="font-md mb-0">Select from
-                  <span class="badge badge-secondary badge-pill pill">
-                    {{ portfolioUsersOnly.length }}
-                  </span>
-                  Portfolio Users
-                </label>
-                <el-select v-model="portfolioUsers" class="w-100" track-by="id" value-key="id" :multiple="true"
-                  clearable placeholder="Enter name" filterable>
-                  <el-option v-for="item in portfolioUsersOnly" :value="item" :key="item.id"
-                    :label="item.name || item.full_name">
-                  </el-option>
-                </el-select>
-                <div class="text-right">
-                  <button type="default" v-tooltip="`Save Users`" @click.prevent="addPortfolioUsersToProgram"
-                    v-if="portfolioUsers.length > 0 && !addMoreUsersBtn"
-                    class="btn btn-md btn-primary text-light mt-3 modalBtns">
-                    <i class="fal fa-save"></i>
-                  </button>
-                  <button type="default" v-tooltip="`Add more users`" @click.prevent="addMoreUsers"
-                    v-if="portfolioUsers && addMoreUsersBtn" class="btn btn-md btn-primary text-light mt-3 modalBtns">
-                    <i class="fas fa-plus-circle"></i>
-                  </button>
-                  <button @click.prevent="cancelAddUser" class="btn btn-md bg-secondary text-light mt-3 ml-0 modalBtns"
-                    v-tooltip="`Cancel`">
-                    <i class="fas fa-ban"></i>
-                  </button>
-                </div>
-              </div>
-
-              <div class="col-12" v-else>
-                No Portfolio Users Found
-
-                <div class="text-right">
-                  <button @click.prevent="cancelAddUser" class="btn btn-md bg-secondary text-light mt-3 ml-0 modalBtns"
-                    v-tooltip="`Cancel`">
-                    <i class="fas fa-ban"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </el-dialog>
-
+        <AddSettingsUserModal :newUserDialogVisible="newUserDialogVisible" :firstName="firstName" :email="email"
+          :lastName="lastName" :createAnotherUserBtn="createAnotherUserBtn" @setLastName='setLastName'
+          @cancelAddNewUser="cancelAddNewUser" @setFirstName='setFirstName' @setEmail="setEmail"
+          @createAnotherUser='createAnotherUser' @createUser="createUser">
+        </AddSettingsUserModal>
+        <AddExistingUserModal :dialogVisible="dialogVisible" :portfolioUsersOnly="portfolioUsersOnly"
+          :portfolioUsers="portfolioUsers" :addMoreUsersBtn="addMoreUsersBtn" @setPortfolioUsers="setPortfolioUsers"
+          @cancelAddUser="cancelAddUser" @addPortfolioUsersToProgram="addPortfolioUsersToProgram">
+        </AddExistingUserModal>
         <el-dialog :visible.sync="editUserDialogVisible" append-to-body center class="p-0 users">
           <span slot="title" class="text-left">
             <h5 class="text-dark"><i class="fas fa-edit mr-1"></i>Edit User</h5>
@@ -828,6 +738,8 @@
 import { mapGetters, mapMutations, mapActions } from "vuex";
 import SettingsSidebar from "./SettingsSidebar.vue";
 import FormTabs from "../../shared/FormTabs.vue";
+import AddSettingsUserModal from "./modals/AddSettingsUserModal.vue"
+import AddExistingUserModal from "./modals/AddExistingUserModal.vue"
 import { faSlash } from "@fortawesome/free-solid-svg-icons";
 import MessageDialogService from "../../../services/message_dialog_service.js";
 export default {
@@ -835,6 +747,8 @@ export default {
   components: {
     SettingsSidebar,
     FormTabs,
+    AddSettingsUserModal,
+    AddExistingUserModal
   },
   data() {
     return {
@@ -947,6 +861,18 @@ export default {
       "removeProgramUser",
       "addUsersToProgram",
     ]),
+    setPortfolioUsers(newVal) {
+      this.portfolioUsers = newVal
+    },
+    setFirstName(val) {
+      this.firstName = val
+    },
+    setLastName(val) {
+      this.lastName = val
+    },
+    setEmail(val) {
+      this.email = val
+    },
     handleExpandChange(row, expandedRows) {
       this.projId = row.id;
       this.projUserObj = row;
@@ -977,7 +903,6 @@ export default {
             projectIds: ids,
           },
         };
-        // console.log(ids)
         this.removeUserRole({
           ...projectUserRoleData,
         });
@@ -1055,7 +980,6 @@ export default {
       if (this.assignedUserProjects && this.assignedUserProjects.length > 0) {
         this.isEditingRoles = true;
       }
-      //console.log(this.contractRoleUsers)
     },
     editAdminRole() {
       this.isEditingAdminRoles = true;
@@ -1063,7 +987,6 @@ export default {
     cancelEditRoles(index, rowData) {
       this.isEditingRoles = false;
       this.isEditingContractRoles = false;
-      //this.isEditingVehicleRoles = false;
       this.isEditingAdminRoles = false;
       this.rowIndex_1 = null;
     },
@@ -1095,7 +1018,6 @@ export default {
           userRoles: true,
         },
       };
-      // console.log(contractIds)
       this.addUserToRole({
         ...projectUserRoleData,
       });
@@ -1113,10 +1035,6 @@ export default {
           userRoles: true,
         },
       };
-      //  console.log(vehicleIds)
-      //   console.log(this.associatedVehicles)
-      //    console.log(this.contractRoleNames)
-      //      console.log(this.vehicleRoleNames)
       this.addUserToRole({
         ...projectUserRoleData,
       });
@@ -1169,7 +1087,7 @@ export default {
       }
     },
     addUser() {
-      this.dialogVisible = true;
+      this.dialogVisible = !this.dialogVisible;
       // console.log(this.portfolioUsersOnly)
       //  console.log(this.programUsers)
     },
@@ -1194,7 +1112,7 @@ export default {
       this.addMoreUsersBtn = false;
     },
     openCreateUser() {
-      this.newUserDialogVisible = true;
+      this.newUserDialogVisible = !this.newUserDialogVisible;
     },
     openUserRoleDialog(index, rows) {
       this.projId = rows.id;
@@ -1760,8 +1678,6 @@ export default {
           if (this.portfolioUsers.length > 0) {
             MessageDialogService.showDialog({
               message: `${this.portfolioUsers.length} user(s) successfully added to your program.`,
-
-
             });
           }
           this.addMoreUsersBtn = true;

@@ -44,13 +44,11 @@
 
 <script>
 import axios from "axios";
-
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import LoginView from './LoginView.vue'
 import Tabsbar from './../shared/tabsbar.vue'
 import FilterSidebar from './../shared/filter_sidebar.vue'
 import SettingsSidebar from '../views/settings/SettingsSidebar.vue'
-import AuthorizationService from '../../services/authorization_service'
 import { Admin_PANEL_URL, API_BASE_PATH } from '../../mixins/utils'
 
 export default {
@@ -86,7 +84,6 @@ export default {
       this.$router.push('/')
     },
     async setAdminPanel() {
-      console.log("Admin------", this.$store)
       axios({
         method: "POST",
         url: `${API_BASE_PATH}/admin`,

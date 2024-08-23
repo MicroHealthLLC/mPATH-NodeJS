@@ -29,14 +29,12 @@ async function update(req, res) {
 
     let body = qs.parse(req.body);
     let params = qs.parse(req.params);
-    let query = qs.parse(req.query);
     printParams(req);
-
     var projectContractVehicle = await db.ProjectContractVehicle.findOne({ where: { id: params.id } });
     await projectContractVehicle.update(body.project_contract_vehicle);
-
     return { message: "Successfully updated contract vehicle" };
   } catch (error) {
+    console.log(error);
     res.status(500);
     return { error: "Error fetching contracts " + error };
   }

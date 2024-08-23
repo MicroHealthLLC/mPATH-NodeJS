@@ -7,7 +7,6 @@
     </div>
     <el-table v-if="tableData && tableData.length > 0" :data="tableData" height="450" class="crudRow">
       <el-table-column fixed prop="role" label="Projects Role" width="250">
-
         <template slot-scope="scope">
           <span
             v-if="(scope.$index == currentRow && isEditting) || (scope.$index == 0 && isEditting && scope.row.newRow)">
@@ -879,7 +878,6 @@ export default {
       } else if (!this.isAnalyticsRead) {
         this.analyticsPriv = this.analyticsPriv.filter(t => t !== "R")
       }
-      console.log(`analytics: ${this.analyticsPriv}`)
     },
     analyticsWrite(index, rowData) {
       this.isAnalyticsWrite = !this.isAnalyticsWrite

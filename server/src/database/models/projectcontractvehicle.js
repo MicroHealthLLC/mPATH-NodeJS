@@ -34,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   ProjectContractVehicle.init(
     {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+      },
       project_id: DataTypes.INTEGER,
       contract_vehicle_id: DataTypes.INTEGER,
       user_id: DataTypes.INTEGER,

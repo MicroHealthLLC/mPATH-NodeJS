@@ -1525,14 +1525,14 @@ const settingsStore = {
       })
     },
     updateVehicle({ commit, getters }, { vehicle, id }) {
-      console.log('vehicles')
       // Displays loader on front end
       commit('TOGGLE_VEHICLES_LOADED', false)
-      let formData = new FormData()
+      let formData = {
+        project_id: vehicle.programId,
+        'project_contract_vehicle[facility_group_id]': vehicle.facility_group_id
+      }
       // Utilize utility function to prep Lesson form data
       // let formData = vehicleFormData(vehicle);
-      formData.append('project_id', vehicle.programId)
-      formData.append('project_contract_vehicle[facility_group_id]', vehicle.facility_group_id)
       axios({
         method: 'PUT',
         url: `${API_BASE_PATH}/program_settings/contract_vehicles/${id}`,
