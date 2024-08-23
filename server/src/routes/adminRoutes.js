@@ -1,6 +1,6 @@
 // const router = Router();
 
-const { adminPanel } = require("../controllers/adminCOntroller");
+const { adminPanel } = require("../controllers/adminController");
 
 // // user registration route
 // router.post("/register", register);

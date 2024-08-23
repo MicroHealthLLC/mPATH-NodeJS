@@ -21,3 +21,10 @@
 - In new command line `cd` to server folder and execute `npm -i`
 - To start server execute code `npm run dev`
 - Navigate to `localhost:9000` in browser
+
+
+### Docker statup
+- Start up Stack
+``` bash
+docker compose up --build
+```
