@@ -1,5 +1,5 @@
-export const API_BASE_PATH = 'http://localhost:3000/api/v1'
-export const Admin_PANEL_URL = 'http://localhost:3000'
+export const API_BASE_PATH = process.env.VUE_APP_API_BASE_PATH
+export const Admin_PANEL_URL = process.env.VUE_APP_Admin_PANEL_URL
 // mixins Utils
 export default {
   data() {
